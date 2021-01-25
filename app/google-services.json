@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "246831665234",
+    "project_id": "messengerbymargs",
+    "storage_bucket": "messengerbymargs.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246831665234:android:469fd3af90692d3cf94f8b",
+        "android_client_info": {
+          "package_name": "com.margsapp.messenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246831665234-urv5fcie13sd3lsiubbv044su3e8m29c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUWL7Gh6oF0N7KE8qmsKNkQiX9WwqKwAU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246831665234-urv5fcie13sd3lsiubbv044su3e8m29c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

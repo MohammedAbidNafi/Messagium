@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".edit_profile"
+    android:background="@color/grey"
+    >
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/bar_layout"/>
+
+
+
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginTop="10dp"
+        android:id="@+id/imagecard">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/profile_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:src="@mipmap/ic_launcher"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username"
+                android:layout_below="@+id/profile_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:textColor="#000"
+                android:id="@+id/username"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="20dp"/>
+
+
+            <!--
+            <EditText
+                android:layout_width="200dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/status_txt"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profile_image"
+                android:layout_marginTop="55dp"
+                android:hint="Edit Status"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/status_txt"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_centerHorizontal="true"
+                android:text="save"
+                android:id="@+id/save"
+                android:background="@drawable/button"
+                android:textColor="#fff"/>
+
+             -->
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/imagecard"
+        android:id="@+id/status_card"
+        >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/ic_baseline_chevron_right_24"
+            android:layout_gravity="center_vertical|end"
+            android:background="#fff"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:id="@+id/status"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15sp"
+            android:textColor="#000"
+            android:textSize="20dp"
+            />
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</RelativeLayout>

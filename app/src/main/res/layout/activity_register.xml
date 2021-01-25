@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity">
+
+    <include
+       android:id="@+id/toolbar"
+        layout="@layout/bar_layout">
+
+    </include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/toolbar"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create a new account"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:layout_width="320dp"
+            android:layout_height="60dp"
+            android:id="@+id/username"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/edit_text"
+            android:paddingStart="18sp"
+
+            android:layout_marginTop="50dp"
+
+            android:hint="Username"
+            tools:ignore="RtlSymmetry" />
+
+        <EditText
+            android:layout_width="320dp"
+            android:layout_height="60dp"
+            android:id="@+id/email"
+            android:layout_gravity="center_horizontal"
+            android:paddingStart="18sp"
+
+            android:background="@drawable/edit_text"
+
+            android:layout_marginTop="15sp"
+
+            android:hint="Email"/>
+
+        <EditText
+            android:layout_width="320dp"
+            android:layout_height="60dp"
+            android:id="@+id/passowrd"
+            android:layout_gravity="center_horizontal"
+            android:paddingStart="18sp"
+
+            android:background="@drawable/edit_text"
+
+            android:layout_marginTop="15sp"
+
+            android:hint="Password"
+
+            android:inputType="textPassword"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:id="@+id/register"
+            android:layout_marginTop="25dp"
+            android:background="@color/company_blue"
+            android:textColor="#fff"
+            >
+
+        </androidx.appcompat.widget.AppCompatButton>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="@string/note_Register"
+            android:textColor="#000"
+            android:textAlignment="center"
+            android:background="#FFF652"/>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
