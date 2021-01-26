@@ -68,6 +68,7 @@ public class ChatsFragment extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                usersList.clear();
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     Chatlist chatlist = snapshot1.getValue(Chatlist.class);
                     usersList.add(chatlist);
@@ -109,6 +110,7 @@ public class ChatsFragment extends Fragment {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
                     User user = snapshot1.getValue(User.class);
                     for (Chatlist chatlist : usersList){
+                        assert user != null;
                         if (user.getId().equals(chatlist.getId())){
                             mUsers.add(user);
                         }

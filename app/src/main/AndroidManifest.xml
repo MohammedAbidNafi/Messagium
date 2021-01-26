@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_appicon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Messenger">
-        <activity android:name=".EditStatusActivity"></activity>
+        <activity android:name=".EditStatusActivity" />
         <activity android:name=".FindUsersActivity" />
         <activity android:name=".Terms_ConditionsActivity" />
         <activity android:name=".edit_profile" />
@@ -28,9 +28,7 @@
             android:name=".LoginAcitivity"
             android:parentActivityName=".StartActivity" />
         <activity android:name=".MainActivity" />
-        <activity
-            android:name=".Fragments.UsersFragment"
-            android:launchMode="singleTask" />
+
         <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".StartActivity" />

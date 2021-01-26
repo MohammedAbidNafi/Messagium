@@ -12,6 +12,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,11 +22,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Fragments.UsersFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class FindUsersActivity extends AppCompatActivity {
 
     DatabaseReference reference;
+
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,9 @@ public class FindUsersActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Add Friends");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(FindUsersActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(FindUsersActivity.this, MainActivity.class)));
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
 
@@ -67,7 +74,7 @@ public class FindUsersActivity extends AppCompatActivity {
 
 
 
-    class ViewPageAdapter extends FragmentPagerAdapter {
+    static class ViewPageAdapter extends FragmentPagerAdapter {
 
         private final ArrayList<Fragment> fragments;
         private final ArrayList<String> titles;
@@ -101,6 +108,27 @@ public class FindUsersActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return titles.get(position);
         }
+    }
+
+    private void status(String status){
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", status);
+
+        reference.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
     }
 
 

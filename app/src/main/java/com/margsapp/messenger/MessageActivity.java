@@ -67,7 +67,7 @@ public class MessageActivity extends AppCompatActivity {
 
     APIService apiService;
 
-    String userId;
+    String userid;
 
 
 
@@ -108,7 +108,7 @@ public class MessageActivity extends AppCompatActivity {
 
 
         intent = getIntent();
-        String userid = intent.getStringExtra("userid");
+        userid = intent.getStringExtra("userid");
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -123,7 +123,7 @@ public class MessageActivity extends AppCompatActivity {
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  hh:mm");
                 String timestamp = simpleDateFormat.format(calendar.getTime());
 
-                sendMessage(firebaseUser.getUid(), userid,msg, timestamp,isseen);
+                sendMessage(firebaseUser.getUid(),userid,msg, timestamp,isseen);
             }
             else {
                 Toast.makeText(MessageActivity.this, "You cant send empty message Error code 0x08040101", Toast.LENGTH_SHORT).show();
@@ -162,11 +162,11 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
-        seenMessage(userid, "true");
+        seenMessage(userid);
 
     }
 
-    private void seenMessage(final String userid, String iseen){
+    private void seenMessage(final String userid){
         databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
         seenListener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -176,7 +176,7 @@ public class MessageActivity extends AppCompatActivity {
                     assert chat != null;
                     if(chat.getReceiver().equals(firebaseUser.getUid())&& chat.getSender().equals(userid)){
                         HashMap<String, Object> hashMap = new HashMap<>();
-                        hashMap.put("isseen", iseen);
+                        hashMap.put("isseen", "true");
                         snapshot1.getRef().updateChildren(hashMap);
                     }
                 }
@@ -189,7 +189,7 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
-    private void sendMessage(String sender, String receiver, String message, String timestamp,String isseen)
+    private void sendMessage(String sender, String receiver, String message,String timestamp,String isseen)
     {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
@@ -208,8 +208,8 @@ public class MessageActivity extends AppCompatActivity {
 
         final DatabaseReference chatref = FirebaseDatabase.getInstance().getReference("Chatlist")
                 .child(firebaseUser.getUid())
-               // .child(userid)
                 .child(receiver);
+
         chatref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -223,6 +223,11 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
+
+        final DatabaseReference chatRefReceiver = FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(receiver)
+                .child(firebaseUser.getUid());
+        chatRefReceiver.child("id").setValue(firebaseUser.getUid());
 
 
         final String msg = message;
@@ -259,7 +264,7 @@ public class MessageActivity extends AppCompatActivity {
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     Token token = snapshot1.getValue(Token.class);
                     Data data = new Data(firebaseUser.getUid(), R.drawable.background_left, username+":"+message, "New Message",
-                            receiver);
+                            userid);
 
                     assert token != null;
                     Sender sender = new Sender(data, token.getToken());
@@ -346,7 +351,7 @@ public class MessageActivity extends AppCompatActivity {
         status("online");
 
 
-        currentUser(userId);
+        currentUser(userid);
     }
 
 

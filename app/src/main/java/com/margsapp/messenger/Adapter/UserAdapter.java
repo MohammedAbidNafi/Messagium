@@ -28,17 +28,16 @@ import com.margsapp.messenger.R;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
-    private final Context mContext;
-    private final List<User> mUsers;
-    private final boolean isChat;
+    private  Context mContext;
+    private  List<User> mUsers;
+    private  boolean isChat;
 
-    public boolean isSeen;
+
 
 
 
     String theLastMessage;
 
-    String unreadprotocol;
 
 
     public UserAdapter(Context mContext, List<User> mUsers, boolean isChat)
@@ -57,7 +56,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.user_item, parent,false);
-        return new ViewHolder(viewGroup);
+        return new UserAdapter.ViewHolder(viewGroup);
 
 
 
@@ -65,52 +64,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     }
 
-    private void UnreadMessage(String userid){
-        unreadprotocol = "default";
 
-
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                    Chat chat = snapshot1.getValue(Chat.class);
-                    if(chat.getReceiver().equals(firebaseUser.getUid())&& chat.getSender().equals(userid) ||
-                            chat.getReceiver().equals(userid)&& chat.getSender().equals(firebaseUser.getUid())){
-
-                        unreadprotocol = chat.getIsseen();
-                    }
-
-
-
-
-                }
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        if(unreadprotocol.equals("true")){
-            isSeen = false;
-        }if(unreadprotocol.equals("false")) {
-            isSeen = true;
-        }
-
-    }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        User user = mUsers.get(position);
+        final User user = mUsers.get(position);
         holder.UsernameText.setText(user.getUsername());
         holder.dt.setText(user.getDt());
-
-
 
         if (user.getImageUrl().equals("default"))
         {
@@ -120,13 +80,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             Glide.with(mContext).load(user.getImageUrl()).into(holder.profile);
         }
 
-        UnreadMessage(user.getId());
-       if(isSeen){
-
-            holder.Unread.setVisibility(View.VISIBLE);
-        }else {
-            holder.Unread.setVisibility(View.GONE);
-        }
 
 
 
@@ -177,9 +130,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public TextView UsernameText = itemView.findViewById(R.id.username);
 
         public TextView dt = itemView.findViewById(R.id.dt);
-        public ImageView profile, Unread;
+        public ImageView profile;
 
-        public String unread;
+
 
 
         private final ImageView img_on;
@@ -195,7 +148,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             img_off = itemView.findViewById(R.id.img_off);
             last_msg = itemView.findViewById(R.id.last_msg);
 
-            Unread = itemView.findViewById(R.id.unread);
 
 
 

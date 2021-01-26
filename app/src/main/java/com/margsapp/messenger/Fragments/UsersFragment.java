@@ -82,8 +82,8 @@ public class UsersFragment extends Fragment {
     }
 
     private void searchUser(String toString) {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username")
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("search")
                 .startAt(toString)
                 .endAt(toString+"\uf8ff");
 
@@ -113,26 +113,29 @@ public class UsersFragment extends Fragment {
     }
 
     private void readUsers() {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mUsers.clear();
-                for (DataSnapshot snapshot1 : snapshot.getChildren()){
-                    User user = snapshot1.getValue(User.class);
+                if (search_user.getText().toString().equals("")) {
+                    mUsers.clear();
+                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                        User user = snapshot1.getValue(User.class);
 
-                    assert user!=null;
-                    assert firebaseUser !=null;
 
-                    if(!user.getId().equals(firebaseUser.getUid())){
-                        mUsers.add(user);
+                        assert user != null;
+                        assert firebaseUser != null;
+                        if (!user.getId().equals(firebaseUser.getUid())) {
+                            mUsers.add(user);
+                        }
                     }
+
+                    userAdapter = new UserAdapter(getContext(), mUsers, false);
+                    recyclerView.setAdapter(userAdapter);
                 }
 
-                userAdapter = new UserAdapter(getContext(),mUsers, false);
-                recyclerView.setAdapter(userAdapter);
             }
 
 
