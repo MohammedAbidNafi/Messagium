@@ -19,6 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -58,7 +61,7 @@ public class ProfileFragment extends Fragment {
     FirebaseUser firebaseUser;
 
     StorageReference storageReference;
-    private static int IMAGE_REQUEST = 1;
+    private static final int IMAGE_REQUEST = 1;
     private Uri imageUri;
     private StorageTask uploadTask;
 
@@ -71,6 +74,8 @@ public class ProfileFragment extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+
 
         image_profile = view.findViewById(R.id.profile_image);
         username = view.findViewById(R.id.username);
