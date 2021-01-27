@@ -83,7 +83,7 @@ public class UsersFragment extends Fragment {
 
     private void searchUser(String toString) {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("search")
+        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username")
                 .startAt(toString)
                 .endAt(toString+"\uf8ff");
 
