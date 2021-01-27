@@ -16,6 +16,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tandc">By clicking agree your agreeing to the terms and condition\'s. Well till now I havent updated it so for now watch this Ad below</string>
-    <string name="banner_ad_unit_id">ca-app-pub-5615682506938042/1059868401</string>
+    <string name="banner_ad_unit_id1">ca-app-pub-5615682506938042/1059868401</string>
+    <string name="banner_ad_unit_id2">ca-app-pub-5615682506938042/6915023835</string>
+    <string name="banner_ad_unit_id3">ca-app-pub-5615682506938042/4720105335</string>
+    <string name="banner_ad_unit_id4">ca-app-pub-5615682506938042/4835477796</string>
+    <string name="banner_ad_unit_id5">ca-app-pub-5615682506938042/4528533646</string>
+    <string name="banner_ad_unit_id6">ca-app-pub-5615682506938042/5765416083</string>
 
 </resources>

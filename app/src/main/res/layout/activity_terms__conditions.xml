@@ -58,7 +58,7 @@
         android:layout_above="@+id/agree"
         android:layout_marginBottom="20dp"
 
-        ads:adUnitId="@string/banner_ad_unit_id">
+        ads:adUnitId="@string/banner_ad_unit_id1">
 
     </com.google.android.gms.ads.AdView>
 
