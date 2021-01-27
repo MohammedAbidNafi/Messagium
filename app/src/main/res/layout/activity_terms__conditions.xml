@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     tools:context=".Terms_ConditionsActivity">
 
     <TextView
@@ -33,6 +34,8 @@
             android:textColor="#3C3C3C"
             android:textAlignment="center"
             android:textSize="15sp"/>
+
+
     </RelativeLayout>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -45,5 +48,18 @@
         android:id="@+id/agree"
         android:layout_marginBottom="20dp"
         android:background="@drawable/button"/>
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="150dp"
+
+        ads:adSize="BANNER"
+        android:layout_above="@+id/agree"
+        android:layout_marginBottom="20dp"
+
+        ads:adUnitId="@string/banner_ad_unit_id">
+
+    </com.google.android.gms.ads.AdView>
 
 </RelativeLayout>

@@ -7,9 +7,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 public class Terms_ConditionsActivity extends AppCompatActivity {
 
     AppCompatButton agree;
+    private AdView mAdView;
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +23,10 @@ public class Terms_ConditionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_terms__conditions);
 
         agree = findViewById(R.id.agree);
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         agree.setOnClickListener(new View.OnClickListener() {
             @Override
