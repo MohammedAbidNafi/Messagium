@@ -313,6 +313,8 @@ public class MessageActivity extends AppCompatActivity {
 
                     }
 
+
+
                     messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageUrl);
                     recyclerView.setAdapter(messageAdapter);
 

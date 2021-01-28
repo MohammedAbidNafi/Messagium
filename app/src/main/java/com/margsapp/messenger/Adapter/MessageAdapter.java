@@ -44,6 +44,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
 
 
+
+
     @NonNull
     @Override
     public MessageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -68,6 +70,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         holder.show_message.setText(chat.getMessage());
 
         holder.timestamp.setText(chat.getTimestamp());
+
+
 
         if(imageUrl.equals("default"))
         {
@@ -108,6 +112,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             txt_seen = itemView.findViewById(R.id.txt_seen);
             timestamp = itemView.findViewById(R.id.timestamp);
         }
+
+
     }
 
     @Override
