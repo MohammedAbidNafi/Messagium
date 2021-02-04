@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.MessageActivity;
 import com.margsapp.messenger.Model.Chat;
+import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
 
@@ -32,11 +33,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private  List<User> mUsers;
     private  boolean isChat;
 
+    private boolean unreadbool = true;
+
 
 
 
 
     String theLastMessage;
+    String UnreadMessage;
+
+    String ActualUnreadMessage;
 
 
 
@@ -50,7 +56,44 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     }
 
+    private void UnreadMessage(String userid, ImageView unreadview){
 
+         UnreadMessage = "true";
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                    Chat chat = snapshot1.getValue(Chat.class);
+
+                    if(chat.getSender().equals(userid)) {
+
+                        UnreadMessage = chat.getIsseen();
+
+                    }
+
+
+                }
+
+                if("true".equals(UnreadMessage)){
+                    unreadview.setVisibility(View.GONE);
+                }
+                else{
+                    unreadview.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
 
     @NonNull
     @Override
@@ -58,13 +101,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.user_item, parent,false);
         return new UserAdapter.ViewHolder(viewGroup);
 
-
-
-
-
     }
-
-
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -80,10 +117,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             Glide.with(mContext).load(user.getImageUrl()).into(holder.profile);
         }
 
+        if(unreadbool){
+
+            UnreadMessage(user.getId(), holder.unread);
 
 
-
-
+        }
 
 
         if(isChat){
@@ -93,10 +132,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }if(!isChat) {
             holder.last_msg.setVisibility(View.GONE);
             holder.dt.setVisibility(View.VISIBLE);
-
         }
-
-
 
         if(isChat){
             if(user.getStatus().equals("online")){
@@ -115,7 +151,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, MessageActivity.class);
             intent.putExtra("userid", user.getId());
-
             mContext.startActivity(intent);
         });
     }
@@ -132,38 +167,23 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public TextView dt = itemView.findViewById(R.id.dt);
         public ImageView profile;
 
-
-
-
         private final ImageView img_on;
         private final ImageView img_off;
+        private final ImageView unread;
         private final TextView last_msg;
 
         public ViewHolder(View view){
             super(view);
-
             profile = itemView.findViewById(R.id.profile_image);
-
             img_on = itemView.findViewById(R.id.img_on);
             img_off = itemView.findViewById(R.id.img_off);
             last_msg = itemView.findViewById(R.id.last_msg);
-
-
-
-
-
-
-
+            unread = itemView.findViewById(R.id.unread);
         }
     }
 
     private void lastmessage(String userid, TextView lastmsg){
         theLastMessage = "default";
-
-
-
-
-
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
 
@@ -173,22 +193,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
                     Chat chat = snapshot1.getValue(Chat.class);
-
                     if(chat.getReceiver().equals(firebaseUser.getUid())&& chat.getSender().equals(userid) ||
                             chat.getReceiver().equals(userid)&& chat.getSender().equals(firebaseUser.getUid())) {
                         theLastMessage = chat.getMessage();
-
-
-
                     }
 
-
-
                 }
-
-
-
-
                 if ("default".equals(theLastMessage)) {
                     lastmsg.setText("No Message");
                 } else {
@@ -196,6 +206,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 }
 
                 theLastMessage = "default";
+
             }
 
             @Override
@@ -204,9 +215,4 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             }
         });
     }
-
-
-
-
-
 }

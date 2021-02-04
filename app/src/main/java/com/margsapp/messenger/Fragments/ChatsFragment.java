@@ -39,7 +39,7 @@ public class ChatsFragment extends Fragment {
 
     private List<Chatlist>usersList;
 
-    private ImageView unreadview;
+
 
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
@@ -53,7 +53,7 @@ public class ChatsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_chats, container, false);
 
-        unreadview = view.findViewById(R.id.unread);
+
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(false);
@@ -98,6 +98,9 @@ public class ChatsFragment extends Fragment {
         Token token1 = new Token(token);
         reference.child(firebaseUser.getUid()).setValue(token1);
     }
+
+
+
 
     private void chatList() {
 
