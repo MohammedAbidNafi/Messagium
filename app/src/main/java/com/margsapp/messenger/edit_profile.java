@@ -55,7 +55,7 @@ public class edit_profile extends AppCompatActivity {
 
     CircleImageView profile_image;
 
-    TextView username, status;
+    TextView username, status, joined_on;
 
     FirebaseUser firebaseUser;
     FirebaseAuth mAuth;
@@ -94,6 +94,7 @@ public class edit_profile extends AppCompatActivity {
 
         status = findViewById(R.id.status);
         username = findViewById(R.id.username);
+        joined_on = findViewById(R.id.joined_on);
         profile_image = findViewById(R.id.profile_image);
         Status_card = findViewById(R.id.status_card);
 
@@ -141,6 +142,9 @@ public class edit_profile extends AppCompatActivity {
 
                 assert user != null;
                 username.setText(user.getUsername());
+                joined_on.setText(user.getJoined_on());
+
+
 
                 status.setText(user.getDt());
 

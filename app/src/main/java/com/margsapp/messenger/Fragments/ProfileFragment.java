@@ -56,7 +56,7 @@ import static android.app.Activity.RESULT_OK;
 public class ProfileFragment extends Fragment {
 
     CircleImageView image_profile;
-    TextView username, dt;
+    TextView username, dt, joined_on;
 
 
     DatabaseReference databaseReference;
@@ -87,6 +87,7 @@ public class ProfileFragment extends Fragment {
 
         image_profile = view.findViewById(R.id.profile_image);
         username = view.findViewById(R.id.username);
+        joined_on = view.findViewById(R.id.joined_on);
         dt = view.findViewById(R.id.dt);
 
 
@@ -102,6 +103,7 @@ public class ProfileFragment extends Fragment {
                     assert user != null;
                     username.setText(user.getUsername());
                     dt.setText(user.getDt());
+                    joined_on.setText(user.getJoined_on());
 
                     if (user.getImageUrl().equals("default")) {
                         image_profile.setImageResource(R.mipmap.ic_launcher);

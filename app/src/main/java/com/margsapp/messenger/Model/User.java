@@ -8,20 +8,31 @@ public class User {
     private String status;
     private String DT;
 
+    private String joined_on;
 
-    public User(String id, String username, String imageUrl, String status, String DT)
+
+    public User(String id, String username, String imageUrl, String status, String DT, String joined_on)
     {
         this.id = id;
         this.username = username;
         this.imageURL = imageUrl;
         this.status = status;
         this.DT = DT;
+        this.joined_on = joined_on;
 
     }
 
     public User()
     {
 
+    }
+
+    public String getJoined_on() {
+        return joined_on;
+    }
+
+    public void setJoined_on(String joined_on) {
+        this.joined_on = joined_on;
     }
 
     public String getDt() {

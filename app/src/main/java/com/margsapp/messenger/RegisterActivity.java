@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -25,6 +26,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -65,19 +68,23 @@ public class RegisterActivity extends AppCompatActivity {
                 String txt_email = Objects.requireNonNull(email.getText()).toString();
                 String txt_password = Objects.requireNonNull(password.getText()).toString();
 
+                Calendar calendar = Calendar.getInstance();
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yy");
+                String timestamp = simpleDateFormat.format(calendar.getTime());
+
                 if (TextUtils.isEmpty(txt_username) || TextUtils.isEmpty(txt_password) || TextUtils.isEmpty(txt_email)) {
                     Toast.makeText(RegisterActivity.this, "Fill all the details error code 0x08020102", Toast.LENGTH_SHORT).show();
 
                 } else if (txt_password.length() < 5) {
                     Toast.makeText(RegisterActivity.this, "Password must be atleast 5 charecters error code 0x08020103", Toast.LENGTH_SHORT).show();
                 } else {
-                    register(txt_username, txt_email, txt_password);
+                    register(txt_username, txt_email, txt_password,timestamp);
                 }
             }
         });
     }
 
-    private void register(String txt_username, String txt_email, String txt_password) {
+    private void register(String txt_username, String txt_email, String txt_password, String timestamp) {
         mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(txt_email, txt_password)
                 .addOnCompleteListener(task -> {
@@ -93,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
                         hashMap.put("username", txt_username);
                         hashMap.put("imageURL", "default");
                         hashMap.put("typingto", "noone");
+                        hashMap.put("joined_on",timestamp);
 
                         reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
