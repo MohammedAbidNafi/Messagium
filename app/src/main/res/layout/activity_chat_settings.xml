@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Chat_settings"
+    android:background="@color/grey">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bar">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/company_blue"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/MenuStyle"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="90dp"
+        android:layout_below="@+id/imagecard"
+        android:id="@+id/Accepted"
+        >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/ic_baseline_chevron_right_24"
+            android:layout_gravity="center_vertical|end"
+            android:background="#fff"
+            />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/check"
+            android:layout_marginLeft="10dp"
+
+            android:layout_gravity="center_vertical|start"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Accepted"
+
+
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="50dp"
+            android:textColor="#000"
+            android:textSize="20dp"
+            />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="160dp"
+        android:layout_below="@+id/imagecard"
+        android:id="@+id/Requests"
+        >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/ic_baseline_chevron_right_24"
+            android:layout_gravity="center_vertical|end"
+            android:background="#fff"
+            />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/chronometer"
+            android:layout_marginLeft="10dp"
+
+            android:layout_gravity="center_vertical|start"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pending Requests"
+
+
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="50dp"
+            android:textColor="#000"
+            android:textSize="20dp"
+            />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="230dp"
+        android:layout_below="@+id/imagecard"
+        android:id="@+id/Requested"
+        >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/ic_baseline_chevron_right_24"
+            android:layout_gravity="center_vertical|end"
+            android:background="#fff"
+            />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/interview"
+            android:layout_marginLeft="10dp"
+
+            android:layout_gravity="center_vertical|start"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Requested"
+
+
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="50dp"
+            android:textColor="#000"
+            android:textSize="20dp"
+            />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="300dp"
+        android:layout_below="@+id/imagecard"
+        android:id="@+id/Blocked"
+        >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/ic_baseline_chevron_right_24"
+            android:layout_gravity="center_vertical|end"
+            android:background="#fff"
+            />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/block_user"
+            android:layout_marginLeft="10dp"
+
+            android:layout_gravity="center_vertical|start"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Blocked"
+
+
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="50dp"
+            android:textColor="#000"
+            android:textSize="20dp"
+            />
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</FrameLayout>

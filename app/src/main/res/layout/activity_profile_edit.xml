@@ -121,6 +121,13 @@
             android:layout_gravity="center_vertical|end"
             android:background="#fff"
             />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_baseline_speaker_notes_24"
+            android:layout_marginLeft="10dp"
+
+            android:layout_gravity="center_vertical|start"/>
 
 
         <TextView
@@ -128,6 +135,49 @@
             android:layout_height="wrap_content"
             android:text="Status"
             android:id="@+id/status"
+
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="50dp"
+            android:textColor="#000"
+            android:textSize="20dp"
+            />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/status_card"
+        android:id="@+id/fragment_chat_settings"
+
+        >
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_baseline_people_alt_24"
+            android:layout_marginLeft="10dp"
+
+            android:layout_gravity="center_vertical|start"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/ic_baseline_chevron_right_24"
+            android:layout_gravity="center_vertical|end"
+            android:background="#fff"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="People"
+            android:layout_marginStart="50dp"
+
+
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15sp"
             android:textColor="#000"
