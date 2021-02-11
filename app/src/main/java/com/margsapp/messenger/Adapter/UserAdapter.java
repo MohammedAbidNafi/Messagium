@@ -231,7 +231,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Chatlist chatlist = snapshot1.getValue(Chatlist.class);
                         if (userid.equals(chatlist.getId())) {
-                            if (chatlist.getFriends().equals("Messaged")) {
+                            if (chatlist.getFriends().equals("Messaged") | chatlist.getFriends().equals("Accepted")) {
                                 Intent intent = new Intent(mContext, MessageActivity.class);
                                 intent.putExtra("userid", userid);
                                 mContext.startActivity(intent);

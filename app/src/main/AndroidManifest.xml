@@ -16,7 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_appicon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Messenger">
-        <activity android:name=".FriendsActivity"></activity>
+        <activity android:name=".Friends.Blocked"></activity>
+        <activity android:name=".Friends.Requests" />
+        <activity android:name=".Friends.Requested" />
+        <activity android:name=".Friends.Accepted" />
+        <activity android:name=".FriendsActivity" />
         <activity android:name=".EditStatusActivity" />
         <activity android:name=".FindUsersActivity" />
         <activity android:name=".Terms_ConditionsActivity" />

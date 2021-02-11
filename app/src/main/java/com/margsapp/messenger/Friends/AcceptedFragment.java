@@ -1,4 +1,4 @@
-package com.margsapp.messenger.Fragments;
+package com.margsapp.messenger.Friends;
 
 import android.os.Bundle;
 
@@ -18,40 +18,35 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.margsapp.messenger.Adapter.UserAdapter;
 import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
-import com.margsapp.messenger.Notifications.Token;
 import com.margsapp.messenger.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Accepted extends Fragment {
-
-
-    private UserAdapter userAdapter;
+public class AcceptedFragment extends Fragment {
 
     private RecyclerView recyclerView;
+    private UserAdapter userAdapter;
+
+    FirebaseUser firebaseUser;
+
+    DatabaseReference databaseReference;
+
     private List<User> mUsers;
 
     private List<Chatlist> usersList;
-
-
-    FirebaseUser firebaseUser;
-    DatabaseReference databaseReference;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_accepted, container, false);
 
-        View view = inflater.inflate(R.layout.fragment_chats, container, false);
-
-
-        recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.Accepted);
         recyclerView.setHasFixedSize(false);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -59,33 +54,27 @@ public class Accepted extends Fragment {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         usersList = new ArrayList<>();
 
-
         databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    usersList.clear();
-                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                        Chatlist chatlist = snapshot1.getValue(Chatlist.class);
-                        usersList.add(chatlist);
-                    }
-
-                    chatList();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                usersList.clear();
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    Chatlist chatlist = snapshot1.getValue(Chatlist.class);
+                    usersList.add(chatlist);
                 }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                chatList();
+            }
 
-                }
-            });
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
 
-            return view;
-        }
-
-
-
-
+        return view;
+    }
 
 
 
@@ -97,12 +86,18 @@ public class Accepted extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mUsers.clear();
-                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                for (DataSnapshot snapshot1 : snapshot.getChildren()){
                     User user = snapshot1.getValue(User.class);
-                    for (Chatlist chatlist : usersList) {
+                    for (Chatlist chatlist : usersList){
                         assert user != null;
-                        if (user.getId().equals(chatlist.getId()) && chatlist.getFriends().equals("Accepted") || user.getId().equals(chatlist.getId()) && chatlist.getFriends().equals("Messaged") ) {
-                            mUsers.add(user);
+                        if(user.getId().equals(chatlist.getId())){
+                            if(chatlist.getFriends().equals("Messaged") | chatlist.getFriends().equals("Accepted")){
+                                mUsers.add(user);
+                            }
+                            if(chatlist.getFriends().equals("Blocked")){
+                                //Dont do anything
+                            }
+
                         }
                     }
 
@@ -118,6 +113,4 @@ public class Accepted extends Fragment {
             }
         });
     }
-
-
 }
