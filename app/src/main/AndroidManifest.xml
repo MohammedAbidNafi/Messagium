@@ -16,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_appicon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Messenger">
+        <activity android:name=".FriendsActivity"></activity>
         <activity android:name=".EditStatusActivity" />
         <activity android:name=".FindUsersActivity" />
         <activity android:name=".Terms_ConditionsActivity" />
@@ -28,7 +29,6 @@
             android:name=".LoginAcitivity"
             android:parentActivityName=".StartActivity" />
         <activity android:name=".MainActivity" />
-
         <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".StartActivity" />
@@ -39,6 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Chat_settings" />
 
         <service
             android:name=".Notifications.MyFirebaseIdService"
@@ -68,13 +69,10 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-5615682506938042~4256769585"/>
-
+            android:value="ca-app-pub-5615682506938042~4256769585" />
         <meta-data
             android:name="firebase_performance_logcat_enabled"
             android:value="true" />
-
-
     </application>
 
 </manifest>

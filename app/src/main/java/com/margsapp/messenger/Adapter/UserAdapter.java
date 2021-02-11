@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.margsapp.messenger.FindUsersActivity;
 import com.margsapp.messenger.MessageActivity;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.Chatlist;
@@ -111,7 +113,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         if (user.getImageUrl().equals("default"))
         {
-            holder.profile.setImageResource(R.mipmap.ic_launcher);
+            holder.profile.setImageResource(R.drawable.user);
         }
         else {
             Glide.with(mContext).load(user.getImageUrl()).into(holder.profile);
@@ -149,9 +151,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
 
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, MessageActivity.class);
-            intent.putExtra("userid", user.getId());
-            mContext.startActivity(intent);
+
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            String ourid = firebaseUser.getUid();
+            String userid = user.getId();
+            OnMessage(userid, ourid);
         });
     }
 
@@ -214,5 +218,47 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
             }
         });
+    }
+
+    private void OnMessage(String userid, String ourid){
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid());
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    Chatlist chatlist = snapshot1.getValue(Chatlist.class);
+                        if (userid.equals(chatlist.getId())) {
+                            if (chatlist.getFriends().equals("Messaged")) {
+                                Intent intent = new Intent(mContext, MessageActivity.class);
+                                intent.putExtra("userid", userid);
+                                mContext.startActivity(intent);
+
+                            }
+
+                            if (userid.equals(chatlist.getId())){
+
+                                if (chatlist.getFriends().equals("Blocked")) {
+                                    Toast.makeText(mContext, "You have blocked this user.", Toast.LENGTH_SHORT).show();
+
+                                }
+
+                            }
+
+
+                        }
+
+                    }
+                }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 }

@@ -1,14 +1,18 @@
 package com.margsapp.messenger;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -215,6 +219,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()){
                     chatref.child("id").setValue(receiver);
+                    chatref.child("friends").setValue("Messaged");
                 }
             }
 
@@ -228,6 +233,7 @@ public class MessageActivity extends AppCompatActivity {
                 .child(receiver)
                 .child(firebaseUser.getUid());
         chatRefReceiver.child("id").setValue(firebaseUser.getUid());
+        chatRefReceiver.child("friends").setValue("Messaged");
 
 
         final String msg = message;
@@ -327,6 +333,70 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_in_chat, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.block_user:
+                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                dialog.setMessage("Are you sure you want to block this user?");
+                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        startActivity(new Intent(MessageActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                        Block();
+
+
+                    }
+                });
+
+                dialog.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Dont do anything
+                    }
+                });
+                AlertDialog alertDialog = dialog.create();
+                alertDialog.show();
+
+                break;
+        }
+
+        return false;
+    }
+
+    private void Block(){
+
+        final DatabaseReference chatref = FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(firebaseUser.getUid())
+                .child(userid);
+
+        chatref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    chatref.child("friends").setValue("Blocked");
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        Toast.makeText(MessageActivity.this, "User Blocked", Toast.LENGTH_SHORT).show();
+
+
     }
 
     private void currentUser(String userid){

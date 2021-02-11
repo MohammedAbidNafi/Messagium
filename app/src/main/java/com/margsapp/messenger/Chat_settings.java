@@ -1,5 +1,6 @@
 package com.margsapp.messenger;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,8 @@ public class Chat_settings extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Friends");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(Chat_settings.this, edit_profile.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 
 
     }

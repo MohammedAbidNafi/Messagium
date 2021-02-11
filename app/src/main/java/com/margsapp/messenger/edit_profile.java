@@ -60,7 +60,7 @@ public class edit_profile extends AppCompatActivity {
     FirebaseUser firebaseUser;
     FirebaseAuth mAuth;
 
-    CardView Status_card;
+    CardView Status_card, Account_card;
 
     AppCompatButton btnSave;
 
@@ -97,6 +97,7 @@ public class edit_profile extends AppCompatActivity {
         joined_on = findViewById(R.id.joined_on);
         profile_image = findViewById(R.id.profile_image);
         Status_card = findViewById(R.id.status_card);
+        Account_card = findViewById(R.id.fragment_chat_settings);
 
 
         Status_card.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +107,17 @@ public class edit_profile extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        Account_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(edit_profile.this, Chat_settings.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+
             }
         });
 

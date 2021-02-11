@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,29 +29,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChatsFragment extends Fragment {
+public class Accepted extends Fragment {
+
 
     private UserAdapter userAdapter;
 
     private RecyclerView recyclerView;
     private List<User> mUsers;
 
-    private List<Chatlist>usersList;
-
+    private List<Chatlist> usersList;
 
 
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_chats, container, false);
-
 
 
         recyclerView = view.findViewById(R.id.recycler_view);
@@ -67,37 +63,28 @@ public class ChatsFragment extends Fragment {
         databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                usersList.clear();
-                for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                    Chatlist chatlist = snapshot1.getValue(Chatlist.class);
-                    usersList.add(chatlist);
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    usersList.clear();
+                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                        Chatlist chatlist = snapshot1.getValue(Chatlist.class);
+                        usersList.add(chatlist);
+                    }
+
+                    chatList();
                 }
 
-                chatList();
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+                }
+            });
 
 
-
-
-        updateToken(FirebaseInstanceId.getInstance().getToken());
+            return view;
+        }
 
 
 
-        return view;
-    }
-
-    private void updateToken(String token){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
-        Token token1 = new Token(token);
-        reference.child(firebaseUser.getUid()).setValue(token1);
-    }
 
 
 
@@ -110,18 +97,12 @@ public class ChatsFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mUsers.clear();
-                for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     User user = snapshot1.getValue(User.class);
-                    for (Chatlist chatlist : usersList){
+                    for (Chatlist chatlist : usersList) {
                         assert user != null;
-                        if(user.getId().equals(chatlist.getId())){
-                            if(chatlist.getFriends().equals("Messaged")){
-                                mUsers.add(user);
-                            }
-                            if(chatlist.getFriends().equals("Blocked")){
-                                //Dont do anything
-                            }
-
+                        if (user.getId().equals(chatlist.getId()) && chatlist.getFriends().equals("Accepted") || user.getId().equals(chatlist.getId()) && chatlist.getFriends().equals("Messaged") ) {
+                            mUsers.add(user);
                         }
                     }
 
