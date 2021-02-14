@@ -82,6 +82,10 @@ public class Accepted extends AppCompatActivity {
 
     }
 
+    public void onBackPressed(){
+        startActivity(new Intent(Accepted.this, Chat_settings.class));
+    }
+
     static class ViewPageAdapter extends FragmentPagerAdapter {
 
         private final ArrayList<Fragment> fragments;

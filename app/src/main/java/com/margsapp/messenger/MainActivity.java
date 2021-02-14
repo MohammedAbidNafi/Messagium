@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 username.setText(user.getUsername());
                 if(user.getImageUrl().equals("default"))
                 {
-                    DP.setImageResource(R.mipmap.ic_launcher);
+                    DP.setImageResource(R.drawable.user);
 
                 }
                 else {

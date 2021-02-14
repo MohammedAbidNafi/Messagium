@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.margsapp.messenger.MessageActivity;
+import com.margsapp.messenger.R;
 
 @SuppressLint("MissingFirebaseInstanceTokenRefresh")
 public class MyFirebaseMessaging extends FirebaseMessagingService {
@@ -112,7 +113,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
         assert icon != null;
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(com.margsapp.messenger.R.drawable.background_left)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)

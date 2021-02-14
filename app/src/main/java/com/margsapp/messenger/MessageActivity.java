@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -57,6 +58,7 @@ public class MessageActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
 
+
     ImageButton btnSend;
     EditText text_send;
 
@@ -87,6 +89,7 @@ public class MessageActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(MessageActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
@@ -115,6 +118,13 @@ public class MessageActivity extends AppCompatActivity {
         userid = intent.getStringExtra("userid");
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(text_send.getText().toString().equals("")){
+            btnSend.setVisibility(View.VISIBLE);
+        }
+        if(!text_send.getText().toString().equals("")){
+            btnSend.setVisibility(View.GONE);
+        }
 
         btnSend.setOnClickListener(v -> {
 
@@ -150,7 +160,7 @@ public class MessageActivity extends AppCompatActivity {
                 statusText.setText(user.getStatus());
                 if(user.getImageUrl().equals("default"))
                 {
-                    profileImage.setImageResource(R.mipmap.ic_launcher);
+                    profileImage.setImageResource(R.drawable.user);
 
                 }
                 else {

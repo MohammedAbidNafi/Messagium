@@ -51,18 +51,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class edit_profile extends AppCompatActivity {
 
-    EditText status_txt;
+
 
     CircleImageView profile_image;
 
     TextView username, status, joined_on;
 
     FirebaseUser firebaseUser;
-    FirebaseAuth mAuth;
+
 
     CardView Status_card, Account_card;
 
-    AppCompatButton btnSave;
+
 
     DatabaseReference reference;
 
@@ -162,7 +162,7 @@ public class edit_profile extends AppCompatActivity {
 
 
                 if (user.getImageUrl().equals("default")) {
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
+                    profile_image.setImageResource(R.drawable.user);
                 } else {
                     Glide.with((getApplicationContext())).load(user.getImageUrl()).into(profile_image);
                 }

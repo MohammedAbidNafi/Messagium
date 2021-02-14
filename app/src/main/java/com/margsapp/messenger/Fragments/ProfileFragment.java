@@ -106,7 +106,7 @@ public class ProfileFragment extends Fragment {
                     joined_on.setText(user.getJoined_on());
 
                     if (user.getImageUrl().equals("default")) {
-                        image_profile.setImageResource(R.mipmap.ic_launcher);
+                        image_profile.setImageResource(R.drawable.user);
                     } else {
                         Glide.with((getContext())).load(user.getImageUrl()).into(image_profile);
                     }

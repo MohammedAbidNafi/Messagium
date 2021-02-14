@@ -8,9 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
+import com.margsapp.messenger.Friends.Accepted;
 import com.margsapp.messenger.Friends.Blocked;
 import com.margsapp.messenger.Friends.Requested;
 import com.margsapp.messenger.Friends.Requests;
+
+import java.util.Objects;
 
 
 public class Chat_settings extends AppCompatActivity {
@@ -25,7 +28,7 @@ public class Chat_settings extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("People");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("People");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(Chat_settings.this, edit_profile.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
@@ -76,5 +79,12 @@ public class Chat_settings extends AppCompatActivity {
         });
 
 
+    }
+
+    public void onBackPressed(){
+        Intent intent = new Intent(Chat_settings.this, edit_profile.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 }

@@ -83,6 +83,10 @@ public class Blocked extends AppCompatActivity {
 
     }
 
+    public void onBackPressed(){
+        startActivity(new Intent(Blocked.this, Chat_settings.class));
+    }
+
     static class ViewPageAdapter extends FragmentPagerAdapter {
 
         private final ArrayList<Fragment> fragments;

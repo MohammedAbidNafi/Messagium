@@ -7,7 +7,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="40sp"
         android:layout_height="40sp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/user"
         android:id="@+id/profile_image"/>
 
     <TextView

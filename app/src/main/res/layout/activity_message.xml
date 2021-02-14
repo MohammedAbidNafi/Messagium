@@ -19,11 +19,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/bar_layout">
 
+
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:background="@color/company_blue"
+            android:background="@color/coral"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/MenuStyle"
             >
@@ -36,6 +38,7 @@
                     android:id="@+id/profile_image"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
+                    android:src="@drawable/khyyati_photo"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -119,6 +122,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/btn_send"
+            android:visibility="gone"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/send"

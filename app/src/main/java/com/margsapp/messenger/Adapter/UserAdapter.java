@@ -1,7 +1,9 @@
 package com.margsapp.messenger.Adapter;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.FindUsersActivity;
+import com.margsapp.messenger.MainActivity;
 import com.margsapp.messenger.MessageActivity;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.Chatlist;
@@ -31,48 +34,46 @@ import com.margsapp.messenger.R;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
-    private  Context mContext;
-    private  List<User> mUsers;
-    private  boolean isChat;
+    private Context mContext;
+    private List<User> mUsers;
+    private boolean isChat;
+
+    private boolean isBlock;
+
+    private boolean isAdd;
 
     private boolean unreadbool = true;
-
-
-
 
 
     String theLastMessage;
     String UnreadMessage;
 
-    String ActualUnreadMessage;
 
-
-
-    public UserAdapter(Context mContext, List<User> mUsers, boolean isChat)
-    {
+    public UserAdapter(Context mContext, List<User> mUsers, boolean isChat, boolean isAdd, boolean isBlock) {
         this.mUsers = mUsers;
         this.mContext = mContext;
         this.isChat = isChat;
-
+        this.isAdd = isAdd;
+        this.isBlock = isBlock;
 
 
     }
 
-    private void UnreadMessage(String userid, ImageView unreadview){
+    private void UnreadMessage(String userid, ImageView unreadview) {
 
-         UnreadMessage = "true";
+        UnreadMessage = "true";
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Chat chat = snapshot1.getValue(Chat.class);
 
-                    if(chat.getSender().equals(userid)) {
+                    if (chat.getSender().equals(userid)) {
 
                         UnreadMessage = chat.getIsseen();
 
@@ -81,10 +82,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
                 }
 
-                if("true".equals(UnreadMessage)){
+                if ("true".equals(UnreadMessage)) {
                     unreadview.setVisibility(View.GONE);
-                }
-                else{
+                } else {
                     unreadview.setVisibility(View.VISIBLE);
                 }
             }
@@ -100,7 +100,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.user_item, parent,false);
+        ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.user_item, parent, false);
         return new UserAdapter.ViewHolder(viewGroup);
 
     }
@@ -108,47 +108,88 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final User user = mUsers.get(position);
+
+
         holder.UsernameText.setText(user.getUsername());
         holder.dt.setText(user.getDt());
 
-        if (user.getImageUrl().equals("default"))
-        {
+        if (user.getImageUrl().equals("default")) {
             holder.profile.setImageResource(R.drawable.user);
-        }
-        else {
+        } else {
             Glide.with(mContext).load(user.getImageUrl()).into(holder.profile);
         }
 
-        if(unreadbool){
+        if (unreadbool) {
 
             UnreadMessage(user.getId(), holder.unread);
 
 
         }
 
+        if (isBlock) {
+            holder.UnBlock_btn.setVisibility(View.VISIBLE);
 
-        if(isChat){
+        }
+        if (!isBlock) {
+            holder.UnBlock_btn.setVisibility(View.GONE);
+        }
+
+
+        if (isChat) {
             lastmessage(user.getId(), holder.last_msg);
             holder.dt.setVisibility(View.GONE);
 
-        }if(!isChat) {
+        }
+        if (!isChat) {
             holder.last_msg.setVisibility(View.GONE);
             holder.dt.setVisibility(View.VISIBLE);
         }
 
-        if(isChat){
-            if(user.getStatus().equals("online")){
+        if (isChat) {
+            if (user.getStatus().equals("online")) {
                 holder.img_on.setVisibility(View.VISIBLE);
                 holder.img_off.setVisibility(View.GONE);
-            }else {
+            } else {
                 holder.img_off.setVisibility(View.VISIBLE);
                 holder.img_on.setVisibility(View.GONE);
             }
-        }
-        else {
+        } else {
             holder.img_on.setVisibility(View.GONE);
             holder.img_off.setVisibility(View.VISIBLE);
         }
+
+        holder.UnBlock_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                androidx.appcompat.app.AlertDialog.Builder dialog = new androidx.appcompat.app.AlertDialog.Builder(mContext);
+                dialog.setMessage("Are you sure you want to Unblock this user?");
+                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                        UnBlock(user.getId());
+
+
+                    }
+                });
+
+                dialog.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Dont do anything
+                    }
+                });
+                androidx.appcompat.app.AlertDialog alertDialog = dialog.create();
+                alertDialog.show();
+
+
+
+            }
+
+
+        });
 
         holder.itemView.setOnClickListener(v -> {
 
@@ -164,7 +205,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return mUsers.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView UsernameText = itemView.findViewById(R.id.username);
 
@@ -176,15 +217,57 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         private final ImageView unread;
         private final TextView last_msg;
 
-        public ViewHolder(View view){
+        private final ImageView addFriend;
+        private final ImageView UnBlock_btn;
+
+        public ViewHolder(View view) {
             super(view);
             profile = itemView.findViewById(R.id.profile_image);
             img_on = itemView.findViewById(R.id.img_on);
             img_off = itemView.findViewById(R.id.img_off);
             last_msg = itemView.findViewById(R.id.last_msg);
             unread = itemView.findViewById(R.id.unread);
+            addFriend = itemView.findViewById(R.id.addFriend);
+            UnBlock_btn = itemView.findViewById(R.id.cancel_button);
         }
     }
+
+    private void UnBlock(String userid) {
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        assert firebaseUser != null;
+
+
+        final DatabaseReference chatref = FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(firebaseUser.getUid())
+                .child(userid);
+
+        chatref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                chatref.child("friends").setValue("Messaged");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+
+        });
+
+        Toast.makeText(mContext, "User UnBlocked", Toast.LENGTH_SHORT).show();
+
+    }
+
+
+
+
+
+
+
 
     private void lastmessage(String userid, TextView lastmsg){
         theLastMessage = "default";
@@ -197,6 +280,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
                     Chat chat = snapshot1.getValue(Chat.class);
+                    assert chat != null;
+                    assert firebaseUser != null;
                     if(chat.getReceiver().equals(firebaseUser.getUid())&& chat.getSender().equals(userid) ||
                             chat.getReceiver().equals(userid)&& chat.getSender().equals(firebaseUser.getUid())) {
                         theLastMessage = chat.getMessage();
@@ -223,36 +308,35 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private void OnMessage(String userid, String ourid){
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+
+        assert firebaseUser != null;
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Chatlist chatlist = snapshot1.getValue(Chatlist.class);
-                        if (userid.equals(chatlist.getId())) {
-                            if (chatlist.getFriends().equals("Messaged") | chatlist.getFriends().equals("Accepted")) {
-                                Intent intent = new Intent(mContext, MessageActivity.class);
-                                intent.putExtra("userid", userid);
-                                mContext.startActivity(intent);
+                    assert chatlist != null;
+                    if (userid.equals(chatlist.getId())) {
+                        if (chatlist.getFriends().equals("Messaged") | chatlist.getFriends().equals("Accepted")) {
+                            Intent intent = new Intent(mContext, MessageActivity.class);
+                            intent.putExtra("userid", userid);
+                            mContext.startActivity(intent);
 
-                            }
+                        }
 
-                            if (userid.equals(chatlist.getId())){
 
-                                if (chatlist.getFriends().equals("Blocked")) {
-                                    Toast.makeText(mContext, "You have blocked this user.", Toast.LENGTH_SHORT).show();
-
-                                }
-
-                            }
-
+                        if (chatlist.getFriends().equals("Blocked")) {
+                            Toast.makeText(mContext, "You have blocked this user.", Toast.LENGTH_SHORT).show();
 
                         }
 
                     }
+
+
                 }
 
+            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -261,4 +345,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         });
 
     }
+
+
 }

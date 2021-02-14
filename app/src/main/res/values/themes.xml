@@ -3,7 +3,7 @@
     <style name="Theme.Messenger" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/Cyan</item>
-        <item name="colorPrimaryVariant">@color/company_blue</item>
+        <item name="colorPrimaryVariant">@color/coral</item>
         <item name="colorOnPrimary">@color/background_white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>

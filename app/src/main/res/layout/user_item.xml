@@ -45,7 +45,7 @@
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:id="@+id/add_friend"
+        android:id="@+id/addFriend"
         android:layout_alignParentRight="true"
         android:src="@drawable/add_friend"
         android:layout_marginTop="15dp"
