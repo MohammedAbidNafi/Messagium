@@ -8,6 +8,27 @@
         android:layout_width="300dp"
         android:layout_alignParentEnd="true"
         android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/replytextview"
+            android:gravity="end"
+            android:text=""
+            android:layout_marginRight="50dp"
+            android:visibility="gone"
+            android:layout_toStartOf="@id/show_message"/>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/curved_line"
+            android:layout_marginRight="25dp"
+            android:id="@+id/replyline"
+            android:visibility="gone"
+            android:layout_below="@+id/replytextview"
+            android:layout_marginTop="10dp"
+
+            android:layout_toLeftOf="@id/show_message"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,9 +48,11 @@
             android:layout_height="wrap_content"
             android:background="@drawable/background_right"
             android:text="Hello"
+
             android:layout_alignParentEnd="true"
             android:padding="8dp"
             android:id="@+id/show_message"
+            android:layout_below="@+id/replyline"
             android:textSize="18sp"
 
             android:textColor="#fff"/>

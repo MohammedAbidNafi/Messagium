@@ -3,10 +3,13 @@ package com.margsapp.messenger;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +41,8 @@ import com.margsapp.messenger.Notifications.Data;
 import com.margsapp.messenger.Notifications.MyResponse;
 import com.margsapp.messenger.Notifications.Sender;
 import com.margsapp.messenger.Notifications.Token;
+import com.margsapp.messenger.reply.ISwipeControllerActions;
+import com.margsapp.messenger.reply.SwipeController;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,13 +59,13 @@ import retrofit2.Response;
 public class MessageActivity extends AppCompatActivity {
 
     CircleImageView profileImage;
-    TextView username, statusText;
+    TextView username, statusText, reply_txt;
 
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
 
 
-    ImageButton btnSend;
+    ImageButton btnSend, btn_cancel_reply;
     EditText text_send;
 
     MessageAdapter messageAdapter;
@@ -75,7 +81,9 @@ public class MessageActivity extends AppCompatActivity {
 
     String userid;
 
+    ConstraintLayout reply;
 
+    boolean reply_ = false;
 
     boolean notify = false;
 
@@ -99,10 +107,15 @@ public class MessageActivity extends AppCompatActivity {
 
         statusText = findViewById(R.id.status);
 
+        reply = findViewById(R.id.reply_layout);
+        btn_cancel_reply = findViewById(R.id.cancelButton);
+
 
 
         btnSend = findViewById(R.id.btn_send);
         text_send = findViewById(R.id.text_send);
+
+        reply_txt = findViewById(R.id.txtQuotedMsg);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -112,6 +125,28 @@ public class MessageActivity extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        SwipeController swipeController = new SwipeController(this, new ISwipeControllerActions() {
+            @Override
+            public void onSwipePerformed(int position) {
+
+                onReply(mchat.get(position));
+
+
+
+            }
+        });
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        btn_cancel_reply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideReplyLayout();
+            }
+        });
+
+
+
 
 
         intent = getIntent();
@@ -119,12 +154,7 @@ public class MessageActivity extends AppCompatActivity {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        if(text_send.getText().toString().equals("")){
-            btnSend.setVisibility(View.VISIBLE);
-        }
-        if(!text_send.getText().toString().equals("")){
-            btnSend.setVisibility(View.GONE);
-        }
+
 
         btnSend.setOnClickListener(v -> {
 
@@ -137,14 +167,29 @@ public class MessageActivity extends AppCompatActivity {
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  hh:mm");
                 String timestamp = simpleDateFormat.format(calendar.getTime());
 
-                sendMessage(firebaseUser.getUid(),userid,msg, timestamp,isseen);
+                String Reply = reply_txt.getText().toString();
+
+                if(reply_){
+                    ReplyMessage(firebaseUser.getUid(), userid, msg, timestamp, isseen, Reply);
+
+                }
+                if(!reply_){
+                    sendMessage(firebaseUser.getUid(),userid,msg, timestamp,isseen);
+                }
+
+
             }
             else {
                 Toast.makeText(MessageActivity.this, "You cant send empty message Error code 0x08040101", Toast.LENGTH_SHORT).show();
             }
 
             text_send.setText("");
+
+            hideReplyLayout();
+
         });
+
+
 
 
 
@@ -178,9 +223,28 @@ public class MessageActivity extends AppCompatActivity {
 
         seenMessage(userid);
 
+
+
     }
 
-    private void seenMessage(final String userid){
+    private void onReply(Chat getChat) {
+
+        reply_txt.setText(getChat.getMessage());
+        reply.setVisibility(View.VISIBLE);
+        text_send.requestFocus();
+        reply_ = true;
+
+    }
+
+    private void hideReplyLayout() {
+
+        reply.setVisibility(View.GONE);
+        reply_ = false;
+
+    }
+
+
+    private void seenMessage(String userid){
         databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
         seenListener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -203,8 +267,7 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
-    private void sendMessage(String sender, String receiver, String message,String timestamp,String isseen)
-    {
+    private void ReplyMessage(String sender, String receiver, String message, String timestamp, String isseen,String ReplyMessage){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
 
@@ -215,8 +278,12 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("message", message);
         hashMap.put("isseen", isseen);
         hashMap.put("timestamp", timestamp);
+        hashMap.put("Reply", true);
+        hashMap.put("replytext", ReplyMessage);
 
         reference.child("Chats").push().setValue(hashMap);
+
+
 
 
 
@@ -255,7 +322,6 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 if(notify) {
-                    assert user != null;
                     sendNotification(receiver, user.getUsername(), msg);
                 }
                 notify = false;
@@ -266,6 +332,80 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
+
+
+
+
+
+    }
+
+    private void sendMessage(String sender, String receiver, String message,String timestamp,String isseen)
+    {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("sender", sender);
+        hashMap.put("receiver", receiver);
+        hashMap.put("message", message);
+        hashMap.put("isseen", isseen);
+        hashMap.put("timestamp", timestamp);
+        hashMap.put("Reply", false);
+
+        reference.child("Chats").push().setValue(hashMap);
+
+
+
+
+
+        final DatabaseReference chatref = FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(firebaseUser.getUid())
+                .child(receiver);
+
+        chatref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists()){
+                    chatref.child("id").setValue(receiver);
+                    chatref.child("friends").setValue("Messaged");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        final DatabaseReference chatRefReceiver = FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(receiver)
+                .child(firebaseUser.getUid());
+        chatRefReceiver.child("id").setValue(firebaseUser.getUid());
+        chatRefReceiver.child("friends").setValue("Messaged");
+
+
+        final String msg = message;
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                if(notify) {
+                    sendNotification(receiver, user.getUsername(), msg);
+                }
+                notify = false;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
     }
 
@@ -279,17 +419,16 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     Token token = snapshot1.getValue(Token.class);
-                    Data data = new Data(firebaseUser.getUid(), R.drawable.background_left, username+":"+message, "New Message",
+                    Data data = new Data(firebaseUser.getUid(), R.drawable.ic_notification, username+":"+message, "New Message",
                             userid);
 
-                    assert token != null;
+
                     Sender sender = new Sender(data, token.getToken());
                     apiService.sendNotification(sender)
                             .enqueue(new Callback<MyResponse>() {
                                 @Override
                                 public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                                     if(response.code() == 200){
-                                        assert response.body() != null;
                                         if(response.body().success != 1){
                                             Toast.makeText(MessageActivity.this, "Failed! Error code 0x08060101", Toast.LENGTH_SHORT).show();
                                         }
@@ -351,6 +490,7 @@ public class MessageActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 

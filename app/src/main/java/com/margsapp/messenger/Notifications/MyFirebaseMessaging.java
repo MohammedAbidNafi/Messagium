@@ -21,7 +21,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.margsapp.messenger.MessageActivity;
 import com.margsapp.messenger.R;
 
-@SuppressLint("MissingFirebaseInstanceTokenRefresh")
+
 public class MyFirebaseMessaging extends FirebaseMessagingService {
 
     @Override
@@ -38,18 +38,11 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (firebaseUser != null && sented.equals(firebaseUser.getUid())) {
-
             if (!currentuser.equals(user)) {
-
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
                     sendOreoNotification(remoteMessage);
-
                 } else {
-
                     sendNotification(remoteMessage);
-
                 }
 
 
@@ -67,7 +60,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         String body = remoteMessage.getData().get("body");
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();
-        assert user != null;
+
         int j = Integer.parseInt(user.replaceAll("[\\D]", ""));
         Intent intent = new Intent(this, MessageActivity.class);
         Bundle bundle = new Bundle();
@@ -110,10 +103,8 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, j, intent, PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-        assert icon != null;
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_notification)
+                .setSmallIcon(Integer.parseInt(icon))
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)

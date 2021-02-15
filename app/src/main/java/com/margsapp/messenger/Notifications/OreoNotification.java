@@ -57,7 +57,7 @@ public class OreoNotification extends ContextWrapper {
                 .setContentIntent(pendingIntent)
                 .setContentTitle(title)
                 .setContentText(body)
-                .setSmallIcon(com.margsapp.messenger.R.drawable.ic_notification)
+                .setSmallIcon(Integer.parseInt(icon))
                 .setSound(soundUri)
                 .setAutoCancel(true);
 

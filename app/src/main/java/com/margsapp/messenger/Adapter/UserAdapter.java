@@ -318,12 +318,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     Chatlist chatlist = snapshot1.getValue(Chatlist.class);
                     assert chatlist != null;
                     if (userid.equals(chatlist.getId())) {
-                        if (chatlist.getFriends().equals("Messaged") | chatlist.getFriends().equals("Accepted")) {
+
                             Intent intent = new Intent(mContext, MessageActivity.class);
                             intent.putExtra("userid", userid);
                             mContext.startActivity(intent);
 
-                        }
+
 
 
                         if (chatlist.getFriends().equals("Blocked")) {
