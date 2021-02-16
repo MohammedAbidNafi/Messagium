@@ -34,9 +34,9 @@ import com.margsapp.messenger.R;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
-    private Context mContext;
-    private List<User> mUsers;
-    private boolean isChat;
+    private final Context mContext;
+    private final List<User> mUsers;
+    private final boolean isChat;
 
     private boolean isBlock;
 
@@ -73,6 +73,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Chat chat = snapshot1.getValue(Chat.class);
 
+                    assert chat != null;
                     if (chat.getSender().equals(userid)) {
 
                         UnreadMessage = chat.getIsseen();
@@ -194,9 +195,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(v -> {
 
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-            String ourid = firebaseUser.getUid();
             String userid = user.getId();
-            OnMessage(userid, ourid);
+            OnMessage(userid);
         });
     }
 
@@ -305,7 +305,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         });
     }
 
-    private void OnMessage(String userid, String ourid){
+    private void OnMessage(String userid){
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -317,32 +317,33 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Chatlist chatlist = snapshot1.getValue(Chatlist.class);
                     assert chatlist != null;
-                    if (userid.equals(chatlist.getId())) {
-
-                            Intent intent = new Intent(mContext, MessageActivity.class);
-                            intent.putExtra("userid", userid);
-                            mContext.startActivity(intent);
 
 
+                    Intent intent = new Intent(mContext, MessageActivity.class);
+                    intent.putExtra("userid", userid);
+                    mContext.startActivity(intent);
 
 
-                        if (chatlist.getFriends().equals("Blocked")) {
-                            Toast.makeText(mContext, "You have blocked this user.", Toast.LENGTH_SHORT).show();
 
-                        }
+
+                    if (chatlist.getFriends().equals("Blocked")) {
+                        Toast.makeText(mContext, "You have blocked this user.", Toast.LENGTH_SHORT).show();
+
+                    }
 
                     }
 
 
                 }
 
-            }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+
         });
+
+
 
     }
 

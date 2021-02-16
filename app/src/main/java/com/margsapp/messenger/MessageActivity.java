@@ -278,7 +278,7 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("message", message);
         hashMap.put("isseen", isseen);
         hashMap.put("timestamp", timestamp);
-        hashMap.put("Reply", true);
+        hashMap.put("reply", "true");
         hashMap.put("replytext", ReplyMessage);
 
         reference.child("Chats").push().setValue(hashMap);
@@ -351,7 +351,7 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("message", message);
         hashMap.put("isseen", isseen);
         hashMap.put("timestamp", timestamp);
-        hashMap.put("Reply", false);
+        hashMap.put("reply", "false");
 
         reference.child("Chats").push().setValue(hashMap);
 

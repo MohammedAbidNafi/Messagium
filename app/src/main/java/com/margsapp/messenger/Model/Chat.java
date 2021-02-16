@@ -8,16 +8,37 @@ public class Chat {
     private String isseen;
     private String timestamp;
 
-    public Chat(String sender, String receiver, String message, String isseen, String timestamp) {
+    private String replytext;
+    private String reply;
+
+    public Chat(String sender, String receiver, String message, String isseen, String timestamp, String replytext, String reply) {
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
         this.isseen = isseen;
         this.timestamp = timestamp;
+        this.replytext = replytext;
+        this.reply = reply;
 
     }
 
     public Chat() {
+    }
+
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
+
+    public String getReplytext() {
+        return replytext;
+    }
+
+    public void setReplytxt(String replytxt) {
+        this.replytext = replytxt;
     }
 
     public String getTimestamp() {

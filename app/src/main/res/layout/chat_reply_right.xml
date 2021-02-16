@@ -12,6 +12,28 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/replytextview"
+
+            android:text=""
+            
+            android:layout_marginEnd="35dp"
+            android:visibility="visible"
+
+            android:layout_toStartOf="@id/show_message"/>
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/curved_line"
+            android:layout_marginRight="20dp"
+            android:id="@+id/replyline"
+            android:visibility="visible"
+            android:layout_below="@+id/replytextview"
+            android:layout_marginTop="10dp"
+
+            android:layout_toLeftOf="@id/show_message"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text=""
             android:layout_below="@id/txt_seen"
             android:layout_alignParentEnd="true"
