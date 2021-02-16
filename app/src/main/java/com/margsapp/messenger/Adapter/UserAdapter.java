@@ -42,7 +42,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private boolean isAdd;
 
-    private boolean unreadbool = true;
+    private final boolean unreadbool = true;
 
 
     String theLastMessage;
