@@ -29,4 +29,6 @@
     <string name="banner_ad_unit_id5">ca-app-pub-5615682506938042/4528533646</string>
     <string name="banner_ad_unit_id6">ca-app-pub-5615682506938042/5765416083</string>
 
+    <string name="interstitial_ad_unit_id1">ca-app-pub-5615682506938042/9926110222</string>
+
 </resources>

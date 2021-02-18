@@ -1,10 +1,12 @@
 package com.margsapp.messenger.Adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,6 +47,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private final boolean unreadbool = true;
 
+    private InterstitialAd mInterstitialAd;
+
 
     String theLastMessage;
     String UnreadMessage;
@@ -55,6 +60,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         this.isChat = isChat;
         this.isAdd = isAdd;
         this.isBlock = isBlock;
+
+
 
 
     }
@@ -104,11 +111,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.user_item, parent, false);
         return new UserAdapter.ViewHolder(viewGroup);
 
+
+
+
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final User user = mUsers.get(position);
+
+
 
 
         holder.UsernameText.setText(user.getUsername());
@@ -194,6 +207,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         holder.itemView.setOnClickListener(v -> {
 
+
+
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             String userid = user.getId();
             OnMessage(userid);
@@ -206,6 +221,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
+
 
         public TextView UsernameText = itemView.findViewById(R.id.username);
 
@@ -229,6 +246,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             unread = itemView.findViewById(R.id.unread);
             addFriend = itemView.findViewById(R.id.addFriend);
             UnBlock_btn = itemView.findViewById(R.id.cancel_button);
+
+
         }
     }
 
@@ -322,6 +341,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     Intent intent = new Intent(mContext, MessageActivity.class);
                     intent.putExtra("userid", userid);
                     mContext.startActivity(intent);
+
+                    if (mInterstitialAd != null) {
+                        mInterstitialAd.show((Activity) mContext);
+                    } else {
+                        Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                    }
 
 
 

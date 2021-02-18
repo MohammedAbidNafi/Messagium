@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,12 @@ import androidx.cardview.widget.CardView;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -52,7 +59,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class edit_profile extends AppCompatActivity {
 
 
-
+    private static final String TAG = "edit_profile";
     CircleImageView profile_image;
 
     TextView username, status, joined_on;
@@ -72,6 +79,7 @@ public class edit_profile extends AppCompatActivity {
     private StorageTask uploadTask;
 
     private AdView mAdView;
+    private InterstitialAd mInterstitialAd;
 
 
     @Override
@@ -85,11 +93,47 @@ public class edit_profile extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Settings");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        mAdView = findViewById(R.id.adView);
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
         AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this,"ca-app-pub-5615682506938042/9926110222", adRequest, new InterstitialAdLoadCallback() {
+            @Override
+            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                // The mInterstitialAd reference will be null until
+                // an ad is loaded.
+                mInterstitialAd = interstitialAd;
+                Log.i(TAG, "onAdLoaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                // Handle the error
+                Log.i(TAG, loadAdError.getMessage());
+                mInterstitialAd = null;
+            }
+        });
+
+        mAdView = findViewById(R.id.adView);
+
         mAdView.loadAd(adRequest);
 
-        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(edit_profile.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(edit_profile.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(edit_profile.this);
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                }
+            }
+        });
+
+
 
 
         status = findViewById(R.id.status);
@@ -106,6 +150,11 @@ public class edit_profile extends AppCompatActivity {
                 Intent intent = new Intent(edit_profile.this, EditStatusActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(edit_profile.this);
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                }
                 finish();
             }
         });
@@ -116,6 +165,11 @@ public class edit_profile extends AppCompatActivity {
                 Intent intent = new Intent(edit_profile.this, Chat_settings.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(edit_profile.this);
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                }
                 finish();
 
             }
@@ -196,6 +250,13 @@ public class edit_profile extends AppCompatActivity {
         Intent intent = new Intent(edit_profile.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(edit_profile.this);
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+        }
+
         finish();
 
     }
@@ -214,6 +275,13 @@ public class edit_profile extends AppCompatActivity {
             case R.id.done:
 
                 startActivity(new Intent(edit_profile.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(edit_profile.this);
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                }
+
 
 
                 return true;

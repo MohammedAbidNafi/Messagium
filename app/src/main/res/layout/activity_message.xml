@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/background_white"
     tools:context=".MessageActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:foregroundGravity="bottom">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +40,7 @@
                     android:id="@+id/profile_image"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:src="@drawable/khyyati_photo"
+                    android:src="@drawable/user"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -52,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:text="Khyyati Vegiraju"
+                    android:text="Username"
                     android:textColor="#fff"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -115,7 +116,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text=" h ghgdhg fgd"/>
+                tools:text="This is were reply goes"/>
 
         <ImageButton
                 android:id="@+id/cancelButton"
@@ -130,13 +131,25 @@
                 app:layout_constraintTop_toTopOf="parent"/>
      </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toTopOf="@+id/reply_layout"
-        app:layout_constraintTop_toBottomOf="@+id/bar_layout"
-        tools:ignore="MissingConstraints" />
+        app:layout_constrainedHeight="true"
+
+        app:layout_constraintTop_toBottomOf="@+id/bar_layout">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constrainedHeight="true"
+
+            />
+
+    </RelativeLayout>
+
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/editor_layout"
