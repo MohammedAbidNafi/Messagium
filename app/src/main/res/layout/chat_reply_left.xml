@@ -37,7 +37,8 @@
         android:layout_toEndOf="@+id/profile_image"
         android:layout_marginStart="5dp"
         android:text="Hello"
-        android:textColor="#000"
+
+        android:textColor="@color/blacktext"
         android:padding="8dp"
         android:id="@+id/show_message"
         android:textSize="18dp"

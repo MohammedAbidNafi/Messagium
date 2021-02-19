@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -91,11 +92,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
+
         DP=findViewById(R.id.DP);
         username=findViewById(R.id.username);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+        DP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Dp_viewActivity.class);
+                intent.putExtra("userid", firebaseUser.getUid());
+                startActivity(intent);
+            }
+        });
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -215,6 +227,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    public void onBackPressed(){
+        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+        homeIntent.addCategory( Intent.CATEGORY_HOME );
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(homeIntent);
     }
 
     class ViewPageAdapter extends FragmentPagerAdapter {

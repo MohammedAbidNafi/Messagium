@@ -3,7 +3,7 @@
     <style name="Theme.Messenger" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/Cyan</item>
-        <item name="colorPrimaryVariant">@color/DarkGreen</item>
+        <item name="colorPrimaryVariant">@color/coral</item>
         <item name="colorOnPrimary">@color/background_white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="MenuStyle" parent="Theme.AppCompat.Light">
-        <item name="background">@color/background_white</item>
+    <style name="MenuStyle" parent="Theme.AppCompat.DayNight">
+        <item name="background">@color/background</item>
     </style>
 </resources>

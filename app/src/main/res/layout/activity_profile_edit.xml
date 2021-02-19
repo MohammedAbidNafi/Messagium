@@ -6,7 +6,7 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     tools:context=".edit_profile"
-    android:background="@color/grey"
+    android:background="@color/diffrentBack"
     >
 
     <include
@@ -26,7 +26,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/card_back">
 
 
 
@@ -46,7 +47,7 @@
                 android:layout_below="@+id/profile_image"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:textColor="#000"
+                android:textColor="@color/blacktext"
                 android:id="@+id/username"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -59,7 +60,7 @@
                 android:layout_below="@+id/profile_image"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="40dp"
-                android:textColor="#000"
+                android:textColor="@color/blacktext"
 
 
                 android:textSize="18sp"
@@ -72,7 +73,7 @@
                 android:layout_below="@+id/profile_image"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="60dp"
-                android:textColor="#000"
+                android:textColor="@color/blacktext"
                 android:id="@+id/joined_on"
 
                 android:textSize="18sp"
@@ -111,6 +112,7 @@
         android:layout_marginTop="10dp"
         android:layout_below="@+id/imagecard"
         android:id="@+id/status_card"
+        android:background="@color/card_back"
         >
 
         <ImageButton
@@ -119,12 +121,12 @@
 
             android:src="@drawable/ic_baseline_chevron_right_24"
             android:layout_gravity="center_vertical|end"
-            android:background="#fff"
+            android:background="@color/card_back"
             />
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_baseline_speaker_notes_24"
+            android:src="@drawable/thinking"
             android:layout_marginLeft="10dp"
 
             android:layout_gravity="center_vertical|start"/>
@@ -138,7 +140,7 @@
 
             android:layout_gravity="center_vertical"
             android:layout_marginStart="50dp"
-            android:textColor="#000"
+            android:textColor="@color/blacktext"
             android:textSize="20dp"
             />
 
@@ -151,12 +153,13 @@
         android:layout_marginTop="10dp"
         android:layout_below="@+id/status_card"
         android:id="@+id/fragment_chat_settings"
+        android:background="@color/card_back"
 
         >
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_baseline_people_alt_24"
+            android:src="@drawable/group"
             android:layout_marginLeft="10dp"
 
             android:layout_gravity="center_vertical|start"/>
@@ -167,7 +170,7 @@
 
             android:src="@drawable/ic_baseline_chevron_right_24"
             android:layout_gravity="center_vertical|end"
-            android:background="#fff"
+            android:background="@color/card_back"
             />
 
 
@@ -180,7 +183,57 @@
 
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15sp"
-            android:textColor="#000"
+            android:textColor="@color/blacktext"
+            android:textSize="20dp"
+            />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/fragment_chat_settings"
+        android:id="@+id/Customize_card"
+        android:background="@color/card_back"
+
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/customize"
+            android:layout_marginLeft="10dp"
+
+            android:layout_gravity="center_vertical|start"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/ic_baseline_chevron_right_24"
+            android:layout_gravity="center_vertical|end"
+            android:background="@color/card_back"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Customize"
+            android:layout_marginStart="50dp"
+
+
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15sp"
+            android:textColor="@color/blacktext"
             android:textSize="20dp"
             />
 

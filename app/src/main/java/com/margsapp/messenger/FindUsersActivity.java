@@ -64,7 +64,7 @@ public class FindUsersActivity extends AppCompatActivity {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
 
-        InterstitialAd.load(this,"ca-app-pub-5615682506938042/9926110222", adRequest, new InterstitialAdLoadCallback() {
+        InterstitialAd.load(this,"ca-app-pub-5615682506938042/4782730227", adRequest, new InterstitialAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                 // The mInterstitialAd reference will be null until

@@ -16,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_appicon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Messenger">
+        <activity android:name=".CustomizeActivity"></activity>
         <activity android:name=".Dp_viewActivity" />
         <activity android:name=".Friends.Blocked" />
         <activity android:name=".Friends.Requests" />

@@ -67,7 +67,7 @@ public class edit_profile extends AppCompatActivity {
     FirebaseUser firebaseUser;
 
 
-    CardView Status_card, Account_card;
+    CardView Status_card, Account_card, Customize_card;
 
 
 
@@ -100,7 +100,7 @@ public class edit_profile extends AppCompatActivity {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
 
-        InterstitialAd.load(this,"ca-app-pub-5615682506938042/9926110222", adRequest, new InterstitialAdLoadCallback() {
+        InterstitialAd.load(this,"ca-app-pub-5615682506938042/5865260490", adRequest, new InterstitialAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                 // The mInterstitialAd reference will be null until
@@ -142,6 +142,7 @@ public class edit_profile extends AppCompatActivity {
         profile_image = findViewById(R.id.profile_image);
         Status_card = findViewById(R.id.status_card);
         Account_card = findViewById(R.id.fragment_chat_settings);
+        Customize_card = findViewById(R.id.Customize_card);
 
 
         Status_card.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +173,21 @@ public class edit_profile extends AppCompatActivity {
                 }
                 finish();
 
+            }
+        });
+
+        Customize_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(edit_profile.this, CustomizeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(edit_profile.this);
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                }
+                finish();
             }
         });
 

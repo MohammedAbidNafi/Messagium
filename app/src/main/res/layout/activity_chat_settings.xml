@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Chat_settings"
-    android:background="@color/grey">
+    android:background="@color/diffrentBack">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
 
             android:src="@drawable/ic_baseline_chevron_right_24"
             android:layout_gravity="center_vertical|end"
-            android:background="#fff"
+            android:background="@color/card_back"
             />
         <ImageView
             android:layout_width="30dp"
@@ -54,7 +54,7 @@
 
             android:layout_gravity="center_vertical"
             android:layout_marginStart="50dp"
-            android:textColor="#000"
+            android:textColor="@color/blacktext"
             android:textSize="20dp"
             />
 
@@ -75,7 +75,7 @@
 
             android:src="@drawable/ic_baseline_chevron_right_24"
             android:layout_gravity="center_vertical|end"
-            android:background="#fff"
+            android:background="@color/card_back"
             />
         <ImageView
             android:layout_width="30dp"
@@ -94,7 +94,7 @@
 
             android:layout_gravity="center_vertical"
             android:layout_marginStart="50dp"
-            android:textColor="#000"
+            android:textColor="@color/blacktext"
             android:textSize="20dp"
             />
 
@@ -115,7 +115,7 @@
 
             android:src="@drawable/ic_baseline_chevron_right_24"
             android:layout_gravity="center_vertical|end"
-            android:background="#fff"
+            android:background="@color/card_back"
             />
         <ImageView
             android:layout_width="30dp"
@@ -134,7 +134,7 @@
 
             android:layout_gravity="center_vertical"
             android:layout_marginStart="50dp"
-            android:textColor="#000"
+            android:textColor="@color/blacktext"
             android:textSize="20dp"
             />
 
@@ -155,7 +155,7 @@
 
             android:src="@drawable/ic_baseline_chevron_right_24"
             android:layout_gravity="center_vertical|end"
-            android:background="#fff"
+            android:background="@color/card_back"
             />
         <ImageView
             android:layout_width="30dp"
@@ -174,7 +174,7 @@
 
             android:layout_gravity="center_vertical"
             android:layout_marginStart="50dp"
-            android:textColor="#000"
+            android:textColor="@color/blacktext"
             android:textSize="20dp"
             />
 

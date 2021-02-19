@@ -23,10 +23,14 @@
         android:maxLength="40"
         app:met_maxCharacters="40"
 
+        android:background="@color/background"
         app:met_checkCharactersCountAtBeginning="true"
 
 
         android:hint="Edit status"
+
+        app:met_textColorHint="@color/greytext"
+        app:met_textColor="@color/blacktext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"

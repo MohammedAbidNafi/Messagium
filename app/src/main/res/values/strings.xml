@@ -14,11 +14,7 @@
     <string name="credit_1"><div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
     <string name="credit_2"><div>Icons made by <a href="https://icon54.com/" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
     <string name="credit_3"><div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
-    <string name="credit_4"><div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
-    <string name="credit_5"><div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
-    <string name="credit_6"><div>Icons made by <a href="" title="Icongeek26">Icongeek26</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
-    <string name="credit_7"><div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
-    <string name="credit_8"><div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
+    <string name="credit_4"><div>Icons made by <a href="" title="Icongeek26">Icongeek26</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tandc">By clicking agree your agreeing to the terms and condition\'s. Well till now I havent updated it so for now watch this Ad below</string>
@@ -29,6 +25,13 @@
     <string name="banner_ad_unit_id5">ca-app-pub-5615682506938042/4528533646</string>
     <string name="banner_ad_unit_id6">ca-app-pub-5615682506938042/5765416083</string>
 
-    <string name="interstitial_ad_unit_id1">ca-app-pub-5615682506938042/9926110222</string>
+    <string name="chat_main">ca-app-pub-5615682506938042/9926110222</string>
+    <string name="edit_profile">ca-app-pub-5615682506938042/5865260490</string>
+    <string name="FindUsersActivity">ca-app-pub-5615682506938042/4782730227</string>
+    <string name="LoginActivity">ca-app-pub-5615682506938042/9421362123</string>
+    <string name="ResetPasswordActivity">ca-app-pub-5615682506938042/9843485210</string>
+    <string name="Register">ca-app-pub-5615682506938042/8064581256</string>
+    <string name="Terms_ConditionsActivity">ca-app-pub-5615682506938042/1159728726</string>
+    <string name="StartActivity">ca-app-pub-5615682506938042/6412055406</string>
 
 </resources>

@@ -36,16 +36,14 @@ public class Dp_viewActivity extends AppCompatActivity {
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Display Picture");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Dp_viewActivity.this, MessageActivity.class);
-                intent.putExtra("userid", userid);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -83,9 +81,5 @@ public class Dp_viewActivity extends AppCompatActivity {
 
     }
 
-    public void onBackPressed(){
-        Intent intent = new Intent(Dp_viewActivity.this, MessageActivity.class);
-        intent.putExtra("userid", userid);
-        startActivity(intent);
-    }
+
 }

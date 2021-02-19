@@ -7,7 +7,7 @@
     android:padding="8dp"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/profile"
-    android:background="#F3F3F3">
+    android:background="@color/diffrentBack">
 
     <TextView
         android:layout_width="wrap_content"
@@ -15,7 +15,7 @@
         android:text="Profile"
         android:id="@+id/profile_txt"
 
-        android:textColor="#000"
+        android:textColor="@color/blacktext"
         android:layout_marginTop="10dp"
         android:textStyle="bold"
         android:textSize="25dp"/>
@@ -24,11 +24,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/profile_txt"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
 
 
@@ -48,7 +50,7 @@
                 android:layout_below="@+id/profile_image"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:textColor="#000"
+                android:textColor="@color/blacktext"
                 android:id="@+id/username"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -62,7 +64,7 @@
                 android:layout_below="@+id/profile_image"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
-                android:textColor="#000"
+                android:textColor="@color/blacktext"
                 android:id="@+id/dt"
 
                 android:textSize="15sp"
@@ -74,7 +76,7 @@
                 android:layout_below="@+id/profile_image"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="80dp"
-                android:textColor="#000"
+                android:textColor="@color/blacktext"
 
                 android:textSize="15sp"
                 android:layout_marginBottom="20dp"/>
@@ -86,7 +88,7 @@
                 android:layout_below="@+id/profile_image"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="100dp"
-                android:textColor="#000"
+                android:textColor="@color/blacktext"
                 android:id="@+id/joined_on"
 
                 android:textSize="15sp"
