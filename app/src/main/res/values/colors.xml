@@ -13,6 +13,8 @@
     <color name="blacktext">#000</color>
     <color name="greytext">#616161</color>
 
+    <color name="editText">#000</color>
+
     <color name="card_back">#fff</color>
     <color name="diffrentBack">#DFDFDF</color>
     <color name="othertext">#E5E4E9</color>

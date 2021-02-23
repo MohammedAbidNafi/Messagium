@@ -222,7 +222,7 @@ public class MessageActivity extends AppCompatActivity {
             if(!msg.equals(""))
             {
                 Calendar calendar = Calendar.getInstance();
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  hh:mm");
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
                 String timestamp = simpleDateFormat.format(calendar.getTime());
 
                 String Reply = reply_txt.getText().toString();
@@ -289,7 +289,7 @@ public class MessageActivity extends AppCompatActivity {
 
         reply_txt.setText(getChat.getMessage());
         reply.setVisibility(View.VISIBLE);
-        text_send.requestFocus();
+        text_send.isFocused();
         reply_ = true;
 
     }
@@ -616,9 +616,14 @@ public class MessageActivity extends AppCompatActivity {
     private void status(String status){
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
+        Calendar calendar = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd yy hh:mm aa");
+        String timestamp = simpleDateFormat.format(calendar.getTime());
+
         HashMap<String, Object> hashMap = new HashMap<>();
 
         hashMap.put("status", status);
+        hashMap.put("lastseen", timestamp);
 
         databaseReference.updateChildren(hashMap);
 
@@ -647,6 +652,13 @@ public class MessageActivity extends AppCompatActivity {
     protected void onPause()
     {
         super.onPause();
+        databaseReference.removeEventListener(seenListener);
+        status("offline");
+        currentUser("none");
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
         databaseReference.removeEventListener(seenListener);
         status("offline");
         currentUser("none");

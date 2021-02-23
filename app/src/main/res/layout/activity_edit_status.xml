@@ -23,7 +23,8 @@
         android:maxLength="40"
         app:met_maxCharacters="40"
 
-        android:background="@color/background"
+
+        app:met_baseColor="@color/editText"
         app:met_checkCharactersCountAtBeginning="true"
 
 

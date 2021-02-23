@@ -26,7 +26,7 @@
             android:text="Create a new account"
             android:textSize="25dp"
             android:textStyle="bold"
-            android:textColor="#000"
+            android:textColor="@color/blacktext"
             android:layout_marginTop="20dp"/>
 
         <EditText
@@ -76,7 +76,7 @@
             android:text="Register"
             android:id="@+id/register"
             android:layout_marginTop="25dp"
-            android:background="@color/coral"
+            android:background="@drawable/button"
             android:textColor="#fff"
             >
 
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:text="@string/note_Register"
-            android:textColor="#000"
+            android:textColor="#000000"
             android:textAlignment="center"
             android:background="#FFF652"/>
 

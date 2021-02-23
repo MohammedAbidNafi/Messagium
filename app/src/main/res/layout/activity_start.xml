@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".StartActivity"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
 
     <TextView
@@ -15,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Welcome to Messenger"
-        android:textColor="#000"
+        android:textColor="@color/blacktext"
 
 
         android:textSize="25sp"

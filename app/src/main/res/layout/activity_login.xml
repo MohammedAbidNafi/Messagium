@@ -31,7 +31,7 @@
             android:textSize="30sp"
 
             android:textStyle="bold"
-            android:textColor="#000"/>
+            android:textColor="@color/blacktext"/>
 
 
         <EditText
@@ -83,7 +83,7 @@
             android:layout_gravity="end"
             android:textStyle="bold"
             android:id="@+id/forgot_password"
-            android:textColor="#000"/>
+            android:textColor="@color/blacktext"/>
 
 
     </LinearLayout>
