@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,12 +35,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Fragments.ChatsFragment;
+import com.margsapp.messenger.Fragments.GroupFragment;
 import com.margsapp.messenger.Fragments.ProfileFragment;
 import com.margsapp.messenger.Fragments.UsersFragment;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.User;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -51,10 +55,13 @@ public class MainActivity extends AppCompatActivity {
     CircleImageView DP;
     TextView username;
 
+
+
     FirebaseUser firebaseUser;
     DatabaseReference reference;
 
     private InterstitialAd mInterstitialAd;
+    String versionName = BuildConfig.VERSION_NAME;
 
 
 
@@ -166,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                viewPageAdapter.addFragment(new ProfileFragment(),"Profile");
+                viewPageAdapter.addFragment(new GroupFragment(),"Group");
 
 
                 viewPager.setAdapter(viewPageAdapter);
@@ -275,8 +282,14 @@ public class MainActivity extends AppCompatActivity {
     private void status(String status){
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
+        Calendar calendar = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd yy hh:mm aa");
+        String timestamp = simpleDateFormat.format(calendar.getTime());
+
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("status", status);
+        hashMap.put("version_name", versionName);
+        hashMap.put("lastseen", timestamp);
 
         reference.updateChildren(hashMap);
     }
@@ -290,6 +303,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        status("offline");
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
         status("offline");
     }
 

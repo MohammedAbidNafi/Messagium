@@ -2,7 +2,6 @@ package com.margsapp.messenger.Adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.ads.NativeAd;
+import com.facebook.ads.NativeAdsManager;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,14 +27,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.margsapp.messenger.FindUsersActivity;
-import com.margsapp.messenger.MainActivity;
 import com.margsapp.messenger.MessageActivity;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
@@ -47,11 +47,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private final boolean unreadbool = true;
 
-    private InterstitialAd mInterstitialAd;
 
 
     String theLastMessage;
     String UnreadMessage;
+
 
 
     public UserAdapter(Context mContext, List<User> mUsers, boolean isChat, boolean isAdd, boolean isBlock) {
@@ -60,6 +60,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         this.isChat = isChat;
         this.isAdd = isAdd;
         this.isBlock = isBlock;
+
+
+
 
 
 
@@ -110,20 +113,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.user_item, parent, false);
         return new UserAdapter.ViewHolder(viewGroup);
-
-
-
-
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final User user = mUsers.get(position);
-
-
-
-
         holder.UsernameText.setText(user.getUsername());
         holder.dt.setText(user.getDt());
 
@@ -132,22 +126,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         } else {
             Glide.with(mContext).load(user.getImageUrl()).into(holder.profile);
         }
-
         if (unreadbool) {
-
             UnreadMessage(user.getId(), holder.unread);
-
-
         }
 
         if (isBlock) {
             holder.UnBlock_btn.setVisibility(View.VISIBLE);
-
         }
         if (!isBlock) {
             holder.UnBlock_btn.setVisibility(View.GONE);
         }
-
 
         if (isChat) {
             lastmessage(user.getId(), holder.last_msg);
@@ -219,7 +207,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public int getItemCount() {
         return mUsers.size();
     }
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
 
@@ -250,6 +237,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         }
     }
+
+
 
     private void UnBlock(String userid) {
 
@@ -342,11 +331,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     intent.putExtra("userid", userid);
                     mContext.startActivity(intent);
 
-                    if (mInterstitialAd != null) {
-                        mInterstitialAd.show((Activity) mContext);
-                    } else {
-                        Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                    }
+
 
 
 

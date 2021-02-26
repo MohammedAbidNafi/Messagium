@@ -133,7 +133,7 @@
         android:layout_marginTop="5dp"
         android:id="@+id/dt"
         android:layout_marginStart="10dp"
-        android:textColor="#616161"/>
+        android:textColor="@color/greytext"/>
 
 
 

@@ -17,7 +17,7 @@
     <string name="credit_4"><div>Icons made by <a href="" title="Icongeek26">Icongeek26</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="tandc">By clicking agree your agreeing to the terms and condition\'s. Well till now I havent updated it so for now watch this Ad below</string>
+    <string name="tandc">By clicking agree your agreeing to the terms and condition\'s. Well till now I haven't updated it so for now watch this Ad below</string>
     <string name="banner_ad_unit_id1">ca-app-pub-5615682506938042/1059868401</string>
     <string name="banner_ad_unit_id2">ca-app-pub-5615682506938042/6915023835</string>
     <string name="banner_ad_unit_id3">ca-app-pub-5615682506938042/4720105335</string>
@@ -33,5 +33,6 @@
     <string name="Register">ca-app-pub-5615682506938042/8064581256</string>
     <string name="Terms_ConditionsActivity">ca-app-pub-5615682506938042/1159728726</string>
     <string name="StartActivity">ca-app-pub-5615682506938042/6412055406</string>
+    <string name="AboutActivity">ca-app-pub-5615682506938042/6089487745</string>
 
 </resources>

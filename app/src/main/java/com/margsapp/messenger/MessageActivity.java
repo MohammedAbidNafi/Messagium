@@ -1,15 +1,6 @@
 package com.margsapp.messenger;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,9 +11,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
@@ -40,8 +38,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.margsapp.messenger.Fragments.APIService;
 import com.margsapp.messenger.Adapter.MessageAdapter;
+import com.margsapp.messenger.Fragments.APIService;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.Notifications.Client;
@@ -51,6 +49,8 @@ import com.margsapp.messenger.Notifications.Sender;
 import com.margsapp.messenger.Notifications.Token;
 import com.margsapp.messenger.reply.ISwipeControllerActions;
 import com.margsapp.messenger.reply.SwipeController;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -380,6 +380,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 if(notify) {
+                    assert user != null;
                     sendNotification(receiver, user.getUsername(), msg);
                 }
                 notify = false;
@@ -452,6 +453,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 if(notify) {
+                    assert user != null;
                     sendNotification(receiver, user.getUsername(), msg);
                 }
                 notify = false;
@@ -481,12 +483,14 @@ public class MessageActivity extends AppCompatActivity {
                             userid);
 
 
+                    assert token != null;
                     Sender sender = new Sender(data, token.getToken());
                     apiService.sendNotification(sender)
                             .enqueue(new Callback<MyResponse>() {
                                 @Override
-                                public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                public void onResponse(@NotNull Call<MyResponse> call, @NotNull Response<MyResponse> response) {
                                     if(response.code() == 200){
+                                        assert response.body() != null;
                                         if(response.body().success != 1){
                                             Toast.makeText(MessageActivity.this, "Failed! Error code 0x08060101", Toast.LENGTH_SHORT).show();
                                         }
@@ -494,7 +498,7 @@ public class MessageActivity extends AppCompatActivity {
                                 }
 
                                 @Override
-                                public void onFailure(Call<MyResponse> call, Throwable t) {
+                                public void onFailure(@NotNull Call<MyResponse> call, @NotNull Throwable t) {
 
                                 }
                             });
@@ -617,7 +621,7 @@ public class MessageActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
         Calendar calendar = Calendar.getInstance();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd yy hh:mm aa");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd yy hh:mm aa");
         String timestamp = simpleDateFormat.format(calendar.getTime());
 
         HashMap<String, Object> hashMap = new HashMap<>();

@@ -17,4 +17,8 @@
     <style name="MenuStyle" parent="Theme.AppCompat.DayNight">
         <item name="background">@color/background</item>
     </style>
+
+    <style name="Splash" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="backgroundColor">@color/true_black_white</item>
+    </style>
 </resources>

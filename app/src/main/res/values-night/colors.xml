@@ -9,6 +9,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
 
+    <color name="true_black_white">#000</color>
+
     <color name="background">#191919</color>
     <color name="blacktext">#F1F1F1</color>
     <color name="greytext">#979797</color>

@@ -67,7 +67,7 @@ public class edit_profile extends AppCompatActivity {
     FirebaseUser firebaseUser;
 
 
-    CardView Status_card, Account_card, Customize_card;
+    CardView Status_card, Account_card, Customize_card, About_card;
 
 
 
@@ -143,6 +143,7 @@ public class edit_profile extends AppCompatActivity {
         Status_card = findViewById(R.id.status_card);
         Account_card = findViewById(R.id.fragment_chat_settings);
         Customize_card = findViewById(R.id.Customize_card);
+        About_card = findViewById(R.id.About_card);
 
 
         Status_card.setOnClickListener(new View.OnClickListener() {
@@ -180,6 +181,21 @@ public class edit_profile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(edit_profile.this, CustomizeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(edit_profile.this);
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                }
+                finish();
+            }
+        });
+
+        About_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(edit_profile.this, AboutActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 if (mInterstitialAd != null) {

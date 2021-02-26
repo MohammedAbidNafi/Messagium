@@ -30,15 +30,15 @@
         app:layout_constraintVertical_bias="0.416" />
 
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@mipmap/ic_launcher_appicon"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/applogobig"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.106" />
+        app:layout_constraintVertical_bias="0.141" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login"

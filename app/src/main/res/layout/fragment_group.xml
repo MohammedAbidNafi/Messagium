@@ -10,5 +10,13 @@
        android:id="@+id/recycler_view"
        android:layout_height="match_parent"/>
 
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Coming Soon"
+       android:layout_gravity="center"
+       android:textSize="50dp"
+       android:textColor="@color/greytext"/>
+
 
 </FrameLayout>

@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.facebook.ads.AdError;
+import com.facebook.ads.NativeAdsManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChatsFragment extends Fragment {
+public class ChatsFragment extends Fragment implements NativeAdsManager.Listener {
 
     private UserAdapter userAdapter;
 
@@ -43,6 +45,10 @@ public class ChatsFragment extends Fragment {
 
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
+
+    NativeAdsManager nativeAdsManager;
+
+    UserAdapter adapter;
 
 
 
@@ -64,6 +70,7 @@ public class ChatsFragment extends Fragment {
         usersList = new ArrayList<>();
 
 
+
         databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -82,6 +89,8 @@ public class ChatsFragment extends Fragment {
 
             }
         });
+
+
 
 
 
@@ -117,15 +126,20 @@ public class ChatsFragment extends Fragment {
                         if(user.getId().equals(chatlist.getId())){
                             if(chatlist.getFriends().equals("Messaged")){
                                 mUsers.add(user);
+
                             }
                             if(chatlist.getFriends().equals("Blocked")){
                                 //Dont do anything
                             }
 
                         }
+
+
                     }
 
                 }
+
+
 
                 userAdapter = new UserAdapter(getContext(), mUsers, true, false, false);
                 recyclerView.setAdapter(userAdapter);
@@ -139,4 +153,13 @@ public class ChatsFragment extends Fragment {
     }
 
 
+    @Override
+    public void onAdsLoaded() {
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAdError(AdError adError) {
+
+    }
 }

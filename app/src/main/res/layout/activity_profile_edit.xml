@@ -240,6 +240,56 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/Customize_card"
+        android:id="@+id/About_card"
+        android:background="@color/card_back"
+
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/info"
+            android:layout_marginLeft="10dp"
+
+            android:layout_gravity="center_vertical|start"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/ic_baseline_chevron_right_24"
+            android:layout_gravity="center_vertical|end"
+            android:background="@color/card_back"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="About"
+            android:layout_marginStart="50dp"
+
+
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15sp"
+            android:textColor="@color/blacktext"
+            android:textSize="20dp"
+            />
+
+
+    </androidx.cardview.widget.CardView>
+
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="wrap_content"

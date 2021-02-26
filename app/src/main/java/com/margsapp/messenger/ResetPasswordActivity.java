@@ -97,7 +97,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                                     Log.d("TAG", "The interstitial ad wasn't ready yet.");
                                 }
                             }else {
-                                String error = task.getException().getMessage();
+                                Objects.requireNonNull(task.getException()).getMessage();
                                 Toast.makeText(ResetPasswordActivity.this, "This email is not registered. 0x08030202",Toast.LENGTH_SHORT).show();
                             }
                         }
