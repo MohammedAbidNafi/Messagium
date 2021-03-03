@@ -11,9 +11,13 @@
 
     <color name="true_black_white">#000</color>
 
+    <color name="other_reply">#FFFFFF</color>
+
     <color name="background">#191919</color>
     <color name="blacktext">#F1F1F1</color>
     <color name="greytext">#979797</color>
+
+    <color name="WebLink">#0055FF</color>
 
     <color name="editText">#fff</color>
 

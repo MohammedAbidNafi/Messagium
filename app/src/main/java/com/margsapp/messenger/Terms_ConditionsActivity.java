@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -27,12 +28,17 @@ public class Terms_ConditionsActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
+    WebView t_c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_terms__conditions);
 
         agree = findViewById(R.id.agree);
+
+        t_c = findViewById(R.id.t_cpage);
+        t_c.loadUrl("https://margsglobal.weebly.com/messenger-tc.html");
 
 
 
@@ -60,8 +66,7 @@ public class Terms_ConditionsActivity extends AppCompatActivity {
             }
         });
 
-        mAdView = findViewById(R.id.adView);
-        mAdView.loadAd(adRequest);
+
 
         agree.setOnClickListener(new View.OnClickListener() {
             @Override

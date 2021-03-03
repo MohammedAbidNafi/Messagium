@@ -15,9 +15,10 @@
     <string name="credit_2"><div>Icons made by <a href="https://icon54.com/" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
     <string name="credit_3"><div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
     <string name="credit_4"><div>Icons made by <a href="" title="Icongeek26">Icongeek26</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
+    <string name="credit_5"><a href="https://icons8.com/icons/set/send-letter" target="_blank">Send Letter icon</a> icon by <a href="https://icons8.com" target="_blank">Icons8</a></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="tandc">By clicking agree your agreeing to the terms and condition\'s. Well till now I haven't updated it so for now watch this Ad below</string>
+    <string name="tandc">By clicking agree your agreeing to the terms and condition\'s.</string>
     <string name="banner_ad_unit_id1">ca-app-pub-5615682506938042/1059868401</string>
     <string name="banner_ad_unit_id2">ca-app-pub-5615682506938042/6915023835</string>
     <string name="banner_ad_unit_id3">ca-app-pub-5615682506938042/4720105335</string>

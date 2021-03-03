@@ -21,6 +21,8 @@
         android:id="@+id/show_message"
         android:textSize="18dp"
 
+        android:autoLink="web|email|phone|map"
+        android:textColorLink="@color/WebLink"
         android:background="@drawable/background_left"/>
 
     <TextView

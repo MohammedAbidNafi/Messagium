@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChatsFragment extends Fragment implements NativeAdsManager.Listener {
+public class ChatsFragment extends Fragment {
 
     private UserAdapter userAdapter;
 
@@ -46,7 +46,6 @@ public class ChatsFragment extends Fragment implements NativeAdsManager.Listener
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
 
-    NativeAdsManager nativeAdsManager;
 
     UserAdapter adapter;
 
@@ -127,6 +126,8 @@ public class ChatsFragment extends Fragment implements NativeAdsManager.Listener
                             if(chatlist.getFriends().equals("Messaged")){
                                 mUsers.add(user);
 
+                            }if (chatlist.getFriends().equals("Requested")){
+                                mUsers.add(user);
                             }
                             if(chatlist.getFriends().equals("Blocked")){
                                 //Dont do anything
@@ -153,13 +154,5 @@ public class ChatsFragment extends Fragment implements NativeAdsManager.Listener
     }
 
 
-    @Override
-    public void onAdsLoaded() {
-        adapter.notifyDataSetChanged();
-    }
 
-    @Override
-    public void onAdError(AdError adError) {
-
-    }
 }

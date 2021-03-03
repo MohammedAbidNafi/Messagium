@@ -39,6 +39,7 @@ import com.margsapp.messenger.Fragments.GroupFragment;
 import com.margsapp.messenger.Fragments.ProfileFragment;
 import com.margsapp.messenger.Fragments.UsersFragment;
 import com.margsapp.messenger.Model.Chat;
+import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
 
 import java.text.SimpleDateFormat;
@@ -58,10 +59,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     FirebaseUser firebaseUser;
-    DatabaseReference reference;
+    DatabaseReference reference, databaseReference;
 
     private InterstitialAd mInterstitialAd;
     String versionName = BuildConfig.VERSION_NAME;
+
+    public int unread = 0;
 
 
 
@@ -149,36 +152,66 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         reference = FirebaseDatabase.getInstance().getReference("Chats");
         reference.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
-                int unread = 0;
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
                     Chat chat = snapshot1.getValue(Chat.class);
-
                     assert chat != null;
-                    if(chat.getReceiver().equals(firebaseUser.getUid()) && chat.getIsseen().equals("false")){
-                        unread++;
-                    }
+                    databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
+                            .child(chat.getReceiver())
+                            .child(chat.getSender());
+                    databaseReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            Chatlist chatlist = snapshot.getValue(Chatlist.class);
+
+                            if(chatlist == null){
+                                //Do Nothing
+                            }else {
+                                if(!chatlist.getFriends().equals("Blocked")){
+                                    if(chat.getReceiver().equals(firebaseUser.getUid()) && chat.getIsseen().equals("false")){
+                                        unread++;
+                                    }
+                            }
+
+
+
+                            }
+                            ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
+
+                            if(unread == 0){
+                                viewPageAdapter.addFragment(new ChatsFragment(), "Chats");
+                            } else {
+                                viewPageAdapter.addFragment(new ChatsFragment(), "Chats("+unread+")");
+                            }
+
+
+
+
+                            viewPageAdapter.addFragment(new GroupFragment(),"Group");
+
+
+                            viewPager.setAdapter(viewPageAdapter);
+
+                            tabLayout.setupWithViewPager(viewPager);
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
                 }
 
-                if(unread == 0){
-                    viewPageAdapter.addFragment(new ChatsFragment(), "Chats");
-                } else {
-                    viewPageAdapter.addFragment(new ChatsFragment(), "Chats("+unread+")");
-                }
 
-
-
-                viewPageAdapter.addFragment(new GroupFragment(),"Group");
-
-
-                viewPager.setAdapter(viewPageAdapter);
-
-                tabLayout.setupWithViewPager(viewPager);
 
             }
 

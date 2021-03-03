@@ -28,7 +28,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/background_right"
             android:text="Hello"
-
+            android:autoLink="web|email|phone|map"
+            android:textColorLink="@color/WebLink"
             android:layout_alignParentEnd="true"
             android:padding="8dp"
             android:id="@+id/show_message"

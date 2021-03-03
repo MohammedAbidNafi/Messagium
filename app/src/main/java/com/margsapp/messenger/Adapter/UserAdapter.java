@@ -195,9 +195,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         holder.itemView.setOnClickListener(v -> {
 
-
-
-            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             String userid = user.getId();
             OnMessage(userid);
         });
@@ -324,22 +321,25 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Chatlist chatlist = snapshot1.getValue(Chatlist.class);
-                    assert chatlist != null;
 
 
-                    Intent intent = new Intent(mContext, MessageActivity.class);
-                    intent.putExtra("userid", userid);
-                    mContext.startActivity(intent);
+                    if(!chatlist.getFriends().equals("Blocked")){
+                        Intent intent = new Intent(mContext, MessageActivity.class);
+                        intent.putExtra("userid", userid);
+                        mContext.startActivity(intent);
 
-
-
-
-
-
-                    if (chatlist.getFriends().equals("Blocked")) {
+                    }else if (chatlist.getFriends().equals("Blocked")) {
                         Toast.makeText(mContext, "You have blocked this user.", Toast.LENGTH_SHORT).show();
 
                     }
+
+
+
+
+
+
+
+
 
                     }
 

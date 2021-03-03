@@ -5,18 +5,22 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,6 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Adapter.MessageAdapter;
 import com.margsapp.messenger.Fragments.APIService;
 import com.margsapp.messenger.Model.Chat;
+import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.Notifications.Client;
 import com.margsapp.messenger.Notifications.Data;
@@ -77,6 +82,8 @@ public class MessageActivity extends AppCompatActivity {
     ImageButton btnSend, btn_cancel_reply;
     EditText text_send;
 
+    AppCompatButton btn_accept, btn_reject, btn_block;
+
     MessageAdapter messageAdapter;
     List<Chat> mchat;
 
@@ -90,7 +97,8 @@ public class MessageActivity extends AppCompatActivity {
 
     String userid;
 
-    ConstraintLayout reply;
+    ConstraintLayout reply, editor;
+    RelativeLayout warning;
 
     private InterstitialAd mInterstitialAd;
 
@@ -157,6 +165,13 @@ public class MessageActivity extends AppCompatActivity {
         statusText = findViewById(R.id.status);
 
         reply = findViewById(R.id.reply_layout);
+        editor = findViewById(R.id.editor_layout);
+        warning = findViewById(R.id.warningcard);
+
+        btn_accept = findViewById(R.id.btn_accept);
+        btn_reject = findViewById(R.id.btn_reject);
+        btn_block = findViewById(R.id.btn_block);
+
         btn_cancel_reply = findViewById(R.id.cancelButton);
 
 
@@ -173,6 +188,15 @@ public class MessageActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+
+
+        btn_accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         SwipeController swipeController = new SwipeController(this, new ISwipeControllerActions() {
             @Override
@@ -212,7 +236,26 @@ public class MessageActivity extends AppCompatActivity {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        text_send.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                btnSend.setVisibility(View.VISIBLE);
+
+
+                checkText();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         btnSend.setOnClickListener(v -> {
 
@@ -245,6 +288,85 @@ public class MessageActivity extends AppCompatActivity {
 
             hideReplyLayout();
 
+        });
+
+        DatabaseReference chatRefReceiver = FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(firebaseUser.getUid())
+                .child(userid);
+        chatRefReceiver.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+               Chatlist chatlist = snapshot.getValue(Chatlist.class);
+                if(snapshot.exists()){
+                    assert chatlist != null;
+                    if(chatlist.getFriends().equals("Requested")) {
+                        editor.setVisibility(View.GONE);
+                        warning.setVisibility(View.VISIBLE);
+
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        btn_accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
+                        .child(firebaseUser.getUid())
+                        .child(userid);
+
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("friends", "Messaged");
+                databaseReference.getRef().updateChildren(hashMap);
+                warning.setVisibility(View.GONE);
+                editor.setVisibility(View.VISIBLE);
+                Toast.makeText(MessageActivity.this, "Request Accepted!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btn_reject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
+                        .child(firebaseUser.getUid())
+                        .child(userid);
+
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("friends", "Rejected");
+                databaseReference.getRef().updateChildren(hashMap);
+                Intent intent = new Intent(MessageActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                Toast.makeText(MessageActivity.this, "Request Rejected!", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        btn_block.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
+                        .child(firebaseUser.getUid())
+                        .child(userid);
+
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("friends", "Blocked");
+                databaseReference.getRef().updateChildren(hashMap);
+                Intent intent = new Intent(MessageActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
+                Toast.makeText(MessageActivity.this, "User Blocked!", Toast.LENGTH_SHORT).show();
+            }
         });
 
 
@@ -281,6 +403,15 @@ public class MessageActivity extends AppCompatActivity {
 
         seenMessage(userid);
 
+
+
+    }
+
+    private void checkText() {
+        if(text_send.getText().toString().equals("")){
+            btnSend.setVisibility(View.INVISIBLE);
+
+        }
 
 
     }
@@ -367,8 +498,21 @@ public class MessageActivity extends AppCompatActivity {
         final DatabaseReference chatRefReceiver = FirebaseDatabase.getInstance().getReference("Chatlist")
                 .child(receiver)
                 .child(firebaseUser.getUid());
-        chatRefReceiver.child("id").setValue(firebaseUser.getUid());
-        chatRefReceiver.child("friends").setValue("Messaged");
+        chatRefReceiver.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists()){
+                    chatRefReceiver.child("id").setValue(firebaseUser.getUid());
+                    chatRefReceiver.child("friends").setValue("Requested");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
         final String msg = message;
@@ -437,11 +581,34 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
+
+
         final DatabaseReference chatRefReceiver = FirebaseDatabase.getInstance().getReference("Chatlist")
                 .child(receiver)
                 .child(firebaseUser.getUid());
-        chatRefReceiver.child("id").setValue(firebaseUser.getUid());
-        chatRefReceiver.child("friends").setValue("Messaged");
+        chatRefReceiver.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Chatlist chatlist = snapshot.getValue(Chatlist.class);
+                if(!snapshot.exists()){
+                    chatRefReceiver.child("id").setValue(firebaseUser.getUid());
+                    chatRefReceiver.child("friends").setValue("Requested");
+
+                }
+
+                if(chatlist.getFriends().equals("Rejected")){
+                    chatRefReceiver.child("id").setValue(firebaseUser.getUid());
+                    chatRefReceiver.child("friends").setValue("Requested");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
 
         final String msg = message;
@@ -472,6 +639,63 @@ public class MessageActivity extends AppCompatActivity {
 
     private void sendNotification(String receiver, String username, String message){
 
+        final DatabaseReference chatref = FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(receiver)
+                .child(firebaseUser.getUid());
+
+        chatref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Chatlist chatlist = snapshot.getValue(Chatlist.class);
+                assert chatlist != null;
+                if(!chatlist.getFriends().equals("Blocked")){
+                    DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
+                    Query query = tokens.orderByKey().equalTo(receiver);
+                    query.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                                Token token = snapshot1.getValue(Token.class);
+                                Data data = new Data(firebaseUser.getUid(), R.drawable.ic_notification, username+":"+message, "New Message",
+                                        userid);
+                                assert token != null;
+                                Sender sender = new Sender(data, token.getToken());
+                                apiService.sendNotification(sender)
+                                        .enqueue(new Callback<MyResponse>() {
+                                            @Override
+                                            public void onResponse(@NotNull Call<MyResponse> call, @NotNull Response<MyResponse> response) {
+                                                if(response.code() == 200){
+                                                    assert response.body() != null;
+                                                    if(response.body().success != 1){
+                                                        Toast.makeText(MessageActivity.this, "Failed! Error code 0x08060101", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(@NotNull Call<MyResponse> call, @NotNull Throwable t) {
+
+                                            }
+                                        });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }else {
+                    //Do nothing;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        /*
         DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
         Query query = tokens.orderByKey().equalTo(receiver);
         query.addValueEventListener(new ValueEventListener() {
@@ -510,6 +734,8 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
+
+         */
     }
 
 

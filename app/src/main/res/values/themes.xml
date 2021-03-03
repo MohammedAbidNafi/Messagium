@@ -19,9 +19,7 @@
 
     </style>
 
-    <style name="Splash" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="backgroundColor">@color/true_black_white</item>
-    </style>
+
 
 
 

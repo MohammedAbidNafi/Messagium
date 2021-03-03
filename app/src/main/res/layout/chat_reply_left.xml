@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="300dp"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp">
 
@@ -9,25 +9,30 @@
         android:layout_height="40sp"
         android:src="@drawable/user"
         android:id="@+id/profile_image"
-        android:layout_below="@+id/replyline"/>
+        android:layout_below="@+id/replytextview"
+        android:layout_marginTop="30dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/replytextview"
-        android:text=""
-        android:layout_marginStart="35dp"
+        android:text="Hello how are you"
+        android:layout_alignParentEnd="true"
+        android:padding="6sp"
+        android:textColor="@color/greytext"
+        android:background="@drawable/reply_left"
+
         android:visibility="visible"
-        android:layout_toEndOf="@id/show_message"/>
+       />
 
     <ImageView
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:id="@+id/replyline"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
+
+        android:layout_marginTop="15sp"
+        android:layout_alignParentEnd="true"
         android:layout_below="@+id/replytextview"
-        android:layout_toEndOf="@id/show_message"
         android:src="@drawable/curved_line_left"
         />
 
@@ -37,12 +42,15 @@
         android:layout_toEndOf="@+id/profile_image"
         android:layout_marginStart="5dp"
         android:text="Hello"
-
+        android:layout_marginEnd="45dp"
+        android:autoLink="web|email|phone|map"
+        android:textColorLink="@color/WebLink"
         android:textColor="@color/blacktext"
         android:padding="8dp"
         android:id="@+id/show_message"
         android:textSize="18dp"
-        android:layout_below="@+id/replyline"
+        android:layout_below="@id/replytextview"
+        android:layout_marginTop="30dp"
 
         android:background="@drawable/background_left"/>
 

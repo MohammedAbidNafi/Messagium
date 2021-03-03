@@ -76,9 +76,7 @@
 
             android:inputType="textPassword"
 
-
-            android:paddingStart="18sp"
-            android:password="false" />
+            android:paddingStart="18sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/register"
@@ -115,6 +113,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
-
+       
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@
     android:padding="10dp">
 
     <RelativeLayout
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_height="wrap_content">
 
@@ -13,13 +13,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/replytextview"
-
-            android:text=""
-            
+            android:background="@drawable/reply_right"
+            android:text="Hello how are you"
+            android:textColor="@color/greytext"
+            android:padding="6sp"
             android:layout_marginEnd="35dp"
             android:visibility="visible"
-
-            android:layout_toStartOf="@id/show_message"/>
+            android:layout_alignParentStart="true"/>
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
@@ -29,8 +29,9 @@
             android:visibility="visible"
             android:layout_below="@+id/replytextview"
             android:layout_marginTop="10dp"
+            android:layout_alignParentStart="true"
 
-            android:layout_toLeftOf="@id/show_message"/>
+           />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,6 +52,9 @@
             android:background="@drawable/background_right"
             android:text="Hello"
 
+            android:autoLink="web|email|phone|map"
+            android:textColorLink="@color/WebLink"
+            android:layout_marginStart="45dp"
             android:layout_alignParentEnd="true"
             android:padding="8dp"
             android:id="@+id/show_message"
