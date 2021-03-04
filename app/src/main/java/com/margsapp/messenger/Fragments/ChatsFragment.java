@@ -80,6 +80,8 @@ public class ChatsFragment extends Fragment {
                     usersList.add(chatlist);
                 }
 
+
+
                 chatList();
             }
 

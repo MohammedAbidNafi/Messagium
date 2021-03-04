@@ -65,7 +65,7 @@ public class AboutActivity extends AppCompatActivity {
     boolean switchAuthentication;
 
 
-    public static final String SHARED_PREFS = "sharedPrefs";
+
     public static final String TEXT = "text";
     public static final String SWITCH1 = "switch1";
 
