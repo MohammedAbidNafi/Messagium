@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Model.AppVersion;
 
+import java.net.Authenticator;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -50,6 +52,7 @@ public class AboutActivity extends AppCompatActivity {
     private InterstitialAd mInterstitialAd;
 
     DatabaseReference firebaseDatabase;
+    FirebaseUser firebaseUser;
 
     AppCompatButton checkupdate;
 
@@ -57,6 +60,14 @@ public class AboutActivity extends AppCompatActivity {
     SwitchCompat Swicth_authenticate;
 
     AppCompatButton test_btn;
+
+    public String Authentication = "";
+    boolean switchAuthentication;
+
+
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String TEXT = "text";
+    public static final String SWITCH1 = "switch1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +98,14 @@ public class AboutActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(Swicth_authenticate.isChecked()) {
                     Biometric();
-                }else {
+                }else if(!Swicth_authenticate.isChecked()) {
+                    SharedPreferences sharedPreferences = getSharedPreferences("Authentication",0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(TEXT, "0");
+                    editor.putBoolean(SWITCH1, Swicth_authenticate.isChecked());
+                    editor.apply();
+
+
                     Toast.makeText(AboutActivity.this, "Biometric is off",Toast.LENGTH_SHORT).show();
                 }
             }
@@ -118,6 +136,9 @@ public class AboutActivity extends AppCompatActivity {
                 mInterstitialAd = null;
             }
         });
+
+        loadData();
+        updateViews();
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,12 +214,29 @@ public class AboutActivity extends AppCompatActivity {
         });
     }
 
+    public void loadData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("Authentication",0);
+        Authentication = sharedPreferences.getString(TEXT, "");
+        switchAuthentication = sharedPreferences.getBoolean(SWITCH1,false);
+    }
+
+    public void updateViews(){
+        Swicth_authenticate.setChecked(switchAuthentication);
+    }
+
     private void Biometric(){
         androidx.biometric.BiometricManager biometricManager = androidx.biometric.BiometricManager.from(this);
         switch (biometricManager.canAuthenticate()) {
 
+
             // this means we can use biometric sensor
             case androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS:
+                SharedPreferences sharedPreferences = getSharedPreferences("Authentication",0);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(TEXT, "1");
+                editor.putBoolean(SWITCH1, Swicth_authenticate.isChecked());
+                editor.apply();
+
                 Toast.makeText(this, "Succesfully Activated", Toast.LENGTH_SHORT).show();
                 break;
 

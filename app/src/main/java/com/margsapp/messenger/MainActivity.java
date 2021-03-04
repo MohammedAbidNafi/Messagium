@@ -4,19 +4,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
@@ -41,21 +45,23 @@ import com.margsapp.messenger.Fragments.UsersFragment;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.concurrent.Executor;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MAIN ACTIVITY" ;
+    private static final String TAG = "MAIN ACTIVITY";
     CircleImageView DP;
     TextView username;
-
 
 
     FirebaseUser firebaseUser;
@@ -67,11 +73,12 @@ public class MainActivity extends AppCompatActivity {
     public int unread = 0;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -84,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
 
-        InterstitialAd.load(this,"ca-app-pub-5615682506938042/9926110222", adRequest, new InterstitialAdLoadCallback() {
+        InterstitialAd.load(this, "ca-app-pub-5615682506938042/9926110222", adRequest, new InterstitialAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                 // The mInterstitialAd reference will be null until
@@ -102,10 +109,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-        DP=findViewById(R.id.DP);
-        username=findViewById(R.id.username);
+        DP = findViewById(R.id.DP);
+        username = findViewById(R.id.username);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
@@ -126,12 +131,10 @@ public class MainActivity extends AppCompatActivity {
                 User user = dataSnapshot.getValue(User.class);
                 assert user != null;
                 username.setText(user.getUsername());
-                if(user.getImageUrl().equals("default"))
-                {
+                if (user.getImageUrl().equals("default")) {
                     DP.setImageResource(R.drawable.user);
 
-                }
-                else {
+                } else {
 
                     Glide.with(getApplicationContext()).load(user.getImageUrl()).into(DP);
 
@@ -148,17 +151,12 @@ public class MainActivity extends AppCompatActivity {
         final TabLayout tabLayout = findViewById(R.id.tablayout);
         final ViewPager viewPager = findViewById(R.id.viewPager);
 
-
-
-
-
-
         reference = FirebaseDatabase.getInstance().getReference("Chats");
         reference.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Chat chat = snapshot1.getValue(Chat.class);
                     assert chat != null;
                     databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
@@ -169,30 +167,27 @@ public class MainActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             Chatlist chatlist = snapshot.getValue(Chatlist.class);
 
-                            if(chatlist == null){
+                            if (chatlist == null) {
                                 //Do Nothing
-                            }else {
-                                if(!chatlist.getFriends().equals("Blocked")){
-                                    if(chat.getReceiver().equals(firebaseUser.getUid()) && chat.getIsseen().equals("false")){
+                            } else {
+                                if (!chatlist.getFriends().equals("Blocked")) {
+                                    if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getIsseen().equals("false")) {
                                         unread++;
                                     }
-                            }
-
+                                }
 
 
                             }
                             ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
 
-                            if(unread == 0){
+                            if (unread == 0) {
                                 viewPageAdapter.addFragment(new ChatsFragment(), "Chats");
                             } else {
-                                viewPageAdapter.addFragment(new ChatsFragment(), "Chats("+unread+")");
+                                viewPageAdapter.addFragment(new ChatsFragment(), "Chats(" + unread + ")");
                             }
 
 
-
-
-                            viewPageAdapter.addFragment(new GroupFragment(),"Group");
+                            viewPageAdapter.addFragment(new GroupFragment(), "Group");
 
 
                             viewPager.setAdapter(viewPageAdapter);
@@ -212,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-
             }
 
             @Override
@@ -220,10 +214,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
 
     }
 
@@ -236,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(MainActivity.this, StartActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
@@ -268,6 +258,9 @@ public class MainActivity extends AppCompatActivity {
 
         return false;
     }
+
+
+
 
     public void onBackPressed(){
         Intent homeIntent = new Intent(Intent.ACTION_MAIN);
@@ -331,6 +324,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         status("online");
+
+    }
+
+    protected void onRestart() {
+        super.onRestart();
+
     }
 
     @Override
