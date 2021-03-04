@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,7 +31,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Fragments.UsersFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -162,18 +165,37 @@ public class FindUsersActivity extends AppCompatActivity {
     }
 
     private void status(String status){
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        FirebaseUser firebaseUserStatus = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference statusdatabaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUserStatus.getUid());
+
+        Calendar calendar = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd yy hh:mm aa");
+        String timestamp = simpleDateFormat.format(calendar.getTime());
 
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("status", status);
 
-        reference.updateChildren(hashMap);
+        hashMap.put("status", status);
+        hashMap.put("lastseen", timestamp);
+
+        statusdatabaseReference.updateChildren(hashMap);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        status("offline");
     }
 
     public void onBackPressed(){
@@ -185,11 +207,6 @@ public class FindUsersActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        status("offline");
-    }
 
 
 

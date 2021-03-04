@@ -61,12 +61,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         this.isAdd = isAdd;
         this.isBlock = isBlock;
 
-
-
-
-
-
-
     }
 
     private void UnreadMessage(String userid, ImageView unreadview) {
@@ -315,12 +309,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         assert firebaseUser != null;
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid());
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid()).child(userid);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                    Chatlist chatlist = snapshot1.getValue(Chatlist.class);
+                    Chatlist chatlist = snapshot.getValue(Chatlist.class);
 
 
                     if(!chatlist.getFriends().equals("Blocked")){
@@ -328,23 +321,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                         intent.putExtra("userid", userid);
                         mContext.startActivity(intent);
 
-                    }else if (chatlist.getFriends().equals("Blocked")) {
+                    }
+                    if (chatlist.getFriends().equals("Blocked")) {
                         Toast.makeText(mContext, "You have blocked this user.", Toast.LENGTH_SHORT).show();
 
                     }
 
 
-
-
-
-
-
-
-
                     }
 
 
-                }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

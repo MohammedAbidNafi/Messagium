@@ -52,7 +52,7 @@ public class Accepted extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Accepted");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(Accepted.this, Chat_settings.class)));
+        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(Accepted.this, Chat_settings.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -83,7 +83,7 @@ public class Accepted extends AppCompatActivity {
     }
 
     public void onBackPressed(){
-        startActivity(new Intent(Accepted.this, Chat_settings.class));
+        startActivity(new Intent(Accepted.this, Chat_settings.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
     static class ViewPageAdapter extends FragmentPagerAdapter {

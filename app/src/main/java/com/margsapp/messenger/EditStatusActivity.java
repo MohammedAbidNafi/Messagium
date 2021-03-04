@@ -24,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Model.User;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -128,5 +130,39 @@ public class EditStatusActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
 
+    }
+
+    private void status(String status){
+        FirebaseUser firebaseUserStatus = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference statusdatabaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUserStatus.getUid());
+
+        Calendar calendar = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd yy hh:mm aa");
+        String timestamp = simpleDateFormat.format(calendar.getTime());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+
+        hashMap.put("status", status);
+        hashMap.put("lastseen", timestamp);
+
+        statusdatabaseReference.updateChildren(hashMap);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        status("offline");
     }
 }

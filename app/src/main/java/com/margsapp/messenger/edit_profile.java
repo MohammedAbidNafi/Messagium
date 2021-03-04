@@ -51,6 +51,8 @@ import com.google.firebase.storage.UploadTask;
 import com.margsapp.messenger.Model.User;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -91,7 +93,7 @@ public class edit_profile extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Settings");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -293,41 +295,6 @@ public class edit_profile extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menuinstatus, menu);
-        return true;
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.done:
-
-                startActivity(new Intent(edit_profile.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(edit_profile.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
-
-
-
-                return true;
-
-        }
-
-        return false;
-    }
-
-
-
-
-
-
     private void openImage() {
 
         Intent intent = new Intent();
@@ -410,6 +377,40 @@ public class edit_profile extends AppCompatActivity {
                 uploadImage();
             }
         }
+    }
+
+    private void status(String status){
+        FirebaseUser firebaseUserStatus = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference statusdatabaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUserStatus.getUid());
+
+        Calendar calendar = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd yy hh:mm aa");
+        String timestamp = simpleDateFormat.format(calendar.getTime());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+
+        hashMap.put("status", status);
+        hashMap.put("lastseen", timestamp);
+
+        statusdatabaseReference.updateChildren(hashMap);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        status("offline");
     }
 
 

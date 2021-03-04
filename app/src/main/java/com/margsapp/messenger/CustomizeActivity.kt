@@ -1,5 +1,6 @@
 package com.margsapp.messenger
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -26,5 +27,11 @@ class CustomizeActivity : AppCompatActivity() {
                 AppCompatDelegate.setDefaultNightMode(theme)
             }
         }
+    }
+
+    override fun onBackPressed(){
+        val intent = Intent(this, edit_profile::class.java)
+        // start your next activity
+        startActivity(intent)
     }
 }

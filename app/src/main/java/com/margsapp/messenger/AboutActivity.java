@@ -1,10 +1,7 @@
 package com.margsapp.messenger;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.Toolbar;
-
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +11,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
+import androidx.biometric.BiometricManager;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
@@ -22,6 +26,8 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +35,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Model.AppVersion;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class AboutActivity extends AppCompatActivity {
@@ -45,6 +54,9 @@ public class AboutActivity extends AppCompatActivity {
     AppCompatButton checkupdate;
 
     public String appString;
+    SwitchCompat Swicth_authenticate;
+
+    AppCompatButton test_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +79,21 @@ public class AboutActivity extends AppCompatActivity {
         });
 
         checkupdate = findViewById(R.id.check_update);
+        Swicth_authenticate = findViewById(R.id.Swtich_authentication);
+        test_btn = findViewById(R.id.test_btn);
+
+        test_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Swicth_authenticate.isChecked()) {
+                    Biometric();
+                }else {
+                    Toast.makeText(AboutActivity.this, "Biometric is off",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -166,6 +193,41 @@ public class AboutActivity extends AppCompatActivity {
         });
     }
 
+    private void Biometric(){
+        androidx.biometric.BiometricManager biometricManager = androidx.biometric.BiometricManager.from(this);
+        switch (biometricManager.canAuthenticate()) {
+
+            // this means we can use biometric sensor
+            case androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS:
+                Toast.makeText(this, "Succesfully Activated", Toast.LENGTH_SHORT).show();
+                break;
+
+            // this means that the device doesn't have fingerprint sensor
+            case androidx.biometric.BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
+                Swicth_authenticate.setChecked(false);
+                Toast.makeText(this, "Error code 0x08080101 Authentication failed there's no Fingerprint Reader in your device.", Toast.LENGTH_SHORT).show();
+                break;
+
+            // this means that biometric sensor is not available
+            case androidx.biometric.BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
+                Swicth_authenticate.setChecked(false);
+                Toast.makeText(this, "Error code 0x08080102 Authentication failed biometric system not found.", Toast.LENGTH_SHORT).show();
+                break;
+
+            // this means that the device doesn't contain your fingerprint
+            case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
+                Swicth_authenticate.setChecked(false);
+                Toast.makeText(this, "Error code 0x08080103 Theres no fingerprint saved.", Toast.LENGTH_SHORT).show();
+                break;
+            case BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED:
+                break;
+            case BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED:
+                break;
+            case BiometricManager.BIOMETRIC_STATUS_UNKNOWN:
+                break;
+        }
+    }
+
 
 
     @Override
@@ -176,5 +238,39 @@ public class AboutActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
 
+    }
+
+    private void status(String status){
+        FirebaseUser firebaseUserStatus = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference statusdatabaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUserStatus.getUid());
+
+        Calendar calendar = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd yy hh:mm aa");
+        String timestamp = simpleDateFormat.format(calendar.getTime());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+
+        hashMap.put("status", status);
+        hashMap.put("lastseen", timestamp);
+
+        statusdatabaseReference.updateChildren(hashMap);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        status("offline");
     }
 }

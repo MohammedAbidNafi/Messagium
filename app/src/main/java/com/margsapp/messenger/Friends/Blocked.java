@@ -54,7 +54,7 @@ public class Blocked extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Blocked");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(Blocked.this, Chat_settings.class)));
+        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(Blocked.this, Chat_settings.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -84,7 +84,7 @@ public class Blocked extends AppCompatActivity {
     }
 
     public void onBackPressed(){
-        startActivity(new Intent(Blocked.this, Chat_settings.class));
+        startActivity(new Intent(Blocked.this, Chat_settings.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
     static class ViewPageAdapter extends FragmentPagerAdapter {

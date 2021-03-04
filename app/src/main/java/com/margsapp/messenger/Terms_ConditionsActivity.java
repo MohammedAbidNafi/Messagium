@@ -71,7 +71,7 @@ public class Terms_ConditionsActivity extends AppCompatActivity {
         agree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Terms_ConditionsActivity.this, edit_profile.class);
+                Intent intent = new Intent(Terms_ConditionsActivity.this, privacyActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 if (mInterstitialAd != null) {

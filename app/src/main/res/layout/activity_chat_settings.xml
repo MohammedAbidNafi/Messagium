@@ -61,90 +61,12 @@
 
     </androidx.cardview.widget.CardView>
 
+
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="160dp"
-
-        android:id="@+id/Requests"
-        >
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:src="@drawable/ic_baseline_chevron_right_24"
-            android:layout_gravity="center_vertical|end"
-            android:background="@color/card_back"
-            />
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/chronometer"
-            android:layout_marginLeft="10dp"
-
-            android:layout_gravity="center_vertical|start"/>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pending Requests"
-
-
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="50dp"
-            android:textColor="@color/blacktext"
-            android:textSize="20dp"
-            />
-
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="230dp"
-
-        android:id="@+id/Requested"
-        >
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:src="@drawable/ic_baseline_chevron_right_24"
-            android:layout_gravity="center_vertical|end"
-            android:background="@color/card_back"
-            />
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/interview"
-            android:layout_marginLeft="10dp"
-
-            android:layout_gravity="center_vertical|start"/>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Requested"
-
-
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="50dp"
-            android:textColor="@color/blacktext"
-            android:textSize="20dp"
-            />
-
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="300dp"
 
         android:id="@+id/Blocked"
         >

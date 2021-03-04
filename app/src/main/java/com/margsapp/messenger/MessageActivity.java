@@ -144,7 +144,7 @@ public class MessageActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MessageActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                finish();
 
                 if (mInterstitialAd != null) {
                     mInterstitialAd.show(MessageActivity.this);
@@ -791,7 +791,7 @@ public class MessageActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
 
-                        startActivity(new Intent(MessageActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
                         Block();
 
 
@@ -823,6 +823,7 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                     chatref.child("friends").setValue("Blocked");
+                startActivity(new Intent(MessageActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
             }
 
