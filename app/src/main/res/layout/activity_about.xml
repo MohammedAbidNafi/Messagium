@@ -88,7 +88,7 @@
                 android:layout_marginTop="25sp"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/button"
-                android:textColor="@color/true_black_white"/>
+                android:textColor="#fff"/>
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
@@ -121,7 +121,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/button"
-        android:text="Test Authentication"
+        android:text="Save Authentication"
         android:textColor="#fff"
         app:layout_constraintTop_toBottomOf="@+id/authenticate_card" />
 

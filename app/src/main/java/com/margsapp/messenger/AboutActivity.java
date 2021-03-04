@@ -61,7 +61,7 @@ public class AboutActivity extends AppCompatActivity {
 
     AppCompatButton test_btn;
 
-    public String Authentication = "";
+    public String Authentication = "0";
     boolean switchAuthentication;
 
 

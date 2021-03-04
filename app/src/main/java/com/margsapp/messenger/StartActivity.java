@@ -124,14 +124,14 @@ public class StartActivity extends AppCompatActivity {
 
             biometricPrompt.authenticate(promptInfo);
 
-        }
-
-        if (bio.equals("0")) {
-            Toast.makeText(StartActivity.this, "Biometric would not be asked", Toast.LENGTH_SHORT).show();
+        }else {
             Intent intent = new Intent(StartActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }
+
+
+
 
 
 
