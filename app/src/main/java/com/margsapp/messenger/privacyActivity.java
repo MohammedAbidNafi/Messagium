@@ -28,7 +28,7 @@ public class privacyActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    WebView t_c;
+    WebView privacyWeb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +37,8 @@ public class privacyActivity extends AppCompatActivity {
 
         agree = findViewById(R.id.agree);
 
-        t_c = findViewById(R.id.t_cpage);
-        t_c.loadUrl("https://margsglobal.weebly.com/messenger-privacy-policy.html");
+        privacyWeb = findViewById(R.id.privacy_page);
+        privacyWeb.loadUrl("https://margsglobal.weebly.com/messenger-privacy-policy.html");
 
 
 
