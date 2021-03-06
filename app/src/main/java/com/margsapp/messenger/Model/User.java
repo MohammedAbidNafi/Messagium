@@ -8,12 +8,8 @@ public class User {
     private String status;
     private String DT;
 
-    private String biometric;
-
     private String joined_on;
-
-
-    public User(String id, String username, String imageUrl, String status, String DT, String joined_on,String biometric)
+    public User(String id, String username, String imageUrl, String status, String DT, String joined_on)
     {
         this.id = id;
         this.username = username;
@@ -21,21 +17,12 @@ public class User {
         this.status = status;
         this.DT = DT;
         this.joined_on = joined_on;
-        this.biometric = biometric;
 
     }
 
     public User()
     {
 
-    }
-
-    public String getBiometric() {
-        return biometric;
-    }
-
-    public void setBiometric(String biometric) {
-        this.biometric = biometric;
     }
 
     public String getJoined_on() {

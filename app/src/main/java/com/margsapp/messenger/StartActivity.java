@@ -1,6 +1,7 @@
 package com.margsapp.messenger;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.biometric.BiometricManager;
@@ -24,6 +25,8 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,8 +34,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
+
 
 import java.util.concurrent.Executor;
 
@@ -44,12 +49,10 @@ public class StartActivity extends AppCompatActivity {
     private static final String TAG = "StartActivity";
 
     AppCompatButton login,register;
-    
+
     FirebaseUser firebaseUser;
 
     private InterstitialAd mInterstitialAd;
-
-
 
 
 
@@ -60,7 +63,6 @@ public class StartActivity extends AppCompatActivity {
 
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
 
         if (firebaseUser != null) {
             SharedPreferences sharedPreferences = getSharedPreferences("Authentication", 0);
@@ -143,6 +145,7 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -166,6 +169,8 @@ public class StartActivity extends AppCompatActivity {
                 mInterstitialAd = null;
             }
         });
+
+
 
         login = findViewById(R.id.login);
         register = findViewById(R.id.register);

@@ -315,17 +315,23 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Chatlist chatlist = snapshot.getValue(Chatlist.class);
 
+                    if(snapshot.exists()){
+                        if(!chatlist.getFriends().equals("Blocked")){
+                            Intent intent = new Intent(mContext, MessageActivity.class);
+                            intent.putExtra("userid", userid);
+                            mContext.startActivity(intent);
 
-                    if(!chatlist.getFriends().equals("Blocked")){
+                        }
+                        if (chatlist.getFriends().equals("Blocked")) {
+                            Toast.makeText(mContext, "You have blocked this user.", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }else if(!snapshot.exists()){
                         Intent intent = new Intent(mContext, MessageActivity.class);
                         intent.putExtra("userid", userid);
                         mContext.startActivity(intent);
-
                     }
-                    if (chatlist.getFriends().equals("Blocked")) {
-                        Toast.makeText(mContext, "You have blocked this user.", Toast.LENGTH_SHORT).show();
 
-                    }
 
 
                     }

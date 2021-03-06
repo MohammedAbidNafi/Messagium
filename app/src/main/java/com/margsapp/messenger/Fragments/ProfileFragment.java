@@ -50,6 +50,7 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 
@@ -207,15 +208,18 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == IMAGE_REQUEST && resultCode == RESULT_OK
-        && data != null && data.getData() !=null){
-            imageUri = data.getData();
+        if(resultCode != RESULT_CANCELED){
+            if(requestCode == IMAGE_REQUEST && resultCode == RESULT_OK
+                    && data != null && data.getData() !=null){
+                imageUri = data.getData();
 
-            if(uploadTask != null && uploadTask.isInProgress()){
-                Toast.makeText(getContext(),"Upload in progress", Toast.LENGTH_SHORT).show();
-            }else {
-                uploadImage();
+                if(uploadTask != null && uploadTask.isInProgress()){
+                    Toast.makeText(getContext(),"Upload in progress", Toast.LENGTH_SHORT).show();
+                }else {
+                    uploadImage();
+                }
             }
         }
+
     }
 }

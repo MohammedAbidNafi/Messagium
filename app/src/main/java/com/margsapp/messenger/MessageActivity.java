@@ -272,7 +272,6 @@ public class MessageActivity extends AppCompatActivity {
 
                 if(reply_){
                     ReplyMessage(firebaseUser.getUid(), userid, msg, timestamp, isseen, Reply);
-
                 }
                 if(!reply_){
                     sendMessage(firebaseUser.getUid(),userid,msg, timestamp,isseen);
@@ -594,12 +593,15 @@ public class MessageActivity extends AppCompatActivity {
                     chatRefReceiver.child("id").setValue(firebaseUser.getUid());
                     chatRefReceiver.child("friends").setValue("Requested");
 
+                }else if(snapshot.exists()){
+                    assert chatlist != null;
+                    if(chatlist.getFriends().equals("Rejected")){
+                        chatRefReceiver.child("id").setValue(firebaseUser.getUid());
+                        chatRefReceiver.child("friends").setValue("Requested");
+                    }
                 }
 
-                if(chatlist.getFriends().equals("Rejected")){
-                    chatRefReceiver.child("id").setValue(firebaseUser.getUid());
-                    chatRefReceiver.child("friends").setValue("Requested");
-                }
+
 
             }
 
@@ -648,45 +650,46 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Chatlist chatlist = snapshot.getValue(Chatlist.class);
                 assert chatlist != null;
-                if(!chatlist.getFriends().equals("Blocked")){
-                    DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
-                    Query query = tokens.orderByKey().equalTo(receiver);
-                    query.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                                Token token = snapshot1.getValue(Token.class);
-                                Data data = new Data(firebaseUser.getUid(), R.drawable.ic_notification, username+":"+message, "New Message",
-                                        userid);
-                                assert token != null;
-                                Sender sender = new Sender(data, token.getToken());
-                                apiService.sendNotification(sender)
-                                        .enqueue(new Callback<MyResponse>() {
-                                            @Override
-                                            public void onResponse(@NotNull Call<MyResponse> call, @NotNull Response<MyResponse> response) {
-                                                if(response.code() == 200){
-                                                    assert response.body() != null;
-                                                    if(response.body().success != 1){
-                                                        Toast.makeText(MessageActivity.this, "Failed! Error code 0x08060101", Toast.LENGTH_SHORT).show();
+                if(snapshot.exists()){
+                    if(!chatlist.getFriends().equals("Blocked")) {
+                        DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
+                        Query query = tokens.orderByKey().equalTo(receiver);
+                        query.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                    Token token = snapshot1.getValue(Token.class);
+                                    Data data = new Data(firebaseUser.getUid(), R.drawable.ic_notification, username + ":" + message, "New Message",
+                                            userid);
+                                    assert token != null;
+                                    Sender sender = new Sender(data, token.getToken());
+                                    apiService.sendNotification(sender)
+                                            .enqueue(new Callback<MyResponse>() {
+                                                @Override
+                                                public void onResponse(@NotNull Call<MyResponse> call, @NotNull Response<MyResponse> response) {
+                                                    if (response.code() == 200) {
+                                                        assert response.body() != null;
+                                                        if (response.body().success != 1) {
+                                                            Toast.makeText(MessageActivity.this, "Failed! Error code 0x08060101", Toast.LENGTH_SHORT).show();
+                                                        }
                                                     }
                                                 }
-                                            }
 
-                                            @Override
-                                            public void onFailure(@NotNull Call<MyResponse> call, @NotNull Throwable t) {
+                                                @Override
+                                                public void onFailure(@NotNull Call<MyResponse> call, @NotNull Throwable t) {
 
-                                            }
-                                        });
+                                                }
+                                            });
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
-                        }
-                    });
-                }else {
-                    //Do nothing;
+                            }
+                        });
+                    }
+
                 }
             }
 

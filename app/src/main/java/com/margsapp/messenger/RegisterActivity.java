@@ -1,12 +1,17 @@
 package com.margsapp.messenger;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -87,7 +92,6 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mAdView = findViewById(R.id.adView);
-
         mAdView.loadAd(adRequest);
 
         username = findViewById(R.id.username);
@@ -96,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.register);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 String txt_username = Objects.requireNonNull(username.getText()).toString();
@@ -106,20 +111,49 @@ public class RegisterActivity extends AppCompatActivity {
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yy");
                 String timestamp = simpleDateFormat.format(calendar.getTime());
 
-                if (TextUtils.isEmpty(txt_username) || TextUtils.isEmpty(txt_password) || TextUtils.isEmpty(txt_email)) {
-                    Toast.makeText(RegisterActivity.this, "Fill all the details error code 0x08020102", Toast.LENGTH_SHORT).show();
+                ConnectivityManager manager =(ConnectivityManager) getApplicationContext()
+                        .getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo activeNetwork = manager.getActiveNetworkInfo();
+                if (null != activeNetwork) {
+                    if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI){
+                        //we have WIFI
+                        if (TextUtils.isEmpty(txt_username) || TextUtils.isEmpty(txt_password) || TextUtils.isEmpty(txt_email)) {
+                            Toast.makeText(RegisterActivity.this, "Fill all the details error code 0x08020102", Toast.LENGTH_SHORT).show();
 
-                } else if (txt_password.length() < 5) {
-                    Toast.makeText(RegisterActivity.this, "Password must be atleast 5 charecters error code 0x08020103", Toast.LENGTH_SHORT).show();
-                } else {
-                    register(txt_username, txt_email, txt_password,timestamp);
+                        } else if (txt_password.length() < 5) {
+                            Toast.makeText(RegisterActivity.this, "Password must be atleast 5 charecters error code 0x08020103", Toast.LENGTH_SHORT).show();
+                        } else {
+                            register(txt_username, txt_email, txt_password,timestamp);
+                        }
+
+                        if (mInterstitialAd != null) {
+                            mInterstitialAd.show(RegisterActivity.this);
+                        } else {
+                            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                        }
+                    }
+                    if(activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE){
+                        //we have cellular data
+                        if (TextUtils.isEmpty(txt_username) || TextUtils.isEmpty(txt_password) || TextUtils.isEmpty(txt_email)) {
+                            Toast.makeText(RegisterActivity.this, "Fill all the details error code 0x08020102", Toast.LENGTH_SHORT).show();
+
+                        } else if (txt_password.length() < 5) {
+                            Toast.makeText(RegisterActivity.this, "Password must be atleast 5 charecters error code 0x08020103", Toast.LENGTH_SHORT).show();
+                        } else {
+                            register(txt_username, txt_email, txt_password,timestamp);
+                        }
+
+                        if (mInterstitialAd != null) {
+                            mInterstitialAd.show(RegisterActivity.this);
+                        } else {
+                            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                        }
+                    }
+                } else{
+                    Toast.makeText(RegisterActivity.this,"Opps! Looks like theres no internet connection.",Toast.LENGTH_SHORT).show();
                 }
 
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(RegisterActivity.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
+
             }
         });
     }
@@ -139,7 +173,6 @@ public class RegisterActivity extends AppCompatActivity {
                         hashMap.put("id", userid);
                         hashMap.put("username", txt_username);
                         hashMap.put("imageURL", "default");
-                        hashMap.put("typingto", "noone");
                         hashMap.put("joined_on",timestamp);
 
                         reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {

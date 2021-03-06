@@ -71,7 +71,7 @@ public class privacyActivity extends AppCompatActivity {
         agree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(privacyActivity.this, edit_profile.class);
+                Intent intent = new Intent(privacyActivity.this, setupActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 if (mInterstitialAd != null) {

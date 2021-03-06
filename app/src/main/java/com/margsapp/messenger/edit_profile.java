@@ -213,24 +213,6 @@ public class edit_profile extends AppCompatActivity {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
-        /*
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String txt_status = status_txt.getText().toString();
-
-                if (TextUtils.isEmpty(txt_status)) {
-                    Toast.makeText(edit_profile.this, "Dont leave the field empty. Error code 0x08070101", Toast.LENGTH_SHORT).show();
-                } else {
-                    save(txt_status);
-
-                }
-            }
-        });
-
-         */
-
-
 
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
