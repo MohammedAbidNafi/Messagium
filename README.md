@@ -5,7 +5,7 @@ Hello guys this is my app so I am actually a beginner developer this is a huge p
 
 If your downloading this make sure you will connect this project to your firebase account and enter the API key in API service for notifications.
 
-<img src="images/1 (1).png" width="250" height="500">
-<img src="images/1 (2).png" width="250" height="500">
+<img src="images/1 (1).png" width="250" height="500"> <img src="images/1 (2).png" width="250" height="500">
+
 <img src="images/InkedScreenshot_20210125_135338_LI.jpg" width="250" height="500">
 
