@@ -50,6 +50,8 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.margsapp.messenger.Model.User;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -76,9 +78,11 @@ public class edit_profile extends AppCompatActivity {
     DatabaseReference reference;
 
     StorageReference storageReference;
-    private static int IMAGE_REQUEST = 1;
+    private static int GALLERY_PICK = 1;
     private Uri imageUri;
     private StorageTask uploadTask;
+
+    private ProgressDialog loadingBar;
 
     private AdView mAdView;
     private InterstitialAd mInterstitialAd;
@@ -211,7 +215,7 @@ public class edit_profile extends AppCompatActivity {
 
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        storageReference = FirebaseStorage.getInstance().getReference("uploads");
+        storageReference = FirebaseStorage.getInstance().getReference("ProfileImages/"+firebaseUser.getUid());
 
 
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
@@ -245,6 +249,7 @@ public class edit_profile extends AppCompatActivity {
 
             }
         });
+        loadingBar = new ProgressDialog(this);
 
         profile_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -277,20 +282,19 @@ public class edit_profile extends AppCompatActivity {
 
     }
 
+
+
     private void openImage() {
 
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, IMAGE_REQUEST);
+        Intent galleryIntent = new Intent();
+        galleryIntent.setType("image/*");
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(galleryIntent, GALLERY_PICK);
 
     }
+    /*
 
-    private String getFileExtension(Uri uri){
-        ContentResolver contentResolver = edit_profile.this.getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-    }
+
 
     private void uploadImage(){
 
@@ -345,21 +349,86 @@ public class edit_profile extends AppCompatActivity {
 
     }
 
+     */
+
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == IMAGE_REQUEST && resultCode == RESULT_OK
-                && data != null && data.getData() !=null){
-            imageUri = data.getData();
 
-            if(uploadTask != null && uploadTask.isInProgress()){
-                Toast.makeText(edit_profile.this,"Upload in progress", Toast.LENGTH_SHORT).show();
-            }else {
-                uploadImage();
+        if (requestCode == GALLERY_PICK && resultCode == RESULT_OK && data != null) {
+            imageUri = data.getData();
+            CropImage.activity(imageUri)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(1, 1)
+                    .start(this);
+
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            if (resultCode == RESULT_OK) {
+                loadingBar.setTitle("Profile Image");
+                loadingBar.setMessage("Please wait, while we updating your profile image...");
+                loadingBar.show();
+                loadingBar.setCanceledOnTouchOutside(false);
+                Uri resultUri = result.getUri();
+
+                StorageReference filepath = storageReference.child(System.currentTimeMillis()
+                        + "." + getFileExtension(resultUri));
+
+
+                uploadTask = filepath.putFile(resultUri);
+                uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful()) {
+                            throw task.getException();
+                        }
+                        return filepath.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(edit_profile.this, "Image has been stored", Toast.LENGTH_SHORT).show();
+
+                            Uri downloadUri = task.getResult();
+                            assert downloadUri != null;
+                            String mUri = downloadUri.toString();
+
+
+                            reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+                            HashMap<String, Object> map = new HashMap<>();
+                            map.put("imageURL", mUri);
+                            reference.updateChildren(map);
+
+                            loadingBar.dismiss();
+
+                        }
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Error Occured: Image can not be cropped. Try Again.", Toast.LENGTH_SHORT).show();
+                loadingBar.dismiss();
             }
         }
     }
+
+    private String getFileExtension(Uri uri){
+        ContentResolver contentResolver = edit_profile.this.getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+
+
+
+
 
     private void status(String status){
         FirebaseUser firebaseUserStatus = FirebaseAuth.getInstance().getCurrentUser();

@@ -15,8 +15,8 @@ android {
         applicationId "com.margsapp.messenger"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 10
-        versionName "2.0"
+        versionCode 11
+        versionName "2.1.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -43,6 +43,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:20.0.3'
     implementation 'com.google.firebase:firebase-database:19.6.0'
     implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
