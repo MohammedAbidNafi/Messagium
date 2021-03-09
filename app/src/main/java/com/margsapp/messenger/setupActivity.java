@@ -235,11 +235,12 @@ public class setupActivity extends AppCompatActivity {
 
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
-            if (requestCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 loadingBar.setTitle("Profile Image");
-                loadingBar.setMessage("Please wait, while we updating your profile image...");
+                loadingBar.setMessage("Please wait, while we update your profile picture...");
                 loadingBar.show();
                 loadingBar.setCanceledOnTouchOutside(false);
+                assert result != null;
                 Uri resultUri = result.getUri();
 
                 StorageReference filepath = storageReference.child(System.currentTimeMillis()
@@ -258,14 +259,16 @@ public class setupActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(setupActivity.this, "Image has been stored", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(setupActivity.this, "Image has been stored in our server", Toast.LENGTH_SHORT).show();
 
                             Uri downloadUri = task.getResult();
+                            assert downloadUri != null;
+                            String mUri = downloadUri.toString();
 
 
                             reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
                             HashMap<String, Object> map = new HashMap<>();
-                            map.put("imageURL", downloadUri.toString());
+                            map.put("imageURL", mUri);
                             reference.updateChildren(map);
 
                             loadingBar.dismiss();
@@ -274,7 +277,7 @@ public class setupActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                Toast.makeText(this, "Error Occured: Image can not be cropped. Try Again.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Profile Image update cancelled", Toast.LENGTH_SHORT).show();
                 loadingBar.dismiss();
             }
         }

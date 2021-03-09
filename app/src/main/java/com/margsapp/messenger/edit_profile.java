@@ -373,9 +373,10 @@ public class edit_profile extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
                 loadingBar.setTitle("Profile Image");
-                loadingBar.setMessage("Please wait, while we updating your profile image...");
+                loadingBar.setMessage("Please wait, while we update your profile picture...");
                 loadingBar.show();
                 loadingBar.setCanceledOnTouchOutside(false);
+                assert result != null;
                 Uri resultUri = result.getUri();
 
                 StorageReference filepath = storageReference.child(System.currentTimeMillis()
@@ -395,7 +396,7 @@ public class edit_profile extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(edit_profile.this, "Image has been stored", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(edit_profile.this, "Image has been stored in our servers", Toast.LENGTH_SHORT).show();
 
                             Uri downloadUri = task.getResult();
                             assert downloadUri != null;
@@ -413,7 +414,7 @@ public class edit_profile extends AppCompatActivity {
                     }
                 });
             } else {
-                Toast.makeText(this, "Error Occured: Image can not be cropped. Try Again.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Profile Picture updation is cancelled", Toast.LENGTH_SHORT).show();
                 loadingBar.dismiss();
             }
         }
