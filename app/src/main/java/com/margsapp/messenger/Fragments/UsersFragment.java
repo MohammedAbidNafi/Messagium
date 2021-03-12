@@ -115,7 +115,7 @@ public class UsersFragment extends Fragment {
     private void readUsers() {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (search_user.getText().toString().equals("")) {
