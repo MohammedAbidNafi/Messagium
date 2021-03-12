@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -162,11 +164,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-
-
                         UnBlock(user.getId());
-
-
                     }
                 });
 
@@ -186,8 +184,20 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         });
 
-        holder.itemView.setOnClickListener(v -> {
+        /*/holder.itemView.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
 
+
+                return false;
+            }
+        });
+
+         */
+
+        holder.itemView.setOnClickListener(v -> {
+            holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.onAdapClick));
             String userid = user.getId();
             OnMessage(userid);
         });

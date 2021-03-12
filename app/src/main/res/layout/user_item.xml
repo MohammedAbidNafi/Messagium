@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="88dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="10dp"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
     android:background="@color/background"
    >
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_centerVertical="true"
         android:id="@+id/profile_image"
         android:src="@mipmap/ic_launcher"/>
 
@@ -20,7 +23,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="25dp"
 
-        android:visibility="gone"
+        android:visibility="invisible"
         android:id="@+id/unread"/>
 
 
@@ -72,6 +75,7 @@
         android:textStyle="bold"
         android:layout_toEndOf="@id/profile_image"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
         android:textSize="18sp"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -80,10 +84,10 @@
         app:civ_border_color="#00D323"
         app:civ_border_width="10dp"
         android:id="@+id/img_on"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:src="@mipmap/ic_launcher"
         android:layout_below="@+id/username"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="22dp"
         android:layout_marginStart="-15sp"
         android:layout_toEndOf="@id/profile_image"
         />
@@ -94,10 +98,10 @@
         app:civ_border_color="#BCBCBC"
         app:civ_border_width="10dp"
         android:id="@+id/img_off"
-        android:visibility="gone"
+        android:visibility="visible"
         android:src="@mipmap/ic_launcher"
         android:layout_below="@+id/username"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="22dp"
         android:layout_marginStart="-15sp"
         android:layout_toEndOf="@id/profile_image"
         />
@@ -106,9 +110,9 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#C6C6C6"
-        android:layout_below="@id/username"
-        android:layout_marginTop="45dp"
-        android:layout_marginLeft="50dp"/>
+
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="50dp"/>
 
 
     <TextView

@@ -21,6 +21,7 @@
 
     <color name="editText">#fff</color>
 
+    <color name="onAdapClick">#434343</color>
     <color name="card_back">#434343</color>
     <color name="diffrentBack">#000000</color>
     <color name="othertext">#3C3C3E</color>
