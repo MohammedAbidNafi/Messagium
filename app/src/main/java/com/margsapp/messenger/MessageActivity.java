@@ -191,12 +191,7 @@ public class MessageActivity extends AppCompatActivity {
 
 
 
-        btn_accept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+       
 
         SwipeController swipeController = new SwipeController(this, new ISwipeControllerActions() {
             @Override

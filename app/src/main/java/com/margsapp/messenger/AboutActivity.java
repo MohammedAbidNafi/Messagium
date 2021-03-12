@@ -59,7 +59,7 @@ public class AboutActivity extends AppCompatActivity {
     public String appString;
     SwitchCompat Swicth_authenticate;
 
-    AppCompatButton test_btn;
+
 
     public String Authentication = "0";
     boolean switchAuthentication;
@@ -82,34 +82,34 @@ public class AboutActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AboutActivity.this, edit_profile.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        checkupdate = findViewById(R.id.check_update);
-        Swicth_authenticate = findViewById(R.id.Swtich_authentication);
-        test_btn = findViewById(R.id.test_btn);
-
-        test_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 if(Swicth_authenticate.isChecked()) {
                     Biometric();
-                }else if(!Swicth_authenticate.isChecked()) {
+                } else if(!Swicth_authenticate.isChecked()) {
                     SharedPreferences sharedPreferences = getSharedPreferences("Authentication",0);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(TEXT, "0");
                     editor.putBoolean(SWITCH1, Swicth_authenticate.isChecked());
                     editor.apply();
 
+                    if (mInterstitialAd != null) {
+                        mInterstitialAd.show(AboutActivity.this);
+                    } else {
+                        Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                    }
 
-                    Toast.makeText(AboutActivity.this, "Biometric is off",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(AboutActivity.this, edit_profile.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+
                 }
+
             }
         });
+
+        checkupdate = findViewById(R.id.check_update);
+        Swicth_authenticate = findViewById(R.id.Swtich_authentication);
+
+
 
 
 
@@ -137,20 +137,14 @@ public class AboutActivity extends AppCompatActivity {
             }
         });
 
+        mAdView = findViewById(R.id.adView);
+
+        mAdView.loadAd(adRequest);
+
         loadData();
         updateViews();
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(AboutActivity.this, edit_profile.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(AboutActivity.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
-            }
-        });
+
 
         app_version = findViewById(R.id.app_version);
 
@@ -226,7 +220,7 @@ public class AboutActivity extends AppCompatActivity {
 
     private void Biometric(){
         androidx.biometric.BiometricManager biometricManager = androidx.biometric.BiometricManager.from(this);
-        switch (biometricManager.canAuthenticate()) {
+        switch (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK | BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
 
 
             // this means we can use biometric sensor
@@ -237,7 +231,17 @@ public class AboutActivity extends AppCompatActivity {
                 editor.putBoolean(SWITCH1, Swicth_authenticate.isChecked());
                 editor.apply();
 
-                Toast.makeText(this, "Succesfully Activated", Toast.LENGTH_SHORT).show();
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(AboutActivity.this);
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                }
+
+                Intent intent = new Intent(AboutActivity.this, edit_profile.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+
                 break;
 
             // this means that the device doesn't have fingerprint sensor
@@ -270,11 +274,28 @@ public class AboutActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(AboutActivity.this, edit_profile.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
+
+        if(Swicth_authenticate.isChecked()) {
+            Biometric();
+        } else if(!Swicth_authenticate.isChecked()) {
+            SharedPreferences sharedPreferences = getSharedPreferences("Authentication",0);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(TEXT, "0");
+            editor.putBoolean(SWITCH1, Swicth_authenticate.isChecked());
+            editor.apply();
+
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(AboutActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
+
+            Intent intent = new Intent(AboutActivity.this, edit_profile.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+
+
+        }
 
     }
 

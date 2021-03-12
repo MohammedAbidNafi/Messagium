@@ -2,6 +2,7 @@ package com.margsapp.messenger;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.biometric.BiometricManager;
@@ -10,7 +11,9 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +44,8 @@ import com.margsapp.messenger.Model.User;
 
 import java.util.concurrent.Executor;
 
+import static androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG;
+import static androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL;
 import static com.margsapp.messenger.AboutActivity.SWITCH1;
 import static com.margsapp.messenger.AboutActivity.TEXT;
 
@@ -53,6 +58,7 @@ public class StartActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
 
     private InterstitialAd mInterstitialAd;
+
 
 
 
@@ -73,7 +79,7 @@ public class StartActivity extends AppCompatActivity {
         if (bio.equals("1")) {
 
             BiometricManager biometricManager = androidx.biometric.BiometricManager.from(this);
-            switch (biometricManager.canAuthenticate()) {
+            switch (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK | DEVICE_CREDENTIAL)) {
 
                 // this means we can use biometric sensor
                 case BiometricManager.BIOMETRIC_SUCCESS:
@@ -92,6 +98,14 @@ public class StartActivity extends AppCompatActivity {
 
                 // this means that the device doesn't contain your fingerprint
                 case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
+
+                    break;
+                case BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED:
+                    break;
+                case BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED:
+
+                    break;
+                case BiometricManager.BIOMETRIC_STATUS_UNKNOWN:
 
                     break;
             }
@@ -122,7 +136,8 @@ public class StartActivity extends AppCompatActivity {
             // creating a variable for our promptInfo
             // BIOMETRIC DIALOG
             final BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder().setTitle("Authentication")
-                    .setDescription("Use your fingerprint to login ").setNegativeButtonText("Cancel").build();
+                    .setDescription("Use your fingerprint to login ")
+                    .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK|DEVICE_CREDENTIAL).build();
 
             biometricPrompt.authenticate(promptInfo);
 

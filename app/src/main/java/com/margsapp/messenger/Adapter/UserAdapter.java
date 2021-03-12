@@ -17,8 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.facebook.ads.NativeAd;
-import com.facebook.ads.NativeAdsManager;
+
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
