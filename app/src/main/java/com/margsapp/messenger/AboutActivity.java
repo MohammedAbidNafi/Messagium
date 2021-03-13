@@ -175,7 +175,7 @@ public class AboutActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
-                                    Uri uri = Uri.parse("http://www.google.com");
+                                    Uri uri = Uri.parse("https://margsweb.wixsite.com/messenger");
                                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                                     startActivity(intent);
                                 }
@@ -259,7 +259,7 @@ public class AboutActivity extends AppCompatActivity {
             // this means that the device doesn't contain your fingerprint
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
                 Swicth_authenticate.setChecked(false);
-                Toast.makeText(this, "Error code 0x08080103 Theres no fingerprint saved.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error code 0x08080103 There's no password for this device.", Toast.LENGTH_SHORT).show();
                 break;
             case BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED:
                 break;

@@ -2,6 +2,7 @@ package com.margsapp.messenger.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.margsapp.messenger.MainActivity;
 import com.margsapp.messenger.MessageActivity;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.R;
 
+import java.text.BreakIterator;
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
@@ -95,6 +98,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             }
 
         }
+
+
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -108,10 +114,19 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         holder.timestamp.setText(chat.getTimestamp());
 
 
-
-
         if(chat.getReply().equals("true")){
-            holder.reply_txt.setText(chat.getReplytext());
+
+            if(chat.getReceiver().equals(chat.getReplyto())){
+                holder.reply_txt_them.setVisibility(View.INVISIBLE);
+                holder.reply_txt_us.setVisibility(View.VISIBLE);
+                holder.reply_txt_us.setText(chat.getReplytext());
+
+            }else {
+                holder.reply_txt_us.setVisibility(View.INVISIBLE);
+                holder.reply_txt_them.setVisibility(View.VISIBLE);
+                holder.reply_txt_them.setText(chat.getReplytext());
+            }
+
 
         }
 
@@ -149,7 +164,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         public TextView txt_seen;
         public TextView timestamp;
 
-        public TextView reply_txt;
+        public TextView reply_txt_them;
+        public TextView reply_txt_us;
+
         public ViewHolder(View view){
             super(view);
 
@@ -158,7 +175,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             txt_seen = itemView.findViewById(R.id.txt_seen);
             timestamp = itemView.findViewById(R.id.timestamp);
 
-            reply_txt = itemView.findViewById(R.id.replytextview);
+            reply_txt_them = itemView.findViewById(R.id.replytextthem);
+            reply_txt_us = itemView.findViewById(R.id.replytextus);
         }
 
 

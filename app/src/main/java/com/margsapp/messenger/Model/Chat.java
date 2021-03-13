@@ -10,8 +10,9 @@ public class Chat {
 
     private String replytext;
     private String reply;
+    private String replyto;
 
-    public Chat(String sender, String receiver, String message, String isseen, String timestamp, String replytext, String reply) {
+    public Chat(String sender, String receiver, String message, String isseen, String timestamp, String replytext, String reply,String replyto) {
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
@@ -19,10 +20,19 @@ public class Chat {
         this.timestamp = timestamp;
         this.replytext = replytext;
         this.reply = reply;
+        this.replyto = replyto;
 
     }
 
     public Chat() {
+    }
+
+    public String getReplyto() {
+        return replyto;
+    }
+
+    public void setReplyto(String replyto) {
+        this.replyto = replyto;
     }
 
     public String getReply() {

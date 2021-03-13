@@ -9,21 +9,33 @@
         android:layout_height="40sp"
         android:src="@drawable/user"
         android:id="@+id/profile_image"
-        android:layout_below="@+id/replytextview"
+        android:layout_below="@+id/replytextus"
         android:layout_marginTop="30dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/replytextview"
+        android:id="@+id/replytextthem"
         android:text="Hello how are you"
         android:layout_alignParentEnd="true"
         android:padding="6sp"
         android:textColor="@color/greytext"
-        android:background="@drawable/reply_left"
+        android:background="@drawable/reply_left_them"
+
+        android:visibility="invisible"
+       />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/replytextus"
+        android:text="Hello how are you"
+        android:layout_alignParentEnd="true"
+        android:padding="6sp"
+        android:textColor="@color/greytext"
+        android:background="@drawable/reply_left_us"
 
         android:visibility="visible"
-       />
+        />
 
     <ImageView
         android:layout_width="35dp"
@@ -32,7 +44,7 @@
 
         android:layout_marginTop="15sp"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/replytextview"
+        android:layout_below="@+id/replytextus"
         android:src="@drawable/curved_line_left"
         />
 
@@ -49,7 +61,7 @@
         android:padding="8dp"
         android:id="@+id/show_message"
         android:textSize="18dp"
-        android:layout_below="@id/replytextview"
+        android:layout_below="@id/replytextus"
         android:layout_marginTop="30dp"
 
         android:background="@drawable/background_left"/>

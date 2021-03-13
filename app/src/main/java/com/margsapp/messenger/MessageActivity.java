@@ -95,7 +95,7 @@ public class MessageActivity extends AppCompatActivity {
 
     APIService apiService;
 
-    String userid;
+    String userid,ReplyId;
 
     ConstraintLayout reply, editor;
     RelativeLayout warning;
@@ -196,11 +196,7 @@ public class MessageActivity extends AppCompatActivity {
         SwipeController swipeController = new SwipeController(this, new ISwipeControllerActions() {
             @Override
             public void onSwipePerformed(int position) {
-
                 onReply(mchat.get(position));
-
-
-
             }
         });
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
@@ -240,10 +236,7 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 btnSend.setVisibility(View.VISIBLE);
-
-
                 checkText();
-
             }
 
             @Override
@@ -265,8 +258,9 @@ public class MessageActivity extends AppCompatActivity {
 
                 String Reply = reply_txt.getText().toString();
 
+
                 if(reply_){
-                    ReplyMessage(firebaseUser.getUid(), userid, msg, timestamp, isseen, Reply);
+                    ReplyMessage(firebaseUser.getUid(), userid, msg, timestamp, isseen, Reply, ReplyId);
                 }
                 if(!reply_){
                     sendMessage(firebaseUser.getUid(),userid,msg, timestamp,isseen);
@@ -413,6 +407,7 @@ public class MessageActivity extends AppCompatActivity {
     private void onReply(Chat getChat) {
 
         reply_txt.setText(getChat.getMessage());
+        ReplyId = getChat.getSender();
         reply.setVisibility(View.VISIBLE);
         text_send.isFocused();
         reply_ = true;
@@ -450,7 +445,7 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
-    private void ReplyMessage(String sender, String receiver, String message, String timestamp, String isseen,String ReplyMessage){
+    private void ReplyMessage(String sender, String receiver, String message, String timestamp, String isseen,String ReplyMessage,String ReplyTo){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
 
@@ -463,6 +458,7 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("timestamp", timestamp);
         hashMap.put("reply", "true");
         hashMap.put("replytext", ReplyMessage);
+        hashMap.put("replyto",ReplyTo);
 
         reference.child("Chats").push().setValue(hashMap);
 
