@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,7 +27,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class LoginAcitivity extends AppCompatActivity {
 
@@ -97,6 +98,8 @@ public class LoginAcitivity extends AppCompatActivity {
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 String txt_email = email.getText().toString();
                 String txt_password = password.getText().toString();
 
@@ -126,5 +129,16 @@ public class LoginAcitivity extends AppCompatActivity {
                 }
             }
         });
+    }/*
+    private void isConnected(View.OnClickListener onClickListener) {
+
+
+        getApplicationContext();
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(CONNECTIVITY_SERVICE);
+
+        NetworkInfo wificon = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo datacon = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
     }
+    */
 }

@@ -13,6 +13,7 @@
         tools:ignore="ScopedStorage" />
 
     <application
+        android:name=".Utils.FireBaseOffline"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher_appicon"
@@ -26,15 +27,15 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Theme.Messenger.Crop" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".SplashActivity"
+            android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".AboutActivity" />
-        <activity android:name=".CustomizeActivity" />
+        <activity android:name=".CustomiseActivity" />
         <activity android:name=".Dp_viewActivity" />
         <activity android:name=".Friends.Blocked" />
         <activity android:name=".Friends.Accepted" />

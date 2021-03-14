@@ -186,7 +186,7 @@ public class edit_profile extends AppCompatActivity {
         Customize_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(edit_profile.this, CustomizeActivity.class);
+                Intent intent = new Intent(edit_profile.this, CustomiseActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 if (mInterstitialAd != null) {
@@ -219,6 +219,7 @@ public class edit_profile extends AppCompatActivity {
 
 
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        reference.keepSynced(true);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

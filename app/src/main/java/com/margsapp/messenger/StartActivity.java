@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
@@ -48,6 +49,7 @@ import static androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRON
 import static androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL;
 import static com.margsapp.messenger.AboutActivity.SWITCH1;
 import static com.margsapp.messenger.AboutActivity.TEXT;
+import static com.margsapp.messenger.CustomiseActivity.THEME;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -68,6 +70,7 @@ public class StartActivity extends AppCompatActivity {
         super.onStart();
 
 
+
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (firebaseUser != null) {
@@ -75,84 +78,79 @@ public class StartActivity extends AppCompatActivity {
             String bio = sharedPreferences.getString(TEXT, "");
 
 
+            if (bio.equals("1")) {
 
-        if (bio.equals("1")) {
+                BiometricManager biometricManager = androidx.biometric.BiometricManager.from(this);
+                switch (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK | DEVICE_CREDENTIAL)) {
 
-            BiometricManager biometricManager = androidx.biometric.BiometricManager.from(this);
-            switch (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK | DEVICE_CREDENTIAL)) {
+                    // this means we can use biometric sensor
+                    case BiometricManager.BIOMETRIC_SUCCESS:
 
-                // this means we can use biometric sensor
-                case BiometricManager.BIOMETRIC_SUCCESS:
+                        break;
 
-                    break;
+                    // this means that the device doesn't have fingerprint sensor
+                    case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
 
-                // this means that the device doesn't have fingerprint sensor
-                case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
+                        break;
 
-                    break;
+                    // this means that biometric sensor is not available
+                    case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
 
-                // this means that biometric sensor is not available
-                case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
+                        break;
 
-                    break;
+                    // this means that the device doesn't contain your fingerprint
+                    case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
 
-                // this means that the device doesn't contain your fingerprint
-                case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
+                        break;
+                    case BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED:
+                        break;
+                    case BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED:
 
-                    break;
-                case BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED:
-                    break;
-                case BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED:
+                        break;
+                    case BiometricManager.BIOMETRIC_STATUS_UNKNOWN:
 
-                    break;
-                case BiometricManager.BIOMETRIC_STATUS_UNKNOWN:
+                        break;
+                }
+                // creating a variable for our Executor
+                Executor executor = ContextCompat.getMainExecutor(this);
+                // this will give us result of AUTHENTICATION
+                final BiometricPrompt biometricPrompt = new BiometricPrompt(StartActivity.this, executor, new BiometricPrompt.AuthenticationCallback() {
+                    @Override
+                    public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                        super.onAuthenticationError(errorCode, errString);
+                    }
 
-                    break;
+                    // THIS METHOD IS CALLED WHEN AUTHENTICATION IS SUCCESS
+                    @Override
+                    public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                        super.onAuthenticationSucceeded(result);
+                        Toast.makeText(getApplicationContext(), "Login Success.", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+                        super.onAuthenticationFailed();
+                    }
+                });
+                // creating a variable for our promptInfo
+                // BIOMETRIC DIALOG
+                final BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder().setTitle("Authentication")
+                        .setDescription("Use your fingerprint to login ")
+                        .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK | DEVICE_CREDENTIAL).build();
+
+                biometricPrompt.authenticate(promptInfo);
+
+            } else {
+                Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
-            // creating a variable for our Executor
-            Executor executor = ContextCompat.getMainExecutor(this);
-            // this will give us result of AUTHENTICATION
-            final BiometricPrompt biometricPrompt = new BiometricPrompt(StartActivity.this, executor, new BiometricPrompt.AuthenticationCallback() {
-                @Override
-                public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
-                    super.onAuthenticationError(errorCode, errString);
-                }
 
-                // THIS METHOD IS CALLED WHEN AUTHENTICATION IS SUCCESS
-                @Override
-                public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
-                    super.onAuthenticationSucceeded(result);
-                    Toast.makeText(getApplicationContext(), "Login Success.", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(StartActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
 
-                @Override
-                public void onAuthenticationFailed() {
-                    super.onAuthenticationFailed();
-                }
-            });
-            // creating a variable for our promptInfo
-            // BIOMETRIC DIALOG
-            final BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder().setTitle("Authentication")
-                    .setDescription("Use your fingerprint to login ")
-                    .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK|DEVICE_CREDENTIAL).build();
-
-            biometricPrompt.authenticate(promptInfo);
-
-        }else {
-            Intent intent = new Intent(StartActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
         }
-
-
-
-
-
-
-    }
     }
 
     @Override

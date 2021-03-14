@@ -281,6 +281,7 @@ public class MessageActivity extends AppCompatActivity {
         DatabaseReference chatRefReceiver = FirebaseDatabase.getInstance().getReference("Chatlist")
                 .child(firebaseUser.getUid())
                 .child(userid);
+
         chatRefReceiver.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -363,6 +364,7 @@ public class MessageActivity extends AppCompatActivity {
 
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
+        databaseReference.keepSynced(true);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -508,6 +510,7 @@ public class MessageActivity extends AppCompatActivity {
         final String msg = message;
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -737,6 +740,7 @@ public class MessageActivity extends AppCompatActivity {
         mchat = new ArrayList<>();
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
+        databaseReference.keepSynced(true);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

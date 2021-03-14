@@ -113,8 +113,10 @@ public class UsersFragment extends Fragment {
     }
 
     private void readUsers() {
+
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.keepSynced(true);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -129,6 +131,7 @@ public class UsersFragment extends Fragment {
                         if (!user.getId().equals(firebaseUser.getUid())) {
                             mUsers.add(user);
                         }
+
                     }
 
                     userAdapter = new UserAdapter(getContext(), mUsers, false, true,false);
