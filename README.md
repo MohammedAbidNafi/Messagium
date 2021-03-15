@@ -1,4 +1,4 @@
-## Messenger
+## Messenger By Margs
 Messenger is an android app to instantly message with the users
 
 Hello guys this is my app so I am actually a beginner developer this is a huge project for me to handle alone So this project uses firebase as its server this is an instant messaging app.
@@ -9,6 +9,19 @@ If your downloading this make sure you will connect this project to your firebas
 
 
 
+## Road Map
+1. Add Group Chat
+2. Improve performence
+3. Ability to send Images
+4. Ability to send voice messages
+5. Audio/Video call
+6. A Good Name for this whole thing
+7. Ability to send location
+8. Ablility to Forward Message 
+9. Share Function
+10. High Compression
+11. End to End Encryption
+12. Ability to Share Contacts
 
 ## Ways to Contribute 
 1. Create an issue to discuss about your idea.(https://github.com/MohammedAbidNafi/MessengerByMargs/issues)
