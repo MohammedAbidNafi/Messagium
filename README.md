@@ -7,13 +7,18 @@ If your downloading this make sure you will connect this project to your firebas
 
 <img src="images/1 (1).png" width="250" height="500"> <img src="images/1 (2).png" width="250" height="500">
 
-## How to Contribute 
-1. Create an issue to discuss about your idea
-2. Fork it (https://github.com/MohammedAbidNafi/MessengerByMargs/fork)
-3. Create your feature branch (`git checkout -b my-new-feature`)
-4. Commit your changes (`git commit -am 'Add some feature'`)
-5. Push to the branch (`git push origin my-new-feature`)
-6. Create a new Pull Request
+
+
+
+## Ways to Contribute 
+1. Create an issue to discuss about your idea.https://github.com/MohammedAbidNafi/MessengerByMargs/issues
+2. Suggest any feature or suggestion.https://github.com/MohammedAbidNafi/MessengerByMargs/issues
+3. Have a discussion in https://github.com/MohammedAbidNafi/MessengerByMargs/discussions
+4. Fork it (https://github.com/MohammedAbidNafi/MessengerByMargs/fork)
+5. Create your feature branch (`git checkout -b my-new-feature`)
+6. Commit your changes (`git commit -am 'Add some feature'`)
+7. Push to the branch (`git push origin my-new-feature`)
+8. Create a new Pull Request
 
 
 ## Apache License 2.0
