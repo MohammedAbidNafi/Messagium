@@ -11,9 +11,9 @@ If your downloading this make sure you will connect this project to your firebas
 
 
 ## Ways to Contribute 
-1. Create an issue to discuss about your idea.https://github.com/MohammedAbidNafi/MessengerByMargs/issues
-2. Suggest any feature or suggestion.https://github.com/MohammedAbidNafi/MessengerByMargs/issues
-3. Have a discussion in https://github.com/MohammedAbidNafi/MessengerByMargs/discussions
+1. Create an issue to discuss about your idea.(https://github.com/MohammedAbidNafi/MessengerByMargs/issues)
+2. Suggest any feature or suggestion.(https://github.com/MohammedAbidNafi/MessengerByMargs/issues)
+3. Have a discussion in (https://github.com/MohammedAbidNafi/MessengerByMargs/discussions)
 4. Fork it (https://github.com/MohammedAbidNafi/MessengerByMargs/fork)
 5. Create your feature branch (`git checkout -b my-new-feature`)
 6. Commit your changes (`git commit -am 'Add some feature'`)
