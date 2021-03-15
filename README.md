@@ -9,7 +9,7 @@ If your downloading this make sure you will connect this project to your firebas
 
 ## How to Contribute 
 1. Create an issue to discuss about your idea
-2. Fork it (https://github.com/SadaqaWorks/Word-By-Word-Quran-Android/fork)
+2. Fork it (https://github.com/MohammedAbidNafi/MessengerByMargs/fork)
 3. Create your feature branch (`git checkout -b my-new-feature`)
 4. Commit your changes (`git commit -am 'Add some feature'`)
 5. Push to the branch (`git push origin my-new-feature`)
