@@ -1,4 +1,4 @@
-# Messenger
+## Messenger
 Messenger is an android app to instantly message with the users
 
 Hello guys this is my app so I am actually a beginner developer this is a huge project for me to handle alone So this project uses firebase as its server this is an instant messaging app.
@@ -7,8 +7,16 @@ If your downloading this make sure you will connect this project to your firebas
 
 <img src="images/1 (1).png" width="250" height="500"> <img src="images/1 (2).png" width="250" height="500">
 
+## How to Contribute 
+1. Create an issue to discuss about your idea
+2. Fork it (https://github.com/SadaqaWorks/Word-By-Word-Quran-Android/fork)
+3. Create your feature branch (`git checkout -b my-new-feature`)
+4. Commit your changes (`git commit -am 'Add some feature'`)
+5. Push to the branch (`git push origin my-new-feature`)
+6. Create a new Pull Request
 
-# Apache License 2.0
+
+## Apache License 2.0
                              
    Apache License
    Version 2.0, January 2004
