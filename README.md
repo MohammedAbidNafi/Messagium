@@ -29,11 +29,14 @@ If your working on this make sure you connect this project to your firebase acco
 1. Create an issue to discuss about your idea.(https://github.com/MohammedAbidNafi/MessengerByMargs/issues)
 2. Suggest any feature or suggestion.(https://github.com/MohammedAbidNafi/MessengerByMargs/issues)
 3. Have a discussion in (https://github.com/MohammedAbidNafi/MessengerByMargs/discussions)
-4. Fork it (https://github.com/MohammedAbidNafi/MessengerByMargs/fork)
-5. Create your feature branch (`git checkout -b my-new-feature`)
-6. Commit your changes (`git commit -am 'Add some feature'`)
-7. Push to the branch (`git push origin my-new-feature`)
-8. Create a new Pull Request
+
+To make changes to code
+
+1. Fork it (https://github.com/MohammedAbidNafi/MessengerByMargs/fork)
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create a new Pull Request
 
 
 ## Apache License 2.0
