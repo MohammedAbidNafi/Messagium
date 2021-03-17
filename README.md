@@ -30,7 +30,7 @@ If your working on this make sure you connect this project to your firebase acco
 2. Suggest any feature or suggestion.(https://github.com/MohammedAbidNafi/MessengerByMargs/issues)
 3. Have a discussion in (https://github.com/MohammedAbidNafi/MessengerByMargs/discussions)
 
-To make changes to code
+      To make changes to code
 
 1. Fork it (https://github.com/MohammedAbidNafi/MessengerByMargs/fork)
 2. Create your feature branch (`git checkout -b my-new-feature`)
