@@ -1,8 +1,6 @@
 ## Messenger By Margs
 Messenger is an android app to instantly message with the users
 
-For more information check this website https://margsweb.wixsite.com/messenger
-
 This project uses firebase for Database, Storage and Authentication.
 
 If your working on this make sure you connect this project to your firebase account and enter the API key in API service for notifications.
