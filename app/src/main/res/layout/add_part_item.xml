@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="88dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
+    android:background="@color/background"
+    >
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:id="@+id/profile_image"
+        android:src="@mipmap/ic_launcher"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        android:id="@+id/username"
+        android:textColor="@color/blacktext"
+        android:textStyle="bold"
+        android:layout_toEndOf="@id/profile_image"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:textSize="18sp"/>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#C6C6C6"
+
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="50dp"/>
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="25sp"
+        android:layout_height="25sp"
+        android:id="@+id/addpart"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/plus"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        style="?android:attr/borderlessButtonStyle"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/username"
+        android:layout_toEndOf="@+id/profile_image"
+        android:layout_marginTop="5dp"
+        android:id="@+id/dt"
+
+        android:layout_marginEnd="50sp"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/greytext"/>
+
+
+
+</RelativeLayout>

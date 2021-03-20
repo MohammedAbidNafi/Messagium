@@ -15,8 +15,14 @@
         android:title=""
         app:showAsAction="always">
 
+
+
     <menu>
 
+        <item
+            android:id="@+id/create_group"
+            android:title="Create Group"
+            app:showAsAction="ifRoom"/>
         <item
             android:id="@+id/edit"
 

@@ -65,11 +65,6 @@ public class CustomiseActivity extends AppCompatActivity {
 
         });
 
-
-
-
-
-
     }
 
     private void loadData() {
@@ -92,10 +87,6 @@ public class CustomiseActivity extends AppCompatActivity {
 
     }
 
-    private void updateViews() {
-
-
-    }
 
     @Override
     public void onBackPressed() {

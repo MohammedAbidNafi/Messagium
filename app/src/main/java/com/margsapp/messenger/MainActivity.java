@@ -4,14 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 
 import android.os.Bundle;
@@ -20,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
@@ -40,20 +37,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Fragments.ChatsFragment;
 import com.margsapp.messenger.Fragments.GroupFragment;
-import com.margsapp.messenger.Fragments.ProfileFragment;
-import com.margsapp.messenger.Fragments.UsersFragment;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
-import androidx.biometric.BiometricManager;
-import androidx.biometric.BiometricPrompt;
+import com.margsapp.messenger.groupclass.create_groupActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.concurrent.Executor;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -245,6 +238,17 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("TAG", "The interstitial ad wasn't ready yet.");
                 }
                 return true;
+
+            case R.id.create_group:
+                startActivity(new Intent(MainActivity.this, create_groupActivity.class));
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(MainActivity.this);
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                }
+
+                return true;
+
 
             case R.id.addchat:
                 startActivity(new Intent(MainActivity.this, FindUsersActivity.class));

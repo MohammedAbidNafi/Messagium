@@ -1,26 +1,24 @@
 package com.margsapp.messenger.Adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,20 +31,29 @@ import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
+import com.margsapp.messenger.groupclass.GroupMethods;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
-    private final Context mContext;
-    private final List<User> mUsers;
-    private final boolean isChat;
+    private  Context mContext;
+    private  List<User> mUsers;
+    private boolean isChat;
 
     private boolean isBlock;
 
     private boolean isAdd;
 
+    private boolean isGroup;
+
+    private boolean checked;
+
     private final boolean unreadbool = true;
+
+
+    private GroupMethods listener;
+
+    String currentgroup;
 
 
 
@@ -55,14 +62,23 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
 
-    public UserAdapter(Context mContext, List<User> mUsers, boolean isChat, boolean isAdd, boolean isBlock) {
+    public UserAdapter(Context mContext, List<User> mUsers, boolean isChat, boolean isAdd, boolean isBlock, boolean isGroup) {
         this.mUsers = mUsers;
         this.mContext = mContext;
         this.isChat = isChat;
         this.isAdd = isAdd;
         this.isBlock = isBlock;
+        this.isGroup = isGroup;
 
     }
+
+
+
+
+
+
+
+
 
     private void UnreadMessage(String userid, ImageView unreadview) {
 
@@ -103,7 +119,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     }
 
-    @NonNull
+    
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.user_item, parent, false);
@@ -113,6 +129,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final User user = mUsers.get(position);
+
+
         holder.UsernameText.setText(user.getUsername());
         holder.dt.setText(user.getDt());
 
@@ -124,6 +142,25 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         if (unreadbool) {
             UnreadMessage(user.getId(), holder.unread);
         }
+
+        if(isGroup){
+            holder.addpart.setVisibility(View.VISIBLE);
+            final String addpart = user.getId();
+            holder.addpart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addPart_group(addpart);
+                }
+            });
+
+
+
+        }
+        if(!isGroup){
+            holder.addpart.setVisibility(View.GONE);
+        }
+
+
 
         if (isBlock) {
             holder.UnBlock_btn.setVisibility(View.VISIBLE);
@@ -184,17 +221,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         });
 
-        /*/holder.itemView.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-
-                return false;
-            }
-        });
-
-         */
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.onAdapClick));
@@ -202,6 +228,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             OnMessage(userid);
         });
     }
+
+
+    private void addPart_group(String id) {
+
+        listener.AddParticipant(id);
+    }
+
+
+
 
     @Override
     public int getItemCount() {
@@ -216,12 +251,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public TextView dt = itemView.findViewById(R.id.dt);
         public ImageView profile;
 
+        private final AppCompatButton addpart;
+
         private final ImageView img_on;
         private final ImageView img_off;
         private final ImageView unread;
         private final TextView last_msg;
 
-        private final ImageView addFriend;
         private final ImageView UnBlock_btn;
 
         public ViewHolder(View view) {
@@ -231,8 +267,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             img_off = itemView.findViewById(R.id.img_off);
             last_msg = itemView.findViewById(R.id.last_msg);
             unread = itemView.findViewById(R.id.unread);
-            addFriend = itemView.findViewById(R.id.addFriend);
             UnBlock_btn = itemView.findViewById(R.id.cancel_button);
+
+            addpart = itemView.findViewById(R.id.addpart);
 
 
         }

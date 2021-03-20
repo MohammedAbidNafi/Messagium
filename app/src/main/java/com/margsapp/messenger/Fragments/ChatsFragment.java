@@ -46,7 +46,7 @@ public class ChatsFragment extends Fragment {
     DatabaseReference databaseReference;
 
 
-    UserAdapter adapter;
+
 
 
 
@@ -143,7 +143,7 @@ public class ChatsFragment extends Fragment {
 
 
 
-                userAdapter = new UserAdapter(getContext(), mUsers, true, false, false);
+                userAdapter = new UserAdapter(getContext(), mUsers, true, false, false, false);
                 recyclerView.setAdapter(userAdapter);
             }
 

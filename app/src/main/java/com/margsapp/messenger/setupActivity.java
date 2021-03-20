@@ -67,7 +67,7 @@ public class setupActivity extends AppCompatActivity {
     private ProgressDialog loadingBar;
 
     StorageReference storageReference;
-    private static int GALLERY_PICK = 1;
+    private static final int GALLERY_PICK = 1;
     private Uri imageUri;
     private StorageTask uploadTask;
 

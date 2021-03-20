@@ -60,9 +60,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 startActivity(i);
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-
                 // close this activity
-
                 finish();
 
             }

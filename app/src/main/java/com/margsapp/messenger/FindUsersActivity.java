@@ -102,24 +102,12 @@ public class FindUsersActivity extends AppCompatActivity {
 
         final ViewPager viewPager = findViewById(R.id.viewPager);
 
-        reference = FirebaseDatabase.getInstance().getReference("Chats");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                FindUsersActivity.ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
 
-                viewPageAdapter.addFragment(new UsersFragment(), "Users");
+        FindUsersActivity.ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
+        viewPageAdapter.addFragment(new UsersFragment(), "Users");
+        viewPager.setAdapter(viewPageAdapter);
 
-                viewPager.setAdapter(viewPageAdapter);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
 
 

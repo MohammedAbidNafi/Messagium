@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".groupclass.create_groupActivity"
+    android:background="@color/diffrentBack">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/bar_layout"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="45dp"
+        android:layout_below="@+id/toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/group_img"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25sp"
+                android:src="@drawable/clicky"/>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:layout_width="250dp"
+                android:layout_height="50sp"
+                android:id="@+id/groupname"
+                android:layout_below="@+id/group_img"
+                android:background="@drawable/edit_text"
+                android:layout_marginTop="25sp"
+                android:layout_centerHorizontal="true"
+                android:hint="Group name.."
+                android:padding="10dp"
+                android:paddingStart="20dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:id="@+id/next"
+                android:background="@drawable/button"
+                android:text="Next"
+                android:textColor="@android:color/white"
+                android:layout_below="@+id/groupname"
+                android:layout_marginTop="25sp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="25sp"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
+</RelativeLayout>

@@ -21,16 +21,20 @@
         android:roundIcon="@mipmap/ic_launcher_appicon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Messenger">
-        <activity android:name=".ChatViewActivity"></activity>
+        <activity android:name=".groupclass.AddParticipants"></activity>
+        <activity android:name=".groupclass.create_groupActivity" />
+        <activity android:name=".ChatViewActivity" />
         <activity android:name=".privacyActivity" />
         <activity android:name=".setupActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Theme.Messenger.Crop" />
-        <activity android:name=".SplashActivity"
+        <activity
+            android:name=".SplashActivity"
             android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

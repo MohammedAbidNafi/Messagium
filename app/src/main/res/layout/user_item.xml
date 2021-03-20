@@ -27,35 +27,10 @@
         android:id="@+id/unread"/>
 
 
-    <ImageView
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:src="@drawable/no_stopping"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="60dp"
-        android:id="@+id/Reject"
-        android:visibility="gone"/>
-    <ImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:src="@drawable/check"
-        android:id="@+id/accept"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="15dp"
-        android:visibility="gone"/>
 
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/addFriend"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/add_friend"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="20dp"
-        android:visibility="gone"/>
+
+
     <ImageView
         android:layout_width="25dp"
         android:layout_height="25dp"
@@ -129,6 +104,17 @@
         android:layout_marginStart="10dp"
         android:textColor="@color/greytext"/>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="25sp"
+        android:layout_height="25sp"
+        android:id="@+id/addpart"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/plus"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        style="?android:attr/borderlessButtonStyle"/>
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -136,6 +122,8 @@
         android:layout_toEndOf="@+id/profile_image"
         android:layout_marginTop="5dp"
         android:id="@+id/dt"
+
+        android:layout_marginEnd="50sp"
         android:layout_marginStart="10dp"
         android:textColor="@color/greytext"/>
 
