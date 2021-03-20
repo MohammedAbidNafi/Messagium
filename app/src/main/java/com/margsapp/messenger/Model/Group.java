@@ -3,11 +3,11 @@ package com.margsapp.messenger.Model;
 public class Group {
 
 
-    private String groupName;
+    private String groupname;
     private String imageUrl;
 
-    public Group(String groupName, String imageUrl) {
-        this.groupName = groupName;
+    public Group(String groupname, String imageUrl) {
+        this.groupname = groupname;
         this.imageUrl = imageUrl;
 
 
@@ -23,13 +23,11 @@ public class Group {
         this.imageUrl = imageUrl;
     }
 
-
-
-    public String getGroupName() {
-        return groupName;
+    public String getGroupname() {
+        return groupname;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setGroupname(String groupname) {
+        this.groupname = groupname;
     }
 }

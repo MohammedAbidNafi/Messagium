@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,7 +40,7 @@ public class GroupFragment extends Fragment {
     public GroupAdapter groupAdapter;
 
     private List<Group> mGroup;
-    private List<GroupList>groupList;
+    private List<GroupList>groupLists;
 
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
@@ -59,11 +60,16 @@ public class GroupFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        mGroup = new ArrayList<>();
-        databaseReference = FirebaseDatabase.getInstance().getReference("GroupList");
+        groupLists = new ArrayList<>();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Grouplist").child(firebaseUser.getUid());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                groupLists.clear();
+                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                    GroupList groupList = snapshot1.getValue(GroupList.class);
+                    groupLists.add(groupList);
+                }
                 groupList();
             }
 
@@ -91,15 +97,25 @@ public class GroupFragment extends Fragment {
     private void groupList() {
 
         mGroup = new ArrayList<>();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Group");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mGroup.clear();
 
+                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                    Group group = snapshot1.getValue(Group.class);
+                    for(GroupList groupList : groupLists){
+                        if(group.getGroupname().equals(groupList.getGroupname())){
+                            mGroup.add(group);
+                        }
+                    }
+
+                }
 
 
 
+                GroupAdapter groupAdapter = new GroupAdapter(getContext(), true, mGroup);
                 recyclerView.setAdapter(groupAdapter);
             }
 

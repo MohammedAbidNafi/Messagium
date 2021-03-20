@@ -127,7 +127,7 @@ public class create_groupActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         Group group = snapshot.getValue(Group.class);
                         if(snapshot.exists()){
-                            if(txt_groupname.equals(group.getGroupName())){
+                            if(txt_groupname.equals(group.getGroupname())){
                                 Toast.makeText(create_groupActivity.this,"Group Name already exists. Error code 0x08090101",Toast.LENGTH_SHORT).show();
                             }else {
                                 if(TextUtils.isEmpty(txt_groupname)){
@@ -160,23 +160,30 @@ public class create_groupActivity extends AppCompatActivity {
 
     private void creategroup(String txt_groupname, String image_, String timestamp) {
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Grouplist").child(txt_groupname).child("members").child(firebaseUser.getUid());
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(firebaseUser.getUid()).child(txt_groupname);
+        HashMap<String, String> hashMap2 = new HashMap<>();
+        hashMap2.put("groupname", txt_groupname);
+        hashMap2.put("admin","true");
+        databaseReference1.setValue(hashMap2);
 
-        HashMap<String, String> hashMap1 = new HashMap<>();
-        hashMap1.put("id", firebaseUser.getUid());
-        hashMap1.put("admin","true");
-        databaseReference.setValue(hashMap1);
+
 
 
         reference = FirebaseDatabase.getInstance().getReference("Group").child(txt_groupname);
 
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("groupName", txt_groupname);
-        hashMap.put("imageURL", image_);
+        hashMap.put("groupname", txt_groupname);
+        hashMap.put("imageUrl", image_);
         hashMap.put("createdon",timestamp);
         reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+
+                databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(txt_groupname).child("members").child(firebaseUser.getUid());
+                HashMap<String, String> hashMap1 = new HashMap<>();
+                hashMap1.put("id", firebaseUser.getUid());
+                hashMap1.put("admin","true");
+                databaseReference.setValue(hashMap1);
 
                 Intent intent = new Intent(create_groupActivity.this, AddParticipants.class);
                 intent.putExtra("GroupID", txt_groupname);

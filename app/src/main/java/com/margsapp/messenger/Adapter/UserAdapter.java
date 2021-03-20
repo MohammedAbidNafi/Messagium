@@ -44,7 +44,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private boolean isAdd;
 
-    private boolean isGroup;
+
 
     private boolean checked;
 
@@ -62,13 +62,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
 
-    public UserAdapter(Context mContext, List<User> mUsers, boolean isChat, boolean isAdd, boolean isBlock, boolean isGroup) {
+    public UserAdapter(Context mContext, List<User> mUsers, boolean isChat, boolean isAdd, boolean isBlock) {
         this.mUsers = mUsers;
         this.mContext = mContext;
         this.isChat = isChat;
         this.isAdd = isAdd;
         this.isBlock = isBlock;
-        this.isGroup = isGroup;
+
 
     }
 
@@ -143,22 +143,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             UnreadMessage(user.getId(), holder.unread);
         }
 
-        if(isGroup){
-            holder.addpart.setVisibility(View.VISIBLE);
-            final String addpart = user.getId();
-            holder.addpart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    addPart_group(addpart);
-                }
-            });
 
-
-
-        }
-        if(!isGroup){
-            holder.addpart.setVisibility(View.GONE);
-        }
 
 
 

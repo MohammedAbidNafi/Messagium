@@ -103,7 +103,7 @@ public class AcceptedFragment extends Fragment {
 
                 }
 
-                userAdapter = new UserAdapter(getContext(), mUsers, true, false,false,false);
+                userAdapter = new UserAdapter(getContext(), mUsers, true, false,false);
                 recyclerView.setAdapter(userAdapter);
             }
 

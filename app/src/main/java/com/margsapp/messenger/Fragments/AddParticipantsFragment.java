@@ -149,8 +149,13 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
 
 
     public void AddParticipant(String id) {
-        //And it should initialize this method
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Grouplist").child(groupId).child("members").child(id);
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(id).child(groupId);
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("groupname", groupId);
+        hashMap.put("admin","false");
+        databaseReference1.setValue(hashMap);
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupId).child("members").child(id);
         HashMap<String, String> hashMap1 = new HashMap<>();
         hashMap1.put("id", id);
         hashMap1.put("admin","false");

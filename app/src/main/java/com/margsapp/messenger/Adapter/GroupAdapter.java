@@ -38,7 +38,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.user_item, parent, false);
+        ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.group_item, parent, false);
         return new GroupAdapter.ViewHolder(viewGroup);
     }
 
@@ -46,7 +46,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         final Group group = mGroups.get(position);
-        holder.groupname.setText(group.getGroupName());
+        holder.groupname.setText(group.getGroupname());
 
         if(group.getImageUrl().equals("default")){
             holder.group_img.setImageResource(R.drawable.groupicon);
