@@ -10,7 +10,7 @@ If your working on this make sure you connect this project to your firebase acco
 
 
 ## Road Map
-1. Add Group Chat
+1. Fix bugs
 2. Improve performence
 3. Ability to send Images
 4. Ability to send voice messages
