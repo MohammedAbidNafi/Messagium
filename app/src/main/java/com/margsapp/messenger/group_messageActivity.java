@@ -34,6 +34,7 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -97,9 +98,9 @@ public class group_messageActivity extends AppCompatActivity {
 
     APIService apiService;
 
-    String groupname,ReplyId,Replyname,username;
+    String groupname,ReplyId,Replyname,username,imageUrl;
 
-    ConstraintLayout reply, editor;
+    ConstraintLayout reply, editor,group_info;
     RelativeLayout warning;
 
     private InterstitialAd mInterstitialAd;
@@ -117,6 +118,18 @@ public class group_messageActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        group_info = findViewById(R.id.group_info);
+
+
+
+        group_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(group_messageActivity.this, group_infoActivity.class));
+                group_info.setBackgroundColor(group_messageActivity.this.getResources().getColor(R.color.onToolClick));
+            }
+        });
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -216,7 +229,7 @@ public class group_messageActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(group_messageActivity.this, Dp_viewActivity.class);
-                intent.putExtra("groupimage", groupname);
+                intent.putExtra("data", imageUrl);
                 startActivity(intent);
             }
         });
@@ -340,7 +353,7 @@ public class group_messageActivity extends AppCompatActivity {
 
 
 
-
+/*
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -356,6 +369,8 @@ public class group_messageActivity extends AppCompatActivity {
 
             }
         });
+
+ */
 
         DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         databaseReference1.addValueEventListener(new ValueEventListener() {
@@ -380,7 +395,7 @@ public class group_messageActivity extends AppCompatActivity {
 
                 assert group != null;
                 groupusername.setText(group.getGroupname());
-                String imageUrl = group.getImageUrl();
+                imageUrl = group.getImageUrl();
                 //Participantsname
                 if(imageUrl.equals("default"))
                 {

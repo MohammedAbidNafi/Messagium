@@ -24,7 +24,8 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Default" />
+            android:text="Default"
+            />
 
         <Button
             android:id="@+id/btnDark"

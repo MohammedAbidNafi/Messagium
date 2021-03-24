@@ -95,7 +95,7 @@ public class MessageActivity extends AppCompatActivity {
 
     APIService apiService;
 
-    String userid,ReplyId, Sendername,ReplyName;
+    String userid,ReplyId, Sendername,ReplyName,imageUrl;
 
     ConstraintLayout reply, editor;
     RelativeLayout warning;
@@ -144,7 +144,7 @@ public class MessageActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
 
                 if (mInterstitialAd != null) {
                     mInterstitialAd.show(MessageActivity.this);
@@ -213,7 +213,7 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MessageActivity.this, Dp_viewActivity.class);
-                intent.putExtra("userid", userid);
+                intent.putExtra("data", imageUrl);
                 startActivity(intent);
             }
         });
@@ -262,7 +262,7 @@ public class MessageActivity extends AppCompatActivity {
                 if(reply_){
                     ReplyMessage(firebaseUser.getUid(),userid, msg, timestamp, isseen, Reply, ReplyId, Sendername,ReplyName);
                 }
-                else if (!reply_){
+                if(!reply_){
                     sendMessage(firebaseUser.getUid(),userid,msg, timestamp,isseen, Sender_name);
                 }
 
@@ -387,14 +387,15 @@ public class MessageActivity extends AppCompatActivity {
                 assert user != null;
                 username.setText(user.getUsername());
                 statusText.setText(user.getStatus());
+                imageUrl = user.getImageUrl();
 
-                if(user.getImageUrl().equals("default"))
+                if(imageUrl.equals("default"))
                 {
                     profileImage.setImageResource(R.drawable.user);
 
                 }
                 else {
-                    Glide.with(getApplicationContext()).load(user.getImageUrl()).into(profileImage);
+                    Glide.with(getApplicationContext()).load(imageUrl).into(profileImage);
                 }
 
                 readMessage(firebaseUser.getUid(), userid, user.getImageUrl());
@@ -839,7 +840,7 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     public void onBackPressed(){
-        startActivity(new Intent(MessageActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        finish();
         if (mInterstitialAd != null) {
             mInterstitialAd.show(MessageActivity.this);
         } else {

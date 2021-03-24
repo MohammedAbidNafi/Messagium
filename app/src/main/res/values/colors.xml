@@ -16,6 +16,7 @@
     <color name="WebLink">#005EFF</color>
 
     <color name="onAdapClick">#DFDFDF</color>
+    <color name="onToolClick">#FF9392</color>
 
 
     <color name="background">#fff</color>

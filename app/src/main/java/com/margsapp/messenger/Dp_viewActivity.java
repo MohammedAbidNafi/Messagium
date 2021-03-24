@@ -29,7 +29,7 @@ public class Dp_viewActivity extends AppCompatActivity {
 
     ImageView dpView;
 
-    String userid;
+    String data;
 
     Intent intent;
 
@@ -60,35 +60,16 @@ public class Dp_viewActivity extends AppCompatActivity {
         dpView = findViewById(R.id.dpview);
 
         intent = getIntent();
-        userid = intent.getStringExtra("userid");
+        data = intent.getStringExtra("data");
 
+        if(data.equals("default"))
+        {
+            dpView.setImageResource(R.drawable.user);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                assert user != null;
-
-                if(user.getImageUrl().equals("default"))
-                {
-                    dpView.setImageResource(R.drawable.user);
-
-                }
-                else {
-                    Glide.with(getApplicationContext()).load(user.getImageUrl()).into(dpView);
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
+        }
+        else {
+            Glide.with(getApplicationContext()).load(data).into(dpView);
+        }
     }
 
     private void status(String status){

@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseUser firebaseUser;
     DatabaseReference reference, databaseReference;
-
+    String imageurl;
     private InterstitialAd mInterstitialAd;
     String versionName = BuildConfig.VERSION_NAME;
 
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Dp_viewActivity.class);
-                intent.putExtra("userid", firebaseUser.getUid());
+                intent.putExtra("data", imageurl);
                 startActivity(intent);
             }
         });
@@ -123,13 +123,13 @@ public class MainActivity extends AppCompatActivity {
 
                 User user = dataSnapshot.getValue(User.class);
                 assert user != null;
+                imageurl = user.getImageUrl();
                 username.setText(user.getUsername());
-                if (user.getImageUrl().equals("default")) {
+                if (imageurl.equals("default")) {
                     DP.setImageResource(R.drawable.user);
-
                 } else {
 
-                    Glide.with(getApplicationContext()).load(user.getImageUrl()).into(DP);
+                    Glide.with(getApplicationContext()).load(imageurl).into(DP);
 
                 }
 
@@ -140,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
 
         final TabLayout tabLayout = findViewById(R.id.tablayout);
         final ViewPager viewPager = findViewById(R.id.viewPager);
@@ -176,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                             if (unread == 0) {
                                 viewPageAdapter.addFragment(new ChatsFragment(), "Chats");
                             } else {
-                                viewPageAdapter.addFragment(new ChatsFragment(), "Chats(" + unread + ")");
+                                viewPageAdapter.addFragment(new ChatsFragment(), "Chats(" +unread+ ")");
                             }
 
 
@@ -209,6 +211,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -262,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
 
         return false;
     }
+
 
 
 

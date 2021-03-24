@@ -25,11 +25,13 @@
             android:layout_height="70dp"
             android:background="@color/coral"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/MenuStyle">
+            app:popupTheme="@style/MenuStyle"
+            >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:id="@+id/group_info">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/group_img"
