@@ -13,7 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,11 +26,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Adapter.AddPartAdapter;
 import com.margsapp.messenger.Adapter.UserAdapter;
+import com.margsapp.messenger.MessageActivity;
 import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
 import com.margsapp.messenger.groupclass.AddParticipants;
 import com.margsapp.messenger.groupclass.GroupMethods;
+import com.victor.loading.rotate.RotateLoading;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -51,6 +56,8 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
 
     public String groupId;
 
+   // RotateLoading rotateLoading;
+
 
 
     @Override
@@ -61,6 +68,8 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        //rotateLoading = view.findViewById(R.id.loading);
 
         usersList = new ArrayList<>();
 
@@ -148,7 +157,7 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
 
 
 
-    public void AddParticipant(String id) {
+    public void AddParticipant(String id, String username, RotateLoading rotateLoading, Context mContext) {
         DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(id).child(groupId);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("groupname", groupId);
@@ -158,8 +167,18 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupId).child("members").child(id);
         HashMap<String, String> hashMap1 = new HashMap<>();
         hashMap1.put("id", id);
+        hashMap1.put("user_name", username);
         hashMap1.put("admin","false");
-        databaseReference.setValue(hashMap1);
+        databaseReference.setValue(hashMap1).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                rotateLoading.stop();
+                rotateLoading.setVisibility(View.GONE);
+                Toast.makeText(mContext,username + " is added.",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
     public void onDestroy() {

@@ -259,17 +259,6 @@ public class group_messageActivity extends AppCompatActivity {
                 Calendar calendar = Calendar.getInstance();
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
                 String timestamp = simpleDateFormat.format(calendar.getTime());
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-                reference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        User user = dataSnapshot.getValue(User.class);
-                        assert user != null;
-                        username = user.getUsername();
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {}
-                });
 
                 String Reply = reply_txt.getText().toString();
 
@@ -352,6 +341,36 @@ public class group_messageActivity extends AppCompatActivity {
 
 
 
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                    Group group = snapshot1.getValue(Group.class);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        databaseReference1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                assert user != null;
+                username = user.getUsername();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname);
         databaseReference.addValueEventListener(new ValueEventListener() {

@@ -257,26 +257,13 @@ public class MessageActivity extends AppCompatActivity {
                 String timestamp = simpleDateFormat.format(calendar.getTime());
 
                 String Reply = reply_txt.getText().toString();
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-                databaseReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User user = snapshot.getValue(User.class);
-                        assert user != null;
-                        Sendername = user.getUsername();
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
+                String Sender_name = Sendername;
                 if(reply_){
-                    ReplyMessage(firebaseUser.getUid(), userid, msg, timestamp, isseen, Reply, ReplyId, Sendername,ReplyName);
+                    ReplyMessage(firebaseUser.getUid(),userid, msg, timestamp, isseen, Reply, ReplyId, Sendername,ReplyName);
                 }
-                if(!reply_){
-                    sendMessage(firebaseUser.getUid(),userid,msg, timestamp,isseen, Sendername);
+                else if (!reply_){
+                    sendMessage(firebaseUser.getUid(),userid,msg, timestamp,isseen, Sender_name);
                 }
 
 
@@ -374,6 +361,20 @@ public class MessageActivity extends AppCompatActivity {
 
 
 
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        databaseReference1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                assert user != null;
+                Sendername = user.getUsername();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
@@ -386,6 +387,7 @@ public class MessageActivity extends AppCompatActivity {
                 assert user != null;
                 username.setText(user.getUsername());
                 statusText.setText(user.getStatus());
+
                 if(user.getImageUrl().equals("default"))
                 {
                     profileImage.setImageResource(R.drawable.user);

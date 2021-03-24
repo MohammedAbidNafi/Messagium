@@ -5,6 +5,6 @@
     <item
         android:id="@+id/create"
         app:showAsAction="always"
-        android:title="Create Group"/>
+        android:title="Done"/>
 
 </menu>

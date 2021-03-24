@@ -1,6 +1,8 @@
 package com.margsapp.messenger.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +16,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
+import com.margsapp.messenger.SplashActivity;
+import com.margsapp.messenger.StartActivity;
+import com.victor.loading.rotate.RotateLoading;
 
 import java.util.EventListener;
 import java.util.List;
 
 public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHolder> {
 
-    private  Context mContext;
+    private final Context mContext;
     private  List<User> mUsers;
 
     EventListener listener;
@@ -28,7 +33,7 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
 
 
     public interface EventListener {
-        void AddParticipant(String id);
+        void AddParticipant(String id, String username, RotateLoading rotateLoading, Context mContext);
     }
 
     public void addEventListener(EventListener listener){
@@ -71,9 +76,19 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
         holder.addpart_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Variable = user.getId();//This is the variable that should pass
+                String Variable = user.getId();
+                String Variable2 = user.getUsername();
+                holder.rotateLoading.setVisibility(View.VISIBLE);
+                holder.addpart_btn.setVisibility(View.GONE);
+                holder.rotateLoading.start();
                 //Send call that method and send the variablethat variable to Fragment
-                listener.AddParticipant(Variable);
+                new Handler().postDelayed(new Runnable() {
+                    // Using handler with postDelayed called runnable run method
+                    @Override
+                    public void run() {
+                        listener.AddParticipant(Variable, Variable2, holder.rotateLoading, mContext);
+                    }
+                },  1*1100); // wait for 5 seconds
             }
         });
 
@@ -92,6 +107,7 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
 
         public TextView dt;
         private TextView username;
+        RotateLoading rotateLoading;
 
         AppCompatButton addpart_btn;
 
@@ -99,6 +115,7 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
         public ViewHolder(View view){
             super(view);
 
+            rotateLoading = itemView.findViewById(R.id.loading);
             dp = itemView.findViewById(R.id.profile_image);
             dt = itemView.findViewById(R.id.dt);
             unread = itemView.findViewById(R.id.unread);

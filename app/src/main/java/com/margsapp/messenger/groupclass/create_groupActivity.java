@@ -198,7 +198,7 @@ public class create_groupActivity extends AppCompatActivity {
                 databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(txt_groupname).child("members").child(firebaseUser.getUid());
                 HashMap<String, String> hashMap1 = new HashMap<>();
                 hashMap1.put("id", firebaseUser.getUid());
-                hashMap1.put("name",username);
+                hashMap1.put("user_name",username);
                 hashMap1.put("admin","true");
                 databaseReference.setValue(hashMap1);
 
