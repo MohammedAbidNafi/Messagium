@@ -10,12 +10,7 @@
     android:foregroundGravity="bottom">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/bar_layout"
@@ -37,48 +32,50 @@
                 android:layout_height="match_parent">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_image"
+                    android:id="@+id/group_img"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:src="@drawable/user"
+                    android:src="@drawable/groupicon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.52" />
+                    app:layout_constraintVertical_bias="0.64" />
 
                 <TextView
-                    android:id="@+id/username"
+                    android:id="@+id/groupname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:text="Username"
+                    android:text="Group Name"
                     android:textColor="#fff"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.018"
-                    app:layout_constraintStart_toEndOf="@+id/profile_image"
+                    app:layout_constraintHorizontal_bias="0.096"
+                    app:layout_constraintStart_toEndOf="@+id/group_img"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.282" />
+                    app:layout_constraintVertical_bias="0.288" />
 
                 <TextView
-                    android:id="@+id/status"
+                    android:id="@+id/participants_name"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:layout_below="@id/username"
-
+                    android:layout_below="@id/groupname"
+                    app:layout_constraintStart_toStartOf="@id/groupname"
                     android:layout_marginTop="20dp"
-                    android:text="Status"
+
+                    android:maxLines="1"
+                    android:maxLength="45"
+                    android:ellipsize="end"
                     android:textColor="#fff"
                     android:textSize="13dp"
-
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.017"
-                    app:layout_constraintStart_toEndOf="@+id/profile_image"
+                    app:layout_constraintHorizontal_bias="0.081"
+                    app:layout_constraintStart_toEndOf="@+id/group_img"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.6" />
 
@@ -91,43 +88,109 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <RelativeLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/reply_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/grey"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/warningcard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/txtQuotedMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/cancelButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="This is were reply goes"/>
+
+        <ImageButton
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/black"
+
+            android:background="@drawable/ic_baseline_close_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constrainedHeight="true"
+
+        app:layout_constraintBottom_toTopOf="@+id/reply_layout"
+
+        app:layout_constraintTop_toBottomOf="@+id/bar_layout">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constrainedHeight="true"
+            android:foregroundGravity="top"
+
+            />
+
+    </RelativeLayout>
 
 
+    <RelativeLayout
         android:id="@+id/warningcard"
-        android:visibility="visible"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/editor_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
         <View
+            android:id="@+id/warning_view"
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
-            android:id="@+id/warning_view"
             android:layout_alignParentTop="true"
-            android:background="#9F9F9F"/>
+            android:background="#9F9F9F" />
 
         <TextView
+            android:id="@+id/warning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This user is messaging for the first time if you know accept it. If you dont know reject it. If you dont want to talk block them."
             android:gravity="center"
-            android:textStyle="bold"
+
             android:textSize="20sp"
-            android:id="@+id/warning"
-            />
+            android:textStyle="bold" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_accept"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/warning"
-            android:text="Accept"
-            android:textColor="@color/company_blue"
-            android:background="@color/grey"
-            android:layout_marginTop="0dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="60dp"/>
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="60dp"
+            android:background="@color/grey"
+            android:text="Accept"
+            android:textColor="@color/company_blue" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_reject"
             android:layout_width="120dp"
@@ -135,92 +198,23 @@
             android:layout_below="@+id/warning"
             android:layout_alignParentStart="true"
             android:layout_marginStart="60dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="10dp"
             android:background="@color/grey"
-            android:textColor="@color/company_blue"
-            android:text="Reject"/>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_block"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btn_reject"
-            android:layout_marginTop="0dp"
-            android:layout_centerHorizontal="true"
-            android:text="Block"
-            android:textColor="@color/company_blue"/>
+            android:text="Reject"
+            android:textColor="@color/company_blue" />
+
 
     </RelativeLayout>
-
-
-     <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/reply_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/grey"
-            android:visibility="gone"
-         app:layout_constraintBottom_toTopOf="@+id/warningcard"
-         app:layout_constraintEnd_toEndOf="parent"
-         app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-                android:id="@+id/txtQuotedMsg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:padding="8dp"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/cancelButton"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="This is were reply goes"/>
-
-        <ImageButton
-                android:id="@+id/cancelButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:backgroundTint="@color/black"
-
-                android:background="@drawable/ic_baseline_close_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@+id/reply_layout"
-        app:layout_constrainedHeight="true"
-
-        app:layout_constraintTop_toBottomOf="@+id/bar_layout">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constrainedHeight="true"
-
-            />
-
-    </RelativeLayout>
-
-
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/editor_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="visible"
+        >
 
         <View
             android:layout_width="match_parent"
@@ -231,8 +225,9 @@
 
         <EditText
             android:id="@+id/text_send"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="40dp"
             android:background="@android:color/transparent"
             android:ems="10"
             android:hint="Send message"
@@ -248,7 +243,8 @@
             android:scrollbars="vertical"
             android:scrollHorizontally="false"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_send"
+
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
@@ -265,6 +261,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/text_send"
             app:layout_constraintTop_toTopOf="@+id/text_send"/>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

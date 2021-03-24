@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
 
     FirebaseUser firebaseUser;
+
+
 
     public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_TYPE_RIGHT = 1;
@@ -108,6 +111,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
 
         Chat chat = mChat.get(position);
+        holder.username.setVisibility(View.GONE);
 
         holder.show_message.setText(chat.getMessage());
 
@@ -117,13 +121,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         if(chat.getReply().equals("true")){
 
             if(chat.getReceiver().equals(chat.getReplyto())){
-                holder.reply_txt_them.setVisibility(View.INVISIBLE);
+                holder.reply_txt_them.setVisibility(View.GONE);
                 holder.reply_txt_us.setVisibility(View.VISIBLE);
+                holder.reply_username.setText(chat.getReplyname());
                 holder.reply_txt_us.setText(chat.getReplytext());
 
             }else {
-                holder.reply_txt_us.setVisibility(View.INVISIBLE);
+                holder.reply_txt_us.setVisibility(View.GONE);
                 holder.reply_txt_them.setVisibility(View.VISIBLE);
+                holder.reply_username.setText(chat.getReplyname());
                 holder.reply_txt_them.setText(chat.getReplytext());
             }
 
@@ -164,8 +170,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         public TextView txt_seen;
         public TextView timestamp;
 
+        public TextView username;
+
         public TextView reply_txt_them;
         public TextView reply_txt_us;
+        public TextView reply_username;
+        public LinearLayout linearLayout;
 
         public ViewHolder(View view){
             super(view);
@@ -174,6 +184,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             profile = itemView.findViewById(R.id.profile_image);
             txt_seen = itemView.findViewById(R.id.txt_seen);
             timestamp = itemView.findViewById(R.id.timestamp);
+            username = itemView.findViewById(R.id.username);
+            linearLayout = itemView.findViewById(R.id.layout_reply);
+            reply_username = itemView.findViewById(R.id.reply_username);
 
             reply_txt_them = itemView.findViewById(R.id.replytextthem);
             reply_txt_us = itemView.findViewById(R.id.replytextus);

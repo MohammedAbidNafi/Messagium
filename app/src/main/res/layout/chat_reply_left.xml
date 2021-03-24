@@ -9,33 +9,53 @@
         android:layout_height="40sp"
         android:src="@drawable/user"
         android:id="@+id/profile_image"
-        android:layout_below="@+id/replytextus"
+        android:layout_below="@+id/layout_reply"
         android:layout_marginTop="30dp"/>
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/replytextthem"
-        android:text="Hello how are you"
         android:layout_alignParentEnd="true"
-        android:padding="6sp"
-        android:textColor="@color/greytext"
-        android:background="@drawable/reply_left_them"
-
-        android:visibility="invisible"
-       />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/replytextus"
-        android:text="Hello how are you"
-        android:layout_alignParentEnd="true"
-        android:padding="6sp"
-        android:textColor="@color/greytext"
-        android:background="@drawable/reply_left_us"
-
+        android:id="@+id/layout_reply"
+        android:orientation="vertical"
         android:visibility="visible"
-        />
+        android:background="@drawable/reply_left_us">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/reply_username"
+            android:padding="6sp"
+            android:textStyle="bold"
+            android:text="Khyyati Vegiraju"
+            android:visibility="visible"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/replytextus"
+            android:text="Hello how are you"
+            android:padding="6sp"
+
+            android:textColor="@color/greytext"
+            android:visibility="gone"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/replytextthem"
+            android:text="Hello how are you"
+            android:layout_alignParentEnd="true"
+            android:padding="6sp"
+            android:textColor="@color/greytext"
+
+
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
+
+
+
 
     <ImageView
         android:layout_width="35dp"
@@ -44,7 +64,7 @@
 
         android:layout_marginTop="15sp"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/replytextus"
+        android:layout_below="@+id/layout_reply"
         android:src="@drawable/curved_line_left"
         />
 
@@ -61,7 +81,7 @@
         android:padding="8dp"
         android:id="@+id/show_message"
         android:textSize="18dp"
-        android:layout_below="@id/replytextus"
+        android:layout_below="@id/layout_reply"
         android:layout_marginTop="30dp"
 
         android:background="@drawable/background_left"/>
@@ -69,11 +89,21 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:layout_below="@+id/show_message"
-        android:layout_marginLeft="5dp"
+        android:text="22/05/2020 16:54"
+        android:layout_below="@+id/username"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:id="@+id/timestamp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/username"
+        android:text="Khyyati Vegiraju"
+        android:visibility="gone"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/show_message"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

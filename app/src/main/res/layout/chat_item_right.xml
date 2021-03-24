@@ -42,9 +42,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txt_seen"
-
+            android:visibility="gone"
             android:layout_below="@+id/show_message"
             android:layout_alignParentEnd="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/username"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:text="Khyyati Vegiraju"
+            android:visibility="gone"
+            android:layout_below="@+id/show_message"/>
 
     </RelativeLayout>
 

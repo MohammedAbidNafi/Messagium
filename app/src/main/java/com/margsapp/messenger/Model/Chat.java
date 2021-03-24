@@ -11,8 +11,10 @@ public class Chat {
     private String replytext;
     private String reply;
     private String replyto;
+    private String sendername;
+    private String replyname;
 
-    public Chat(String sender, String receiver, String message, String isseen, String timestamp, String replytext, String reply,String replyto) {
+    public Chat(String sender, String receiver, String message, String isseen, String timestamp, String replytext, String reply,String replyto,String replyname, String sendername) {
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
@@ -21,10 +23,28 @@ public class Chat {
         this.replytext = replytext;
         this.reply = reply;
         this.replyto = replyto;
+        this.replyname = replyname;
+        this.sendername = sendername;
 
     }
 
     public Chat() {
+    }
+
+    public String getSendername() {
+        return sendername;
+    }
+
+    public void setSendername(String sendername) {
+        this.sendername = sendername;
+    }
+
+    public String getReplyname() {
+        return replyname;
+    }
+
+    public void setReplyname(String replyname) {
+        this.replyname = replyname;
     }
 
     public String getReplyto() {

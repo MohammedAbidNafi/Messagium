@@ -60,8 +60,7 @@ public class ChatsFragment extends Fragment {
 
 
         recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(false);
-
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -90,14 +89,7 @@ public class ChatsFragment extends Fragment {
             }
         });
 
-
-
-
-
-
         updateToken(FirebaseInstanceId.getInstance().getToken());
-
-
 
         return view;
     }

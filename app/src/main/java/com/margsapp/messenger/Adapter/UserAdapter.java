@@ -160,6 +160,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         }
         if (!isChat) {
+
             holder.last_msg.setVisibility(View.GONE);
             holder.dt.setVisibility(View.VISIBLE);
         }

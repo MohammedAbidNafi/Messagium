@@ -37,6 +37,7 @@ import com.margsapp.messenger.Dp_viewActivity;
 import com.margsapp.messenger.MainActivity;
 import com.margsapp.messenger.MessageActivity;
 import com.margsapp.messenger.Model.Group;
+import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -58,6 +59,8 @@ public class create_groupActivity extends AppCompatActivity {
     StorageReference storageReference;
     DatabaseReference reference, databaseReference;
     AppCompatEditText group_name;
+
+    public String username;
 
     boolean image;
 
@@ -94,6 +97,19 @@ public class create_groupActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference("GroupImages/"+ Objects.requireNonNull(group_name.getText()).toString());
 
 
+        DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        reference1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                username = user.getUsername();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         loadingBar = new ProgressDialog(this);
 
@@ -133,14 +149,14 @@ public class create_groupActivity extends AppCompatActivity {
                                 if(TextUtils.isEmpty(txt_groupname)){
                                     Toast.makeText(create_groupActivity.this,"Please enter group name. Error code 0x08090102",Toast.LENGTH_SHORT).show();
                                 }else {
-                                    creategroup(txt_groupname,image_,timestamp);
+                                    creategroup(txt_groupname,image_,timestamp, username);
                                 }
                             }
                         }else {
                             if(TextUtils.isEmpty(txt_groupname)){
                                 Toast.makeText(create_groupActivity.this,"Please enter group name. Error code 0x08090102",Toast.LENGTH_SHORT).show();
                             }else {
-                                creategroup(txt_groupname,image_,timestamp);
+                                creategroup(txt_groupname,image_,timestamp,username);
                             }
                         }
 
@@ -158,7 +174,7 @@ public class create_groupActivity extends AppCompatActivity {
 
     }
 
-    private void creategroup(String txt_groupname, String image_, String timestamp) {
+    private void creategroup(String txt_groupname, String image_, String timestamp, String username) {
 
         DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(firebaseUser.getUid()).child(txt_groupname);
         HashMap<String, String> hashMap2 = new HashMap<>();
@@ -182,6 +198,7 @@ public class create_groupActivity extends AppCompatActivity {
                 databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(txt_groupname).child("members").child(firebaseUser.getUid());
                 HashMap<String, String> hashMap1 = new HashMap<>();
                 hashMap1.put("id", firebaseUser.getUid());
+                hashMap1.put("name",username);
                 hashMap1.put("admin","true");
                 databaseReference.setValue(hashMap1);
 

@@ -55,12 +55,21 @@ public class GroupFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_group, container,false);
 
         recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(false);
-
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         groupLists = new ArrayList<>();
+        update();
+
+        updateToken(FirebaseInstanceId.getInstance().getToken());
+
+
+        return view;
+    }
+
+    private void update() {
+
         databaseReference = FirebaseDatabase.getInstance().getReference("Grouplist").child(firebaseUser.getUid());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -70,6 +79,8 @@ public class GroupFragment extends Fragment {
                     GroupList groupList = snapshot1.getValue(GroupList.class);
                     groupLists.add(groupList);
                 }
+
+
                 groupList();
             }
 
@@ -81,11 +92,6 @@ public class GroupFragment extends Fragment {
 
 
         });
-
-        updateToken(FirebaseInstanceId.getInstance().getToken());
-
-
-        return view;
     }
 
     private void updateToken(String token){
@@ -102,7 +108,6 @@ public class GroupFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mGroup.clear();
-
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     Group group = snapshot1.getValue(Group.class);
                     for(GroupList groupList : groupLists){
@@ -115,7 +120,7 @@ public class GroupFragment extends Fragment {
 
 
 
-                GroupAdapter groupAdapter = new GroupAdapter(getContext(), true, mGroup);
+                groupAdapter = new GroupAdapter(getContext(), true, mGroup);
                 recyclerView.setAdapter(groupAdapter);
             }
 
@@ -125,4 +130,7 @@ public class GroupFragment extends Fragment {
             }
         });
     }
+
+
+
 }

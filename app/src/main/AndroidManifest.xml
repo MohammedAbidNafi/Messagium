@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_appicon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Messenger">
-        <activity android:name=".groupclass.AddParticipants"></activity>
+        <activity android:name=".group_messageActivity"></activity>
+        <activity android:name=".groupclass.AddParticipants" />
         <activity android:name=".groupclass.create_groupActivity" />
         <activity android:name=".ChatViewActivity" />
         <activity android:name=".privacyActivity" />

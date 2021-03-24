@@ -1,6 +1,8 @@
 package com.margsapp.messenger.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.ImageHeaderParser;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.margsapp.messenger.MessageActivity;
+import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.Group;
+import com.margsapp.messenger.Model.GroupChat;
 import com.margsapp.messenger.R;
+import com.margsapp.messenger.group_messageActivity;
 
 import java.util.List;
 
@@ -46,7 +59,12 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         final Group group = mGroups.get(position);
+
+
+
         holder.groupname.setText(group.getGroupname());
+        String group_name = group.getGroupname();
+        lastmessage(group_name, holder.last_msg);
 
         if(group.getImageUrl().equals("default")){
             holder.group_img.setImageResource(R.drawable.groupicon);
@@ -54,9 +72,58 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             Glide.with(mContext).load(group.getImageUrl()).into(holder.group_img);
         }
 
+
+        holder.itemView.setOnClickListener(v -> {
+            holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.onAdapClick));
+            String groupname = group.getGroupname();
+            launch(groupname);
+
+
+        });
+
         
     }
 
+    private void launch(String groupname){
+
+        Intent intent = new Intent(mContext, group_messageActivity.class);
+        intent.putExtra("groupname", groupname);
+        mContext.startActivity(intent);
+
+    }
+
+    private void lastmessage(String groupname, TextView last_msg) {
+        theLastMessage = "default";
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("GroupChat").child(groupname);
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                    GroupChat groupChat = snapshot1.getValue(GroupChat.class);
+                    assert groupChat != null;
+                    if(groupChat.getGroup().equals(groupname)) {
+                        theLastMessage = groupChat.getMessage();
+                    }
+
+                }
+                if ("default".equals(theLastMessage)) {
+                    last_msg.setText("No Message");
+                } else {
+                    last_msg.setText(theLastMessage);
+                }
+
+                theLastMessage = "default";
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 
     @Override
@@ -77,10 +144,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         public ViewHolder(View view){
             super(view);
 
-            group_img = itemView.findViewById(R.id.profile_image);
+            group_img = itemView.findViewById(R.id.group_img);
             last_msg = itemView.findViewById(R.id.last_msg);
             unread = itemView.findViewById(R.id.unread);
-            groupname = itemView.findViewById(R.id.username);
+            groupname = itemView.findViewById(R.id.groupname);
 
         }
     }

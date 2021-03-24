@@ -129,16 +129,5 @@ public class LoginAcitivity extends AppCompatActivity {
                 }
             }
         });
-    }/*
-    private void isConnected(View.OnClickListener onClickListener) {
-
-
-        getApplicationContext();
-        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(CONNECTIVITY_SERVICE);
-
-        NetworkInfo wificon = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        NetworkInfo datacon = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
     }
-    */
 }

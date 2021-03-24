@@ -219,7 +219,6 @@ public class edit_profile extends AppCompatActivity {
 
 
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        reference.keepSynced(true);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
