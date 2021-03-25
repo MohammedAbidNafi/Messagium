@@ -102,6 +102,7 @@ public class create_groupActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
+                assert user != null;
                 username = user.getUsername();
             }
 
@@ -141,22 +142,19 @@ public class create_groupActivity extends AppCompatActivity {
                 reference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Group group = snapshot.getValue(Group.class);
-                        if(snapshot.exists()){
-                            if(txt_groupname.equals(group.getGroupname())){
-                                Toast.makeText(create_groupActivity.this,"Group Name already exists. Error code 0x08090101",Toast.LENGTH_SHORT).show();
-                            }else {
-                                if(TextUtils.isEmpty(txt_groupname)){
-                                    Toast.makeText(create_groupActivity.this,"Please enter group name. Error code 0x08090102",Toast.LENGTH_SHORT).show();
-                                }else {
-                                    creategroup(txt_groupname,image_,timestamp, username);
+
+                        for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                            Group group = snapshot1.getValue(Group.class);
+
+                            assert group != null;
+                            if (txt_groupname.equals(group.getGroupname())) {
+                                Toast.makeText(create_groupActivity.this, "Group Name already exists. Error code 0x08090101", Toast.LENGTH_SHORT).show();
+                            } else {
+                                if (TextUtils.isEmpty(txt_groupname)) {
+                                    Toast.makeText(create_groupActivity.this, "Please enter group name. Error code 0x08090102", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    creategroup(txt_groupname, image_, timestamp, username);
                                 }
-                            }
-                        }else {
-                            if(TextUtils.isEmpty(txt_groupname)){
-                                Toast.makeText(create_groupActivity.this,"Please enter group name. Error code 0x08090102",Toast.LENGTH_SHORT).show();
-                            }else {
-                                creategroup(txt_groupname,image_,timestamp,username);
                             }
                         }
 

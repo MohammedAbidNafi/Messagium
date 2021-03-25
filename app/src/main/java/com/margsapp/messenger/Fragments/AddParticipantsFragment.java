@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -142,7 +143,7 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
 
 
 
-                AddPartAdapter addPartAdapter = new AddPartAdapter(getContext(), mUsers);
+                AddPartAdapter addPartAdapter = new AddPartAdapter(getContext(), mUsers, groupId);
                 addPartAdapter.addEventListener(AddParticipantsFragment.this);
                 recyclerView.setAdapter(addPartAdapter);
             }
@@ -157,7 +158,7 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
 
 
 
-    public void AddParticipant(String id, String username, RotateLoading rotateLoading, Context mContext) {
+    public void AddParticipant(String id, String username, RotateLoading rotateLoading, Context mContext, ImageView remove) {
         DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(id).child(groupId);
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("groupname", groupId);
@@ -174,6 +175,7 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
             public void onComplete(@NonNull Task<Void> task) {
                 rotateLoading.stop();
                 rotateLoading.setVisibility(View.GONE);
+                remove.setVisibility(View.VISIBLE);
                 Toast.makeText(mContext,username + " is added.",Toast.LENGTH_SHORT).show();
             }
         });

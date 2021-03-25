@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="88dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingRight="10dp"
     android:paddingLeft="10dp"
     android:paddingTop="10dp"
@@ -14,18 +13,6 @@
         android:layout_centerVertical="true"
         android:id="@+id/profile_image"
         android:src="@mipmap/ic_launcher"/>
-
-    <com.victor.loading.rotate.RotateLoading
-        android:id="@+id/loading"
-        android:layout_width="40dp"
-        app:loading_color="@color/blacktext"
-        android:layout_height="40dp"
-        app:loading_width="3dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"
-        android:visibility="gone"/>
-
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,19 +35,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="50dp"/>
 
-
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="25sp"
-        android:layout_height="25sp"
-        android:id="@+id/addpart"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/plus"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        style="?android:attr/borderlessButtonStyle"/>
-
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,21 +42,21 @@
         android:layout_toEndOf="@+id/profile_image"
         android:layout_marginTop="5dp"
         android:id="@+id/dt"
-
+        android:lines="1"
+        android:ellipsize="end"
         android:layout_marginEnd="50sp"
         android:layout_marginStart="10dp"
         android:textColor="@color/greytext"/>
 
-    <ImageView
-        android:layout_width="25sp"
-        android:layout_height="25sp"
-        android:src="@drawable/cancel"
-        android:id="@+id/remove"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Admin"
+        android:textColor="@color/coral"
         android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
         android:layout_marginEnd="10dp"
+        android:background="@drawable/admin_border"
+        android:padding="3dp"
         android:visibility="gone"/>
-
-
 
 </RelativeLayout>
