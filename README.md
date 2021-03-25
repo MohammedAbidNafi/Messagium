@@ -13,16 +13,18 @@ If your working on this make sure you connect this project to your firebase acco
 ## Road Map
 1. Fix bugs
 2. Improve performence
-3. Ability to send Images
-4. Ability to send voice messages
-5. Audio/Video call
-6. A Good Name for this whole thing
-7. Ability to send location
-8. Ablility to Forward Message 
-9. Share Function
-10. High Compression
-11. End to End Encryption
-12. Ability to Share Contacts
+3. Phone Authentication
+4. Group Chat
+5. Ability to send Images
+6. Ability to send voice messages
+7. Audio/Video call
+8. A Good Name for this whole thing
+9. Ability to send location
+10. Ablility to Forward Message 
+11. Share Function
+12. High Compression
+13. End to End Encryption
+14. Ability to Share Contacts
 
 ## Ways to Contribute 
 1. Create an issue to discuss about your idea.(https://github.com/MohammedAbidNafi/MessengerByMargs/issues)
