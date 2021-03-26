@@ -3,12 +3,101 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/diffrentBack"
     tools:context=".Fragments.GroupInfoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/imagecard"
+                android:id="@+id/group_edit"
+                android:background="@color/card_back"
+                >
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:src="@drawable/ic_baseline_chevron_right_24"
+                    android:layout_gravity="center_vertical|end"
+                    android:background="@color/card_back"
+                    />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/thinking"
+                    android:layout_marginLeft="10dp"
+
+                    android:layout_gravity="center_vertical|start"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit Group"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="50dp"
+                    android:textColor="@color/blacktext"
+                    android:textSize="20dp"
+                    />
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/group_edit"
+                android:id="@+id/status_card"
+                android:background="@color/card_back"
+                >
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:src="@drawable/ic_baseline_chevron_right_24"
+                    android:layout_gravity="center_vertical|end"
+                    android:background="@color/card_back"
+                    />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/thinking"
+                    android:layout_marginLeft="10dp"
+
+                    android:layout_gravity="center_vertical|start"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit Group"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="50dp"
+                    android:textColor="@color/blacktext"
+                    android:textSize="20dp"
+                    />
+
+
+            </androidx.cardview.widget.CardView>
+
+
+
+        </RelativeLayout>
+
+
+
+    </ScrollView>
 
 </FrameLayout>

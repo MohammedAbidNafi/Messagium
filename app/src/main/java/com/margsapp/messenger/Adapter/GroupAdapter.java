@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,16 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.ImageHeaderParser;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.margsapp.messenger.MessageActivity;
-import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.GroupChat;
 import com.margsapp.messenger.R;
@@ -61,7 +57,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         final Group group = mGroups.get(position);
 
 
-
         holder.groupname.setText(group.getGroupname());
         String group_name = group.getGroupname();
         lastmessage(group_name, holder.last_msg);
@@ -73,11 +68,18 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         }
 
 
+        holder.itemView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.onAdapClick));
+                return false;
+            }
+        });
+
         holder.itemView.setOnClickListener(v -> {
-            holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.onAdapClick));
+            holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
             String groupname = group.getGroupname();
             launch(groupname);
-
 
         });
 

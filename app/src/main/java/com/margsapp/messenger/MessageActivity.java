@@ -1,9 +1,19 @@
 package com.margsapp.messenger;
 
 import android.annotation.SuppressLint;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -59,7 +70,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -72,6 +85,8 @@ import retrofit2.Response;
 public class MessageActivity extends AppCompatActivity {
 
     private static final String TAG = "MESSAGE ACTIVITY" ;
+
+    private static final String LIMIT = "0";
     CircleImageView profileImage;
     TextView username, statusText, reply_txt;
 
@@ -95,7 +110,7 @@ public class MessageActivity extends AppCompatActivity {
 
     APIService apiService;
 
-    String userid,ReplyId, Sendername,ReplyName,imageUrl;
+    String userid,ReplyId, Sendername,ReplyName,imageUrl,blocked;
 
     ConstraintLayout reply, editor;
     RelativeLayout warning;
@@ -105,7 +120,9 @@ public class MessageActivity extends AppCompatActivity {
     boolean reply_ = false;
 
     boolean notify = false;
+    ShortcutManager shortcutManager;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +133,9 @@ public class MessageActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
+             shortcutManager = getSystemService(ShortcutManager.class);
+        }
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -245,6 +265,22 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
+        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("Chatlist").child(userid).child(firebaseUser.getUid());
+        databaseReference2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Chatlist chatlist = snapshot.getValue(Chatlist.class);
+                assert chatlist != null;
+                blocked = chatlist.getFriends();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         btnSend.setOnClickListener(v -> {
 
             notify = true;
@@ -256,15 +292,27 @@ public class MessageActivity extends AppCompatActivity {
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
                 String timestamp = simpleDateFormat.format(calendar.getTime());
 
+
                 String Reply = reply_txt.getText().toString();
 
                 String Sender_name = Sendername;
-                if(reply_){
-                    ReplyMessage(firebaseUser.getUid(),userid, msg, timestamp, isseen, Reply, ReplyId, Sendername,ReplyName);
+                if(blocked.equals("blocked")){
+                    String receiver = "blocked";
+                    if(reply_){
+                        ReplyMessage(firebaseUser.getUid(),receiver, msg, timestamp, isseen, Reply, ReplyId, Sendername,ReplyName);
+                    }
+                    if(!reply_){
+                        sendMessage(firebaseUser.getUid(),receiver,msg, timestamp,isseen, Sender_name);
+                    }
+                }else {
+                    if(reply_){
+                        ReplyMessage(firebaseUser.getUid(),userid, msg, timestamp, isseen, Reply, ReplyId, Sendername,ReplyName);
+                    }
+                    if(!reply_){
+                        sendMessage(firebaseUser.getUid(),userid,msg, timestamp,isseen, Sender_name);
+                    }
                 }
-                if(!reply_){
-                    sendMessage(firebaseUser.getUid(),userid,msg, timestamp,isseen, Sender_name);
-                }
+
 
 
             }
@@ -466,10 +514,8 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     private void ReplyMessage(String sender, String receiver, String message, String timestamp, String isseen,String ReplyMessage,String ReplyTo,String sendername,String replyname){
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
-
-
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
         hashMap.put("receiver", receiver);
@@ -528,6 +574,8 @@ public class MessageActivity extends AppCompatActivity {
 
 
         final String msg = message;
+
+
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
@@ -757,6 +805,7 @@ public class MessageActivity extends AppCompatActivity {
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -769,14 +818,9 @@ public class MessageActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-
-
                         Block();
-
-
                     }
                 });
-
                 dialog.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -787,10 +831,17 @@ public class MessageActivity extends AppCompatActivity {
                 alertDialog.show();
 
                 break;
+
+            case R.id.create_shortcut:
+                Shortcuts(userid,username.getText().toString().trim(),profileImage.getDrawable());
+
+
         }
 
         return false;
     }
+
+
 
     private void Block(){
 
@@ -838,6 +889,65 @@ public class MessageActivity extends AppCompatActivity {
         databaseReference.updateChildren(hashMap);
 
     }
+
+
+
+
+
+    private void Shortcuts(String userid, String username, Drawable imageUrl){
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            Bitmap bitmap = ((BitmapDrawable)imageUrl).getBitmap();
+            if(shortcutManager.isRequestPinShortcutSupported()){
+                ShortcutInfo pinShortcutInfo =
+                        new ShortcutInfo.Builder(this, username)
+                                .setShortLabel(username)
+                                .setLongLabel(username)
+                                .setIcon(Icon.createWithBitmap(bitmap))
+                                .setIntents(
+                                        new Intent[]{
+                                                new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, MessageActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).putExtra("userid",userid),
+                                        })
+                                .build();
+
+
+                Intent pinnedShortcutCallbackIntent =
+                        shortcutManager.createShortcutResultIntent(pinShortcutInfo);
+
+                PendingIntent successCallback = PendingIntent.getBroadcast(this, /* request code */ 1,
+                        pinnedShortcutCallbackIntent, /* flags */ 0);
+
+                shortcutManager.requestPinShortcut(pinShortcutInfo,
+                        successCallback.getIntentSender());
+            }else {
+                Toast.makeText(this,"Your current Android Version dosent support Shortcuts.",Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            Toast.makeText(this,"Your current Android Version dosent support Shortcuts.",Toast.LENGTH_SHORT).show();
+        }
+        /*
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
+
+            ShortcutInfo dynamicShortcut = new ShortcutInfo.Builder(this, username)
+                    .setShortLabel(username)
+                    .setLongLabel(username)
+                    .setIcon(Icon.createWithBitmap(bitmap))
+                    .setIntents(
+                            new Intent[]{
+                                    new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, MessageActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).putExtra("userid",userid),
+                            })
+                    .build();
+            shortcutManager.setDynamicShortcuts(Arrays.asList(dynamicShortcut, dynamicShortcut));
+
+        }else {
+            Toast.makeText(this,"Your current Android Version dosent support Shortcuts.",Toast.LENGTH_SHORT).show();
+        }
+
+         */
+    }
+
+
+
 
     public void onBackPressed(){
         finish();

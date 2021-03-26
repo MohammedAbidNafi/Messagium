@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/settings"
+        android:shortcutId="Settings"
+        android:shortcutLongLabel="@string/settings"
+        android:shortcutShortLabel="@string/settings">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.margsapp.messenger.edit_profile"
+            android:targetPackage="com.margsapp.messenger" />
+    </shortcut>
+
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/add_chat"
+        android:shortcutId="add_chat"
+        android:shortcutLongLabel="@string/add_chat"
+        android:shortcutShortLabel="@string/add_chat">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.margsapp.messenger.FindUsersActivity"
+            android:targetPackage="com.margsapp.messenger" />
+    </shortcut>
+
+
+
+    //Add more shortcuts. Limit is up to 5 static and dynamic shortcuts.
+</shortcuts>

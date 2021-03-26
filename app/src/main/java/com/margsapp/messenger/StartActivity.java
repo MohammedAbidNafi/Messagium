@@ -55,7 +55,7 @@ public class StartActivity extends AppCompatActivity {
 
     private static final String TAG = "StartActivity";
 
-    AppCompatButton login,register;
+    AppCompatButton login,register,phone;
 
     FirebaseUser firebaseUser;
 
@@ -187,6 +187,7 @@ public class StartActivity extends AppCompatActivity {
 
         login = findViewById(R.id.login);
         register = findViewById(R.id.register);
+        phone = findViewById(R.id.phone);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,6 +205,18 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(StartActivity.this, RegisterActivity.class));
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(StartActivity.this);
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                }
+            }
+        });
+
+        phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(StartActivity.this, PhoneAuthActivity.class));
                 if (mInterstitialAd != null) {
                     mInterstitialAd.show(StartActivity.this);
                 } else {

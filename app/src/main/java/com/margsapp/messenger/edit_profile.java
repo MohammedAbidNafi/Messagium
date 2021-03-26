@@ -292,66 +292,6 @@ public class edit_profile extends AppCompatActivity {
         startActivityForResult(galleryIntent, GALLERY_PICK);
 
     }
-    /*
-
-
-
-    private void uploadImage(){
-
-        final ProgressDialog pd = new ProgressDialog(edit_profile.this);
-        pd.setMessage("Uploading");
-        pd.show();
-
-        if (imageUri != null){
-            final StorageReference fileReference = storageReference.child(System.currentTimeMillis()
-                    +"."+getFileExtension(imageUri));
-            uploadTask = fileReference.putFile(imageUri);
-            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if(!task.isSuccessful()){
-                        throw task.getException();
-                    }
-                    return fileReference.getDownloadUrl();
-
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if(task.isSuccessful()){
-                        Uri downloadUri = task.getResult();
-                        assert downloadUri != null;
-                        String mUri = downloadUri.toString();
-
-                        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-                        HashMap<String, Object> map = new HashMap<>();
-                        map.put("imageURL", mUri);
-                        reference.updateChildren(map);
-
-                        pd.dismiss();
-                    }
-                    else {
-                        Toast.makeText(edit_profile.this, "Failed! Error code 0x08050101", Toast.LENGTH_SHORT).show();
-                        pd.dismiss();
-                    }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(edit_profile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    pd.dismiss();
-                }
-            });
-        }else {
-            Toast.makeText(edit_profile.this,"No Image Error code 0x08050102",Toast.LENGTH_SHORT).show();
-        }
-
-
-    }
-
-     */
-
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

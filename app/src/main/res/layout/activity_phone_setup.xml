@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".setupActivity"
+android:background="@color/diffrentBack">
+
+<include
+    android:id="@+id/toolbar"
+    layout="@layout/bar_layout"/>
+
+
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/toolbar"
+    android:layout_marginTop="30sp"
+    android:layout_marginHorizontal="20dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="100dp"
+            android:id="@+id/DP"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_height="100dp"
+            android:src="@drawable/clicky"
+
+            />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:layout_width="250dp"
+            android:layout_height="50sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/DP"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/edit_text"
+            android:hint="Username"
+            android:id="@+id/username"
+            android:layout_marginBottom="25sp"/>
+        <androidx.appcompat.widget.AppCompatEditText
+            android:layout_width="250dp"
+            android:layout_height="50sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/username"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/edit_text"
+            android:hint="Enter status"
+            android:id="@+id/dt"
+            android:layout_marginBottom="25sp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:id="@+id/next"
+            android:background="@drawable/button"
+            android:text="Next"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/dt"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/background_white"/>
+
+
+
+    </RelativeLayout>
+
+
+
+
+
+</androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

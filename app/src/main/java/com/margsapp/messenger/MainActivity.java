@@ -12,6 +12,9 @@ import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 
+import android.content.pm.ShortcutInfo;
+import android.graphics.drawable.Icon;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -44,6 +47,7 @@ import com.margsapp.messenger.groupclass.create_groupActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private InterstitialAd mInterstitialAd;
     String versionName = BuildConfig.VERSION_NAME;
 
-    public int unread = 0;
+
 
 
     @Override
@@ -151,56 +155,32 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
+                int unread = 0;
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Chat chat = snapshot1.getValue(Chat.class);
+
                     assert chat != null;
-                    databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
-                            .child(chat.getReceiver())
-                            .child(chat.getSender());
-                    databaseReference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            Chatlist chatlist = snapshot.getValue(Chatlist.class);
-
-                            if (chatlist == null) {
-                                //Do Nothing
-                            } else {
-                                if (!chatlist.getFriends().equals("Blocked")) {
-                                    if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getIsseen().equals("false")) {
-                                        unread++;
-                                    }
-                                }
-
-
-                            }
-                            ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
-
-                            if (unread == 0) {
-                                viewPageAdapter.addFragment(new ChatsFragment(), "Chats");
-                            } else {
-                                viewPageAdapter.addFragment(new ChatsFragment(), "Chats(" +unread+ ")");
-                            }
-
-
-                            viewPageAdapter.addFragment(new GroupFragment(), "Group");
-
-
-                            viewPager.setAdapter(viewPageAdapter);
-
-                            tabLayout.setupWithViewPager(viewPager);
-
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
+                    if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getIsseen().equals("false")) {
+                        unread++;
+                    }
 
                 }
 
+
+                if (unread == 0) {
+                    viewPageAdapter.addFragment(new ChatsFragment(), "Chats");
+                } else {
+                    viewPageAdapter.addFragment(new ChatsFragment(), "Chats(" + unread + ")");
+                }
+
+
+                viewPageAdapter.addFragment(new GroupFragment(), "Group");
+
+
+                viewPager.setAdapter(viewPageAdapter);
+
+                tabLayout.setupWithViewPager(viewPager);
 
             }
 
@@ -208,6 +188,8 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+
+
         });
 
     }

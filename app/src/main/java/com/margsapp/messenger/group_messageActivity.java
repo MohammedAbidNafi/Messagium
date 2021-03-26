@@ -159,7 +159,7 @@ public class group_messageActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
 
                 if (mInterstitialAd != null) {
                     mInterstitialAd.show(group_messageActivity.this);
@@ -721,7 +721,8 @@ public class group_messageActivity extends AppCompatActivity {
     }
 
     public void onBackPressed(){
-        startActivity(new Intent(group_messageActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        finish();
+        //startActivity(new Intent(group_messageActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         if (mInterstitialAd != null) {
             mInterstitialAd.show(group_messageActivity.this);
         } else {

@@ -26,6 +26,8 @@
     <string name="banner_ad_unit_id5">ca-app-pub-5615682506938042/4528533646</string>
     <string name="banner_ad_unit_id6">ca-app-pub-5615682506938042/5765416083</string>
     <string name="banner_ad_unit_About">ca-app-pub-5615682506938042/1816308039</string>
+    <string name="add_chat">Add Chat</string>
+    <string name="settings">Settings</string>
 
     <string name="chat_main">ca-app-pub-5615682506938042/9926110222</string>
     <string name="edit_profile">ca-app-pub-5615682506938042/5865260490</string>
