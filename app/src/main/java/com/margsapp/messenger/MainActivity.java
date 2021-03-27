@@ -13,6 +13,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 
 import android.content.pm.ShortcutInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,6 +48,7 @@ import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.groupclass.create_groupActivity;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseUser firebaseUser;
     DatabaseReference reference, databaseReference;
-    String imageurl;
+    Drawable imageurl;
     private InterstitialAd mInterstitialAd;
     String versionName = BuildConfig.VERSION_NAME;
 
@@ -115,6 +119,12 @@ public class MainActivity extends AppCompatActivity {
         DP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                imageurl = DP.getDrawable();
+                Bitmap bitmap = ((BitmapDrawable)imageurl).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byte[] imageurl = baos.toByteArray();
+
                 Intent intent = new Intent(MainActivity.this, Dp_viewActivity.class);
                 intent.putExtra("data", imageurl);
                 startActivity(intent);
@@ -127,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
                 User user = dataSnapshot.getValue(User.class);
                 assert user != null;
-                imageurl = user.getImageUrl();
+                String imageurl = user.getImageUrl();
                 username.setText(user.getUsername());
                 if (imageurl.equals("default")) {
                     DP.setImageResource(R.drawable.user);

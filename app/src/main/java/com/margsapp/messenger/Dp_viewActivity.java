@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -29,7 +32,7 @@ public class Dp_viewActivity extends AppCompatActivity {
 
     ImageView dpView;
 
-    String data;
+    Drawable data;
 
     Intent intent;
 
@@ -57,19 +60,17 @@ public class Dp_viewActivity extends AppCompatActivity {
             }
         });
 
-        dpView = findViewById(R.id.dpview);
 
-        intent = getIntent();
-        data = intent.getStringExtra("data");
 
-        if(data.equals("default"))
-        {
-            dpView.setImageResource(R.drawable.user);
+        Bundle extras = getIntent().getExtras();
+        byte[] b = extras.getByteArray("data");
 
-        }
-        else {
-            Glide.with(getApplicationContext()).load(data).into(dpView);
-        }
+        Bitmap bmp = BitmapFactory.decodeByteArray(b, 0, b.length);
+        ImageView image = (ImageView) findViewById(R.id.dpview);
+
+        image.setImageBitmap(bmp);
+
+
     }
 
     private void status(String status){

@@ -26,26 +26,18 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:src="@drawable/ic_baseline_chevron_right_24"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_baseline_create_24"
                     android:layout_gravity="center_vertical|end"
                     android:background="@color/card_back"
                     />
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/thinking"
-                    android:layout_marginLeft="10dp"
-
-                    android:layout_gravity="center_vertical|start"/>
-
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Edit Group"
+                    android:id="@+id/groupname"
+                    android:text="GroupName"
+                    android:layout_marginStart="20dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="50dp"
                     android:textColor="@color/blacktext"
                     android:textSize="20dp"
                     />

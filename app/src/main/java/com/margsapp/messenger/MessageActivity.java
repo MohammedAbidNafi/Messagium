@@ -68,6 +68,7 @@ import com.margsapp.messenger.reply.SwipeController;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -112,8 +113,11 @@ public class MessageActivity extends AppCompatActivity {
 
     String userid,ReplyId, Sendername,ReplyName,imageUrl,blocked;
 
+    Drawable imageurl;
+
     ConstraintLayout reply, editor;
     RelativeLayout warning;
+
 
     private InterstitialAd mInterstitialAd;
 
@@ -232,8 +236,14 @@ public class MessageActivity extends AppCompatActivity {
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                imageurl = profileImage.getDrawable();
+                Bitmap bitmap = ((BitmapDrawable)imageurl).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byte[] imageurl = baos.toByteArray();
+
                 Intent intent = new Intent(MessageActivity.this, Dp_viewActivity.class);
-                intent.putExtra("data", imageUrl);
+                intent.putExtra("data", imageurl);
                 startActivity(intent);
             }
         });
@@ -296,14 +306,8 @@ public class MessageActivity extends AppCompatActivity {
                 String Reply = reply_txt.getText().toString();
 
                 String Sender_name = Sendername;
-                if(blocked.equals("blocked")){
-                    String receiver = "blocked";
-                    if(reply_){
-                        ReplyMessage(firebaseUser.getUid(),receiver, msg, timestamp, isseen, Reply, ReplyId, Sendername,ReplyName);
-                    }
-                    if(!reply_){
-                        sendMessage(firebaseUser.getUid(),receiver,msg, timestamp,isseen, Sender_name);
-                    }
+                if(blocked.equals("Blocked")){
+                    Toast.makeText(this,"Unfortunately this person has blocked you.",Toast.LENGTH_SHORT).show();
                 }else {
                     if(reply_){
                         ReplyMessage(firebaseUser.getUid(),userid, msg, timestamp, isseen, Reply, ReplyId, Sendername,ReplyName);
@@ -712,7 +716,7 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Chatlist chatlist = snapshot.getValue(Chatlist.class);
-                assert chatlist != null;
+
                 if(snapshot.exists()){
                     if(!chatlist.getFriends().equals("Blocked")) {
                         DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");

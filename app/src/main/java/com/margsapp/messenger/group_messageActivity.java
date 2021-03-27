@@ -13,12 +13,18 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -62,6 +68,7 @@ import com.margsapp.messenger.reply.SwipeController;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -98,7 +105,9 @@ public class group_messageActivity extends AppCompatActivity {
 
     APIService apiService;
 
-    String groupname,ReplyId,Replyname,username,imageUrl;
+    String groupname,ReplyId,Replyname,username;
+
+    Drawable imageUrl;
 
     ConstraintLayout reply, editor,group_info;
     RelativeLayout warning;
@@ -123,11 +132,18 @@ public class group_messageActivity extends AppCompatActivity {
 
 
 
+        group_info.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                group_info.setBackgroundColor(group_messageActivity.this.getResources().getColor(R.color.onToolClick));
+                return false;
+            }
+        });
         group_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(group_messageActivity.this, group_infoActivity.class));
-                group_info.setBackgroundColor(group_messageActivity.this.getResources().getColor(R.color.onToolClick));
+                startActivity(new Intent(group_messageActivity.this, group_infoActivity.class).putExtra("groupname", groupname));
+                group_info.setBackgroundColor(group_messageActivity.this.getResources().getColor(R.color.coral));
             }
         });
 
@@ -227,9 +243,14 @@ public class group_messageActivity extends AppCompatActivity {
         group_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                imageUrl = group_image.getDrawable();
+                Bitmap bitmap = ((BitmapDrawable)imageUrl).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byte[] imageurl = baos.toByteArray();
 
                 Intent intent = new Intent(group_messageActivity.this, Dp_viewActivity.class);
-                intent.putExtra("data", imageUrl);
+                intent.putExtra("data", imageurl);
                 startActivity(intent);
             }
         });
@@ -395,7 +416,7 @@ public class group_messageActivity extends AppCompatActivity {
 
                 assert group != null;
                 groupusername.setText(group.getGroupname());
-                imageUrl = group.getImageUrl();
+                String imageUrl = group.getImageUrl();
                 //Participantsname
                 if(imageUrl.equals("default"))
                 {
