@@ -3,93 +3,210 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/diffrentBack"
-    tools:context=".Fragments.GroupInfoFragment">
+    tools:context=".Fragments.GroupInfoFragment"
+    android:animateLayoutChanges="true">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-
-        <RelativeLayout
+        android:clipToPadding="false"
+        android:fillViewport="true">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.cardview.widget.CardView
+            android:layout_height="wrap_content"
+            >
+            <RelativeLayout
+                android:id="@+id/cardView"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_below="@+id/imagecard"
-                android:id="@+id/group_edit"
-                android:background="@color/card_back"
-                >
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/group_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/card_back">
+                    <!--
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_marginEnd="10dp"
+                        android:background="@color/card_back"
+                        android:src="@drawable/ic_baseline_create_24" />
+                    -->
+                    <TextView
+                        android:id="@+id/groupname_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="20dp"
+                        android:text="GroupName"
+                        android:textColor="@color/blacktext"
+                        android:textSize="20dp" />
 
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_baseline_create_24"
-                    android:layout_gravity="center_vertical|end"
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/manage_part"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/group_edit"
+                    android:layout_marginTop="10dp"
                     android:background="@color/card_back"
-                    />
+                    android:visibility="visible">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_gravity="center_vertical|end"
+                        android:background="@color/card_back"
+                        android:src="@drawable/ic_baseline_chevron_right_24" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_marginLeft="10dp"
+
+                        android:src="@drawable/add_friend" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="50dp"
+                        android:text="Manage Participants"
+                        android:textColor="@color/blacktext"
+                        android:textSize="20dp" />
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/search_users_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/manage_part"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/card_back"
+                    android:visibility="visible">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/search_button"
+                        android:layout_gravity="center_vertical|end"
+                        android:background="@color/card_back"
+                        android:src="@drawable/ic_baseline_chevron_right_24" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_marginLeft="10dp"
+
+                        android:src="@drawable/ic_baseline_search_24" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="50dp"
+                        android:text="Search Partipants"
+                        android:textColor="@color/blacktext"
+                        android:textSize="20dp" />
+
+
+                </androidx.cardview.widget.CardView>
+
+
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/others"
+                android:id="@+id/participants_name"
+                app:layout_constrainedHeight="true"
+                android:background="@color/diffrentBack"
+                app:layout_constraintTop_toBottomOf="@+id/cardView">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40sp"
+                    android:layout_margin="10dp"
+
+                    android:hint="Search Users"
+                    android:background="@drawable/edit_text"
+                    android:paddingStart="7sp"
+                    android:drawableStart="@drawable/ic_baseline_search_24"
+                    android:drawablePadding="5dp"
+                    android:id="@+id/search_users"
+                    android:visibility="gone"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constrainedHeight="true"
+                    android:layout_marginTop="10dp"
+                    android:visibility="visible"
+                    android:layout_below="@+id/search_users"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/others"
+                app:layout_constraintTop_toBottomOf="@+id/participants_name">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/groupname"
-                    android:text="GroupName"
-                    android:layout_marginStart="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:textColor="@color/blacktext"
-                    android:textSize="20dp"
-                    />
+                    android:id="@+id/created_on"
+                    android:layout_marginTop="20dp"
+                    android:text="Created on"
+                    android:textSize="15sp"
+                    android:textColor="@color/blacktext"/>
 
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/group_edit"
-                android:id="@+id/status_card"
-                android:background="@color/card_back"
-                >
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:src="@drawable/ic_baseline_chevron_right_24"
-                    android:layout_gravity="center_vertical|end"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/leave_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/created_on"
+                    android:layout_marginTop="10dp"
                     android:background="@color/card_back"
-                    />
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/thinking"
-                    android:layout_marginLeft="10dp"
+                    android:visibility="visible">
 
-                    android:layout_gravity="center_vertical|start"/>
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/ic_baseline_exit_to_app_24" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="50dp"
+                        android:text="Leave Group"
+                        android:textColor="@color/red"
+                        android:textSize="20dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Edit Group"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="50dp"
-                    android:textColor="@color/blacktext"
-                    android:textSize="20dp"
-                    />
+                </androidx.cardview.widget.CardView>
 
+            </RelativeLayout>
 
-            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-        </RelativeLayout>
-
-
-
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

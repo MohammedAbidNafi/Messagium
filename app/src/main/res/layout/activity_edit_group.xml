@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    tools:context=".EditStatusActivity">
+    tools:context=".groupclass.edit_group_name">
 
     <include
         android:id="@+id/toolbar"
@@ -28,7 +28,7 @@
         app:met_checkCharactersCountAtBeginning="true"
 
 
-        android:hint="Edit status"
+        android:hint="Edit Group Name"
 
         app:met_textColorHint="@color/greytext"
         app:met_textColor="@color/blacktext"

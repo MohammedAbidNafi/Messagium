@@ -1,14 +1,16 @@
-package com.margsapp.messenger;
+package com.margsapp.messenger.dp_view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -22,19 +24,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Model.User;
+import com.margsapp.messenger.R;
+import com.margsapp.messenger.groupclass.group_infoActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class Dp_viewActivity extends AppCompatActivity {
+public class group_dpActivity extends AppCompatActivity {
 
     ImageView dpView;
 
-    Drawable data;
+    String imageurl;
 
     Intent intent;
+    String groupname;
 
     DatabaseReference databaseReference;
 
@@ -46,29 +51,41 @@ public class Dp_viewActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_dp_view);
 
+        intent = getIntent();
+        imageurl = intent.getStringExtra("data");
+        groupname = intent.getStringExtra("groupname");
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Display Picture");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(groupname);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(group_dpActivity.this, group_infoActivity.class);
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair<View, String>(dpView, "imageTransition");
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(group_dpActivity.this, pairs);
+                intent.putExtra("groupname",groupname);
+                startActivity(intent, options.toBundle());
+
             }
         });
 
 
+        dpView = findViewById(R.id.dpview);
 
-        Bundle extras = getIntent().getExtras();
-        byte[] b = extras.getByteArray("data");
 
-        Bitmap bmp = BitmapFactory.decodeByteArray(b, 0, b.length);
-        ImageView image = (ImageView) findViewById(R.id.dpview);
 
-        image.setImageBitmap(bmp);
+        if(imageurl.equals("group_default")){
+            dpView.setImageResource(R.drawable.groupicon);
+        }
+        else {
+            Glide.with(getApplicationContext()).load(imageurl).into(dpView);
+        }
+
 
 
     }
@@ -89,6 +106,18 @@ public class Dp_viewActivity extends AppCompatActivity {
         statusdatabaseReference.updateChildren(hashMap);
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(group_dpActivity.this, group_infoActivity.class);
+        Pair[] pairs = new Pair[1];
+        pairs[0] = new Pair<View, String>(dpView, "imageTransition");
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(group_dpActivity.this, pairs);
+        intent.putExtra("groupname",groupname);
+        startActivity(intent, options.toBundle());
+    }
+
 
     @Override
     protected void onResume() {

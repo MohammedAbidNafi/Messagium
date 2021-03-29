@@ -24,6 +24,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:transitionName="imageTransition"
                 android:id="@+id/DP"/>
 
             <TextView

@@ -1,4 +1,4 @@
-package com.margsapp.messenger;
+package com.margsapp.messenger.groupclass;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -12,15 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.transition.Explode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,35 +35,25 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Adapter.GroupMessageAdapter;
-import com.margsapp.messenger.Adapter.MessageAdapter;
+import com.margsapp.messenger.MainActivity;
+import com.margsapp.messenger.dp_view.group_dpActivity;
 import com.margsapp.messenger.Fragments.APIService;
-import com.margsapp.messenger.Model.Chat;
-import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.GroupChat;
-import com.margsapp.messenger.Model.GroupList;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.Notifications.Client;
-import com.margsapp.messenger.Notifications.Data;
-import com.margsapp.messenger.Notifications.MyResponse;
-import com.margsapp.messenger.Notifications.Sender;
-import com.margsapp.messenger.Notifications.Token;
+import com.margsapp.messenger.R;
 import com.margsapp.messenger.reply.ISwipeControllerActions;
 import com.margsapp.messenger.reply.SwipeController;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -77,9 +62,6 @@ import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class group_messageActivity extends AppCompatActivity {
 
@@ -107,7 +89,7 @@ public class group_messageActivity extends AppCompatActivity {
 
     String groupname,ReplyId,Replyname,username;
 
-    Drawable imageUrl;
+    String imageUrl;
 
     ConstraintLayout reply, editor,group_info;
     RelativeLayout warning;
@@ -122,6 +104,9 @@ public class group_messageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_message);
+
+        intent = getIntent();
+        groupname = intent.getStringExtra("groupname");
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -175,7 +160,9 @@ public class group_messageActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent openMainActivity = new Intent(group_messageActivity.this, MainActivity.class);
+                openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivityIfNeeded(openMainActivity, 0);
 
                 if (mInterstitialAd != null) {
                     mInterstitialAd.show(group_messageActivity.this);
@@ -243,14 +230,10 @@ public class group_messageActivity extends AppCompatActivity {
         group_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageUrl = group_image.getDrawable();
-                Bitmap bitmap = ((BitmapDrawable)imageUrl).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                byte[] imageurl = baos.toByteArray();
-
-                Intent intent = new Intent(group_messageActivity.this, Dp_viewActivity.class);
-                intent.putExtra("data", imageurl);
+                String data = imageUrl;
+                getWindow().setExitTransition(new Explode());
+                Intent intent = new Intent(group_messageActivity.this, group_dpActivity.class);
+                intent.putExtra("data", data);
                 startActivity(intent);
             }
         });
@@ -259,8 +242,7 @@ public class group_messageActivity extends AppCompatActivity {
 
 
 
-        intent = getIntent();
-        groupname = intent.getStringExtra("groupname");
+
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -416,9 +398,9 @@ public class group_messageActivity extends AppCompatActivity {
 
                 assert group != null;
                 groupusername.setText(group.getGroupname());
-                String imageUrl = group.getImageUrl();
+                imageUrl = group.getImageUrl();
                 //Participantsname
-                if(imageUrl.equals("default"))
+                if(imageUrl.equals("group_default"))
                 {
                     group_image.setImageResource(R.drawable.groupicon);
 
@@ -742,7 +724,9 @@ public class group_messageActivity extends AppCompatActivity {
     }
 
     public void onBackPressed(){
-        finish();
+        Intent openMainActivity = new Intent(this, MainActivity.class);
+        openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityIfNeeded(openMainActivity, 0);
         //startActivity(new Intent(group_messageActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         if (mInterstitialAd != null) {
             mInterstitialAd.show(group_messageActivity.this);

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="88dp"
+    android:layout_height="70dp"
     android:paddingRight="10dp"
     android:paddingLeft="10dp"
     android:paddingTop="10dp"
-    android:background="@color/background">
+    android:background="@color/diffrentBack">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_centerVertical="true"
         android:id="@+id/profile_image"
         android:src="@mipmap/ic_launcher"/>
@@ -24,7 +24,7 @@
         android:layout_toEndOf="@id/profile_image"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:textSize="18sp"/>
+        android:textSize="17dp"/>
 
 
     <View
@@ -41,6 +41,7 @@
         android:layout_below="@id/username"
         android:layout_toEndOf="@+id/profile_image"
         android:layout_marginTop="5dp"
+        android:text="hello how are you am fine"
         android:id="@+id/dt"
         android:lines="1"
         android:ellipsize="end"
@@ -51,8 +52,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/admin"
         android:text="Admin"
         android:textColor="@color/coral"
+        android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
         android:background="@drawable/admin_border"

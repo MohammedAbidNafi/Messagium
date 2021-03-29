@@ -10,16 +10,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.content.Intent;
 
-import android.content.pm.ShortcutInfo;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,14 +40,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Fragments.ChatsFragment;
 import com.margsapp.messenger.Fragments.GroupFragment;
 import com.margsapp.messenger.Model.Chat;
-import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
+import com.margsapp.messenger.dp_view.group_dpActivity;
+import com.margsapp.messenger.dp_view.main_dpActivity;
 import com.margsapp.messenger.groupclass.create_groupActivity;
+import com.margsapp.messenger.groupclass.group_infoActivity;
 
-import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
@@ -67,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseUser firebaseUser;
     DatabaseReference reference, databaseReference;
-    Drawable imageurl;
+    String imageurl;
     private InterstitialAd mInterstitialAd;
     String versionName = BuildConfig.VERSION_NAME;
 
@@ -119,15 +115,18 @@ public class MainActivity extends AppCompatActivity {
         DP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageurl = DP.getDrawable();
-                Bitmap bitmap = ((BitmapDrawable)imageurl).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                byte[] imageurl = baos.toByteArray();
+                String data = imageurl;
 
-                Intent intent = new Intent(MainActivity.this, Dp_viewActivity.class);
-                intent.putExtra("data", imageurl);
-                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, main_dpActivity.class);
+
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair<View, String>(DP, "imageTransition");
+
+
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+                intent.putExtra("data", data);
+                startActivity(intent, options.toBundle());
+
             }
         });
 
@@ -137,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
                 User user = dataSnapshot.getValue(User.class);
                 assert user != null;
-                String imageurl = user.getImageUrl();
+                imageurl = user.getImageUrl();
                 username.setText(user.getUsername());
                 if (imageurl.equals("default")) {
                     DP.setImageResource(R.drawable.user);

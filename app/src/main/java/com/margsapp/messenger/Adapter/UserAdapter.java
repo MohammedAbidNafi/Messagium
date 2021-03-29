@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +29,6 @@ import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
-import com.margsapp.messenger.groupclass.GroupMethods;
 
 import java.util.List;
 
@@ -51,7 +48,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private final boolean unreadbool = true;
 
 
-    private GroupMethods listener;
+
 
     String currentgroup;
 
@@ -216,10 +213,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
 
-    private void addPart_group(String id) {
 
-        listener.AddParticipant(id);
-    }
 
 
 

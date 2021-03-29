@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".group_infoActivity">
+    tools:context=".groupclass.group_infoActivity"
+    android:background="@color/diffrentBack"
+    android:verticalScrollbarPosition="defaultPosition"
+    >
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/bar"
@@ -20,7 +23,7 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            android:background="@color/coral"
+            app:contentScrim="@color/coral"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/MenuStyle" >
 
@@ -28,7 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/group_img"
-                android:src="@drawable/khyyati"
+                android:transitionName="imageTransition"
+                android:background="@color/coral"
                 android:scaleType="centerCrop"
                 android:layout_gravity="center"
                 app:layout_collapseMode="parallax"/>
@@ -36,17 +40,50 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+
                 app:layout_collapseMode="pin"/>
             
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
+    <!--
+    -->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:id="@+id/camera"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        app:backgroundTint="@color/coral"
+        android:src="@drawable/ic_baseline_photo_camera_24"
+        app:fabCustomSize="45dp"
+        app:maxImageSize="25sp"
+        app:layout_anchor="@id/bar"
+        app:layout_anchorGravity="end|bottom"
+
+        />
+
+    <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="25sp"
         android:layout_height="wrap_content"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        >
+
+
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+
+    </RelativeLayout>
+
 
 
 

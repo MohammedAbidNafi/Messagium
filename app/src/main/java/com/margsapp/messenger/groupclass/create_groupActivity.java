@@ -13,7 +13,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
@@ -33,9 +32,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
-import com.margsapp.messenger.Dp_viewActivity;
 import com.margsapp.messenger.MainActivity;
-import com.margsapp.messenger.MessageActivity;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
@@ -132,7 +129,7 @@ public class create_groupActivity extends AppCompatActivity {
                 if(image){
                      image_ = image_url;
                 }else {
-                     image_ = "default";
+                     image_ = "group_default";
                 }
 
                 Calendar calendar = Calendar.getInstance();
@@ -240,7 +237,7 @@ public class create_groupActivity extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
                 loadingBar.setTitle("Profile Image");
-                loadingBar.setMessage("Please wait, while we update your profile picture...");
+                loadingBar.setMessage("Please wait, while we update your group picture...");
                 loadingBar.show();
                 loadingBar.setCanceledOnTouchOutside(false);
                 assert result != null;

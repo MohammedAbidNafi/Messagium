@@ -1,10 +1,12 @@
 package com.margsapp.messenger;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -43,6 +45,7 @@ public class VerifyOTP extends AppCompatActivity {
     PinView pinFromUser;
     String phoneNo;
 
+    private TextView resend,wrongnumber;
     public TextView description;
 
     @SuppressLint("SetTextI18n")
@@ -58,6 +61,40 @@ public class VerifyOTP extends AppCompatActivity {
         phoneNo = getIntent().getStringExtra("phoneNo");
 
         description.setText("A verifcation code is sent to your mobile number \n" + phoneNo);
+
+        resend = findViewById(R.id.resend);
+        wrongnumber = findViewById(R.id.wrongnumber);
+        resend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(VerifyOTP.this);
+                dialog.setMessage("Do you want to get Verification code again?");
+                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        sendVerificationCodeToUser(phoneNo);
+
+                        Toast.makeText(VerifyOTP.this, "Another code has sent to " +phoneNo,Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dialog.setNeutralButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Dont do anything
+                    }
+                });
+                AlertDialog alertDialog = dialog.create();
+                alertDialog.show();
+            }
+        });
+
+        wrongnumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         sendVerificationCodeToUser(phoneNo);
 

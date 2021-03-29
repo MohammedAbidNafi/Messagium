@@ -20,11 +20,15 @@
         android:roundIcon="@mipmap/ic_launcher_appicon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Messenger">
-        <activity android:name=".Phone_setupActivity"></activity>
+        <activity android:name=".dp_view.main_dpActivity"></activity>
+        <activity android:name=".dp_view.personal_dpActivity" />
+        <activity android:name=".groupclass.manage_partActivty" />
+        <activity android:name=".groupclass.edit_group_name" />
+        <activity android:name=".Phone_setupActivity" />
         <activity android:name=".VerifyOTP" />
         <activity android:name=".PhoneAuthActivity" />
-        <activity android:name=".group_infoActivity" />
-        <activity android:name=".group_messageActivity" />
+        <activity android:name=".groupclass.group_infoActivity" />
+        <activity android:name=".groupclass.group_messageActivity" />
         <activity android:name=".groupclass.AddParticipants" />
         <activity android:name=".groupclass.create_groupActivity" />
         <activity android:name=".ChatViewActivity" />
@@ -41,16 +45,18 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.shortcuts"
+
+            <meta-data
+                android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
         <activity android:name=".AboutActivity" />
         <activity android:name=".CustomiseActivity" />
-        <activity android:name=".Dp_viewActivity" />
+        <activity android:name=".dp_view.group_dpActivity" />
         <activity android:name=".Friends.Blocked" />
         <activity android:name=".Friends.Accepted" />
         <activity android:name=".EditStatusActivity" />
-        <activity android:name=".FindUsersActivity"/>
+        <activity android:name=".FindUsersActivity" />
         <activity android:name=".Terms_ConditionsActivity" />
         <activity android:name=".edit_profile" />
         <activity
@@ -99,8 +105,6 @@
         <meta-data
             android:name="firebase_performance_logcat_enabled"
             android:value="true" />
-
-
     </application>
 
 </manifest>

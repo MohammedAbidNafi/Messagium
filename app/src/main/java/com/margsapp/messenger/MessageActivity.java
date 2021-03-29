@@ -1,6 +1,7 @@
 package com.margsapp.messenger;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,7 +9,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,17 +64,18 @@ import com.margsapp.messenger.Notifications.Data;
 import com.margsapp.messenger.Notifications.MyResponse;
 import com.margsapp.messenger.Notifications.Sender;
 import com.margsapp.messenger.Notifications.Token;
+import com.margsapp.messenger.dp_view.group_dpActivity;
+import com.margsapp.messenger.dp_view.main_dpActivity;
+import com.margsapp.messenger.dp_view.personal_dpActivity;
+import com.margsapp.messenger.groupclass.group_messageActivity;
 import com.margsapp.messenger.reply.ISwipeControllerActions;
 import com.margsapp.messenger.reply.SwipeController;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -113,7 +115,7 @@ public class MessageActivity extends AppCompatActivity {
 
     String userid,ReplyId, Sendername,ReplyName,imageUrl,blocked;
 
-    Drawable imageurl;
+
 
     ConstraintLayout reply, editor;
     RelativeLayout warning;
@@ -168,7 +170,9 @@ public class MessageActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent openMainActivity = new Intent(MessageActivity.this, MainActivity.class);
+                openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivityIfNeeded(openMainActivity, 0);
 
                 if (mInterstitialAd != null) {
                     mInterstitialAd.show(MessageActivity.this);
@@ -236,17 +240,17 @@ public class MessageActivity extends AppCompatActivity {
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageurl = profileImage.getDrawable();
-                Bitmap bitmap = ((BitmapDrawable)imageurl).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                byte[] imageurl = baos.toByteArray();
-
-                Intent intent = new Intent(MessageActivity.this, Dp_viewActivity.class);
-                intent.putExtra("data", imageurl);
-                startActivity(intent);
+                String data = imageUrl;
+                Intent intent = new Intent(MessageActivity.this, personal_dpActivity.class);
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair<View, String>(profileImage, "imageTransition");
+                intent.putExtra("data",data);
+                intent.putExtra("userid",userid);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MessageActivity.this, pairs);
+                startActivity(intent, options.toBundle());
             }
         });
+
 
 
 
@@ -954,7 +958,11 @@ public class MessageActivity extends AppCompatActivity {
 
 
     public void onBackPressed(){
-        finish();
+
+        Intent openMainActivity = new Intent(MessageActivity.this, MainActivity.class);
+        openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityIfNeeded(openMainActivity, 0);
+
         if (mInterstitialAd != null) {
             mInterstitialAd.show(MessageActivity.this);
         } else {

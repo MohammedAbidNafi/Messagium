@@ -1,7 +1,6 @@
 package com.margsapp.messenger.Fragments;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -26,19 +25,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Adapter.AddPartAdapter;
-import com.margsapp.messenger.Adapter.UserAdapter;
-import com.margsapp.messenger.MessageActivity;
 import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
 import com.margsapp.messenger.groupclass.AddParticipants;
-import com.margsapp.messenger.groupclass.GroupMethods;
 import com.victor.loading.rotate.RotateLoading;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.HashMap;
 import java.util.List;
 
@@ -143,7 +136,7 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
 
 
 
-                AddPartAdapter addPartAdapter = new AddPartAdapter(getContext(), mUsers, groupId);
+                AddPartAdapter addPartAdapter = new AddPartAdapter(getContext(), mUsers, groupId,false);
                 addPartAdapter.addEventListener(AddParticipantsFragment.this);
                 recyclerView.setAdapter(addPartAdapter);
             }

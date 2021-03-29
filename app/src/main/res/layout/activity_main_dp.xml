@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".dp_view.group_dpActivity"
-    android:background="@color/background">
+    tools:context=".dp_view.main_dpActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

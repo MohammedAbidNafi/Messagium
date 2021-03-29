@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.GroupChat;
 import com.margsapp.messenger.R;
-import com.margsapp.messenger.group_messageActivity;
+import com.margsapp.messenger.groupclass.group_messageActivity;
 
 import java.util.List;
 
@@ -61,7 +61,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         String group_name = group.getGroupname();
         lastmessage(group_name, holder.last_msg);
 
-        if(group.getImageUrl().equals("default")){
+        if(group.getImageUrl().equals("group_default")){
             holder.group_img.setImageResource(R.drawable.groupicon);
         }else {
             Glide.with(mContext).load(group.getImageUrl()).into(holder.group_img);
@@ -87,6 +87,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     }
 
     private void launch(String groupname){
+
 
         Intent intent = new Intent(mContext, group_messageActivity.class);
         intent.putExtra("groupname", groupname);

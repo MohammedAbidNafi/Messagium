@@ -40,6 +40,7 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
     private final Context mContext;
     private  List<User> mUsers;
 
+    private boolean managepart;
     private String GroupName;
 
     EventListener listener;
@@ -59,10 +60,11 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
     }
 
 
-    public AddPartAdapter(Context mContext, List<User> mUsers,String GroupName) {
+    public AddPartAdapter(Context mContext, List<User> mUsers,String GroupName, boolean managepart) {
         this.mContext = mContext;
         this.mUsers = mUsers;
         this.GroupName = GroupName;
+        this.managepart = managepart;
 
     }
 
@@ -95,12 +97,15 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                Group group = snapshot.getValue(Group.class);
-                assert group != null;
-                if(user.getId().equals(group.getId())){
-                    holder.addpart_btn.setVisibility(View.GONE);
-                    holder.remove.setVisibility(View.VISIBLE);
+                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                    Group group = snapshot1.getValue(Group.class);
+                    assert group != null;
+                    if(group.getId().equals(user.getId())){
+                        holder.addpart_btn.setVisibility(View.GONE);
+                        holder.remove.setVisibility(View.VISIBLE);
+                    }
                 }
+
 
             }
 

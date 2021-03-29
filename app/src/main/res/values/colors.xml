@@ -19,6 +19,7 @@
     <color name="onAdapClick">#DFDFDF</color>
     <color name="onToolClick">#FF9392</color>
 
+    <color name="red">#FF1919</color>
 
     <color name="background">#fff</color>
     <color name="blacktext">#000</color>

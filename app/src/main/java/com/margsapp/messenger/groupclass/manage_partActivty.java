@@ -9,73 +9,44 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.margsapp.messenger.Adapter.UserAdapter;
-import com.margsapp.messenger.Fragments.AddParticipantsFragment;
-import com.margsapp.messenger.MainActivity;
+import com.margsapp.messenger.Fragments.manage_partFragment;
 import com.margsapp.messenger.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 
-public class AddParticipants extends AppCompatActivity {
+public class manage_partActivty extends AppCompatActivity {
 
     Intent intent;
-    String groupId;
 
-    UserAdapter userAdapter;
-
-    boolean updateGroup = false;
-
-
+    String groupname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_participants);
+        setContentView(R.layout.activity_manage_part);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Add Participants");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Manage Participants");
 
         intent = getIntent();
-        groupId = intent.getStringExtra("GroupID");
-
-
-
-
+        groupname = intent.getStringExtra("groupname");
 
 
         final ViewPager viewPager = findViewById(R.id.viewPager);
-        AddParticipants.ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
-        viewPageAdapter.addFragment(new AddParticipantsFragment(), "Add Participants");
+        ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
+        viewPageAdapter.addFragment(new manage_partFragment(), "Manage Participants");
         viewPager.setAdapter(viewPageAdapter);
-
-
-
     }
 
     public String getMyData() {
-        return groupId;
+        return groupname;
     }
-
-
-
-
-
-
-
 
 
     static class ViewPageAdapter extends FragmentPagerAdapter {
@@ -117,22 +88,18 @@ public class AddParticipants extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_in_addpart, menu);
+        getMenuInflater().inflate(R.menu.menu_in_manage_part, menu);
         return true;
     }
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-
-            case R.id.create:
-                updateGroup = true;
-                Intent intent = new Intent(AddParticipants.this,group_messageActivity.class);
-                intent.putExtra("groupname", groupId);
+            case R.id.editPart:
+                Intent intent = new Intent(manage_partActivty.this, AddParticipants.class);
+                intent.putExtra("GroupID", groupname);
                 startActivity(intent);
-                return true;
 
         }
 

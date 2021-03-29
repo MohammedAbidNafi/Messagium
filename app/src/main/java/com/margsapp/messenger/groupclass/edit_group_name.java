@@ -1,4 +1,4 @@
-package com.margsapp.messenger;
+package com.margsapp.messenger.groupclass;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,10 +8,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 
 import com.google.android.gms.ads.AdRequest;
@@ -23,22 +21,25 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.User;
-import com.margsapp.messenger.groupclass.create_groupActivity;
+import com.margsapp.messenger.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class EditStatusActivity extends AppCompatActivity {
+public class edit_group_name extends AppCompatActivity {
 
     FirebaseUser firebaseUser;
     DatabaseReference reference;
 
-    EditText statusEditText;
+    EditText GroupName;
 
     AppCompatButton saveButton;
+    String groupname;
+    Intent intent;
 
     private AdView mAdView;
 
@@ -46,9 +47,10 @@ public class EditStatusActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_status);
+        setContentView(R.layout.activity_edit_group);
 
-        statusEditText = findViewById(R.id.editText);
+
+        GroupName = findViewById(R.id.editText);
 
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -56,18 +58,21 @@ public class EditStatusActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Edit Status");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Edit Group Name");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+        intent = getIntent();
+        groupname = intent.getStringExtra("groupname");
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
+                Group group = snapshot.getValue(Group.class);
 
-                statusEditText.setText(user.getDt());
+                GroupName.setText(group.getGroupname());
             }
 
             @Override
@@ -79,7 +84,7 @@ public class EditStatusActivity extends AppCompatActivity {
     }
 
 
-    private void save(String txt_status) {
+    private void save(String txt_groupname) {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -87,7 +92,7 @@ public class EditStatusActivity extends AppCompatActivity {
         assert firebaseUser != null;
         String userid = firebaseUser.getUid();
 
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
+        reference = FirebaseDatabase.getInstance().getReference("Group").child(groupname);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -96,7 +101,7 @@ public class EditStatusActivity extends AppCompatActivity {
 
 
                 HashMap<String, Object> hash = new HashMap<>();
-                hash.put("DT", txt_status);
+                hash.put("groupname", txt_groupname);
                 reference.updateChildren(hash);
 
 
@@ -124,12 +129,8 @@ public class EditStatusActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.done:
 
-                String txt_status = statusEditText.getText().toString();
-                save(txt_status);
-
-                Intent intent = new Intent(EditStatusActivity.this, edit_profile.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                String txt_groupname = GroupName.getText().toString();
+                save(txt_groupname);
                 finish();
         }
 
@@ -140,12 +141,8 @@ public class EditStatusActivity extends AppCompatActivity {
 
 
     public void onBackPressed(){
-        String txt_status = statusEditText.getText().toString();
-        save(txt_status);
-
-        Intent intent = new Intent(EditStatusActivity.this, edit_profile.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        String txt_groupname = GroupName.getText().toString();
+        save(txt_groupname);
         finish();
 
     }
@@ -183,4 +180,7 @@ public class EditStatusActivity extends AppCompatActivity {
         super.onDestroy();
         status("offline");
     }
-}
+
+
+    }
+

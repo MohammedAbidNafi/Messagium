@@ -9,16 +9,28 @@ public class Group {
     private String imageUrl;
     private String id;
     private String user_name;
+    private String admin;
 
+    private String createdon;
 
-    public Group(String groupname, String imageUrl, String id, String user_name) {
+    public Group(String groupname, String imageUrl, String id, String user_name, String admin, String createdon) {
         this.groupname = groupname;
         this.imageUrl = imageUrl;
         this.id = id;
         this.user_name = user_name;
+        this.admin = admin;
+        this.createdon = createdon;
 
 
 
+    }
+
+    public String getCreatedon() {
+        return createdon;
+    }
+
+    public void setCreatedon(String createdon) {
+        this.createdon = createdon;
     }
 
     public String getUser_name() {
@@ -27,6 +39,14 @@ public class Group {
 
     public void setUser_name(String user_name) {
         this.user_name = user_name;
+    }
+
+    public String getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(String admin) {
+        this.admin = admin;
     }
 
     public Group(){}
