@@ -14,6 +14,8 @@
 
     <color name="other_reply">#AFAFAF</color>
 
+    <color name="dp_view_toolbar">#FF6766</color>
+
     <color name="WebLink">#005EFF</color>
 
     <color name="onAdapClick">#DFDFDF</color>

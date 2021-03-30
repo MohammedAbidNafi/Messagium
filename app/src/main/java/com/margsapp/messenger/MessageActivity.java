@@ -46,6 +46,8 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -284,8 +286,12 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Chatlist chatlist = snapshot.getValue(Chatlist.class);
-                assert chatlist != null;
-                blocked = chatlist.getFriends();
+
+                if(snapshot.exists()){
+                    assert chatlist != null;
+                    blocked = chatlist.getFriends();
+
+                }
 
             }
 
@@ -310,16 +316,22 @@ public class MessageActivity extends AppCompatActivity {
                 String Reply = reply_txt.getText().toString();
 
                 String Sender_name = Sendername;
-                if(blocked.equals("Blocked")){
-                    Toast.makeText(this,"Unfortunately this person has blocked you.",Toast.LENGTH_SHORT).show();
-                }else {
+                /*
+                if(blocked != null){
+                    if(blocked.equals("Blocked")){
+                        Toast.makeText(this,"Unfortunately this person has blocked you.",Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                 */
+               // else {
                     if(reply_){
                         ReplyMessage(firebaseUser.getUid(),userid, msg, timestamp, isseen, Reply, ReplyId, Sendername,ReplyName);
                     }
                     if(!reply_){
                         sendMessage(firebaseUser.getUid(),userid,msg, timestamp,isseen, Sender_name);
                     }
-                }
+
 
 
 
@@ -379,19 +391,29 @@ public class MessageActivity extends AppCompatActivity {
         btn_reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Toast.makeText(getApplicationContext(), "Request Rejected!", Toast.LENGTH_SHORT).show();
 
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
                         .child(firebaseUser.getUid())
                         .child(userid);
-
+                warning.setVisibility(View.GONE);
+                editor.setVisibility(View.GONE);
                 HashMap<String, Object> hashMap = new HashMap<>();
                 hashMap.put("friends", "Rejected");
-                databaseReference.getRef().updateChildren(hashMap);
-                Intent intent = new Intent(MessageActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                Toast.makeText(MessageActivity.this, "Request Rejected!", Toast.LENGTH_SHORT).show();
+                databaseReference.getRef().updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        warning.setVisibility(View.GONE);
+                        editor.setVisibility(View.GONE);
+                        Intent intent = new Intent(MessageActivity.this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                });
+
+
+
+
 
             }
         });
@@ -664,7 +686,9 @@ public class MessageActivity extends AppCompatActivity {
                     chatRefReceiver.child("id").setValue(firebaseUser.getUid());
                     chatRefReceiver.child("friends").setValue("Requested");
 
-                }else if(snapshot.exists()){
+                }
+
+                if(snapshot.exists()){
                     assert chatlist != null;
                     if(chatlist.getFriends().equals("Rejected")){
                         chatRefReceiver.child("id").setValue(firebaseUser.getUid());

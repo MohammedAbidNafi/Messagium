@@ -176,6 +176,11 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
 
     }
 
+    @Override
+    public void RemoveParticipant() {
+
+    }
+
     public void onDestroy() {
         super.onDestroy();
         addPartAdapter.removeEventListener();

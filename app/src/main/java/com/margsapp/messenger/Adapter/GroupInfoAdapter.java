@@ -61,12 +61,15 @@ public class GroupInfoAdapter extends RecyclerView.Adapter<GroupInfoAdapter.View
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Group group = snapshot.getValue(Group.class);
-                assert group != null;
-                if(group.getAdmin().equals("true")){
-                    holder.admin.setVisibility(View.VISIBLE);
-                }else {
-                    holder.admin.setVisibility(View.GONE);
+                if(snapshot.exists()){
+                    assert group != null;
+                    if(group.getAdmin().equals("true")){
+                        holder.admin.setVisibility(View.VISIBLE);
+                    }else {
+                        holder.admin.setVisibility(View.GONE);
+                    }
                 }
+
 
 
 

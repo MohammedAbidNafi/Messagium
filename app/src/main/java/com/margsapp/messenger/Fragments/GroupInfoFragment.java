@@ -1,9 +1,11 @@
 package com.margsapp.messenger.Fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +24,8 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +41,7 @@ import com.margsapp.messenger.groupclass.manage_partActivty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class GroupInfoFragment extends Fragment {
@@ -77,6 +82,8 @@ public class GroupInfoFragment extends Fragment {
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
         group_infoActivity activity = (group_infoActivity) getActivity();
         assert activity != null;
         groupname = activity.getMyData();
@@ -94,6 +101,7 @@ public class GroupInfoFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Group group = snapshot.getValue(Group.class);
 
+                assert group != null;
                 groupname_txt.setText(group.getGroupname());
             }
 
@@ -105,7 +113,6 @@ public class GroupInfoFragment extends Fragment {
 
         searchUser = view.findViewById(R.id.search_users_btn);
 
-        leaveGroup = view.findViewById(R.id.leave_group);
 
 
 
@@ -133,9 +140,41 @@ public class GroupInfoFragment extends Fragment {
         manage_part.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), manage_partActivty.class);
-                intent.putExtra("groupname", groupname);
-                startActivity(intent);
+
+                assert firebaseUser != null;
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members").child(firebaseUser.getUid());
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Group group = snapshot.getValue(Group.class);
+
+                        assert group != null;
+                        if(group.getAdmin().equals("true")){
+                            Intent intent = new Intent(getContext(), manage_partActivty.class);
+                            intent.putExtra("groupname", groupname);
+                            startActivity(intent);
+                        }else {
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
+                            dialog.setTitle("Not an Admin.");
+                            dialog.setMessage("You have to be Admin to make changes in group.");
+                            dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                }
+                            });
+                            AlertDialog alertDialog = dialog.create();
+                            alertDialog.show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
             }
         });
 
@@ -150,6 +189,32 @@ public class GroupInfoFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        leaveGroup = view.findViewById(R.id.leave_group);
+
+        leaveGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
+                dialog.setMessage("Are you sure you want to leave the group?");
+                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        leave();
+                    }
+                });
+                dialog.setNeutralButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Dont do anything
+                    }
+                });
+                AlertDialog alertDialog = dialog.create();
+                alertDialog.show();
 
             }
         });
@@ -185,7 +250,7 @@ public class GroupInfoFragment extends Fragment {
                         // Using handler with postDelayed called runnable run method
                         @Override
                         public void run() {
-                            search_user.setVisibility(View.INVISIBLE);
+                            search_user.setVisibility(View.GONE);
                         }
 
                     }, 500);
@@ -218,6 +283,19 @@ public class GroupInfoFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void leave() {
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members").child(firebaseUser.getUid());
+        databaseReference.removeValue();
+
+
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(firebaseUser.getUid()).child(groupname);
+        databaseReference1.removeValue();
+
     }
 
     private void update(){

@@ -14,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -47,9 +49,14 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
 
 
 
+
+
     public interface EventListener {
         void AddParticipant(String id, String username, RotateLoading rotateLoading, Context mContext,ImageView remove);
+        void RemoveParticipant();
     }
+
+
 
     public void addEventListener(EventListener listener){
         this.listener = listener;
@@ -58,6 +65,7 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
     public void removeEventListener(){
         listener = null;
     }
+
 
 
     public AddPartAdapter(Context mContext, List<User> mUsers,String GroupName, boolean managepart) {
@@ -139,20 +147,21 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String id = user.getId();
+                String idd = user.getId();
                 String name = user.getUsername();
-                remove(id,name);
 
-                holder.remove.setVisibility(View.GONE);
-                holder.addpart_btn.setVisibility(View.VISIBLE);
-                /*
-                AlertDialog.Builder dialog = new AlertDialog.Builder(AddParticipants.class);
+
+
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
                 dialog.setMessage("Are you sure you want to remove this user?");
                 dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-
+                        remove(idd,name);
+                        holder.remove.setVisibility(View.GONE);
+                        holder.addpart_btn.setVisibility(View.VISIBLE);
                     }
                 });
                 dialog.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
@@ -164,13 +173,15 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
                 AlertDialog alertDialog = dialog.create();
                 alertDialog.show();
 
-                 */
+
             }
         });
 
     }
 
     private void remove(String id, String name) {
+
+        listener.RemoveParticipant();
         DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(id).child(GroupName);
         databaseReference1.removeValue();
 

@@ -1,5 +1,8 @@
 package com.margsapp.messenger.Fragments;
 
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,12 +27,13 @@ import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
 import com.margsapp.messenger.groupclass.manage_partActivty;
+import com.victor.loading.rotate.RotateLoading;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class manage_partFragment extends Fragment {
+public class manage_partFragment extends Fragment implements AddPartAdapter.EventListener{
 
     private RecyclerView recyclerView;
     private List<Group> mUsers;
@@ -37,6 +42,8 @@ public class manage_partFragment extends Fragment {
     FirebaseUser firebaseUser;
 
     private List<User> usersList;
+
+    private AddPartAdapter addPartAdapter;
 
     private manage_partActivty manage_partActivty;
 
@@ -69,8 +76,17 @@ public class manage_partFragment extends Fragment {
     }
 
 
-    private void manage(){
+    @Override
+    public void AddParticipant(String id, String username, RotateLoading rotateLoading, Context mContext, ImageView remove) {}
 
+    public void RemoveParticipant(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            assert getFragmentManager() != null;
+            getFragmentManager().beginTransaction().detach(this).commitNow();
+            getFragmentManager().beginTransaction().attach(this).commitNow();
+        } else {
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        }
     }
 
     private void chatList() {
@@ -105,6 +121,7 @@ public class manage_partFragment extends Fragment {
                     User user = snapshot1.getValue(User.class);
                     for(Group group : mUsers){
                         assert user != null;
+                        assert firebaseUser != null;
                         if(!firebaseUser.getUid().equals(user.getId())){
                             if(user.getId().equals(group.getId())){
                                 usersList.add(user);
@@ -115,6 +132,7 @@ public class manage_partFragment extends Fragment {
                 }
 
                 AddPartAdapter addPartAdapter = new AddPartAdapter(getContext(), usersList, groupname,true);
+                addPartAdapter.addEventListener(manage_partFragment.this);
                 recyclerView.setAdapter(addPartAdapter);
 
             }
@@ -125,5 +143,10 @@ public class manage_partFragment extends Fragment {
 
             }
         });
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        addPartAdapter.removeEventListener();
     }
 }
