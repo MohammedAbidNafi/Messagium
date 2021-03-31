@@ -13,7 +13,7 @@ If your working on this make sure you connect this project to your firebase acco
 ## Road Map
 1. Fix bugs
 2. Improve performence
-3. Phone Authentication
+3. <S>Phone Authentication</S>
 4. Group Chat
 5. Ability to send Images
 6. Ability to send voice messages
