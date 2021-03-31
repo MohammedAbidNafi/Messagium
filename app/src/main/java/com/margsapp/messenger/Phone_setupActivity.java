@@ -125,7 +125,7 @@ public class Phone_setupActivity extends AppCompatActivity {
                 reference.updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        startActivity(new Intent(Phone_setupActivity.this, Terms_ConditionsActivity.class));
+                        startActivity(new Intent(Phone_setupActivity.this, MainActivity.class));
                     }
                 });
             }

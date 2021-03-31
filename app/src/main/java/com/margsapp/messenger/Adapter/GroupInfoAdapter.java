@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -99,12 +100,14 @@ public class GroupInfoAdapter extends RecyclerView.Adapter<GroupInfoAdapter.View
         private final CircleImageView profile;
         private final TextView admin;
 
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             UserName = itemView.findViewById(R.id.username);
             dt = itemView.findViewById(R.id.dt);
             profile = itemView.findViewById(R.id.profile_image);
             admin = itemView.findViewById(R.id.admin);
+
 
         }
     }

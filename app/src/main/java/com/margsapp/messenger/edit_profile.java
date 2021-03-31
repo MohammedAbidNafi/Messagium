@@ -131,11 +131,13 @@ public class edit_profile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(edit_profile.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                if (mInterstitialAd != null) {
+                /*if (mInterstitialAd != null) {
                     mInterstitialAd.show(edit_profile.this);
                 } else {
                     Log.d("TAG", "The interstitial ad wasn't ready yet.");
                 }
+
+                 */
             }
         });
 
@@ -204,11 +206,14 @@ public class edit_profile extends AppCompatActivity {
                 Intent intent = new Intent(edit_profile.this, AboutActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                /*
                 if (mInterstitialAd != null) {
                     mInterstitialAd.show(edit_profile.this);
                 } else {
                     Log.d("TAG", "The interstitial ad wasn't ready yet.");
                 }
+
+                 */
                 finish();
             }
         });

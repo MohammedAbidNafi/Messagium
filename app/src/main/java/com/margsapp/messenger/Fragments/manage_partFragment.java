@@ -85,6 +85,7 @@ public class manage_partFragment extends Fragment implements AddPartAdapter.Even
             getFragmentManager().beginTransaction().detach(this).commitNow();
             getFragmentManager().beginTransaction().attach(this).commitNow();
         } else {
+            assert getFragmentManager() != null;
             getFragmentManager().beginTransaction().detach(this).attach(this).commit();
         }
     }
@@ -147,6 +148,6 @@ public class manage_partFragment extends Fragment implements AddPartAdapter.Even
 
     public void onDestroy() {
         super.onDestroy();
-        addPartAdapter.removeEventListener();
+        //addPartAdapter.removeEventListener();
     }
 }
