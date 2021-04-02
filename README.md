@@ -14,7 +14,7 @@ If your working on this make sure you connect this project to your firebase acco
 1. Fix bugs
 2. Improve performence
 3. <S>Phone Authentication</S>
-4. Group Chat
+4. <S>Group Chat</S>
 5. Ability to send Images
 6. Ability to send voice messages
 7. Audio/Video call
@@ -25,6 +25,7 @@ If your working on this make sure you connect this project to your firebase acco
 12. High Compression
 13. End to End Encryption
 14. Ability to Share Contacts
+15. Profile Information of Other Users
 
 ## Ways to Contribute 
 1. Create an issue to discuss about your idea.(https://github.com/MohammedAbidNafi/MessengerByMargs/issues)
