@@ -10,7 +10,8 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_scrollFlags="scroll|enterAlways">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -19,20 +20,40 @@
             android:background="@color/coral"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/MenuStyle"
+            app:layout_collapseMode="parallax"
+            app:layout_scrollFlags="scroll|enterAlways"
             >
+
+            <ProgressBar
+                android:id="@+id/network_check"
+                android:layout_width="25sp"
+                android:layout_height="25sp"
+                android:layout_marginStart="10dp"
+                android:rotation="@integer/google_play_services_version" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/network_txt"
+                android:text="Waiting for Network"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginStart="10dp"/>
+
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:transitionName="imageTransition"
-                android:id="@+id/DP"/>
+                android:id="@+id/DP"
+                android:visibility="gone"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/username"
                 android:layout_marginLeft="25dp"
-
+                android:visibility="gone"
                 android:textColor="#fff"
                 android:textStyle="bold"
                 android:layout_marginStart="25dp"/>

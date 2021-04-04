@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
@@ -60,6 +62,8 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.margsapp.messenger.CustomiseActivity.THEME;
+
 public class edit_profile extends AppCompatActivity {
 
 
@@ -87,6 +91,24 @@ public class edit_profile extends AppCompatActivity {
     private AdView mAdView;
     private InterstitialAd mInterstitialAd;
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences preferences = getSharedPreferences("theme", 0);
+        String Theme = preferences.getString(THEME, "");
+        if(Theme.equals("2")){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        if(Theme.equals("1")){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        if(Theme.equals("0")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,17 +246,25 @@ public class edit_profile extends AppCompatActivity {
 
 
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        reference.keepSynced(true);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
                 User user = dataSnapshot.getValue(User.class);
-
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 assert user != null;
                 username.setText(user.getUsername());
-                joined_on.setText(user.getJoined_on());
 
+                /*
+                long joineDate = firebaseAuth.getCurrentUser().getMetadata().getCreationTimestamp();
+                String joined_on_date = String.valueOf(joineDate);
+                joined_on.setText(joined_on_date);
+
+                 */
+
+                joined_on.setText(user.getJoined_on());
 
 
                 status.setText(user.getDt());

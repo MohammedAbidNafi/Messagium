@@ -170,7 +170,7 @@ public class VerifyOTP extends AppCompatActivity {
                                     String timestamp = simpleDateFormat.format(calendar.getTime());
 
                                     if(snapshot.exists()){
-                                        startActivity(new Intent(VerifyOTP.this, Terms_ConditionsActivity.class));
+                                        startActivity(new Intent(VerifyOTP.this, Phone_setupActivity.class));
                                     }else {
                                         HashMap<String, String> hashMap = new HashMap<>();
                                         hashMap.put("id", userid);
@@ -181,7 +181,8 @@ public class VerifyOTP extends AppCompatActivity {
                                         reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                startActivity(new Intent(VerifyOTP.this, Terms_ConditionsActivity.class));
+                                                startActivity(new Intent(VerifyOTP.this, Phone_setupActivity.class)
+                                                .putExtra("method","phone"));
                                             }
                                         });
                                     }

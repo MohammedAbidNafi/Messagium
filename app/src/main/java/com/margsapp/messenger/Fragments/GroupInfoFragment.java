@@ -1,11 +1,16 @@
 package com.margsapp.messenger.Fragments;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +29,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +42,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Adapter.GroupInfoAdapter;
+import com.margsapp.messenger.MessageActivity;
+import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
@@ -40,11 +51,12 @@ import com.margsapp.messenger.groupclass.group_infoActivity;
 import com.margsapp.messenger.groupclass.manage_partActivty;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
 
-public class GroupInfoFragment extends Fragment {
+public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.EventListener {
 
     private List<User> mParticpants;
 
@@ -69,6 +81,8 @@ public class GroupInfoFragment extends Fragment {
 
     CardView searchUser, leaveGroup;
 
+    Dialog dialog;
+
     boolean search = true;
     private boolean Admin = false;
 
@@ -81,6 +95,8 @@ public class GroupInfoFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        dialog = new Dialog(getContext());
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -376,7 +392,7 @@ public class GroupInfoFragment extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                mParticpants.clear();
                 if (search_user.getText().toString().equals("")) {
                     mParticpants.clear();
                     for (DataSnapshot snapshot1 : snapshot.getChildren()) {
@@ -390,6 +406,7 @@ public class GroupInfoFragment extends Fragment {
                     }
 
                     groupInfoAdapter = new GroupInfoAdapter(getContext(), mParticpants, groupname);
+                    groupInfoAdapter.addEventListener(GroupInfoFragment.this);
                     recyclerView.setAdapter(groupInfoAdapter);
 
                 }
@@ -400,5 +417,235 @@ public class GroupInfoFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onOptions(String userid, String Username, String groupname) {
+
+
+
+        CardView  info,make_admin,message,voice_call,video_call,cancel;
+        TextView make_admin_txt;
+
+        AppCompatButton username,remove_group;
+        dialog.setContentView(R.layout.group_info_pop_up);
+
+        //username_txt = dialog.findViewById(R.id.username_txt);
+        username = dialog.findViewById(R.id.username);
+        info = dialog.findViewById(R.id.info);
+        make_admin = dialog.findViewById(R.id.make_admin);
+        message = dialog.findViewById(R.id.message);
+        voice_call = dialog.findViewById(R.id.voice_call);
+        video_call = dialog.findViewById(R.id.video_call);
+        remove_group = dialog.findViewById(R.id.remove_group);
+        cancel = dialog.findViewById(R.id.cancel);
+        make_admin_txt = dialog.findViewById(R.id.make_admin_txt);
+
+
+
+
+
+        username.setText(Username);
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members").child(userid);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Group group = snapshot.getValue(Group.class);
+                if(group.getAdmin().equals("true")){
+                    make_admin_txt.setText("Group Admin");
+                    make_admin_txt.setTextColor(getContext().getResources().getColor(R.color.blacktext));
+                }else {
+                    make_admin_txt.setText("Make Admin");
+                    make_admin_txt.setTextColor(getContext().getResources().getColor(R.color.company_blue));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        remove_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
+                dialog.setMessage("Are you sure you want to remove this user?");
+                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        remove(userid,Username,groupname);
+
+                    }
+                });
+                dialog.setNeutralButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Dont do anything
+                    }
+                });
+                AlertDialog alertDialog = dialog.create();
+                alertDialog.show();
+            }
+        });
+
+
+
+        make_admin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members").child(userid);
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Group group = snapshot.getValue(Group.class);
+                        assert group != null;
+                        if(group.getAdmin().equals("true")){
+                            //Do Nothing
+                        }else {
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
+                            dialog.setMessage("Are you sure you want to make this user Admin? (Note this is a irreversible process)");
+                            dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members").child(userid);
+                                    HashMap<String, Object> map = new HashMap<>();
+                                    map.put("admin", "true");
+                                    databaseReference.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            startActivity(new Intent(getContext(),group_infoActivity.class).putExtra("groupname",groupname));
+                                        }
+                                    });
+
+                                }
+                            });
+
+                            dialog.setNeutralButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //Dont do anything
+                                }
+                            });
+                            AlertDialog alertDialog = dialog.create();
+                            alertDialog.show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+
+
+
+            }
+        });
+        message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onMessage(userid);
+            }
+        });
+
+        voice_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"This feature is not available yet.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        video_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"This feature is not available yet.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"This feature is not available yet.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+    private void remove(String userid, String username,String groupname) {
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(userid).child(groupname);
+        databaseReference1.removeValue();
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members").child(userid);
+        databaseReference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                startActivity(new Intent(getContext(),group_infoActivity.class).putExtra("groupname",groupname));
+            }
+        });
+
+        Toast.makeText(getContext(), username + " has been removed",Toast.LENGTH_SHORT).show();
+
+
+    }
+
+    private void onMessage(String userid) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        assert firebaseUser != null;
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid()).child(userid);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Chatlist chatlist = snapshot.getValue(Chatlist.class);
+
+                if(snapshot.exists()){
+
+                    assert chatlist != null;
+                    if (chatlist.getFriends().equals("Blocked")) {
+                        Toast.makeText(getContext(), "You have blocked this user.", Toast.LENGTH_SHORT).show();
+
+                    }
+                    else {
+                        Intent intent = new Intent(getContext(), MessageActivity.class);
+                        intent.putExtra("userid", userid);
+                        startActivity(intent);
+                    }
+                }else if(!snapshot.exists()){
+                    Intent intent = new Intent(getContext(), MessageActivity.class);
+                    intent.putExtra("userid", userid);
+                    startActivity(intent);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
+    }
+
+
+    public void onDestroy() {
+        super.onDestroy();
+        groupInfoAdapter.removeEventListener();
     }
 }

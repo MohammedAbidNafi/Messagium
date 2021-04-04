@@ -32,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -87,6 +88,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.margsapp.messenger.CustomiseActivity.THEME;
+
 public class MessageActivity extends AppCompatActivity {
 
     private static final String TAG = "MESSAGE ACTIVITY" ;
@@ -130,11 +133,31 @@ public class MessageActivity extends AppCompatActivity {
     boolean notify = false;
     ShortcutManager shortcutManager;
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences preferences = getSharedPreferences("theme", 0);
+        String Theme = preferences.getString(THEME, "");
+        if(Theme.equals("2")){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        if(Theme.equals("1")){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        if(Theme.equals("0")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+
+
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -866,6 +889,7 @@ public class MessageActivity extends AppCompatActivity {
 
             case R.id.create_shortcut:
                 Shortcuts(userid,username.getText().toString().trim(),profileImage.getDrawable());
+                break;
 
 
         }

@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher_appicon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Messenger">
-        <activity android:name=".dp_view.main_dpActivity"></activity>
+        <activity android:name=".google_setupActivity"></activity>
+        <activity android:name=".dp_view.main_dpActivity" />
         <activity android:name=".dp_view.personal_dpActivity" />
         <activity android:name=".groupclass.manage_partActivty" />
         <activity android:name=".groupclass.edit_group_name" />

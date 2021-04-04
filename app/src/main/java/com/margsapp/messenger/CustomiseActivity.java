@@ -73,16 +73,22 @@ public class CustomiseActivity extends AppCompatActivity {
 
         if(Theme.equals("2")){
             materialButtonToggleGroup.check(R.id.btnLight);
-
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
         if(Theme.equals("1")){
             materialButtonToggleGroup.check(R.id.btnDark);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
         }
         if(Theme.equals("0")){
             materialButtonToggleGroup.check(R.id.btnDefault);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
 
+        else {
+            materialButtonToggleGroup.check(R.id.btnDefault);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         }
 
     }

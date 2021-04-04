@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +40,8 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Phone_setupActivity extends AppCompatActivity {
+public class google_setupActivity extends AppCompatActivity {
+
 
     CircleImageView profile_image;
 
@@ -64,7 +64,7 @@ public class Phone_setupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phone_setup);
+        setContentView(R.layout.activity_google_setup);
 
         profile_image = findViewById(R.id.DP);
 
@@ -125,7 +125,7 @@ public class Phone_setupActivity extends AppCompatActivity {
                 reference.updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        startActivity(new Intent(Phone_setupActivity.this, Terms_ConditionsActivity.class));
+                        startActivity(new Intent(google_setupActivity.this, Terms_ConditionsActivity.class));
                     }
                 });
             }
@@ -149,7 +149,8 @@ public class Phone_setupActivity extends AppCompatActivity {
         if (requestCode == GALLERY_PICK && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
             CropImage.activity(imageUri)
-                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setMultiTouchEnabled(true)
+                    .setGuidelines(CropImageView.Guidelines.OFF)
                     .setAspectRatio(1, 1)
                     .start(this);
 
@@ -184,7 +185,7 @@ public class Phone_setupActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(Phone_setupActivity.this, "Profile Picture has updated.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(google_setupActivity.this, "Profile Picture has updated.", Toast.LENGTH_SHORT).show();
 
                             Uri downloadUri = task.getResult();
                             assert downloadUri != null;
@@ -209,7 +210,7 @@ public class Phone_setupActivity extends AppCompatActivity {
     }
 
     private String getFileExtension(Uri uri){
-        ContentResolver contentResolver = Phone_setupActivity.this.getContentResolver();
+        ContentResolver contentResolver = google_setupActivity.this.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }

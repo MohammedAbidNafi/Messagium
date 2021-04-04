@@ -3,6 +3,7 @@ package com.margsapp.messenger.groupclass;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -10,8 +11,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -44,6 +54,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Adapter.GroupMessageAdapter;
 import com.margsapp.messenger.MainActivity;
+import com.margsapp.messenger.MessageActivity;
 import com.margsapp.messenger.dp_view.group_dpActivity;
 import com.margsapp.messenger.Fragments.APIService;
 import com.margsapp.messenger.Model.Group;
@@ -62,6 +73,8 @@ import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.margsapp.messenger.CustomiseActivity.THEME;
 
 public class group_messageActivity extends AppCompatActivity {
 
@@ -100,6 +113,26 @@ public class group_messageActivity extends AppCompatActivity {
 
     boolean notify = false;
 
+    ShortcutManager shortcutManager;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences preferences = getSharedPreferences("theme", 0);
+        String Theme = preferences.getString(THEME, "");
+        if(Theme.equals("2")){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        if(Theme.equals("1")){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        if(Theme.equals("0")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +164,10 @@ public class group_messageActivity extends AppCompatActivity {
                 group_info.setBackgroundColor(group_messageActivity.this.getResources().getColor(R.color.coral));
             }
         });
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
+            shortcutManager = getSystemService(ShortcutManager.class);
+        }
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -665,7 +702,7 @@ public class group_messageActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_in_chat, menu);
+        getMenuInflater().inflate(R.menu.menu_in_group, menu);
         return true;
     }
 
@@ -674,30 +711,8 @@ public class group_messageActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.block_user:
-                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-                dialog.setMessage("Are you sure you want to block this user?");
-                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-
-
-                        //Block();
-
-
-                    }
-                });
-
-                dialog.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Dont do anything
-                    }
-                });
-                AlertDialog alertDialog = dialog.create();
-                alertDialog.show();
-
+            case R.id.create_shortcut:
+                Shortcuts(groupname,groupname,group_image.getDrawable());
                 break;
         }
 
@@ -720,6 +735,40 @@ public class group_messageActivity extends AppCompatActivity {
         hashMap.put("lastseen", timestamp);
 
         databaseReference.updateChildren(hashMap);
+
+    }
+
+    private void Shortcuts(String userid, String username, Drawable imageUrl){
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            Bitmap bitmap = ((BitmapDrawable)imageUrl).getBitmap();
+            if(shortcutManager.isRequestPinShortcutSupported()){
+                ShortcutInfo pinShortcutInfo =
+                        new ShortcutInfo.Builder(this, username)
+                                .setShortLabel(username)
+                                .setLongLabel(username)
+                                .setIcon(Icon.createWithBitmap(bitmap))
+                                .setIntents(
+                                        new Intent[]{
+                                                new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, group_messageActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).putExtra("groupname",userid),
+                                        })
+                                .build();
+
+
+                Intent pinnedShortcutCallbackIntent =
+                        shortcutManager.createShortcutResultIntent(pinShortcutInfo);
+
+                PendingIntent successCallback = PendingIntent.getBroadcast(this, /* request code */ 1,
+                        pinnedShortcutCallbackIntent, /* flags */ 0);
+
+                shortcutManager.requestPinShortcut(pinShortcutInfo,
+                        successCallback.getIntentSender());
+            }else {
+                Toast.makeText(this,"Your current Android Version dosent support Shortcuts.",Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            Toast.makeText(this,"Your current Android Version dosent support Shortcuts.",Toast.LENGTH_SHORT).show();
+        }
 
     }
 

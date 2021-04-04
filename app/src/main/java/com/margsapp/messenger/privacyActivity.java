@@ -30,6 +30,10 @@ public class privacyActivity extends AppCompatActivity {
 
     WebView privacyWeb;
 
+    Intent intent;
+
+    String method;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,8 @@ public class privacyActivity extends AppCompatActivity {
         privacyWeb.loadUrl("https://margsglobal.weebly.com/messenger-privacy-policy.html");
 
 
+        intent = getIntent();
+        method = intent.getStringExtra("method");
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -71,16 +77,23 @@ public class privacyActivity extends AppCompatActivity {
         agree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(privacyActivity.this, Phone_setupActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(privacyActivity.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
 
-                finish();
+
+                //if(method.equals("google")) {
+
+                    Intent intent = new Intent(privacyActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    if (mInterstitialAd != null) {
+                        mInterstitialAd.show(privacyActivity.this);
+                    } else {
+                        Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                    }
+
+                    finish();
+
+
+
             }
         });
     }

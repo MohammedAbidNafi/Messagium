@@ -59,6 +59,7 @@ public class ChatsFragment extends Fragment {
 
 
 
+
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -107,6 +108,7 @@ public class ChatsFragment extends Fragment {
 
         mUsers = new ArrayList<>();
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference.keepSynced(true);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -137,6 +139,7 @@ public class ChatsFragment extends Fragment {
 
                 userAdapter = new UserAdapter(getContext(), mUsers, true, false, false);
                 recyclerView.setAdapter(userAdapter);
+                userAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -145,6 +148,8 @@ public class ChatsFragment extends Fragment {
             }
         });
     }
+
+
 
 
 

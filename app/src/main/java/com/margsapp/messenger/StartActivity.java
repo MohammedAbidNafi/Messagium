@@ -2,24 +2,19 @@ package com.margsapp.messenger;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
@@ -31,25 +26,32 @@ import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.concurrent.Executor;
 
-import static androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG;
 import static androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL;
-import static com.margsapp.messenger.AboutActivity.SWITCH1;
 import static com.margsapp.messenger.AboutActivity.TEXT;
-import static com.margsapp.messenger.CustomiseActivity.THEME;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -59,10 +61,13 @@ public class StartActivity extends AppCompatActivity {
 
     FirebaseUser firebaseUser;
 
+    FirebaseAuth firebaseAuth;
+
     private InterstitialAd mInterstitialAd;
 
+    private SignInButton signInButton;
 
-
+    GoogleSignInClient googleSignInClient;
 
     @Override
     protected void onStart() {
@@ -185,10 +190,32 @@ public class StartActivity extends AppCompatActivity {
 
 
 
-        login = findViewById(R.id.login);
-        register = findViewById(R.id.register);
+        signInButton = findViewById(R.id.signin);
+        //login = findViewById(R.id.login);
+      //  register = findViewById(R.id.register);
         phone = findViewById(R.id.phone);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
+
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(
+                GoogleSignInOptions.DEFAULT_SIGN_IN
+        ).requestIdToken("246831665234-urv5fcie13sd3lsiubbv044su3e8m29c.apps.googleusercontent.com")
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(StartActivity.this,googleSignInOptions);
+
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = googleSignInClient.getSignInIntent();
+                startActivityForResult(intent,100);
+
+            }
+        });
+
+        /*
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,6 +228,9 @@ public class StartActivity extends AppCompatActivity {
             }
         });
 
+         */
+
+        /*
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,6 +243,8 @@ public class StartActivity extends AppCompatActivity {
             }
         });
 
+         */
+
         phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,5 +256,93 @@ public class StartActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode ==100){
+            Task<GoogleSignInAccount> signInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
+
+            if(signInAccountTask.isSuccessful()){
+                String s = "Google Authentication successful";
+
+                displayToast(s);
+
+                try {
+                    GoogleSignInAccount googleSignInAccount = signInAccountTask.getResult(ApiException.class);
+
+                    if(googleSignInAccount != null){
+                        AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
+
+                        firebaseAuth.signInWithCredential(authCredential)
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if(task.isSuccessful()){
+                                            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                                            assert firebaseUser != null;
+                                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+                                            String userid = firebaseUser.getDisplayName();
+                                            String username = firebaseUser.getDisplayName();
+                                            String imageurl;
+
+                                            Calendar calendar = Calendar.getInstance();
+                                            @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yy");
+                                            String timestamp = simpleDateFormat.format(calendar.getTime());
+
+                                            Uri imageuri = firebaseUser.getPhotoUrl();
+                                            assert imageuri != null;
+                                            imageurl = imageuri.toString();
+                                            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                                    if(!snapshot.exists()){
+                                                        HashMap<String, Object> hashMap = new HashMap<>();
+                                                        hashMap.put("id", userid);
+                                                        hashMap.put("username", username);
+                                                        hashMap.put("imageURL", imageurl);
+                                                        hashMap.put("joined_on",timestamp);
+                                                        reference.updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                startActivity(new Intent(StartActivity.this,google_setupActivity.class)
+                                                                        .putExtra("method","google")
+                                                                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                                                            }
+                                                        });
+                                                    }else {
+                                                        startActivity(new Intent(StartActivity.this,google_setupActivity.class)
+                                                                .putExtra("method","google")
+                                                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
+
+
+
+
+                                        }
+                                    }
+                                });
+                    }
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void displayToast(String s) {
+
+        Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show();
     }
 }

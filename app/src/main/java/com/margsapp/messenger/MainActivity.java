@@ -3,6 +3,7 @@ package com.margsapp.messenger;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -13,13 +14,16 @@ import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
@@ -29,6 +33,11 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,6 +63,8 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.margsapp.messenger.CustomiseActivity.THEME;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN ACTIVITY";
@@ -67,8 +78,12 @@ public class MainActivity extends AppCompatActivity {
     private InterstitialAd mInterstitialAd;
     String versionName = BuildConfig.VERSION_NAME;
 
+    FirebaseAuth firebaseAuth;
+    GoogleSignInClient googleSignInClient;
 
+    TextView network_txt;
 
+    private ProgressBar network_check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +91,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+
+
+        SharedPreferences preferences = getSharedPreferences("theme", 0);
+        String Theme = preferences.getString(THEME, "");
+        if(Theme.equals("2")){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        if(Theme.equals("1")){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        if(Theme.equals("0")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -105,6 +134,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot1) {
+                boolean connected = snapshot1.getValue(Boolean.class);
+                if (connected) {
+                    network_check.setVisibility(View.GONE);
+                    network_txt.setVisibility(View.GONE);
+                    DP.setVisibility(View.VISIBLE);
+                    username.setVisibility(View.VISIBLE);
+
+                } else {
+                    network_check.setVisibility(View.VISIBLE);
+                    network_txt.setVisibility(View.VISIBLE);
+                    DP.setVisibility(View.GONE);
+                    username.setVisibility(View.GONE);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w(TAG, "Listener was cancelled");
+            }
+        });
+
+        network_check = findViewById(R.id.network_check);
+        network_txt = findViewById(R.id.network_txt);
+
+
+
+        googleSignInClient = GoogleSignIn.getClient(MainActivity.this, GoogleSignInOptions.DEFAULT_SIGN_IN);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         DP = findViewById(R.id.DP);
         username = findViewById(R.id.username);
@@ -216,13 +279,21 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.logout:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MainActivity.this, StartActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(MainActivity.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
+                googleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            firebaseAuth.signOut();
+                            startActivity(new Intent(MainActivity.this, StartActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                            if (mInterstitialAd != null) {
+                                mInterstitialAd.show(MainActivity.this);
+                            } else {
+                                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                            }
+                        }
+                    }
+                });
+
 
                 return true;
             case R.id.edit:

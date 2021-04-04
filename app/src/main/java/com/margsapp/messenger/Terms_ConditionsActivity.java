@@ -26,6 +26,9 @@ public class Terms_ConditionsActivity extends AppCompatActivity {
 
     private InterstitialAd mInterstitialAd;
 
+    Intent intent;
+    String method;
+
     private static final String TAG = "MainActivity";
 
     WebView t_c;
@@ -41,6 +44,8 @@ public class Terms_ConditionsActivity extends AppCompatActivity {
         t_c.loadUrl("https://margsglobal.weebly.com/messenger-tc.html");
 
 
+        intent = getIntent();
+        method = intent.getStringExtra("method");
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -73,6 +78,7 @@ public class Terms_ConditionsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Terms_ConditionsActivity.this, privacyActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("method",method);
                 startActivity(intent);
                 if (mInterstitialAd != null) {
                     mInterstitialAd.show(Terms_ConditionsActivity.this);

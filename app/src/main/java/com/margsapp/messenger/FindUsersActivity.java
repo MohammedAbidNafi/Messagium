@@ -3,6 +3,7 @@ package com.margsapp.messenger;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -11,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +39,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
 
+import static com.margsapp.messenger.CustomiseActivity.THEME;
+
 public class FindUsersActivity extends AppCompatActivity {
 
     private static final String TAG = "FindUsersActivity";
@@ -46,6 +50,24 @@ public class FindUsersActivity extends AppCompatActivity {
 
     private InterstitialAd mInterstitialAd;
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences preferences = getSharedPreferences("theme", 0);
+        String Theme = preferences.getString(THEME, "");
+        if(Theme.equals("2")){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        if(Theme.equals("1")){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        if(Theme.equals("0")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

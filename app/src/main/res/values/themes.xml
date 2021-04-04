@@ -6,7 +6,7 @@
         <item name="colorPrimaryVariant">@color/coral</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/coral</item>
+        <item name="colorSecondary">@color/white</item>
         <item name="colorSecondaryVariant">@color/coral</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:windowActivityTransitions">true</item>
@@ -35,6 +35,10 @@
     </style>
 
 
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/pop_up_slideup</item>
+        <item name="android:windowExitAnimation">@anim/pop_up_slidedown</item>
+    </style>
 
     <style name="MenuStyle" parent="Theme.AppCompat.DayNight">
         <item name="background">@color/background</item>
