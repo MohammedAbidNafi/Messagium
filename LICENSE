@@ -1,51 +1,6 @@
-## Messenger By Margs
-Messenger is an android app to instantly message with the users
-
-This project uses firebase for Database, Storage and Authentication.
-
-If your working on this make sure you connect this project to your firebase account and enter the API key in API service for notifications.
-
-## Screenshots
-<img src="images/1 (1).png" width="250" height="500"> <img src="images/1 (2).png" width="250" height="500">
-
-
-
-## Road Map
-1. Fix bugs
-2. Improve performence
-3. <S>Phone Authentication</S>
-4. <S>Group Chat</S>
-5. Ability to send Images
-6. Ability to send voice messages
-7. Audio/Video call
-8. A Good Name for this whole thing
-9. Ability to send location
-10. Ablility to Forward Message 
-11. Share Function
-12. High Compression
-13. End to End Encryption
-14. Ability to Share Contacts
-15. Profile Information of Other Users
-
-## Ways to Contribute 
-1. Create an issue to discuss about your idea.(https://github.com/MohammedAbidNafi/MessengerByMargs/issues)
-2. Suggest any feature or suggestion.(https://github.com/MohammedAbidNafi/MessengerByMargs/issues)
-3. Have a discussion in (https://github.com/MohammedAbidNafi/MessengerByMargs/discussions)
-
-To make changes to code
-
-1. Fork it (https://github.com/MohammedAbidNafi/MessengerByMargs/fork)
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
-
-
-## Apache License 2.0
-                             
-   Apache License
-   Version 2.0, January 2004
-   http://www.apache.org/licenses/
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
 
    TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
 
@@ -220,14 +175,27 @@ To make changes to code
 
    END OF TERMS AND CONDITIONS
 
-   Copyright 2021 MargsGlobal
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets "[]"
+      replaced with your own identifying information. (Don't include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same "printed page" as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright [2021] [Mohammed Abid Nafi]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-
