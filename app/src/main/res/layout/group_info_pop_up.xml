@@ -16,7 +16,7 @@
         android:background="@drawable/group_info_popup_top"
         android:text="Username"
         android:textAllCaps="false"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textAlignment="center"
         android:textColor="@color/blacktext"
         >
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:text="Make Admin"
                 android:id="@+id/make_admin_txt"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textColor="@color/company_blue"
                 android:layout_centerInParent="true"/>
         </RelativeLayout>
@@ -97,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Message"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textColor="@color/company_blue"
                 android:layout_centerInParent="true"/>
         </RelativeLayout>
@@ -123,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Voice call"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textColor="@color/company_blue"
                 android:layout_centerInParent="true"
                 />
@@ -151,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:text="Video Call"
                 android:textColor="@color/company_blue"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:layout_centerInParent="true"
                 />
         </RelativeLayout>
@@ -166,7 +166,7 @@
         android:layout_marginBottom="15sp"
         android:text="Remove from Group"
         android:textAllCaps="false"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textColor="@color/red"
         android:background="@drawable/group_info_popup_bottom"/>
 
@@ -189,7 +189,7 @@
                 android:layout_height="wrap_content"
                 android:text="Cancel"
                 android:textColor="@color/company_blue"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:layout_centerInParent="true"
                 />
         </RelativeLayout>
