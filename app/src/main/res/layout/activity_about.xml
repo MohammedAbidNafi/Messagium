@@ -114,6 +114,26 @@
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/readRecipts"
+        app:layout_constraintTop_toBottomOf="@+id/authenticate_card"
+        android:layout_marginTop="40dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.appcompat.widget.SwitchCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:id="@+id/readRecipts_Switch"
+                android:padding="10dp"
+                android:text="Read Recipients (Beta)"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="wrap_content"

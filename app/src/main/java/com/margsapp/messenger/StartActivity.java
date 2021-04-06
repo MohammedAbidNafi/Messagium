@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
@@ -68,6 +69,8 @@ public class StartActivity extends AppCompatActivity {
     private SignInButton signInButton;
 
     GoogleSignInClient googleSignInClient;
+
+    ProgressBar googleSignLoader;
 
     @Override
     protected void onStart() {
@@ -189,6 +192,8 @@ public class StartActivity extends AppCompatActivity {
         });
 
 
+        googleSignLoader = findViewById(R.id.googleSignLoader);
+        googleSignLoader.setVisibility(View.GONE);
 
         signInButton = findViewById(R.id.signin);
         //login = findViewById(R.id.login);
@@ -261,7 +266,7 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        googleSignLoader.setVisibility(View.VISIBLE);
         if(requestCode ==100){
             Task<GoogleSignInAccount> signInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
 
@@ -276,11 +281,13 @@ public class StartActivity extends AppCompatActivity {
                     if(googleSignInAccount != null){
                         AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
 
+
                         firebaseAuth.signInWithCredential(authCredential)
                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if(task.isSuccessful()){
+
                                             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                                             assert firebaseUser != null;
                                             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());

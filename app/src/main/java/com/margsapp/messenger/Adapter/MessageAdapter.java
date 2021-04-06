@@ -3,6 +3,7 @@ package com.margsapp.messenger.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import com.margsapp.messenger.R;
 import java.text.BreakIterator;
 import java.util.List;
 
+import static com.margsapp.messenger.AboutActivity.TEXT1;
+
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
     private final Context mContext;
     private final List<Chat> mChat;
@@ -40,14 +43,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public static final int REPLY_TYPE_LEFT = 2;
     public static final int REPLY_TYPE_RIGHT = 3;
 
+    private SharedPreferences sharedPreferences;
 
 
 
-
-    public MessageAdapter(Context mContext, List<Chat> mChat, String imageUrl) {
+    public MessageAdapter(Context mContext, List<Chat> mChat, String imageUrl,SharedPreferences sharedPreferences) {
         this.mContext = mContext;
         this.mChat = mChat;
         this.imageUrl = imageUrl;
+        this.sharedPreferences = sharedPreferences;
 
     }
 
@@ -145,10 +149,19 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         }
 
         if(position == mChat.size()-1) {
-            if (chat.getIsseen().equals("true")) {
-                holder.txt_seen.setText("Read");
-            } else {
+
+            String read = sharedPreferences.getString(TEXT1, "");
+
+            if(read.equals("0")){
                 holder.txt_seen.setText("Delivered");
+            }
+            else {
+                if (chat.getIsseen().equals("true")) {
+                    holder.txt_seen.setText("Read");
+                }else {
+                    holder.txt_seen.setText("Delivered");
+                }
+
             }
         }else {
             holder.txt_seen.setVisibility(View.GONE);

@@ -88,6 +88,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.margsapp.messenger.AboutActivity.TEXT;
+import static com.margsapp.messenger.AboutActivity.TEXT1;
 import static com.margsapp.messenger.CustomiseActivity.THEME;
 
 public class MessageActivity extends AppCompatActivity {
@@ -118,7 +120,7 @@ public class MessageActivity extends AppCompatActivity {
 
     APIService apiService;
 
-    String userid,ReplyId, Sendername,ReplyName,imageUrl,blocked;
+    String userid,ReplyId, Sendername,ReplyName,imageUrl,blocked,read;
 
 
 
@@ -508,8 +510,11 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
-        seenMessage(userid);
+        SharedPreferences sharedPreferences = getSharedPreferences("ReadRecipents", 0);
+        read = sharedPreferences.getString(TEXT1, "");
 
+
+        seenMessage(userid);
 
 
     }
@@ -544,27 +549,55 @@ public class MessageActivity extends AppCompatActivity {
 
 
     private void seenMessage(String userid){
-        databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
-        seenListener = databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot snapshot1:snapshot.getChildren()){
-                    Chat chat = snapshot1.getValue(Chat.class);
-                    assert chat != null;
-                    if(chat.getReceiver().equals(firebaseUser.getUid())&& chat.getSender().equals(userid)){
-                        HashMap<String, Object> hashMap = new HashMap<>();
-                        hashMap.put("isseen", "true");
-                        snapshot1.getRef().updateChildren(hashMap);
+
+        if(read.equals("0")){
+            databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
+            seenListener = databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                        Chat chat = snapshot1.getValue(Chat.class);
+                        assert chat != null;
+                        if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userid)) {
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            hashMap.put("isseen", "false");
+                            snapshot1.getRef().updateChildren(hashMap);
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }else {
+            databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
+            seenListener = databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                        Chat chat = snapshot1.getValue(Chat.class);
+                        assert chat != null;
+                        if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userid)) {
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            hashMap.put("isseen", "true");
+                            snapshot1.getRef().updateChildren(hashMap);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+
     }
+
+
+
 
     private void ReplyMessage(String sender, String receiver, String message, String timestamp, String isseen,String ReplyMessage,String ReplyTo,String sendername,String replyname){
 
@@ -822,7 +855,7 @@ public class MessageActivity extends AppCompatActivity {
 
     private void readMessage(String myid, String userid, String imageUrl){
         mchat = new ArrayList<>();
-
+        SharedPreferences sharedPreferences = getSharedPreferences("ReadRecipents", 0);
         databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
         databaseReference.keepSynced(true);
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -840,7 +873,7 @@ public class MessageActivity extends AppCompatActivity {
 
 
 
-                    messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageUrl);
+                    messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageUrl,sharedPreferences);
                     recyclerView.setAdapter(messageAdapter);
 
 
@@ -891,12 +924,29 @@ public class MessageActivity extends AppCompatActivity {
                 Shortcuts(userid,username.getText().toString().trim(),profileImage.getDrawable());
                 break;
 
+            case R.id.delete_chat:
+                DeleteChat(userid);
+                break;
 
         }
 
         return false;
     }
 
+    private void DeleteChat(String userid) {
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid()).child(userid);
+        databaseReference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Intent openMainActivity = new Intent(MessageActivity.this, MainActivity.class);
+                openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivityIfNeeded(openMainActivity, 0);
+            }
+        });
+
+    }
 
 
     private void Block(){

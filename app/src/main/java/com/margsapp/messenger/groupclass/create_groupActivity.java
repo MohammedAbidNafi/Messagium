@@ -76,7 +76,7 @@ public class create_groupActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Settings");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Create Group");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

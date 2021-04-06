@@ -64,6 +64,16 @@
 
     -->
 
+    <ProgressBar
+        android:id="@+id/googleSignLoader"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:rotation="@integer/google_play_services_version"
+        app:layout_constraintBottom_toTopOf="@+id/signin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
     <com.google.android.gms.common.SignInButton
         android:id="@+id/signin"
         android:layout_width="370dp"

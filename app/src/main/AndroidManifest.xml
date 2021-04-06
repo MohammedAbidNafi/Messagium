@@ -71,7 +71,8 @@
         <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".StartActivity" />
-        <activity android:name=".StartActivity" />
+        <activity android:name=".StartActivity"
+            android:theme="@style/Loader"/>
         <activity android:name=".Chat_settings" />
 
         <service

@@ -51,10 +51,16 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.NotNull;
 import com.margsapp.messenger.Adapter.GroupMessageAdapter;
 import com.margsapp.messenger.MainActivity;
 import com.margsapp.messenger.MessageActivity;
+import com.margsapp.messenger.Notifications.Data;
+import com.margsapp.messenger.Notifications.MyResponse;
+import com.margsapp.messenger.Notifications.Sender;
+import com.margsapp.messenger.Notifications.Token;
 import com.margsapp.messenger.dp_view.group_dpActivity;
 import com.margsapp.messenger.Fragments.APIService;
 import com.margsapp.messenger.Model.Group;
@@ -73,6 +79,9 @@ import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.margsapp.messenger.CustomiseActivity.THEME;
 
@@ -264,23 +273,6 @@ public class group_messageActivity extends AppCompatActivity {
             }
         });
 
-        group_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String data = imageUrl;
-                getWindow().setExitTransition(new Explode());
-                Intent intent = new Intent(group_messageActivity.this, group_dpActivity.class);
-                intent.putExtra("data", data);
-                startActivity(intent);
-            }
-        });
-
-
-
-
-
-
-
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         text_send.addTextChangedListener(new TextWatcher() {
@@ -332,85 +324,6 @@ public class group_messageActivity extends AppCompatActivity {
 
         });
 
-/*
-        btn_accept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
-                        .child(firebaseUser.getUid())
-                        .child(userid);
-
-                HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("friends", "Messaged");
-                databaseReference.getRef().updateChildren(hashMap);
-                warning.setVisibility(View.GONE);
-                editor.setVisibility(View.VISIBLE);
-                Toast.makeText(MessageActivity.this, "Request Accepted!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        btn_reject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
-                        .child(firebaseUser.getUid())
-                        .child(userid);
-
-                HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("friends", "Rejected");
-                databaseReference.getRef().updateChildren(hashMap);
-                Intent intent = new Intent(MessageActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                Toast.makeText(MessageActivity.this, "Request Rejected!", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        btn_block.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
-                        .child(firebaseUser.getUid())
-                        .child(userid);
-
-                HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("friends", "Blocked");
-                databaseReference.getRef().updateChildren(hashMap);
-                Intent intent = new Intent(MessageActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-
-                Toast.makeText(MessageActivity.this, "User Blocked!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
- */
-
-
-
-
-
-/*
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                    Group group = snapshot1.getValue(Group.class);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
- */
 
         DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         databaseReference1.addValueEventListener(new ValueEventListener() {
@@ -487,31 +400,6 @@ public class group_messageActivity extends AppCompatActivity {
 
     }
 
-    /*
-    private void seenMessage(String userid){
-        databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
-        seenListener = databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot snapshot1:snapshot.getChildren()){
-                    Chat chat = snapshot1.getValue(Chat.class);
-                    assert chat != null;
-                    if(chat.getReceiver().equals(firebaseUser.getUid())&& chat.getSender().equals(userid)){
-                        HashMap<String, Object> hashMap = new HashMap<>();
-                        hashMap.put("isseen", "true");
-                        snapshot1.getRef().updateChildren(hashMap);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-     */
 
     private void ReplyMessage(String sender,String sendername,String message, String timestamp, String ReplyMessage,String ReplyTo, String Replyname){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
@@ -530,7 +418,7 @@ public class group_messageActivity extends AppCompatActivity {
         hashMap.put("replyname", Replyname);
 
         reference.child("GroupChat").child(groupname).push().setValue(hashMap);
-/*
+
         final String msg = message;
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
@@ -542,7 +430,8 @@ public class group_messageActivity extends AppCompatActivity {
                 Group group = snapshot.getValue(Group.class);
                 if(notify) {
 
-                    sendNotification(groupname, group.getGroupname(), msg);
+                    assert group != null;
+                    sendNotification(group.getId(), sendername, msg,groupname);
                 }
                 notify = false;
             }
@@ -553,19 +442,11 @@ public class group_messageActivity extends AppCompatActivity {
             }
         });
 
- */
-
-
-
-
-
     }
 
     private void sendMessage(String sender,String sendername, String message,String timestamp)
     {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
-
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
@@ -577,18 +458,23 @@ public class group_messageActivity extends AppCompatActivity {
 
         reference.child("GroupChat").child(groupname).push().setValue(hashMap);
 
-        /*
+
         final String msg = message;
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
+
                 if(notify) {
-                    assert user != null;
-                    sendNotification(receiver, user.getUsername(), msg);
+
+                    for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                        Group group = snapshot1.getValue(Group.class);
+                        assert group != null;
+                        sendNotification(group.getId(), sendername, msg,groupname);
+                    }
+
                 }
                 notify = false;
             }
@@ -599,15 +485,11 @@ public class group_messageActivity extends AppCompatActivity {
             }
         });
 
-         */
-
-
-
     }
 
 
-    /*
-    private void sendNotification(String receiver, String username, String message){
+
+    private void sendNotification(String receiver, String username, String message,String groupname){
 
         final DatabaseReference chatref = FirebaseDatabase.getInstance().getReference("Group").child("members");
 
@@ -623,8 +505,8 @@ public class group_messageActivity extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                                     Token token = snapshot1.getValue(Token.class);
-                                    Data data = new Data(firebaseUser.getUid(), R.drawable.ic_notification, username + ":" + message, "New Message",
-                                            groupname);
+                                    Data data = new Data(firebaseUser.getUid(), R.drawable.ic_notification, username + ":" + message, "New Message from " + groupname,
+                                            receiver);
                                     assert token != null;
                                     Sender sender = new Sender(data, token.getToken());
                                     apiService.sendNotification(sender)
@@ -654,9 +536,6 @@ public class group_messageActivity extends AppCompatActivity {
                         });
                     }
 
-
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -665,7 +544,7 @@ public class group_messageActivity extends AppCompatActivity {
 
     }
 
-     */
+
 
 
     private void readMessage(String group_name){
@@ -683,9 +562,6 @@ public class group_messageActivity extends AppCompatActivity {
                         mchat.add(groupChat);
 
                     }
-
-
-
                     groupMessageAdapter = new GroupMessageAdapter(group_messageActivity.this, mchat);
                     recyclerView.setAdapter(groupMessageAdapter);
 
@@ -789,9 +665,6 @@ public class group_messageActivity extends AppCompatActivity {
     {
         super.onResume();
         status("online");
-
-
-
     }
 
 

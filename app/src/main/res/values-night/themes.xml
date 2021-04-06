@@ -6,13 +6,26 @@
         <item name="colorPrimaryVariant">@color/coral</item>
         <item name="colorOnPrimary">@color/background_white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/coral</item>
+        <item name="colorSecondary">@color/white</item>
         <item name="colorSecondaryVariant">@color/coral</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:windowActivityTransitions">true</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Loader" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/coral</item>
+        <item name="colorPrimaryVariant">@color/coral</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/coral</item>
+        <item name="colorSecondaryVariant">@color/coral</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     </style>
 
 

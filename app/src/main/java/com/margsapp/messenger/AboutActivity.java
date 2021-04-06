@@ -57,22 +57,29 @@ public class AboutActivity extends AppCompatActivity {
     AppCompatButton checkupdate;
 
     public String appString;
-    SwitchCompat Swicth_authenticate;
+    SwitchCompat Swicth_authenticate,Read_Recipients;
 
 
 
     public String Authentication = "0";
     boolean switchAuthentication;
+    boolean readRecipients;
+    public String readrecipients = "0";
 
 
 
     public static final String TEXT = "text";
     public static final String SWITCH1 = "switch1";
 
+    public static final String SWITCH2 = "switch2";
+    public static final String TEXT1 = "text";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -82,8 +89,43 @@ public class AboutActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(Read_Recipients.isChecked()){
+                    SharedPreferences sharedPreferences = getSharedPreferences("ReadRecipents",0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(TEXT1, "1");
+                    editor.putBoolean(SWITCH2, Read_Recipients.isChecked());
+                    editor.apply();
+
+                    if (mInterstitialAd != null) {
+                        mInterstitialAd.show(AboutActivity.this);
+                    } else {
+                        Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                    }
+
+                    Intent intent = new Intent(AboutActivity.this, edit_profile.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }else if(!Read_Recipients.isChecked()){
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("ReadRecipents",0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(TEXT1, "0");
+                    editor.putBoolean(SWITCH2, Read_Recipients.isChecked());
+                    editor.apply();
+
+                    if (mInterstitialAd != null) {
+                        mInterstitialAd.show(AboutActivity.this);
+                    } else {
+                        Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                    }
+
+                    Intent intent = new Intent(AboutActivity.this, edit_profile.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
                 if(Swicth_authenticate.isChecked()) {
                     Biometric();
+
                 } else if(!Swicth_authenticate.isChecked()) {
                     SharedPreferences sharedPreferences = getSharedPreferences("Authentication",0);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -108,8 +150,9 @@ public class AboutActivity extends AppCompatActivity {
 
         checkupdate = findViewById(R.id.check_update);
         Swicth_authenticate = findViewById(R.id.Swtich_authentication);
+        Read_Recipients = findViewById(R.id.readRecipts_Switch);
 
-
+        Read_Recipients.setChecked(true);
 
 
 
@@ -208,14 +251,22 @@ public class AboutActivity extends AppCompatActivity {
         });
     }
 
+
+
     public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("Authentication",0);
         Authentication = sharedPreferences.getString(TEXT, "");
         switchAuthentication = sharedPreferences.getBoolean(SWITCH1,false);
+
+        SharedPreferences sharedPreferences1 = getSharedPreferences("ReadRecipents",0);
+        readrecipients = sharedPreferences1.getString(TEXT1,"");
+        readRecipients = sharedPreferences1.getBoolean(SWITCH2,false);
+
     }
 
     public void updateViews(){
         Swicth_authenticate.setChecked(switchAuthentication);
+        Read_Recipients.setChecked(readRecipients);
     }
 
     private void Biometric(){
@@ -274,6 +325,41 @@ public class AboutActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
+        if(Read_Recipients.isChecked()){
+            SharedPreferences sharedPreferences = getSharedPreferences("ReadRecipents",0);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(TEXT1, "1");
+            editor.putBoolean(SWITCH2, Read_Recipients.isChecked());
+            editor.apply();
+
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(AboutActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
+
+            Intent intent = new Intent(AboutActivity.this, edit_profile.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }else if(!Read_Recipients.isChecked()){
+
+            SharedPreferences sharedPreferences = getSharedPreferences("ReadRecipents",0);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(TEXT1, "0");
+            editor.putBoolean(SWITCH2, Read_Recipients.isChecked());
+            editor.apply();
+
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(AboutActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
+
+            Intent intent = new Intent(AboutActivity.this, edit_profile.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
 
         if(Swicth_authenticate.isChecked()) {
             Biometric();

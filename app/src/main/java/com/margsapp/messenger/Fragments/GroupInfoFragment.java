@@ -119,6 +119,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
 
                 assert group != null;
                 groupname_txt.setText(group.getGroupname());
+                created_on.setText("Created on "+group.getCreatedon());
             }
 
             @Override
@@ -190,21 +191,6 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
 
                     }
                 });
-
-            }
-        });
-
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Group group = snapshot.getValue(Group.class);
-
-                created_on.setText("Created on "+group.getCreatedon());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
@@ -503,9 +489,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         Group group = snapshot.getValue(Group.class);
                         assert group != null;
-                        if(group.getAdmin().equals("true")){
-                            //Do Nothing
-                        }else {
+                       if(!group.getAdmin().equals("true")) {
                             AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
                             dialog.setMessage("Are you sure you want to make this user Admin? (Note this is a irreversible process)");
                             dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

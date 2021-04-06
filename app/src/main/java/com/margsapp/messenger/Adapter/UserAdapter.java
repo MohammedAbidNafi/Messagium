@@ -136,14 +136,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         } else {
             Glide.with(mContext).load(user.getImageUrl()).into(holder.profile);
         }
-        if (unreadbool) {
-            UnreadMessage(user.getId(), holder.unread);
-        }
 
-
-
-
-
+        
         if (isBlock) {
             holder.UnBlock_btn.setVisibility(View.VISIBLE);
         }
@@ -153,6 +147,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         if (isChat) {
             lastmessage(user.getId(), holder.last_msg);
+            UnreadMessage(user.getId(), holder.unread);
             holder.dt.setVisibility(View.GONE);
 
         }
