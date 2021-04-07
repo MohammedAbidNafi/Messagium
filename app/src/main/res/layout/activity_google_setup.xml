@@ -41,7 +41,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:background="@drawable/edit_text"
-                android:hint="@string/username_googleSignin"
+                android:hint="@string/username_edit_txt"
                 android:id="@+id/username"
                 android:layout_marginBottom="25sp"/>
             <androidx.appcompat.widget.AppCompatEditText
@@ -52,7 +52,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:background="@drawable/edit_text"
-                android:hint="@string/enter_status_googleSignin"
+                android:hint="@string/enter_status"
                 android:id="@+id/dt"
                 android:layout_marginBottom="25sp"/>
 

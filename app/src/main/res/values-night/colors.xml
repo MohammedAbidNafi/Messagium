@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="DarkGreen">#226e6e</color>
+    <color name="Cyan">#3eaeae</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFF0</color>
+
+    <color name="true_black_white">#000</color>
+
+    <color name="dp_view_toolbar">#191919</color>
+    <color name="other_reply">#FFFFFF</color>
+    <color name="onToolClick">#FF9392</color>
+
+    <color name="background">#191919</color>
+    <color name="blacktext">#F1F1F1</color>
+    <color name="greytext">#979797</color>
+
+    <color name="WebLink">#0055FF</color>
+
+    <color name="editText">#fff</color>
+
+    <color name="red">#FF1919</color>
+
+    <color name="onAdapClick">#434343</color>
+    <color name="card_back">#434343</color>
+    <color name="diffrentBack">#000000</color>
+    <color name="othertext">#3C3C3E</color>
+
+    <color name="company_blue">#0064CF</color>
+    <color name="chat_">#0A80FE</color>
+    <color name="background_white">#FEFEFE</color>
+    <color name="grey">#E5E4E9</color>
+    <color name="green">#00D323</color>
+
+    <color name="coral">#FB5150</color>
+
+    <color name="colorE">#c4c4c4</color>
+
+</resources>
