@@ -26,7 +26,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="App by MargsApp"
+        android:text="@string/app_by_margsapp"
         android:textSize="25sp"
         android:textColor="@color/greytext"
         app:layout_constraintBottom_toBottomOf="parent"

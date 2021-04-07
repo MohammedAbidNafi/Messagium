@@ -45,7 +45,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Info"
+                android:text="@string/info"
                 android:textSize="25sp"
                 android:textColor="@color/company_blue"
                 android:layout_centerInParent="true"/>
@@ -70,7 +70,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Make Admin"
+                android:text="@string/make_admin"
                 android:id="@+id/make_admin_txt"
                 android:textSize="20sp"
                 android:textColor="@color/company_blue"
@@ -96,7 +96,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Message"
+                android:text="@string/message"
                 android:textSize="20sp"
                 android:textColor="@color/company_blue"
                 android:layout_centerInParent="true"/>
@@ -122,7 +122,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Voice call"
+                android:text="@string/voice_call"
                 android:textSize="20sp"
                 android:textColor="@color/company_blue"
                 android:layout_centerInParent="true"
@@ -149,7 +149,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Video Call"
+                android:text="@string/video_call"
                 android:textColor="@color/company_blue"
                 android:textSize="20sp"
                 android:layout_centerInParent="true"
@@ -164,7 +164,7 @@
         android:id="@+id/remove_group"
         android:layout_marginHorizontal="5dp"
         android:layout_marginBottom="15sp"
-        android:text="Remove from Group"
+        android:text="@string/remove_from_group"
         android:textAllCaps="false"
         android:textSize="20sp"
         android:textColor="@color/red"
@@ -187,7 +187,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:textColor="@color/company_blue"
                 android:textSize="20sp"
                 android:layout_centerInParent="true"

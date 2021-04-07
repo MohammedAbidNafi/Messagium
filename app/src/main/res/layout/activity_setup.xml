@@ -40,7 +40,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:background="@drawable/edit_text"
-                android:hint="Enter status"
+                android:hint="@string/enter_status"
                 android:id="@+id/dt"
                 android:layout_marginBottom="25sp"/>
 
@@ -49,7 +49,7 @@
                 android:layout_height="40dp"
                 android:id="@+id/save"
                 android:background="@drawable/button"
-                android:text="Save"
+                android:text="@string/save"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/dt"
                 android:layout_marginBottom="20dp"

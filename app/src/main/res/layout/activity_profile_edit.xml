@@ -56,7 +56,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Joined on"
+                android:text="@string/joined_on"
                 android:layout_below="@+id/profile_image"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="40dp"
@@ -127,7 +127,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/thinking"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
 
             android:layout_gravity="center_vertical|start"/>
 
@@ -135,13 +135,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Status"
+            android:text="@string/status"
             android:id="@+id/status"
 
             android:layout_gravity="center_vertical"
             android:layout_marginStart="50dp"
             android:textColor="@color/blacktext"
-            android:textSize="20dp"
+            android:textSize="20sp"
             />
 
 
@@ -160,7 +160,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/group"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
 
             android:layout_gravity="center_vertical|start"/>
 
@@ -177,14 +177,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="People"
+            android:text="@string/people"
             android:layout_marginStart="50dp"
 
 
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15sp"
             android:textColor="@color/blacktext"
-            android:textSize="20dp"
+            android:textSize="20sp"
             />
 
 
@@ -210,7 +209,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/customize"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
 
             android:layout_gravity="center_vertical|start"/>
 
@@ -227,14 +226,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Customize"
+            android:text="@string/customize"
             android:layout_marginStart="50dp"
 
 
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15sp"
             android:textColor="@color/blacktext"
-            android:textSize="20dp"
+            android:textSize="20sp"
             />
 
 
@@ -249,18 +247,11 @@
         android:background="@color/card_back"
 
         >
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-        </RelativeLayout>
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/info"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
 
             android:layout_gravity="center_vertical|start"/>
 
@@ -277,14 +268,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Settings"
+            android:text="@string/settings"
             android:layout_marginStart="50dp"
 
 
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15sp"
             android:textColor="@color/blacktext"
-            android:textSize="20dp"
+            android:textSize="20sp"
             />
 
 

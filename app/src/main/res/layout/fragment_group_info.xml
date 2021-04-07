@@ -46,7 +46,7 @@
                         android:layout_marginStart="20dp"
                         android:text="GroupName"
                         android:textColor="@color/blacktext"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
 
 
                 </androidx.cardview.widget.CardView>
@@ -72,7 +72,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center_vertical|start"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
 
                         android:src="@drawable/add_friend" />
 
@@ -82,9 +82,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="50dp"
-                        android:text="Manage Participants"
+                        android:text="@string/manage_participants"
                         android:textColor="@color/blacktext"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
 
 
                 </androidx.cardview.widget.CardView>
@@ -110,7 +110,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center_vertical|start"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
 
                         android:src="@drawable/ic_baseline_search_24" />
 
@@ -120,9 +120,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="50dp"
-                        android:text="Search Partipants"
+                        android:text="@string/search_partipants"
                         android:textColor="@color/blacktext"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
 
 
                 </androidx.cardview.widget.CardView>
@@ -145,13 +145,14 @@
                     android:layout_height="40sp"
                     android:layout_margin="10dp"
 
-                    android:hint="Search Users"
+                    android:hint="@string/search_users"
                     android:background="@drawable/edit_text"
                     android:paddingStart="7sp"
                     android:drawableStart="@drawable/ic_baseline_search_24"
                     android:drawablePadding="5dp"
                     android:id="@+id/search_users"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    tools:ignore="RtlSymmetry" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
@@ -172,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/created_on"
                     android:layout_marginTop="20dp"
-                    android:text="Created on"
+                    android:text="@string/created_on"
                     android:textSize="15sp"
                     android:textColor="@color/blacktext"/>
 
@@ -189,7 +190,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center_vertical|start"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:src="@drawable/ic_baseline_exit_to_app_24" />
 
                     <TextView
@@ -197,9 +198,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="50dp"
-                        android:text="Leave Group"
+                        android:text="@string/leave_group"
                         android:textColor="@color/red"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
 
                 </androidx.cardview.widget.CardView>
 

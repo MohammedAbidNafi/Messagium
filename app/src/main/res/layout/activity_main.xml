@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/network_txt"
-                android:text="Waiting for Network"
+                android:text="@string/waiting_for_network"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"

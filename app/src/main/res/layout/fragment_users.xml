@@ -15,14 +15,15 @@
        android:layout_width="match_parent"
        android:layout_height="40sp"
        android:layout_margin="5dp"
-       android:hint="Search Users"
+       android:hint="@string/search_users"
 
        android:background="@drawable/edit_text"
        android:paddingStart="7sp"
 
        android:drawableStart="@drawable/ic_baseline_search_24"
        android:drawablePadding="5dp"
-       android:id="@+id/search_users"/>
+       android:id="@+id/search_users"
+       tools:ignore="RtlSymmetry" />
 
    <androidx.recyclerview.widget.RecyclerView
        android:layout_width="match_parent"

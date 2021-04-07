@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/create_shortcut"
-        android:title="Create Shortcut"/>
+        android:title="@string/create_shortcut"/>
 
 
 
     <item
         android:id="@+id/block_user"
-        android:title="Block"
+        android:title="@string/block"
         />
 
     <item android:id="@+id/delete_chat"
-        android:title="Delete Chat"/>
+        android:title="@string/delete_chat"/>
 
 </menu>

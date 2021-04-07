@@ -28,7 +28,7 @@
         app:met_checkCharactersCountAtBeginning="true"
 
 
-        android:hint="Edit status"
+        android:hint="@string/edit_status"
 
         app:met_textColorHint="@color/greytext"
         app:met_textColor="@color/blacktext"

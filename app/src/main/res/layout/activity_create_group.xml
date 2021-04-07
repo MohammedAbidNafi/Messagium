@@ -39,7 +39,7 @@
                 android:background="@drawable/edit_text"
                 android:layout_marginTop="25sp"
                 android:layout_centerHorizontal="true"
-                android:hint="Group name.."
+                android:hint="@string/group_name"
                 android:padding="10dp"
                 android:paddingStart="20dp"/>
 
@@ -48,7 +48,7 @@
                 android:layout_height="40dp"
                 android:id="@+id/next"
                 android:background="@drawable/button"
-                android:text="Next"
+                android:text="@string/next"
                 android:textColor="@android:color/white"
                 android:layout_below="@+id/groupname"
                 android:layout_marginTop="25sp"

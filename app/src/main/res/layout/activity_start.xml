@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Welcome to Messenger"
+        android:text="@string/welcome_to_messenger"
         android:textColor="@color/blacktext"
 
 
@@ -76,7 +76,7 @@
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/signin"
-        android:layout_width="370dp"
+        android:layout_width="300dp"
         android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,9 +88,11 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/phone"
-        android:layout_width="370dp"
+        android:layout_width="300dp"
         android:layout_height="60dp"
-        android:text="LOGIN USING PHONE"
+        android:text="@string/login_using_phone_no"
+        android:textSize="20sp"
+        android:textAllCaps="false"
         android:textColor="@color/white"
         android:background="@drawable/button"
         app:layout_constraintBottom_toBottomOf="parent"

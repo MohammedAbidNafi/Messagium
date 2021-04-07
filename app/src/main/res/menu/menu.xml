@@ -21,20 +21,20 @@
 
         <item
             android:id="@+id/create_group"
-            android:title="Create Group"
+            android:title="@string/create_group"
             app:showAsAction="ifRoom"/>
         <item
             android:id="@+id/edit"
 
 
-            android:title="Settings"
+            android:title="@string/settings"
             app:showAsAction="ifRoom" />
 
 
         <item
         android:id="@+id/logout"
 
-        android:title="Logout"
+        android:title="@string/logout"
         app:showAsAction="ifRoom" />
 
 

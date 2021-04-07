@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="25dp"
-                android:text="App Version"
+                android:text="@string/app_version"
                 android:textColor="@color/blacktext"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -83,7 +83,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text="Check Update"
+                android:text="@string/check_update"
                 android:id="@+id/check_update"
                 android:layout_below="@+id/app_version"
                 android:layout_marginTop="25sp"
@@ -107,10 +107,10 @@
             <androidx.appcompat.widget.SwitchCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
+                android:textSize="26sp"
                 android:id="@+id/Swtich_authentication"
                 android:padding="10dp"
-                android:text="BioMetric Authentication"/>
+                android:text="@string/biometric_pin_authentication"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
@@ -130,7 +130,7 @@
                 android:textSize="25sp"
                 android:id="@+id/readRecipts_Switch"
                 android:padding="10dp"
-                android:text="Read Recipients (Beta)"/>
+                android:text="@string/read_recipients_beta"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

@@ -2,6 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/create_shortcut"
-        android:title="Create Shortcut"/>
+        android:title="@string/create_shortcut"/>
 
 </menu>

@@ -174,7 +174,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="This user is messaging for the first time if you know accept it. If you dont know reject it. If you dont want to talk block them."
+            android:text="@string/warning_txt"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -187,7 +187,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="60dp"
             android:background="@color/grey"
-            android:text="Accept"
+            android:text="@string/accept_warning"
             android:textColor="@color/company_blue" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -199,7 +199,7 @@
             android:layout_marginStart="60dp"
             android:layout_marginTop="10dp"
             android:background="@color/grey"
-            android:text="Reject"
+            android:text="@string/reject_warning"
             android:textColor="@color/company_blue" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -210,7 +210,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:background="@color/grey"
-            android:text="Block"
+            android:text="@string/block_warning"
             android:textColor="@color/company_blue" />
 
     </RelativeLayout>
@@ -239,7 +239,7 @@
             android:layout_marginRight="40dp"
             android:background="@android:color/transparent"
             android:ems="10"
-            android:hint="Send message"
+            android:hint="@string/send_message"
             android:imeOptions="flagNoExtractUi|actionSend"
             android:inputType="textMultiLine|textCapSentences|textShortMessage"
             android:maxLength="2000"
