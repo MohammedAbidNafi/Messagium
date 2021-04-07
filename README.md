@@ -26,6 +26,7 @@ If your working on this make sure you connect this project to your firebase acco
 13. End to End Encryption
 14. Ability to Share Contacts
 15. Profile Information of Other Users
+16. Add Diffrent Language Translations.
 
 ## Ways to Contribute 
 1. Create an issue to discuss about your idea.(https://github.com/MohammedAbidNafi/MessengerByMargs/issues)
