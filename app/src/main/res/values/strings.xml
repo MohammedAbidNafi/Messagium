@@ -74,7 +74,7 @@
     <string name="username_edit_txt">Username</string>
     <string name="enter_status">Enter status</string>
     <string name="waiting_for_network">Waiting for Network</string>
-    <string name="warning_txt">This user is messaging for the first time if you know accept it. If you dont know reject it. If you dont want to talk block them.</string>
+    <string name="warning_txt">This user is messaging for the first time if you know accept it. If you dont know reject it. நீங்கள் பேச விரும்பவில்லை என்றால் அவர்களைத் தடு.</string>
     <string name="accept_warning">Accept</string>
     <string name="reject_warning">Reject</string>
     <string name="block_warning">Block</string>
@@ -90,7 +90,6 @@
     <string name="joined_on">Joined on</string>
     <string name="people">People</string>
     <string name="customize">Customize</string>
-    <string name="settings">Settings</string>
     <string name="status">Status</string>
     <string name="save">Save</string>
     <string name="app_by_margsapp">App by MargsApp</string>

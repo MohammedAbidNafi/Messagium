@@ -17,7 +17,7 @@
         android:layout_centerHorizontal="true"
         android:text="@string/welcome_to_messenger"
         android:textColor="@color/blacktext"
-
+        android:textAlignment="center"
 
         android:textSize="30dp"
 
@@ -89,7 +89,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/phone"
         android:layout_width="300dp"
-        android:layout_height="60dp"
+        android:layout_height="65dp"
         android:text="@string/login_using_phone_no"
         android:textSize="20sp"
         android:textAllCaps="false"
