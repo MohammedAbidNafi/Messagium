@@ -27,6 +27,7 @@ If your working on this make sure you connect this project to your firebase acco
 14. Ability to Share Contacts
 15. Profile Information of Other Users
 16. Add Diffrent Language Translations.
+17. Click Enter to Send Message
 
 ## Ways to Contribute 
 1. Create an issue to discuss about your idea.(https://github.com/MohammedAbidNafi/MessengerByMargs/issues)
