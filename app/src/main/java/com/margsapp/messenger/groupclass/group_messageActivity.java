@@ -1,7 +1,6 @@
 package com.margsapp.messenger.groupclass;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatButton;
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ShortcutInfo;
@@ -25,7 +23,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.transition.Explode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,13 +53,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 import com.margsapp.messenger.Adapter.GroupMessageAdapter;
 import com.margsapp.messenger.MainActivity;
-import com.margsapp.messenger.MessageActivity;
 import com.margsapp.messenger.Notifications.Data;
 import com.margsapp.messenger.Notifications.MyResponse;
 import com.margsapp.messenger.Notifications.Sender;
 import com.margsapp.messenger.Notifications.Token;
-import com.margsapp.messenger.dp_view.group_dpActivity;
-import com.margsapp.messenger.Fragments.APIService;
+import com.margsapp.messenger.Model.APIService;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.GroupChat;
 import com.margsapp.messenger.Model.User;

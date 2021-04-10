@@ -7,9 +7,10 @@ public class User {
     private String imageURL;
     private String status;
     private String DT;
+    private String typingto;
 
     private String joined_on;
-    public User(String id, String username, String imageUrl, String status, String DT, String joined_on)
+    public User(String id, String username, String imageUrl, String status, String DT, String joined_on, String typingto)
     {
         this.id = id;
         this.username = username;
@@ -17,12 +18,21 @@ public class User {
         this.status = status;
         this.DT = DT;
         this.joined_on = joined_on;
+        this.typingto = typingto;
 
     }
 
     public User()
     {
 
+    }
+
+    public String getTypingto() {
+        return typingto;
+    }
+
+    public void setTypingto(String typingto) {
+        this.typingto = typingto;
     }
 
     public String getJoined_on() {

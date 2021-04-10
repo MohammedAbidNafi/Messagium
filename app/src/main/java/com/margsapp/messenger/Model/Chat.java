@@ -14,7 +14,9 @@ public class Chat {
     private String sendername;
     private String replyname;
 
-    public Chat(String sender, String receiver, String message, String isseen, String timestamp, String replytext, String reply,String replyto,String replyname, String sendername) {
+    private String encrypted;
+
+    public Chat(String sender, String receiver, String message, String isseen, String timestamp, String replytext, String reply,String replyto,String replyname, String sendername, String encrypted) {
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
@@ -25,10 +27,19 @@ public class Chat {
         this.replyto = replyto;
         this.replyname = replyname;
         this.sendername = sendername;
+        this.encrypted = encrypted;
 
     }
 
     public Chat() {
+    }
+
+    public String getEncrypted() {
+        return encrypted;
+    }
+
+    public void setEncrypted(String encrypted) {
+        this.encrypted = encrypted;
     }
 
     public String getSendername() {

@@ -19,6 +19,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Pair;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,7 +59,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Adapter.MessageAdapter;
-import com.margsapp.messenger.Fragments.APIService;
+import com.margsapp.messenger.Model.APIService;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
@@ -67,10 +68,7 @@ import com.margsapp.messenger.Notifications.Data;
 import com.margsapp.messenger.Notifications.MyResponse;
 import com.margsapp.messenger.Notifications.Sender;
 import com.margsapp.messenger.Notifications.Token;
-import com.margsapp.messenger.dp_view.group_dpActivity;
-import com.margsapp.messenger.dp_view.main_dpActivity;
 import com.margsapp.messenger.dp_view.personal_dpActivity;
-import com.margsapp.messenger.groupclass.group_messageActivity;
 import com.margsapp.messenger.reply.ISwipeControllerActions;
 import com.margsapp.messenger.reply.SwipeController;
 
@@ -88,8 +86,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.margsapp.messenger.AboutActivity.TEXT;
-import static com.margsapp.messenger.AboutActivity.TEXT1;
 import static com.margsapp.messenger.CustomiseActivity.THEME;
 
 public class MessageActivity extends AppCompatActivity {
@@ -101,7 +97,7 @@ public class MessageActivity extends AppCompatActivity {
     TextView username, statusText, reply_txt;
 
     FirebaseUser firebaseUser;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference,txt_database;
 
 
     ImageButton btnSend, btn_cancel_reply;
@@ -116,14 +112,14 @@ public class MessageActivity extends AppCompatActivity {
 
     Intent intent;
 
-    ValueEventListener seenListener;
+    ValueEventListener seenListener,textListener;
 
     APIService apiService;
 
     String userid,ReplyId, Sendername,ReplyName,imageUrl,blocked,read;
 
 
-
+    boolean entertosend = false;
     ConstraintLayout reply, editor;
     RelativeLayout warning;
 
@@ -153,11 +149,13 @@ public class MessageActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("GetInstance")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+
 
 
 
@@ -246,8 +244,6 @@ public class MessageActivity extends AppCompatActivity {
 
 
 
-       
-
         SwipeController swipeController = new SwipeController(this, new ISwipeControllerActions() {
             @Override
             public void onSwipePerformed(int position) {
@@ -297,6 +293,26 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 btnSend.setVisibility(View.VISIBLE);
+                entertosend = true;
+                txt_database = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+                txt_database.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("typingto", userid);
+                        snapshot.getRef().updateChildren(hashMap);
+                    }
+
+
+
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
                 checkText();
             }
 
@@ -306,30 +322,12 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("Chatlist").child(userid).child(firebaseUser.getUid());
-        databaseReference2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Chatlist chatlist = snapshot.getValue(Chatlist.class);
-
-                if(snapshot.exists()){
-                    assert chatlist != null;
-                    blocked = chatlist.getFriends();
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         btnSend.setOnClickListener(v -> {
 
             notify = true;
             String isseen = "false";
+
             String msg = text_send.getText().toString();
             if(!msg.equals(""))
             {
@@ -341,15 +339,7 @@ public class MessageActivity extends AppCompatActivity {
                 String Reply = reply_txt.getText().toString();
 
                 String Sender_name = Sendername;
-                /*
-                if(blocked != null){
-                    if(blocked.equals("Blocked")){
-                        Toast.makeText(this,"Unfortunately this person has blocked you.",Toast.LENGTH_SHORT).show();
-                    }
-                }
 
-                 */
-               // else {
                     if(reply_){
                         ReplyMessage(firebaseUser.getUid(),userid, msg, timestamp, isseen, Reply, ReplyId, Sendername,ReplyName);
                     }
@@ -381,6 +371,7 @@ public class MessageActivity extends AppCompatActivity {
                Chatlist chatlist = snapshot.getValue(Chatlist.class);
                 if(snapshot.exists()){
                     assert chatlist != null;
+                    blocked = chatlist.getFriends();
                     if(chatlist.getFriends().equals("Requested")) {
                         editor.setVisibility(View.GONE);
                         warning.setVisibility(View.VISIBLE);
@@ -489,7 +480,13 @@ public class MessageActivity extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 assert user != null;
                 username.setText(user.getUsername());
-                statusText.setText(user.getStatus());
+
+                if(user.getTypingto().equals(firebaseUser.getUid())){
+                    statusText.setText(getResources().getString(R.string.typing));
+                }else {
+                    statusText.setText(user.getStatus());
+                }
+
                 imageUrl = user.getImageUrl();
 
                 if(imageUrl.equals("default"))
@@ -510,22 +507,30 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
-        SharedPreferences sharedPreferences = getSharedPreferences("ReadRecipents", 0);
-        read = sharedPreferences.getString(TEXT1, "");
-
-
         seenMessage(userid);
-
 
     }
 
     private void checkText() {
         if(text_send.getText().toString().equals("")){
             btnSend.setVisibility(View.INVISIBLE);
+            entertosend = false;
+            txt_database = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+            txt_database.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                    HashMap<String, Object> hashMap = new HashMap<>();
+                    hashMap.put("typingto", "");
+                    snapshot.getRef().updateChildren(hashMap);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
-
-
     }
 
 
@@ -548,53 +553,31 @@ public class MessageActivity extends AppCompatActivity {
     }
 
 
-    private void seenMessage(String userid){
+    private void seenMessage(String userid) {
 
-        if(read.equals("0")){
-            databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
-            seenListener = databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                        Chat chat = snapshot1.getValue(Chat.class);
-                        assert chat != null;
-                        if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userid)) {
-                            HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("isseen", "false");
-                            snapshot1.getRef().updateChildren(hashMap);
-                        }
+        databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
+        seenListener = databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    Chat chat = snapshot1.getValue(Chat.class);
+                    assert chat != null;
+                    if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userid)) {
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("isseen", "true");
+                        snapshot1.getRef().updateChildren(hashMap);
                     }
                 }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-            });
-        }else {
-            databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
-            seenListener = databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                        Chat chat = snapshot1.getValue(Chat.class);
-                        assert chat != null;
-                        if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userid)) {
-                            HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("isseen", "true");
-                            snapshot1.getRef().updateChildren(hashMap);
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
-
+            }
+        });
     }
+
+
 
 
 
@@ -613,6 +596,7 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("replyto",ReplyTo);
         hashMap.put("sendername", sendername);
         hashMap.put("replyname", replyname);
+        hashMap.put("encrypted","false");
 
         reference.child("Chats").push().setValue(hashMap);
 
@@ -703,6 +687,7 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("timestamp", timestamp);
         hashMap.put("reply", "false");
         hashMap.put("sendername", sendername);
+        hashMap.put("encrypted","false");
 
         reference.child("Chats").push().setValue(hashMap);
 
@@ -990,6 +975,7 @@ public class MessageActivity extends AppCompatActivity {
         HashMap<String, Object> hashMap = new HashMap<>();
 
         hashMap.put("status", status);
+        hashMap.put("typingto","");
         hashMap.put("lastseen", timestamp);
 
         databaseReference.updateChildren(hashMap);
@@ -1055,7 +1041,9 @@ public class MessageActivity extends AppCompatActivity {
 
 
 
-    public void onBackPressed(){
+
+
+        public void onBackPressed(){
 
         Intent openMainActivity = new Intent(MessageActivity.this, MainActivity.class);
         openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -1090,6 +1078,7 @@ public class MessageActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         databaseReference.removeEventListener(seenListener);
+        txt_database.removeEventListener(textListener);
         status("offline");
         currentUser("none");
     }

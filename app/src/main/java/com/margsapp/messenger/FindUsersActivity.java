@@ -76,7 +76,7 @@ public class FindUsersActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Add Friends");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.add_chat));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 

@@ -24,7 +24,7 @@
         android:layout_marginEnd="25dp"
         android:layout_centerVertical="true"
 
-        android:visibility="invisible"
+        android:visibility="gone"
         android:id="@+id/unread"/>
 
 
@@ -103,6 +103,14 @@
         android:maxLength="500"
         android:ellipsize="end"
         android:layout_marginStart="10dp"
+        android:textColor="@color/greytext"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/date_lastmsg"
+        android:visibility="gone"
         android:textColor="@color/greytext"/>
 
 

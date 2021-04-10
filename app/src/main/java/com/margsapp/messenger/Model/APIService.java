@@ -1,4 +1,4 @@
-package com.margsapp.messenger.Fragments;
+package com.margsapp.messenger.Model;
 
 import com.margsapp.messenger.Notifications.MyResponse;
 import com.margsapp.messenger.Notifications.Sender;

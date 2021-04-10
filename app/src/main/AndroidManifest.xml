@@ -20,7 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_appicon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Messenger">
-        <activity android:name=".google_setupActivity"></activity>
+        <activity android:name=".google_setupActivity" />
         <activity android:name=".dp_view.main_dpActivity" />
         <activity android:name=".dp_view.personal_dpActivity" />
         <activity android:name=".groupclass.manage_partActivty" />
@@ -52,7 +52,8 @@
                 android:resource="@xml/shortcuts" />
         </activity>
         <activity android:name=".AboutActivity" />
-        <activity android:name=".CustomiseActivity" />
+        <activity android:name=".CustomiseActivity"
+            android:theme="@style/Loader"/>
         <activity android:name=".dp_view.group_dpActivity" />
         <activity android:name=".Friends.Blocked" />
         <activity android:name=".Friends.Accepted" />

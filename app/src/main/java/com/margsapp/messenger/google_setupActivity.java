@@ -122,6 +122,7 @@ public class google_setupActivity extends AppCompatActivity {
                 hashMap.put("id", firebaseUser.getUid());
                 hashMap.put("username", txt_username);
                 hashMap.put("DT", txt_dt);
+                hashMap.put("typingto","");
                 reference.updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

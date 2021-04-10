@@ -1,20 +1,26 @@
 package com.margsapp.messenger;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.cardview.widget.CardView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public class CustomiseActivity extends AppCompatActivity {
@@ -23,6 +29,11 @@ public class CustomiseActivity extends AppCompatActivity {
     MaterialButtonToggleGroup materialButtonToggleGroup;
 
     ImageView sun,default_settings,moon;
+
+    CardView lang_card;
+
+    int languageid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,15 +46,20 @@ public class CustomiseActivity extends AppCompatActivity {
         moon.setVisibility(View.GONE);
         default_settings.setVisibility(View.VISIBLE);
 
+        lang_card = findViewById(R.id.lang_card);
+
+        SharedPreferences preferences = getSharedPreferences("lang_settings", Activity.MODE_PRIVATE);
+        languageid = preferences.getInt("langid", 0);
+
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Customise");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.customize));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                startActivity(new Intent(CustomiseActivity.this,edit_profile.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
 
@@ -94,9 +110,78 @@ public class CustomiseActivity extends AppCompatActivity {
 
         });
 
+        lang_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLanguageDialog();
+            }
+        });
+
+    }
+
+    private void showLanguageDialog() {
+
+        final String[] langitems = {"English (Default)","தமிழ்", "हिंदी","తెలుగు"};
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle(getResources().getString(R.string.choose_language));
+
+        dialog.setSingleChoiceItems(langitems, languageid, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                if(i == 0){
+                    setLocale("en",0);
+                    recreate();
+                }
+
+                else if (i == 1){
+                    setLocale("ta",1);
+                    recreate();
+                }
+
+                else if(i==2){
+                    setLocale("hi",2);
+                    recreate();
+                }
+                else if(i == 3){
+                    setLocale("te",3);
+                    recreate();
+                }
+
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = dialog.create();
+        alertDialog.show();
+    }
+
+    private void setLocale(String lang, int langid) {
+
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+
+        Configuration config = new Configuration();
+        config.locale = locale;
+
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        SharedPreferences.Editor editor = getSharedPreferences("lang_settings",MODE_PRIVATE).edit();
+        editor.putString("lang",lang);
+        editor.putInt("langid",langid);
+        editor.apply();
+
     }
 
     private void loadData() {
+        SharedPreferences preferences = getSharedPreferences("lang_settings", Activity.MODE_PRIVATE);
+        String language = preferences.getString("lang","");
+        int langid = preferences.getInt("langid", 0);
+        setLocale(language, langid);
+
+
+
+
         SharedPreferences sharedPreferences = getSharedPreferences("theme", 0);
         String Theme = sharedPreferences.getString(THEME, "");
 
@@ -130,7 +215,7 @@ public class CustomiseActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        startActivity(new Intent(CustomiseActivity.this,edit_profile.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
     }
 }

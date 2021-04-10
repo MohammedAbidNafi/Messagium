@@ -55,6 +55,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -118,7 +119,7 @@ public class edit_profile extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Settings");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.settings));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -242,7 +243,7 @@ public class edit_profile extends AppCompatActivity {
 
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        storageReference = FirebaseStorage.getInstance().getReference("ProfileImages/"+firebaseUser.getUid());
+        storageReference = FirebaseStorage.getInstance().getReference("/ProfileImages/"+firebaseUser.getUid());
 
 
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
@@ -257,14 +258,12 @@ public class edit_profile extends AppCompatActivity {
                 assert user != null;
                 username.setText(user.getUsername());
 
-                /*
+
                 long joineDate = firebaseAuth.getCurrentUser().getMetadata().getCreationTimestamp();
-                String joined_on_date = String.valueOf(joineDate);
-                joined_on.setText(joined_on_date);
+                String actual_date = DateFormat.getDateInstance().format(joineDate);
+                joined_on.setText(actual_date);
 
-                 */
 
-                joined_on.setText(user.getJoined_on());
 
 
                 status.setText(user.getDt());

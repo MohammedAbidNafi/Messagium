@@ -55,6 +55,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
     String theLastMessage;
+    String date_time;
     String UnreadMessage;
 
 
@@ -146,18 +147,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
 
         if (isChat) {
-            lastmessage(user.getId(), holder.last_msg);
-            UnreadMessage(user.getId(), holder.unread);
-            holder.dt.setVisibility(View.GONE);
-
-        }
-        if (!isChat) {
-
-            holder.last_msg.setVisibility(View.GONE);
-            holder.dt.setVisibility(View.VISIBLE);
-        }
-
-        if (isChat) {
             if (user.getStatus().equals("online")) {
                 holder.img_on.setVisibility(View.VISIBLE);
                 holder.img_off.setVisibility(View.GONE);
@@ -165,9 +154,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 holder.img_off.setVisibility(View.VISIBLE);
                 holder.img_on.setVisibility(View.GONE);
             }
-        } else {
+            holder.date_lastmsg.setVisibility(View.VISIBLE);
+            lastmessage(user.getId(), holder.last_msg,holder.date_lastmsg);
+            UnreadMessage(user.getId(), holder.unread);
+            holder.dt.setVisibility(View.GONE);
+
+        }
+        if (!isChat) {
+
+            holder.last_msg.setVisibility(View.GONE);
             holder.img_on.setVisibility(View.GONE);
             holder.img_off.setVisibility(View.VISIBLE);
+            holder.date_lastmsg.setVisibility(View.GONE);
+            holder.dt.setVisibility(View.VISIBLE);
         }
 
         holder.UnBlock_btn.setOnClickListener(new View.OnClickListener() {
@@ -232,7 +231,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         private final ImageView img_off;
         private final ImageView unread;
         private final TextView last_msg;
-
+        private final TextView date_lastmsg;
         private final ImageView UnBlock_btn;
 
         public ViewHolder(View view) {
@@ -243,7 +242,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             last_msg = itemView.findViewById(R.id.last_msg);
             unread = itemView.findViewById(R.id.unread);
             UnBlock_btn = itemView.findViewById(R.id.cancel_button);
-
+            date_lastmsg = itemView.findViewById(R.id.date_lastmsg);
             addpart = itemView.findViewById(R.id.addpart);
 
 
@@ -289,8 +288,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
 
-    private void lastmessage(String userid, TextView lastmsg){
+    private void lastmessage(String userid, TextView lastmsg,TextView date_lastmsg){
         theLastMessage = "default";
+        date_time = "default";
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
 
@@ -305,17 +305,23 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     if(chat.getReceiver().equals(firebaseUser.getUid())&& chat.getSender().equals(userid) ||
                             chat.getReceiver().equals(userid)&& chat.getSender().equals(firebaseUser.getUid())) {
                         theLastMessage = chat.getMessage();
+                        date_time = chat.getTimestamp();
                     }
 
+                }
+
+                if("defalt".equals(date_time)){
+                    date_lastmsg.setText("");
                 }
                 if ("default".equals(theLastMessage)) {
                     lastmsg.setText("No Message");
                 } else {
                     lastmsg.setText(theLastMessage);
+                    date_lastmsg.setText(date_time);
                 }
 
                 theLastMessage = "default";
-
+                date_time = "default";
             }
 
             @Override

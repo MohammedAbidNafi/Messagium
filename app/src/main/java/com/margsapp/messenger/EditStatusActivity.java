@@ -56,7 +56,7 @@ public class EditStatusActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Edit Status");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.edit_status));
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Messenger</string>
+    <string name="app_name">மெஸ்சேன்ஜ்ர்</string>
 
 
     <string name="title_activity_login">LoginActivity</string>
@@ -73,6 +73,8 @@
     <string name="leave_group">விலகு</string>
     <string name="search_users">பயனர்களைத் தேடுங்கள்</string>
     <string name="info">தகவல்</string>
+    <string name="chat">அரட்டை</string>
+    <string name="group">குரூப்</string>
     <string name="make_admin">அட்மின் செய்யுங்கள்</string>
     <string name="message">மெசேஜ்</string>
     <string name="voice_call">குரல் அழைப்பு</string>
@@ -86,4 +88,8 @@
     <string name="delete_chat">அழி</string>
     <string name="create_shortcut">ஷார்ட்சுட் உருவாக்கவும்</string>
     <string name="edit">திருத்து</string>
+    <string name="choose_language">மொழியைத் தேர்வுசெய்க</string>
+    <string name="app_language">பயன்பாட்டு மொழி</string>
+    <string name="english">தமிழ்</string>
+    <string name="typing">Typing…</string>
 </resources>

@@ -9,8 +9,10 @@ import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,6 +51,7 @@ import com.margsapp.messenger.Model.User;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.concurrent.Executor;
 
 import static androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL;
@@ -76,6 +79,10 @@ public class StartActivity extends AppCompatActivity {
     protected void onStart() {
         //Check if user is logged
         super.onStart();
+
+        SharedPreferences preferences = getSharedPreferences("lang_settings", Activity.MODE_PRIVATE);
+        String language = preferences.getString("lang","");
+        setLocale(language);
 
 
 
@@ -160,6 +167,18 @@ public class StartActivity extends AppCompatActivity {
 
         }
     }
+
+    private void setLocale(String lang) {
+
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+
+        Configuration config = new Configuration();
+        config.locale = locale;
+
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

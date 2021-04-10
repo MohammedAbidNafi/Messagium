@@ -11,10 +11,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -59,6 +61,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -90,7 +93,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        SharedPreferences sharedPreferences = getSharedPreferences("lang_settings", Activity.MODE_PRIVATE);
+        String language = sharedPreferences.getString("lang","");
+        setLocale(language);
 
 
         SharedPreferences preferences = getSharedPreferences("theme", 0);
@@ -241,13 +246,13 @@ public class MainActivity extends AppCompatActivity {
 
 
                 if (unread == 0) {
-                    viewPageAdapter.addFragment(new ChatsFragment(), "Chats");
+                    viewPageAdapter.addFragment(new ChatsFragment(), getResources().getString(R.string.chat));
                 } else {
-                    viewPageAdapter.addFragment(new ChatsFragment(), "Chats(" + unread + ")");
+                    viewPageAdapter.addFragment(new ChatsFragment(), getResources().getString(R.string.chat)+(" + unread + "));
                 }
 
 
-                viewPageAdapter.addFragment(new GroupFragment(), "Group");
+                viewPageAdapter.addFragment(new GroupFragment(), getResources().getString(R.string.group));
 
 
                 viewPager.setAdapter(viewPageAdapter);
@@ -263,6 +268,18 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
+
+    }
+
+    private void setLocale(String lang) {
+
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+
+        Configuration config = new Configuration();
+        config.locale = locale;
+
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
     }
 
