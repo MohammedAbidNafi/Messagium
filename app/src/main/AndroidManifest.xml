@@ -18,7 +18,7 @@
         android:icon="@mipmap/ic_launcher_appicon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_appicon_round"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@style/Theme.Messenger">
         <activity android:name=".google_setupActivity" />
         <activity android:name=".dp_view.main_dpActivity" />
@@ -97,14 +97,17 @@
             android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
             android:exported="true"
             android:permission="com.google.android.c2dm.permission.SEND">
+
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
+
         </receiver>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-5615682506938042~4256769585" />
+
         <meta-data
             android:name="firebase_performance_logcat_enabled"
             android:value="true" />
