@@ -5,14 +5,24 @@ public class GroupList {
     private String id;
     private String admin;
     private String groupname;
+    private String groupid;
 
-    public GroupList(String id, String admin, String groupname) {
+    public GroupList(String id, String admin, String groupname,String groupid) {
         this.id = id;
         this.admin = admin;
         this.groupname = groupname;
+        this.groupid = groupid;
     }
 
     public GroupList() {
+    }
+
+    public String getGroupid() {
+        return groupid;
+    }
+
+    public void setGroupid(String groupid) {
+        this.groupid = groupid;
     }
 
     public String getGroupname() {

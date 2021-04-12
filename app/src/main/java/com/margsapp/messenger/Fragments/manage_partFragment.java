@@ -1,19 +1,17 @@
 package com.margsapp.messenger.Fragments;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,16 +36,14 @@ public class manage_partFragment extends Fragment implements AddPartAdapter.Even
     private RecyclerView recyclerView;
     private List<Group> mUsers;
 
-    DatabaseReference databaseReference;
     FirebaseUser firebaseUser;
 
     private List<User> usersList;
 
-    private AddPartAdapter addPartAdapter;
-
-    private manage_partActivty manage_partActivty;
-
     public String groupname;
+
+    public manage_partFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -146,8 +142,4 @@ public class manage_partFragment extends Fragment implements AddPartAdapter.Even
         });
     }
 
-    public void onDestroy() {
-        super.onDestroy();
-        //addPartAdapter.removeEventListener();
-    }
 }

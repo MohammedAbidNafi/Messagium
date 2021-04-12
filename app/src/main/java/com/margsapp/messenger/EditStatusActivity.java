@@ -1,18 +1,15 @@
 package com.margsapp.messenger;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.Toolbar;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -24,7 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Model.User;
-import com.margsapp.messenger.groupclass.create_groupActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -38,10 +34,6 @@ public class EditStatusActivity extends AppCompatActivity {
 
     EditText statusEditText;
 
-    AppCompatButton saveButton;
-
-    private AdView mAdView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +42,7 @@ public class EditStatusActivity extends AppCompatActivity {
 
         statusEditText = findViewById(R.id.editText);
 
-        mAdView = findViewById(R.id.adView);
+        AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
@@ -121,16 +113,14 @@ public class EditStatusActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.done:
+        if (item.getItemId() == R.id.done) {
+            String txt_status = statusEditText.getText().toString();
+            save(txt_status);
 
-                String txt_status = statusEditText.getText().toString();
-                save(txt_status);
-
-                Intent intent = new Intent(EditStatusActivity.this, edit_profile.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+            Intent intent = new Intent(EditStatusActivity.this, edit_profile.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
         }
 
         return false;
@@ -152,6 +142,7 @@ public class EditStatusActivity extends AppCompatActivity {
 
     private void status(String status){
         FirebaseUser firebaseUserStatus = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUserStatus != null;
         DatabaseReference statusdatabaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUserStatus.getUid());
 
         Calendar calendar = Calendar.getInstance();

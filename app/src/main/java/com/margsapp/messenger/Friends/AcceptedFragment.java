@@ -94,9 +94,6 @@ public class AcceptedFragment extends Fragment {
                             if(chatlist.getFriends().equals("Messaged") | chatlist.getFriends().equals("Accepted")){
                                 mUsers.add(user);
                             }
-                            if(chatlist.getFriends().equals("Blocked")){
-                                //Dont do anything
-                            }
 
                         }
                     }

@@ -1,21 +1,11 @@
 package com.margsapp.messenger.Fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,8 +21,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -50,10 +46,11 @@ import com.margsapp.messenger.R;
 import com.margsapp.messenger.groupclass.group_infoActivity;
 import com.margsapp.messenger.groupclass.manage_partActivty;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 
 public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.EventListener {
@@ -67,7 +64,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
     EditText search_user;
 
     private GroupInfoAdapter groupInfoAdapter;
-    String groupname;
+    String groupid, Username;
 
     RelativeLayout others;
 
@@ -86,6 +83,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
     boolean search = true;
     private boolean Admin = false;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -102,7 +100,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
 
         group_infoActivity activity = (group_infoActivity) getActivity();
         assert activity != null;
-        groupname = activity.getMyData();
+        groupid = activity.getMyData();
 
         created_on = view.findViewById(R.id.created_on);
 
@@ -111,7 +109,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
         manage_part = view.findViewById(R.id.manage_part);
 
         groupname_txt = view.findViewById(R.id.groupname_txt);
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Group").child(groupname);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Group").child(groupid);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -119,7 +117,25 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
 
                 assert group != null;
                 groupname_txt.setText(group.getGroupname());
-                created_on.setText("Created on "+group.getCreatedon());
+
+                created_on.setText(getResources().getString(R.string.created_on) + group.getCreatedon());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        assert firebaseUser != null;
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                assert user != null;
+                Username = user.getUsername();
+
             }
 
             @Override
@@ -154,71 +170,51 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
         });
          */
 
-        manage_part.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        manage_part.setOnClickListener(v -> {
 
-                assert firebaseUser != null;
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members").child(firebaseUser.getUid());
-                databaseReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Group group = snapshot.getValue(Group.class);
+            DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Group").child(groupid).child("members").child(firebaseUser.getUid());
+            databaseReference1.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Group group = snapshot.getValue(Group.class);
 
-                        assert group != null;
-                        if(group.getAdmin().equals("true")){
-                            Intent intent = new Intent(getContext(), manage_partActivty.class);
-                            intent.putExtra("groupname", groupname);
-                            startActivity(intent);
-                        }else {
-                            AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
-                            dialog.setTitle("Not an Admin.");
-                            dialog.setMessage("You have to be Admin to make changes in group.");
-                            dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    assert group != null;
+                    if(group.getAdmin().equals("true")){
+                        Intent intent = new Intent(getContext(), manage_partActivty.class);
+                        intent.putExtra("groupid", groupid);
+                        startActivity(intent);
+                    }else {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
+                        dialog.setTitle(getResources().getString(R.string.not_an_admin));
+                        dialog.setMessage(getResources().getString(R.string.admin_message));
+                        dialog.setPositiveButton(getResources().getString(R.string.ok), (dialog1, id) -> {
 
-                                @Override
-                                public void onClick(DialogInterface dialog, int id) {
-
-                                }
-                            });
-                            AlertDialog alertDialog = dialog.create();
-                            alertDialog.show();
-                        }
+                        });
+                        AlertDialog alertDialog = dialog.create();
+                        alertDialog.show();
                     }
+                }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
+                }
+            });
 
-            }
         });
 
         leaveGroup = view.findViewById(R.id.leave_group);
 
-        leaveGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
-                dialog.setMessage("Are you sure you want to leave the group?");
-                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        leaveGroup.setOnClickListener(v -> {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
+            dialog.setMessage(getResources().getString(R.string.ask_leave_group));
+            dialog.setPositiveButton(getResources().getString(R.string.yes), (dialog12, id) -> leave(groupid,Username));
+            dialog.setNeutralButton(getResources().getString(R.string.no), (dialog13, which) -> {
+                //Dont do anything
+            });
+            AlertDialog alertDialog = dialog.create();
+            alertDialog.show();
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        leave();
-                    }
-                });
-                dialog.setNeutralButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Dont do anything
-                    }
-                });
-                AlertDialog alertDialog = dialog.create();
-                alertDialog.show();
-
-            }
         });
 
         Animation slideUp = AnimationUtils.loadAnimation(getContext(), R.anim.slide_up);
@@ -229,37 +225,28 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
         Animation recyler_down = AnimationUtils.loadAnimation(getContext(), R.anim.recyclerview_anim);
         Animation recycler_up = AnimationUtils.loadAnimation(getContext(), R.anim.recyclerview_anim_up);
 
-        searchUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(search){
-                    search_user.setVisibility(View.VISIBLE);
-                    search = false;
-                    search_user.startAnimation(slidedown);
-                    search_button.startAnimation(rotateDown);
-                    recyclerView.startAnimation(recyler_down);
-                    others.startAnimation(recyler_down);
+        searchUser.setOnClickListener(v -> {
+            if(search){
+                search_user.setVisibility(View.VISIBLE);
+                search = false;
+                search_user.startAnimation(slidedown);
+                search_button.startAnimation(rotateDown);
+                recyclerView.startAnimation(recyler_down);
+                others.startAnimation(recyler_down);
 
 
 
-                }else{
+            }else{
 
-                    search_user.startAnimation(slideUp);
-                    search_button.startAnimation(rotateUp);
-                    recyclerView.startAnimation(recycler_up);
-                    others.startAnimation(recycler_up);
-                    new Handler().postDelayed(new Runnable() {
-                        // Using handler with postDelayed called runnable run method
-                        @Override
-                        public void run() {
-                            search_user.setVisibility(View.GONE);
-                        }
-
-                    }, 500);
-                    search = true;
-                }
-
+                search_user.startAnimation(slideUp);
+                search_button.startAnimation(rotateUp);
+                recyclerView.startAnimation(recycler_up);
+                others.startAnimation(recycler_up);
+                // Using handler with postDelayed called runnable run method
+                new Handler().postDelayed(() -> search_user.setVisibility(View.GONE), 500);
+                search = true;
             }
+
         });
 
 
@@ -287,22 +274,36 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
         return view;
     }
 
-    private void leave() {
+    private void leave(String groupId,String username) {
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         assert firebaseUser != null;
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members").child(firebaseUser.getUid());
+
+        Calendar calendar = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
+        String timestamp = simpleDateFormat.format(calendar.getTime());
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupid).child("members").child(firebaseUser.getUid());
         databaseReference.removeValue();
 
+        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("GroupChat").child(groupId);
+        HashMap<String, Object> hash = new HashMap<>();
+        hash.put("sender", "LOGS");
+        hash.put("group", groupId);
+        hash.put("reply","false");
+        hash.put("message", username + getResources().getString(R.string.left_group));
+        hash.put("timestamp", timestamp);
+        databaseReference2.push().setValue(hash);
 
-        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(firebaseUser.getUid()).child(groupname);
+
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(firebaseUser.getUid()).child(groupid);
         databaseReference1.removeValue();
 
     }
 
     private void update(){
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupid).child("members");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -336,18 +337,16 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
                 mParticpants.clear();
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     User user = snapshot1.getValue(User.class);
-                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members");
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Group").child(groupid).child("members");
                     reference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot2) {
                             for (DataSnapshot snapshot3 : snapshot2.getChildren()){
                                 Group group = snapshot3.getValue(Group.class);
-                                if(group.getAdmin().equals("true")){
-                                    Admin = false;
-                                }else {
-                                    Admin = true;
-                                }
+                                assert group != null;
+                                Admin = !group.getAdmin().equals("true");
 
+                                assert user != null;
                                 if(user.getId().equals(group.getId())){
                                     mParticpants.add(user);
                                 }
@@ -360,7 +359,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
                         }
                     });
                 }
-                groupInfoAdapter = new GroupInfoAdapter(getContext(), mParticpants, groupname);
+                groupInfoAdapter = new GroupInfoAdapter(getContext(), mParticpants, groupid);
                 recyclerView.setAdapter(groupInfoAdapter);
             }
 
@@ -391,7 +390,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
                         }
                     }
 
-                    groupInfoAdapter = new GroupInfoAdapter(getContext(), mParticpants, groupname);
+                    groupInfoAdapter = new GroupInfoAdapter(getContext(), mParticpants, groupid);
                     groupInfoAdapter.addEventListener(GroupInfoFragment.this);
                     recyclerView.setAdapter(groupInfoAdapter);
 
@@ -406,7 +405,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
     }
 
     @Override
-    public void onOptions(String userid, String Username, String groupname) {
+    public void onOptions(String userid, String Username, String groupid_) {
 
 
 
@@ -433,17 +432,18 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
 
         username.setText(Username);
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members").child(userid);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupid_).child("members").child(userid);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Group group = snapshot.getValue(Group.class);
+                assert group != null;
                 if(group.getAdmin().equals("true")){
-                    make_admin_txt.setText("Group Admin");
-                    make_admin_txt.setTextColor(getContext().getResources().getColor(R.color.blacktext));
+                    make_admin_txt.setText(getResources().getString(R.string.group_admin));
+                    make_admin_txt.setTextColor(requireContext().getResources().getColor(R.color.blacktext));
                 }else {
-                    make_admin_txt.setText("Make Admin");
-                    make_admin_txt.setTextColor(getContext().getResources().getColor(R.color.company_blue));
+                    make_admin_txt.setText(getResources().getString(R.string.make_admin));
+                    make_admin_txt.setTextColor(requireContext().getResources().getColor(R.color.company_blue));
                 }
             }
 
@@ -453,118 +453,79 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
             }
         });
 
-        remove_group.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        remove_group.setOnClickListener(v -> {
 
-                AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
-                dialog.setMessage("Are you sure you want to remove this user?");
-                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
+            dialog.setMessage(getResources().getString(R.string.ask_remove));
+            dialog.setPositiveButton(getResources().getString(R.string.yes), (dialog12, id) -> remove(userid,Username,groupid_));
+            dialog.setNeutralButton(getResources().getString(R.string.no), (dialog1, which) -> {
+                //Dont do anything
+            });
+            AlertDialog alertDialog = dialog.create();
+            alertDialog.show();
+        });
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        remove(userid,Username,groupname);
 
+
+        make_admin.setOnClickListener(v -> {
+            DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Group").child(groupid_).child("members").child(userid);
+            databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Group group = snapshot.getValue(Group.class);
+                    assert group != null;
+                   if(!group.getAdmin().equals("true")) {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
+                        dialog.setMessage(getResources().getString(R.string.ask_to_remove));
+                        dialog.setPositiveButton(getResources().getString(R.string.yes), (dialog14, id) -> {
+                            Calendar calendar = Calendar.getInstance();
+                            @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
+                            String timestamp = simpleDateFormat.format(calendar.getTime());
+
+                            DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("GroupChat").child(groupid_);
+                            HashMap<String, Object> hash = new HashMap<>();
+                            hash.put("sender", "LOGS");
+                            hash.put("group", groupid_);
+                            hash.put("reply","false");
+                            hash.put("message", username + "is now Admin.");
+                            hash.put("timestamp", timestamp);
+                            databaseReference2.push().setValue(hash);
+
+                            DatabaseReference databaseReference11 = FirebaseDatabase.getInstance().getReference("Group").child(groupid_).child("members").child(userid);
+                            HashMap<String, Object> map = new HashMap<>();
+                            map.put("admin", "true");
+                            databaseReference11.updateChildren(map).addOnCompleteListener(task -> startActivity(new Intent(getContext(),group_infoActivity.class).putExtra("groupid",groupid_)));
+
+                        });
+
+                        dialog.setNeutralButton(getResources().getString(R.string.no), (dialog13, which) -> {
+                            //Dont do anything
+                        });
+                        AlertDialog alertDialog = dialog.create();
+                        alertDialog.show();
                     }
-                });
-                dialog.setNeutralButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Dont do anything
-                    }
-                });
-                AlertDialog alertDialog = dialog.create();
-                alertDialog.show();
-            }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+
+
+
         });
+        message.setOnClickListener(v -> onMessage(userid));
 
+        voice_call.setOnClickListener(v -> Toast.makeText(getContext(),getResources().getString(R.string.feature_not_availble), Toast.LENGTH_SHORT).show());
 
+        video_call.setOnClickListener(v -> Toast.makeText(getContext(),getResources().getString(R.string.feature_not_availble), Toast.LENGTH_SHORT).show());
 
-        make_admin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members").child(userid);
-                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Group group = snapshot.getValue(Group.class);
-                        assert group != null;
-                       if(!group.getAdmin().equals("true")) {
-                            AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
-                            dialog.setMessage("Are you sure you want to make this user Admin? (Note this is a irreversible process)");
-                            dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int id) {
-                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members").child(userid);
-                                    HashMap<String, Object> map = new HashMap<>();
-                                    map.put("admin", "true");
-                                    databaseReference.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            startActivity(new Intent(getContext(),group_infoActivity.class).putExtra("groupname",groupname));
-                                        }
-                                    });
+        info.setOnClickListener(v -> Toast.makeText(getContext(),getResources().getString(R.string.feature_not_availble), Toast.LENGTH_SHORT).show());
 
-                                }
-                            });
-
-                            dialog.setNeutralButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    //Dont do anything
-                                }
-                            });
-                            AlertDialog alertDialog = dialog.create();
-                            alertDialog.show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-
-
-
-
-            }
-        });
-        message.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onMessage(userid);
-            }
-        });
-
-        voice_call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(),"This feature is not available yet.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        video_call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(),"This feature is not available yet.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(),"This feature is not available yet.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        cancel.setOnClickListener(v -> dialog.dismiss());
 
         dialog.getWindow().setGravity(Gravity.BOTTOM);
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
@@ -572,17 +533,26 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
         dialog.show();
     }
 
-    private void remove(String userid, String username,String groupname) {
-        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(userid).child(groupname);
+    private void remove(String userid, String username,String groupid_) {
+        Calendar calendar = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
+        String timestamp = simpleDateFormat.format(calendar.getTime());
+
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(userid).child(groupid_);
         databaseReference1.removeValue();
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members").child(userid);
-        databaseReference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                startActivity(new Intent(getContext(),group_infoActivity.class).putExtra("groupname",groupname));
-            }
-        });
+
+        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("GroupChat").child(groupid_);
+        HashMap<String, Object> hash = new HashMap<>();
+        hash.put("sender", "LOGS");
+        hash.put("group", groupid_);
+        hash.put("reply","false");
+        hash.put("message", username + getResources().getString(R.string.log_removed));
+        hash.put("timestamp", timestamp);
+        databaseReference2.push().setValue(hash);
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupid_).child("members").child(userid);
+        databaseReference.removeValue().addOnCompleteListener(task -> startActivity(new Intent(getContext(),group_infoActivity.class).putExtra("groupid",groupid_)));
 
         Toast.makeText(getContext(), username + " has been removed",Toast.LENGTH_SHORT).show();
 
@@ -603,7 +573,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
 
                     assert chatlist != null;
                     if (chatlist.getFriends().equals("Blocked")) {
-                        Toast.makeText(getContext(), "You have blocked this user.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getResources().getString(R.string.blocked_this_user), Toast.LENGTH_SHORT).show();
 
                     }
                     else {

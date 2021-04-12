@@ -1,16 +1,15 @@
 package com.margsapp.messenger.groupclass;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.Toolbar;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -22,7 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Model.Group;
-import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
 
 import java.text.SimpleDateFormat;
@@ -37,11 +35,8 @@ public class edit_group_name extends AppCompatActivity {
 
     EditText GroupName;
 
-    AppCompatButton saveButton;
     String groupname;
     Intent intent;
-
-    private AdView mAdView;
 
 
     @Override
@@ -52,7 +47,7 @@ public class edit_group_name extends AppCompatActivity {
 
         GroupName = findViewById(R.id.editText);
 
-        mAdView = findViewById(R.id.adView);
+        AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
@@ -72,6 +67,7 @@ public class edit_group_name extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Group group = snapshot.getValue(Group.class);
 
+                assert group != null;
                 GroupName.setText(group.getGroupname());
             }
 
@@ -89,8 +85,7 @@ public class edit_group_name extends AppCompatActivity {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
-        assert firebaseUser != null;
-        String userid = firebaseUser.getUid();
+
 
         reference = FirebaseDatabase.getInstance().getReference("Group").child(groupname);
         reference.addValueEventListener(new ValueEventListener() {
@@ -126,12 +121,10 @@ public class edit_group_name extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.done:
-
-                String txt_groupname = GroupName.getText().toString();
-                save(txt_groupname);
-                finish();
+        if (item.getItemId() == R.id.done) {
+            String txt_groupname = GroupName.getText().toString();
+            save(txt_groupname);
+            finish();
         }
 
         return false;
@@ -149,6 +142,7 @@ public class edit_group_name extends AppCompatActivity {
 
     private void status(String status){
         FirebaseUser firebaseUserStatus = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUserStatus != null;
         DatabaseReference statusdatabaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUserStatus.getUid());
 
         Calendar calendar = Calendar.getInstance();

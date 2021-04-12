@@ -1,26 +1,21 @@
 package com.margsapp.messenger;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
-
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
@@ -40,10 +35,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
+        MobileAds.initialize(this, initializationStatus -> {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
 
@@ -75,34 +67,28 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        btn_reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = send_email.getText().toString();
+        btn_reset.setOnClickListener(v -> {
+            String email = send_email.getText().toString();
 
-                if(email.equals("")){
-                    Toast.makeText(ResetPasswordActivity.this,"Please enter valid email id 0x08030201", Toast.LENGTH_SHORT).show();
-                }else {
-                    firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(ResetPasswordActivity.this, "Please check your email and follow the instructions given in email then try to sign in.", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(ResetPasswordActivity.this, LoginAcitivity.class));
+            if(email.equals("")){
+                Toast.makeText(ResetPasswordActivity.this,"Please enter valid email id 0x08030201", Toast.LENGTH_SHORT).show();
+            }else {
+                firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        Toast.makeText(ResetPasswordActivity.this, "Please check your email and follow the instructions given in email then try to sign in.", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(ResetPasswordActivity.this, LoginAcitivity.class));
 
 
-                                if (mInterstitialAd != null) {
-                                    mInterstitialAd.show(ResetPasswordActivity.this);
-                                } else {
-                                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                                }
-                            }else {
-                                Objects.requireNonNull(task.getException()).getMessage();
-                                Toast.makeText(ResetPasswordActivity.this, "This email is not registered. 0x08030202",Toast.LENGTH_SHORT).show();
-                            }
+                        if (mInterstitialAd != null) {
+                            mInterstitialAd.show(ResetPasswordActivity.this);
+                        } else {
+                            Log.d("TAG", "The interstitial ad wasn't ready yet.");
                         }
-                    });
-                }
+                    }else {
+                        Objects.requireNonNull(task.getException()).getMessage();
+                        Toast.makeText(ResetPasswordActivity.this, "This email is not registered. 0x08030202",Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

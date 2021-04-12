@@ -1,14 +1,11 @@
 package com.margsapp.messenger;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +20,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,7 +31,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Model.AppVersion;
 
-import java.net.Authenticator;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -48,11 +42,9 @@ public class AboutActivity extends AppCompatActivity {
     TextView app_version;
     String versionName = BuildConfig.VERSION_NAME;
 
-    private AdView mAdView;
     private InterstitialAd mInterstitialAd;
 
     DatabaseReference firebaseDatabase;
-    FirebaseUser firebaseUser;
 
     AppCompatButton checkupdate;
 
@@ -86,66 +78,63 @@ public class AboutActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.settings));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Read_Recipients.isChecked()){
-                    SharedPreferences sharedPreferences = getSharedPreferences("ReadRecipents",0);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(TEXT1, "1");
-                    editor.putBoolean(SWITCH2, Read_Recipients.isChecked());
-                    editor.apply();
+        toolbar.setNavigationOnClickListener(v -> {
+            if(Read_Recipients.isChecked()){
+                SharedPreferences sharedPreferences = getSharedPreferences("ReadRecipents",0);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(TEXT1, "1");
+                editor.putBoolean(SWITCH2, Read_Recipients.isChecked());
+                editor.apply();
 
-                    if (mInterstitialAd != null) {
-                        mInterstitialAd.show(AboutActivity.this);
-                    } else {
-                        Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                    }
-
-                    Intent intent = new Intent(AboutActivity.this, edit_profile.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }else if(!Read_Recipients.isChecked()){
-
-                    SharedPreferences sharedPreferences = getSharedPreferences("ReadRecipents",0);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(TEXT1, "0");
-                    editor.putBoolean(SWITCH2, Read_Recipients.isChecked());
-                    editor.apply();
-
-                    if (mInterstitialAd != null) {
-                        mInterstitialAd.show(AboutActivity.this);
-                    } else {
-                        Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                    }
-
-                    Intent intent = new Intent(AboutActivity.this, edit_profile.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(AboutActivity.this);
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
                 }
-                if(Swicth_authenticate.isChecked()) {
-                    Biometric();
 
-                } else if(!Swicth_authenticate.isChecked()) {
-                    SharedPreferences sharedPreferences = getSharedPreferences("Authentication",0);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(TEXT, "0");
-                    editor.putBoolean(SWITCH1, Swicth_authenticate.isChecked());
-                    editor.apply();
+                Intent intent = new Intent(AboutActivity.this, edit_profile.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }else if(!Read_Recipients.isChecked()){
 
-                    if (mInterstitialAd != null) {
-                        mInterstitialAd.show(AboutActivity.this);
-                    } else {
-                        Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                    }
+                SharedPreferences sharedPreferences = getSharedPreferences("ReadRecipents",0);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(TEXT1, "0");
+                editor.putBoolean(SWITCH2, Read_Recipients.isChecked());
+                editor.apply();
 
-                    Intent intent = new Intent(AboutActivity.this, edit_profile.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(AboutActivity.this);
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
                 }
+
+                Intent intent = new Intent(AboutActivity.this, edit_profile.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+            if(Swicth_authenticate.isChecked()) {
+                Biometric();
+
+            } else if(!Swicth_authenticate.isChecked()) {
+                SharedPreferences sharedPreferences = getSharedPreferences("Authentication",0);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(TEXT, "0");
+                editor.putBoolean(SWITCH1, Swicth_authenticate.isChecked());
+                editor.apply();
+
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(AboutActivity.this);
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                }
+
+                Intent intent = new Intent(AboutActivity.this, edit_profile.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
 
             }
+
         });
 
         checkupdate = findViewById(R.id.check_update);
@@ -156,10 +145,7 @@ public class AboutActivity extends AppCompatActivity {
 
 
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
+        MobileAds.initialize(this, initializationStatus -> {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
 
@@ -180,7 +166,7 @@ public class AboutActivity extends AppCompatActivity {
             }
         });
 
-        mAdView = findViewById(R.id.adView);
+        AdView mAdView = findViewById(R.id.adView);
 
         mAdView.loadAd(adRequest);
 
@@ -196,58 +182,46 @@ public class AboutActivity extends AppCompatActivity {
 
         appString = app_version.getText().toString();
 
-        checkupdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("AppVersion");
-                firebaseDatabase.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        AppVersion appVersion = snapshot.getValue(AppVersion.class);
-                        assert appVersion != null;
+        checkupdate.setOnClickListener(v -> {
+            firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("AppVersion");
+            firebaseDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    AppVersion appVersion = snapshot.getValue(AppVersion.class);
+                    assert appVersion != null;
 
 
-                        if (appString.equals(appVersion.getAppversion())) {
-                            Toast.makeText(AboutActivity.this, "This app is upto date", Toast.LENGTH_SHORT).show();
+                    if (appString.equals(appVersion.getAppversion())) {
+                        Toast.makeText(AboutActivity.this, getResources().getString(R.string.upto_date), Toast.LENGTH_SHORT).show();
 
-                        } else {
+                    } else {
 
-                            androidx.appcompat.app.AlertDialog.Builder dialog = new androidx.appcompat.app.AlertDialog.Builder(AboutActivity.this);
-                            dialog.setMessage("There's a new version of this app would you like to update?");
-                            dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        androidx.appcompat.app.AlertDialog.Builder dialog = new androidx.appcompat.app.AlertDialog.Builder(AboutActivity.this);
+                        dialog.setMessage(getResources().getString(R.string.like_to_update));
+                        dialog.setPositiveButton(getResources().getString(R.string.yes), (dialog1, id) -> {
+                            Uri uri = Uri.parse("https://margsweb.wixsite.com/messenger");
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        });
 
-                                @Override
-                                public void onClick(DialogInterface dialog, int id) {
-                                    Uri uri = Uri.parse("https://margsweb.wixsite.com/messenger");
-                                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                    startActivity(intent);
-                                }
-                            });
+                        dialog.setNeutralButton(getResources().getString(R.string.cancel), (dialog12, which) -> {
+                            //Dont do anything
+                        });
+                        androidx.appcompat.app.AlertDialog alertDialog = dialog.create();
+                        alertDialog.show();
 
-                            dialog.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    //Dont do anything
-                                }
-                            });
-                            androidx.appcompat.app.AlertDialog alertDialog = dialog.create();
-                            alertDialog.show();
-
-
-                        }
 
                     }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                }
 
-                    }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-
-                });
-            }
+                }
 
 
+            });
         });
     }
 
@@ -387,6 +361,7 @@ public class AboutActivity extends AppCompatActivity {
 
     private void status(String status){
         FirebaseUser firebaseUserStatus = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUserStatus != null;
         DatabaseReference statusdatabaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUserStatus.getUid());
 
         Calendar calendar = Calendar.getInstance();

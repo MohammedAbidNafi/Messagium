@@ -1,14 +1,5 @@
 package com.margsapp.messenger.groupclass;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -26,7 +17,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -34,12 +24,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,17 +50,16 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 import com.margsapp.messenger.Adapter.GroupMessageAdapter;
 import com.margsapp.messenger.MainActivity;
-import com.margsapp.messenger.Notifications.Data;
-import com.margsapp.messenger.Notifications.MyResponse;
-import com.margsapp.messenger.Notifications.Sender;
-import com.margsapp.messenger.Notifications.Token;
 import com.margsapp.messenger.Model.APIService;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.GroupChat;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.Notifications.Client;
+import com.margsapp.messenger.Notifications.Data;
+import com.margsapp.messenger.Notifications.MyResponse;
+import com.margsapp.messenger.Notifications.Sender;
+import com.margsapp.messenger.Notifications.Token;
 import com.margsapp.messenger.R;
-import com.margsapp.messenger.reply.ISwipeControllerActions;
 import com.margsapp.messenger.reply.SwipeController;
 
 import java.text.SimpleDateFormat;
@@ -104,7 +100,7 @@ public class group_messageActivity extends AppCompatActivity {
 
     APIService apiService;
 
-    String groupname,ReplyId,Replyname,username;
+    String groupid,groupname_,ReplyId,Replyname,username;
 
     String imageUrl;
 
@@ -137,13 +133,14 @@ public class group_messageActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_message);
 
         intent = getIntent();
-        groupname = intent.getStringExtra("groupname");
+        groupid = intent.getStringExtra("groupid");
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -154,29 +151,20 @@ public class group_messageActivity extends AppCompatActivity {
 
 
 
-        group_info.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                group_info.setBackgroundColor(group_messageActivity.this.getResources().getColor(R.color.onToolClick));
-                return false;
-            }
+        group_info.setOnTouchListener((v, event) -> {
+            group_info.setBackgroundColor(group_messageActivity.this.getResources().getColor(R.color.onToolClick));
+            return false;
         });
-        group_info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(group_messageActivity.this, group_infoActivity.class).putExtra("groupname", groupname));
-                group_info.setBackgroundColor(group_messageActivity.this.getResources().getColor(R.color.coral));
-            }
+        group_info.setOnClickListener(v -> {
+            startActivity(new Intent(group_messageActivity.this, group_infoActivity.class).putExtra("groupid", groupid));
+            group_info.setBackgroundColor(group_messageActivity.this.getResources().getColor(R.color.coral));
         });
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
             shortcutManager = getSystemService(ShortcutManager.class);
         }
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
+        MobileAds.initialize(this, initializationStatus -> {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
 
@@ -198,18 +186,15 @@ public class group_messageActivity extends AppCompatActivity {
         });
 
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent openMainActivity = new Intent(group_messageActivity.this, MainActivity.class);
-                openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivityIfNeeded(openMainActivity, 0);
+        toolbar.setNavigationOnClickListener(v -> {
+            Intent openMainActivity = new Intent(group_messageActivity.this, MainActivity.class);
+            openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(openMainActivity, 0);
 
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(group_messageActivity.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(group_messageActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }
         });
 
@@ -252,21 +237,11 @@ public class group_messageActivity extends AppCompatActivity {
 
 
 
-        SwipeController swipeController = new SwipeController(this, new ISwipeControllerActions() {
-            @Override
-            public void onSwipePerformed(int position) {
-                onReply(mchat.get(position));
-            }
-        });
+        SwipeController swipeController = new SwipeController(this, position -> onReply(mchat.get(position)));
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        btn_cancel_reply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideReplyLayout();
-            }
-        });
+        btn_cancel_reply.setOnClickListener(v -> hideReplyLayout());
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -335,7 +310,7 @@ public class group_messageActivity extends AppCompatActivity {
             }
         });
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname);
+        databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupid);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -343,6 +318,7 @@ public class group_messageActivity extends AppCompatActivity {
 
                 assert group != null;
                 groupusername.setText(group.getGroupname());
+                groupname_ = group.getGroupname();
                 imageUrl = group.getImageUrl();
                 //Participantsname
                 if(imageUrl.equals("group_default"))
@@ -353,7 +329,7 @@ public class group_messageActivity extends AppCompatActivity {
                 else {
                     Glide.with(getApplicationContext()).load(group.getImageUrl()).into(group_image);
                 }
-                readMessage(groupname);
+                readMessage(groupid);
             }
 
             @Override
@@ -404,7 +380,7 @@ public class group_messageActivity extends AppCompatActivity {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
         hashMap.put("sendername", sendername);
-        hashMap.put("group", groupname);
+        hashMap.put("groupid", groupid);
         hashMap.put("message", message);
         hashMap.put("timestamp", timestamp);
         hashMap.put("reply", "true");
@@ -412,7 +388,7 @@ public class group_messageActivity extends AppCompatActivity {
         hashMap.put("replyto",ReplyTo);
         hashMap.put("replyname", Replyname);
 
-        reference.child("GroupChat").child(groupname).push().setValue(hashMap);
+        reference.child("GroupChat").child(groupid).push().setValue(hashMap);
 
         final String msg = message;
 
@@ -426,7 +402,7 @@ public class group_messageActivity extends AppCompatActivity {
                 if(notify) {
 
                     assert group != null;
-                    sendNotification(group.getId(), sendername, msg,groupname);
+                    sendNotification(group.getId(), sendername, msg,group.getGroupname());
                 }
                 notify = false;
             }
@@ -446,17 +422,17 @@ public class group_messageActivity extends AppCompatActivity {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
         hashMap.put("sendername", sendername);
-        hashMap.put("group", groupname);
+        hashMap.put("group", groupid);
         hashMap.put("message", message);
         hashMap.put("timestamp", timestamp);
         hashMap.put("reply", "false");
 
-        reference.child("GroupChat").child(groupname).push().setValue(hashMap);
+        reference.child("GroupChat").child(groupid).push().setValue(hashMap);
 
 
         final String msg = message;
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname).child("members");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupid).child("members");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -467,7 +443,7 @@ public class group_messageActivity extends AppCompatActivity {
                     for(DataSnapshot snapshot1 : snapshot.getChildren()){
                         Group group = snapshot1.getValue(Group.class);
                         assert group != null;
-                        sendNotification(group.getId(), sendername, msg,groupname);
+                        sendNotification(group.getId(), sendername, msg,group.getGroupname());
                     }
 
                 }
@@ -486,7 +462,7 @@ public class group_messageActivity extends AppCompatActivity {
 
     private void sendNotification(String receiver, String username, String message,String groupname){
 
-        final DatabaseReference chatref = FirebaseDatabase.getInstance().getReference("Group").child("members");
+        final DatabaseReference chatref = FirebaseDatabase.getInstance().getReference("Group").child(groupid).child("members");
 
         chatref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -507,7 +483,7 @@ public class group_messageActivity extends AppCompatActivity {
                                     apiService.sendNotification(sender)
                                             .enqueue(new Callback<MyResponse>() {
                                                 @Override
-                                                public void onResponse(@NotNull Call<MyResponse> call, @NotNull Response<MyResponse> response) {
+                                                public void onResponse(@org.jetbrains.annotations.NotNull @NotNull Call<MyResponse> call, @org.jetbrains.annotations.NotNull @NotNull Response<MyResponse> response) {
                                                     if (response.code() == 200) {
                                                         assert response.body() != null;
                                                         if (response.body().success != 1) {
@@ -517,7 +493,7 @@ public class group_messageActivity extends AppCompatActivity {
                                                 }
 
                                                 @Override
-                                                public void onFailure(@NotNull Call<MyResponse> call, @NotNull Throwable t) {
+                                                public void onFailure(@org.jetbrains.annotations.NotNull @NotNull Call<MyResponse> call, @org.jetbrains.annotations.NotNull @NotNull Throwable t) {
 
                                                 }
                                             });
@@ -553,7 +529,7 @@ public class group_messageActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
                     GroupChat groupChat = snapshot1.getValue(GroupChat.class);
 
-                    if(group_name.equals(groupname)) {
+                    if(group_name.equals(groupid)) {
                         mchat.add(groupChat);
 
                     }
@@ -581,10 +557,8 @@ public class group_messageActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.create_shortcut:
-                Shortcuts(groupname,groupname,group_image.getDrawable());
-                break;
+        if (item.getItemId() == R.id.create_shortcut) {
+            Shortcuts(groupid, groupname_, group_image.getDrawable());
         }
 
         return false;
@@ -621,7 +595,7 @@ public class group_messageActivity extends AppCompatActivity {
                                 .setIcon(Icon.createWithBitmap(bitmap))
                                 .setIntents(
                                         new Intent[]{
-                                                new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, group_messageActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).putExtra("groupname",userid),
+                                                new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, group_messageActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).putExtra("groupid",userid),
                                         })
                                 .build();
 

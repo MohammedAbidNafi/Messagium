@@ -93,4 +93,25 @@
     <string name="english">हिंदी</string>
     <string name="add_friends">Add Friends</string>
     <string name="typing">Typing...</string>
+    <string name="is_added">is added.</string>
+    <string name="not_an_admin">Not an Admin!</string>
+    <string name="admin_message">You have to be Admin to make changes in group.</string>
+    <string name="ask_leave_group">Are you sure you want to leave the group?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="group_admin">Group Admin</string>
+    <string name="ask_remove">Are you sure you want to remove this user?</string>
+    <string name="ask_to_remove">Are you sure you want to make this user Admin? (Note this is a irreversible process)</string>
+    <string name="feature_not_availble">This feature is not available yet.</string>
+    <string name="blocked_this_user">You have blocked this user.</string>
+    <string name="log_removed">has been removed from group</string>
+    <string name="left_group">has left the group.</string>
+    <string name="OTP_DESC">A verifcation code is sent to your mobile number \n</string>
+    <string name="Ask_OTP_again">Do you want to get Verification code again?</string>
+    <string name="another_code_sent">"Another code has sent to "</string>
+    <string name="ErrorOccured">Something went wrong 0x08030201</string>
+    <string name="want_to_block">Are you sure you want to block this user?</string>
+    <string name="like_to_update">There\'s a new version of this app would you like to update?</string>
+    <string name="upto_date">This app is upto date</string>
+    <string name="ok">Ok</string>
 </resources>

@@ -28,6 +28,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Objects;
+
 public class LoginAcitivity extends AppCompatActivity {
 
     private static final String TAG = "LoginAcitivity";
@@ -47,13 +49,10 @@ public class LoginAcitivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Login");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Login");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
+        MobileAds.initialize(this, initializationStatus -> {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
 
@@ -79,54 +78,45 @@ public class LoginAcitivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         password = findViewById(R.id.passowrd);
         forgot_password = findViewById(R.id.forgot_password);
-        forgot_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent((LoginAcitivity.this), ResetPasswordActivity.class));
+        forgot_password.setOnClickListener(v -> {
+            startActivity(new Intent((LoginAcitivity.this), ResetPasswordActivity.class));
 
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(LoginAcitivity.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
-
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(LoginAcitivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }
+
         });
 
         btnlogin = findViewById(R.id.login);
 
-        btnlogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnlogin.setOnClickListener(v -> {
 
 
-                String txt_email = email.getText().toString();
-                String txt_password = password.getText().toString();
+            String txt_email = email.getText().toString();
+            String txt_password = password.getText().toString();
 
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(LoginAcitivity.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(LoginAcitivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
 
-                if (TextUtils.isEmpty(txt_email)|| TextUtils.isEmpty(txt_password)){
-                    Toast.makeText(LoginAcitivity.this, "Fill all the fields Error code 0x08030101", Toast.LENGTH_SHORT).show();
-                }else {
-                    auth.signInWithEmailAndPassword(txt_email, txt_password)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if(task.isSuccessful()){
-                                        Intent intent = new Intent(LoginAcitivity.this, MainActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                        finish();
-                                    }else {
-                                        Toast.makeText(LoginAcitivity.this, "Authentication Failed Error code 0x08030102",Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                }
+            if (TextUtils.isEmpty(txt_email)|| TextUtils.isEmpty(txt_password)){
+                Toast.makeText(LoginAcitivity.this, "Fill all the fields Error code 0x08030101", Toast.LENGTH_SHORT).show();
+            }else {
+                auth.signInWithEmailAndPassword(txt_email, txt_password)
+                        .addOnCompleteListener(task -> {
+                            if(task.isSuccessful()){
+                                Intent intent = new Intent(LoginAcitivity.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
+                            }else {
+                                Toast.makeText(LoginAcitivity.this, "Authentication Failed Error code 0x08030102",Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
     }

@@ -1,5 +1,11 @@
 package com.margsapp.messenger.groupclass;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,34 +15,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.margsapp.messenger.Adapter.UserAdapter;
 import com.margsapp.messenger.Fragments.AddParticipantsFragment;
-import com.margsapp.messenger.MainActivity;
 import com.margsapp.messenger.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 
 public class AddParticipants extends AppCompatActivity {
 
     Intent intent;
     String groupId;
-
-    UserAdapter userAdapter;
 
     boolean updateGroup = false;
 
@@ -125,15 +113,12 @@ public class AddParticipants extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
-
-            case R.id.create:
-                updateGroup = true;
-                Intent intent = new Intent(AddParticipants.this,group_messageActivity.class);
-                intent.putExtra("groupname", groupId);
-                startActivity(intent);
-                return true;
-
+        if (item.getItemId() == R.id.create) {
+            updateGroup = true;
+            Intent intent = new Intent(AddParticipants.this, group_messageActivity.class);
+            intent.putExtra("groupid", groupId);
+            startActivity(intent);
+            return true;
         }
 
         return false;

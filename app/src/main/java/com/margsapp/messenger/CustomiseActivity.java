@@ -1,7 +1,6 @@
 package com.margsapp.messenger;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -9,15 +8,12 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 
 import java.util.Locale;
@@ -56,66 +52,52 @@ public class CustomiseActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.customize));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(CustomiseActivity.this,edit_profile.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(CustomiseActivity.this,edit_profile.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
 
         materialButtonToggleGroup = findViewById(R.id.btg_theme);
         materialButtonToggleGroup.check(R.id.btnDefault);
 
         loadData();
-        materialButtonToggleGroup.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
-            @Override
-            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+        materialButtonToggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
 
-                    if(checkedId == R.id.btnLight){
+                if(checkedId == R.id.btnLight){
 
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        moon.setVisibility(View.GONE);
-                        sun.setVisibility(View.VISIBLE);
-                        default_settings.setVisibility(View.GONE);
-                        SharedPreferences sharedPreferences = getSharedPreferences("theme", 0);
-                        Editor editor = sharedPreferences.edit();
-                        editor.putString(THEME, "2");
-                        editor.apply();
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    moon.setVisibility(View.GONE);
+                    sun.setVisibility(View.VISIBLE);
+                    default_settings.setVisibility(View.GONE);
+                    SharedPreferences sharedPreferences = getSharedPreferences("theme", 0);
+                    Editor editor = sharedPreferences.edit();
+                    editor.putString(THEME, "2");
+                    editor.apply();
 
-                    }
-                    if(checkedId == R.id.btnDark){
-
-                        moon.setVisibility(View.VISIBLE);
-                        default_settings.setVisibility(View.GONE);
-                        sun.setVisibility(View.GONE);
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        SharedPreferences sharedPreferences = getSharedPreferences("theme", 0);
-                        Editor editor = sharedPreferences.edit();
-                        editor.putString(THEME, "1");
-                        editor.apply();
-
-                    }
-                    if(checkedId == R.id.btnDefault){
-                        moon.setVisibility(View.GONE);
-                        default_settings.setVisibility(View.VISIBLE);
-                        sun.setVisibility(View.GONE);
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-                        SharedPreferences sharedPreferences = getSharedPreferences("theme", 0);
-                        Editor editor = sharedPreferences.edit();
-                        editor.putString(THEME, "0");
-                        editor.apply();
-
-                    }
                 }
+                if(checkedId == R.id.btnDark){
 
-        });
+                    moon.setVisibility(View.VISIBLE);
+                    default_settings.setVisibility(View.GONE);
+                    sun.setVisibility(View.GONE);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    SharedPreferences sharedPreferences = getSharedPreferences("theme", 0);
+                    Editor editor = sharedPreferences.edit();
+                    editor.putString(THEME, "1");
+                    editor.apply();
 
-        lang_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showLanguageDialog();
-            }
-        });
+                }
+                if(checkedId == R.id.btnDefault){
+                    moon.setVisibility(View.GONE);
+                    default_settings.setVisibility(View.VISIBLE);
+                    sun.setVisibility(View.GONE);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                    SharedPreferences sharedPreferences = getSharedPreferences("theme", 0);
+                    Editor editor = sharedPreferences.edit();
+                    editor.putString(THEME, "0");
+                    editor.apply();
+
+                }
+            });
+
+        lang_card.setOnClickListener(v -> showLanguageDialog());
 
     }
 
@@ -126,30 +108,27 @@ public class CustomiseActivity extends AppCompatActivity {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle(getResources().getString(R.string.choose_language));
 
-        dialog.setSingleChoiceItems(langitems, languageid, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                if(i == 0){
-                    setLocale("en",0);
-                    recreate();
-                }
-
-                else if (i == 1){
-                    setLocale("ta",1);
-                    recreate();
-                }
-
-                else if(i==2){
-                    setLocale("hi",2);
-                    recreate();
-                }
-                else if(i == 3){
-                    setLocale("te",3);
-                    recreate();
-                }
-
-                dialog.dismiss();
+        dialog.setSingleChoiceItems(langitems, languageid, (dialog1, i) -> {
+            if(i == 0){
+                setLocale("en",0);
+                recreate();
             }
+
+            else if (i == 1){
+                setLocale("ta",1);
+                recreate();
+            }
+
+            else if(i==2){
+                setLocale("hi",2);
+                recreate();
+            }
+            else if(i == 3){
+                setLocale("te",3);
+                recreate();
+            }
+
+            dialog1.dismiss();
         });
 
         AlertDialog alertDialog = dialog.create();

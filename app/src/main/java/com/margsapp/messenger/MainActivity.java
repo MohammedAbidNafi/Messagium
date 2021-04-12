@@ -1,20 +1,9 @@
 package com.margsapp.messenger;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
-
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -25,21 +14,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,10 +46,8 @@ import com.margsapp.messenger.Fragments.ChatsFragment;
 import com.margsapp.messenger.Fragments.GroupFragment;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.User;
-import com.margsapp.messenger.dp_view.group_dpActivity;
 import com.margsapp.messenger.dp_view.main_dpActivity;
 import com.margsapp.messenger.groupclass.create_groupActivity;
-import com.margsapp.messenger.groupclass.group_infoActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     FirebaseUser firebaseUser;
-    DatabaseReference reference, databaseReference;
+    DatabaseReference reference;
     String imageurl;
     private InterstitialAd mInterstitialAd;
     String versionName = BuildConfig.VERSION_NAME;
@@ -115,10 +107,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("");
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
+        MobileAds.initialize(this, initializationStatus -> {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
 
@@ -180,22 +169,19 @@ public class MainActivity extends AppCompatActivity {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
-        DP.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String data = imageurl;
+        DP.setOnClickListener(v -> {
+            String data = imageurl;
 
-                Intent intent = new Intent(MainActivity.this, main_dpActivity.class);
+            Intent intent = new Intent(MainActivity.this, main_dpActivity.class);
 
-                Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair<View, String>(DP, "imageTransition");
+            Pair[] pairs = new Pair[1];
+            pairs[0] = new Pair<View, String>(DP, "imageTransition");
 
 
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
-                intent.putExtra("data", data);
-                startActivity(intent, options.toBundle());
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+            intent.putExtra("data", data);
+            startActivity(intent, options.toBundle());
 
-            }
         });
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -291,22 +277,20 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
             case R.id.logout:
-                googleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            firebaseAuth.signOut();
-                            startActivity(new Intent(MainActivity.this, StartActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                            if (mInterstitialAd != null) {
-                                mInterstitialAd.show(MainActivity.this);
-                            } else {
-                                Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                            }
+                googleSignInClient.signOut().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        firebaseAuth.signOut();
+                        startActivity(new Intent(MainActivity.this, StartActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                        if (mInterstitialAd != null) {
+                            mInterstitialAd.show(MainActivity.this);
+                        } else {
+                            Log.d("TAG", "The interstitial ad wasn't ready yet.");
                         }
                     }
                 });
@@ -357,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(homeIntent);
     }
 
-    class ViewPageAdapter extends FragmentPagerAdapter {
+    static class ViewPageAdapter extends FragmentPagerAdapter {
 
         private final ArrayList<Fragment> fragments;
         private final ArrayList<String> titles;

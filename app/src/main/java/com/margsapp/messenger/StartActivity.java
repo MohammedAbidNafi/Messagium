@@ -1,13 +1,5 @@
 package com.margsapp.messenger;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.biometric.BiometricManager;
-import androidx.biometric.BiometricPrompt;
-import androidx.core.content.ContextCompat;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -20,11 +12,17 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -33,10 +31,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -45,8 +41,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.margsapp.messenger.Model.User;
-
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -61,15 +55,13 @@ public class StartActivity extends AppCompatActivity {
 
     private static final String TAG = "StartActivity";
 
-    AppCompatButton login,register,phone;
+    AppCompatButton phone;
 
     FirebaseUser firebaseUser;
 
     FirebaseAuth firebaseAuth;
 
     private InterstitialAd mInterstitialAd;
-
-    private SignInButton signInButton;
 
     GoogleSignInClient googleSignInClient;
 
@@ -106,24 +98,15 @@ public class StartActivity extends AppCompatActivity {
                     // this means that the device doesn't have fingerprint sensor
                     case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
 
-                        break;
-
-                    // this means that biometric sensor is not available
-                    case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
-
-                        break;
-
-                    // this means that the device doesn't contain your fingerprint
+                        // this means that the device doesn't contain your fingerprint
                     case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
 
-                        break;
+                        // this means that biometric sensor is not available
+                    case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
                     case BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED:
-                        break;
                     case BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED:
-
-                        break;
                     case BiometricManager.BIOMETRIC_STATUS_UNKNOWN:
-
+                        Toast.makeText(this,getResources().getString(R.string.ErrorOccured),Toast.LENGTH_SHORT).show();
                         break;
                 }
                 // creating a variable for our Executor
@@ -186,10 +169,7 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
 
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
+        MobileAds.initialize(this, initializationStatus -> {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
 
@@ -214,7 +194,7 @@ public class StartActivity extends AppCompatActivity {
         googleSignLoader = findViewById(R.id.googleSignLoader);
         googleSignLoader.setVisibility(View.GONE);
 
-        signInButton = findViewById(R.id.signin);
+        SignInButton signInButton = findViewById(R.id.signin);
         //login = findViewById(R.id.login);
       //  register = findViewById(R.id.register);
         phone = findViewById(R.id.phone);
@@ -230,54 +210,18 @@ public class StartActivity extends AppCompatActivity {
 
         googleSignInClient = GoogleSignIn.getClient(StartActivity.this,googleSignInOptions);
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = googleSignInClient.getSignInIntent();
-                startActivityForResult(intent,100);
+        signInButton.setOnClickListener(v -> {
+            Intent intent = googleSignInClient.getSignInIntent();
+            startActivityForResult(intent,100);
 
-            }
         });
 
-        /*
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(StartActivity.this, LoginAcitivity.class));
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(StartActivity.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
-            }
-        });
-
-         */
-
-        /*
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(StartActivity.this, RegisterActivity.class));
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(StartActivity.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
-            }
-        });
-
-         */
-
-        phone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(StartActivity.this, PhoneAuthActivity.class));
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(StartActivity.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
+        phone.setOnClickListener(v -> {
+            startActivity(new Intent(StartActivity.this, PhoneAuthActivity.class));
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(StartActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }
         });
     }
@@ -302,61 +246,53 @@ public class StartActivity extends AppCompatActivity {
 
 
                         firebaseAuth.signInWithCredential(authCredential)
-                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if(task.isSuccessful()){
+                                .addOnCompleteListener(task -> {
+                                    if(task.isSuccessful()){
 
-                                            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                            assert firebaseUser != null;
-                                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+                                        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                                        assert firebaseUser != null;
+                                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
-                                            String userid = firebaseUser.getDisplayName();
-                                            String username = firebaseUser.getDisplayName();
-                                            String imageurl;
+                                        String userid = firebaseUser.getDisplayName();
+                                        String username = firebaseUser.getDisplayName();
+                                        String imageurl;
 
-                                            Calendar calendar = Calendar.getInstance();
-                                            @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yy");
-                                            String timestamp = simpleDateFormat.format(calendar.getTime());
+                                        Calendar calendar = Calendar.getInstance();
+                                        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yy");
+                                        String timestamp = simpleDateFormat.format(calendar.getTime());
 
-                                            Uri imageuri = firebaseUser.getPhotoUrl();
-                                            assert imageuri != null;
-                                            imageurl = imageuri.toString();
-                                            reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        Uri imageuri = firebaseUser.getPhotoUrl();
+                                        assert imageuri != null;
+                                        imageurl = imageuri.toString();
+                                        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                                    if(!snapshot.exists()){
-                                                        HashMap<String, Object> hashMap = new HashMap<>();
-                                                        hashMap.put("id", userid);
-                                                        hashMap.put("username", username);
-                                                        hashMap.put("imageURL", imageurl);
-                                                        hashMap.put("joined_on",timestamp);
-                                                        reference.updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                startActivity(new Intent(StartActivity.this,google_setupActivity.class)
-                                                                        .putExtra("method","google")
-                                                                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                                                            }
-                                                        });
-                                                    }else {
-                                                        startActivity(new Intent(StartActivity.this,google_setupActivity.class)
-                                                                .putExtra("method","google")
-                                                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                                                    }
+                                                if(!snapshot.exists()){
+                                                    HashMap<String, Object> hashMap = new HashMap<>();
+                                                    hashMap.put("id", userid);
+                                                    hashMap.put("username", username);
+                                                    hashMap.put("imageURL", imageurl);
+                                                    hashMap.put("joined_on",timestamp);
+                                                    reference.updateChildren(hashMap).addOnCompleteListener(task1 -> startActivity(new Intent(StartActivity.this,google_setupActivity.class)
+                                                            .putExtra("method","google")
+                                                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
+                                                }else {
+                                                    startActivity(new Intent(StartActivity.this,google_setupActivity.class)
+                                                            .putExtra("method","google")
+                                                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                                                 }
+                                            }
 
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
 
-                                                }
-                                            });
-
-
+                                            }
+                                        });
 
 
-                                        }
+
+
                                     }
                                 });
                     }

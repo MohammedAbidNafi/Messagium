@@ -1,29 +1,21 @@
 package com.margsapp.messenger.dp_view;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
 import com.margsapp.messenger.groupclass.group_infoActivity;
 
@@ -39,9 +31,7 @@ public class group_dpActivity extends AppCompatActivity {
     String imageurl;
 
     Intent intent;
-    String groupname;
-
-    DatabaseReference databaseReference;
+    String groupid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +43,8 @@ public class group_dpActivity extends AppCompatActivity {
 
         intent = getIntent();
         imageurl = intent.getStringExtra("data");
-        groupname = intent.getStringExtra("groupname");
+        groupid = intent.getStringExtra("groupid");
+        String groupname = intent.getStringExtra("groupname");
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,17 +52,14 @@ public class group_dpActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(group_dpActivity.this, group_infoActivity.class);
-                Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair<View, String>(dpView, "imageTransition");
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(group_dpActivity.this, pairs);
-                intent.putExtra("groupname",groupname);
-                startActivity(intent, options.toBundle());
+        toolbar.setNavigationOnClickListener(v -> {
+            Intent intent = new Intent(group_dpActivity.this, group_infoActivity.class);
+            Pair[] pairs = new Pair[1];
+            pairs[0] = new Pair<View, String>(dpView, "imageTransition");
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(group_dpActivity.this, pairs);
+            intent.putExtra("groupid",groupid);
+            startActivity(intent, options.toBundle());
 
-            }
         });
 
 
@@ -92,6 +80,7 @@ public class group_dpActivity extends AppCompatActivity {
 
     private void status(String status){
         FirebaseUser firebaseUserStatus = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUserStatus != null;
         DatabaseReference statusdatabaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUserStatus.getUid());
 
         Calendar calendar = Calendar.getInstance();
@@ -114,7 +103,7 @@ public class group_dpActivity extends AppCompatActivity {
         Pair[] pairs = new Pair[1];
         pairs[0] = new Pair<View, String>(dpView, "imageTransition");
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(group_dpActivity.this, pairs);
-        intent.putExtra("groupname",groupname);
+        intent.putExtra("groupid",groupid);
         startActivity(intent, options.toBundle());
     }
 

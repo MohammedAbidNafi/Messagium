@@ -1,8 +1,6 @@
 package com.margsapp.messenger.Adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -24,26 +20,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.margsapp.messenger.Fragments.AddParticipantsFragment;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
-import com.margsapp.messenger.SplashActivity;
-import com.margsapp.messenger.StartActivity;
-import com.margsapp.messenger.groupclass.AddParticipants;
 import com.victor.loading.rotate.RotateLoading;
 
-import java.util.EventListener;
-import java.util.HashMap;
 import java.util.List;
 
 public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHolder> {
 
     private final Context mContext;
-    private  List<User> mUsers;
+    private final List<User> mUsers;
 
-    private boolean managepart;
-    private String GroupName;
+    private final boolean managepart;
+    private final String GroupName;
 
     EventListener listener;
 
@@ -125,56 +115,38 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
 
 
 
-        holder.addpart_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String Variable = user.getId();
-                String Variable2 = user.getUsername();
-                holder.rotateLoading.setVisibility(View.VISIBLE);
-                holder.addpart_btn.setVisibility(View.GONE);
-                holder.rotateLoading.start();
-                //Send call that method and send the variablethat variable to Fragment
-                new Handler().postDelayed(new Runnable() {
-                    // Using handler with postDelayed called runnable run method
-                    @Override
-                    public void run() {
-                        listener.AddParticipant(Variable, Variable2, holder.rotateLoading, mContext,holder.remove);
-                    }
-                },  1100); // wait for 5 seconds
-            }
+        holder.addpart_btn.setOnClickListener(v -> {
+            String Variable = user.getId();
+            String Variable2 = user.getUsername();
+            holder.rotateLoading.setVisibility(View.VISIBLE);
+            holder.addpart_btn.setVisibility(View.GONE);
+            holder.rotateLoading.start();
+            //Send call that method and send the variablethat variable to Fragment
+            // Using handler with postDelayed called runnable run method
+            new Handler().postDelayed(() -> listener.AddParticipant(Variable, Variable2, holder.rotateLoading, mContext,holder.remove),  1100); // wait for 5 seconds
         });
 
-        holder.remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String idd = user.getId();
-                String name = user.getUsername();
+        holder.remove.setOnClickListener(v -> {
+            String idd = user.getId();
+            String name = user.getUsername();
 
 
 
 
-                AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-                dialog.setMessage("Are you sure you want to remove this user?");
-                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        remove(idd,name);
-                        holder.remove.setVisibility(View.GONE);
-                        holder.addpart_btn.setVisibility(View.VISIBLE);
-                    }
-                });
-                dialog.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Dont do anything
-                    }
-                });
-                AlertDialog alertDialog = dialog.create();
-                alertDialog.show();
+            AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+            dialog.setMessage(mContext.getResources().getString(R.string.remove_from_group));
+            dialog.setPositiveButton(mContext.getResources().getString(R.string.yes), (dialog12, id) -> {
+                remove(idd,name);
+                holder.remove.setVisibility(View.GONE);
+                holder.addpart_btn.setVisibility(View.VISIBLE);
+            });
+            dialog.setNeutralButton(mContext.getResources().getString(R.string.cancel), (dialog1, which) -> {
+                //Dont do anything
+            });
+            AlertDialog alertDialog = dialog.create();
+            alertDialog.show();
 
 
-            }
         });
 
     }
@@ -199,7 +171,8 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         private final ImageView dp;
-        private ImageView unread, remove;
+        private final ImageView unread;
+        private final ImageView remove;
 
 
         public TextView dt;

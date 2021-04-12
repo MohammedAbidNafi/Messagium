@@ -3,7 +3,6 @@ package com.margsapp.messenger;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -13,9 +12,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.margsapp.messenger.Friends.Accepted;
-import com.margsapp.messenger.Friends.Blocked;
-
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,7 +21,8 @@ import java.util.Objects;
 
 public class Chat_settings extends AppCompatActivity {
 
-    CardView Accepted, Requested, Requests, Blocked;
+    CardView Accepted;
+    CardView Blocked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,46 +41,18 @@ public class Chat_settings extends AppCompatActivity {
 
         Blocked = findViewById(R.id.Blocked);
 
-        Accepted.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Chat_settings.this, com.margsapp.messenger.Friends.Accepted.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-            }
-        });
-        /*
-        Requested.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Chat_settings.this, com.margsapp.messenger.Friends.Requested.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-            }
+        Accepted.setOnClickListener(v -> {
+            Intent intent = new Intent(Chat_settings.this, com.margsapp.messenger.Friends.Accepted.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
         });
 
-        Requests.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Chat_settings.this, Requests.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-         */
-
-        Blocked.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Chat_settings.this, com.margsapp.messenger.Friends.Blocked.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-            }
+        Blocked.setOnClickListener(v -> {
+            Intent intent = new Intent(Chat_settings.this, com.margsapp.messenger.Friends.Blocked.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
         });
 
 
@@ -98,6 +67,7 @@ public class Chat_settings extends AppCompatActivity {
 
     private void status(String status){
         FirebaseUser firebaseUserStatus = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUserStatus != null;
         DatabaseReference statusdatabaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUserStatus.getUid());
 
         Calendar calendar = Calendar.getInstance();

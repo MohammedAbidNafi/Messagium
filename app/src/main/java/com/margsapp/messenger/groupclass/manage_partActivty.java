@@ -24,7 +24,7 @@ public class manage_partActivty extends AppCompatActivity {
 
     Intent intent;
 
-    String groupname;
+    String groupid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +35,7 @@ public class manage_partActivty extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Manage Participants");
 
         intent = getIntent();
-        groupname = intent.getStringExtra("groupname");
+        groupid = intent.getStringExtra("groupid");
 
 
         final ViewPager viewPager = findViewById(R.id.viewPager);
@@ -45,7 +45,7 @@ public class manage_partActivty extends AppCompatActivity {
     }
 
     public String getMyData() {
-        return groupname;
+        return groupid;
     }
 
 
@@ -95,12 +95,10 @@ public class manage_partActivty extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.editPart:
-                Intent intent = new Intent(manage_partActivty.this, AddParticipants.class);
-                intent.putExtra("GroupID", groupname);
-                startActivity(intent);
-
+        if (item.getItemId() == R.id.editPart) {
+            Intent intent = new Intent(manage_partActivty.this, AddParticipants.class);
+            intent.putExtra("GroupID", groupid);
+            startActivity(intent);
         }
 
         return false;

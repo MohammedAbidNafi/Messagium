@@ -83,13 +83,10 @@ public class edit_profile extends AppCompatActivity {
     DatabaseReference reference;
 
     StorageReference storageReference;
-    private static int GALLERY_PICK = 1;
-    private Uri imageUri;
-    private StorageTask uploadTask;
+    private static final int GALLERY_PICK = 1;
 
     private ProgressDialog loadingBar;
 
-    private AdView mAdView;
     private InterstitialAd mInterstitialAd;
 
 
@@ -122,10 +119,7 @@ public class edit_profile extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.settings));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
+        MobileAds.initialize(this, initializationStatus -> {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
 
@@ -146,22 +140,19 @@ public class edit_profile extends AppCompatActivity {
             }
         });
 
-        mAdView = findViewById(R.id.adView);
+        AdView mAdView = findViewById(R.id.adView);
 
         mAdView.loadAd(adRequest);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(edit_profile.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                /*if (mInterstitialAd != null) {
-                    mInterstitialAd.show(edit_profile.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
-
-                 */
+        toolbar.setNavigationOnClickListener(v -> {
+            startActivity(new Intent(edit_profile.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            /*if (mInterstitialAd != null) {
+                mInterstitialAd.show(edit_profile.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }
+
+             */
         });
 
 
@@ -177,68 +168,56 @@ public class edit_profile extends AppCompatActivity {
         About_card = findViewById(R.id.About_card);
 
 
-        Status_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(edit_profile.this, EditStatusActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(edit_profile.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
-                finish();
+        Status_card.setOnClickListener(v -> {
+            Intent intent = new Intent(edit_profile.this, EditStatusActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(edit_profile.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }
+            finish();
         });
 
-        Account_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(edit_profile.this, Chat_settings.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(edit_profile.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
-                finish();
-
+        Account_card.setOnClickListener(v -> {
+            Intent intent = new Intent(edit_profile.this, Chat_settings.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(edit_profile.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }
+            finish();
+
         });
 
-        Customize_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(edit_profile.this, CustomiseActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(edit_profile.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
-                finish();
+        Customize_card.setOnClickListener(v -> {
+            Intent intent = new Intent(edit_profile.this, CustomiseActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(edit_profile.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }
+            finish();
         });
 
-        About_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(edit_profile.this, AboutActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                /*
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(edit_profile.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
-
-                 */
-                finish();
+        About_card.setOnClickListener(v -> {
+            Intent intent = new Intent(edit_profile.this, AboutActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            /*
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(edit_profile.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }
+
+             */
+            finish();
         });
 
 
@@ -259,7 +238,7 @@ public class edit_profile extends AppCompatActivity {
                 username.setText(user.getUsername());
 
 
-                long joineDate = firebaseAuth.getCurrentUser().getMetadata().getCreationTimestamp();
+                long joineDate = Objects.requireNonNull(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getMetadata()).getCreationTimestamp();
                 String actual_date = DateFormat.getDateInstance().format(joineDate);
                 joined_on.setText(actual_date);
 
@@ -285,12 +264,7 @@ public class edit_profile extends AppCompatActivity {
         });
         loadingBar = new ProgressDialog(this);
 
-        profile_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openImage();
-            }
-        });
+        profile_image.setOnClickListener(v -> openImage());
 
 
 
@@ -333,7 +307,7 @@ public class edit_profile extends AppCompatActivity {
 
 
         if (requestCode == GALLERY_PICK && resultCode == RESULT_OK && data != null) {
-            imageUri = data.getData();
+            Uri imageUri = data.getData();
             CropImage.activity(imageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1, 1)
@@ -357,15 +331,12 @@ public class edit_profile extends AppCompatActivity {
                         + "." + getFileExtension(resultUri));
 
 
-                uploadTask = filepath.putFile(resultUri);
-                uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (!task.isSuccessful()) {
-                            throw task.getException();
-                        }
-                        return filepath.getDownloadUrl();
+                StorageTask uploadTask = filepath.putFile(resultUri);
+                uploadTask.continueWithTask((Continuation<UploadTask.TaskSnapshot, Task<Uri>>) task -> {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
                     }
+                    return filepath.getDownloadUrl();
                 }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
@@ -407,6 +378,7 @@ public class edit_profile extends AppCompatActivity {
 
     private void status(String status){
         FirebaseUser firebaseUserStatus = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUserStatus != null;
         DatabaseReference statusdatabaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUserStatus.getUid());
 
         Calendar calendar = Calendar.getInstance();

@@ -1,22 +1,20 @@
 package com.margsapp.messenger.Fragments;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +29,9 @@ import com.margsapp.messenger.R;
 import com.margsapp.messenger.groupclass.AddParticipants;
 import com.victor.loading.rotate.RotateLoading;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,11 +48,7 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
 
     private AddPartAdapter addPartAdapter;
 
-    public String groupId;
-
-   // RotateLoading rotateLoading;
-
-
+    public String groupId, MyName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,8 +63,22 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
 
         usersList = new ArrayList<>();
 
+        FirebaseUser firebaseUser1 = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser1 != null;
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser1.getUid());
+        databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                assert user != null;
+                MyName = user.getUsername();
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
 
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -119,12 +129,6 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
                         if(user.getId().equals(chatlist.getId())){
                             if(chatlist.getFriends().equals("Messaged")){
                                 mUsers.add(user);
-
-                            }if (chatlist.getFriends().equals("Requested")){
-                                //DoNothing
-                            }
-                            if(chatlist.getFriends().equals("Blocked")){
-                                //Dont do anything
                             }
 
                         }
@@ -152,25 +156,39 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
 
 
     public void AddParticipant(String id, String username, RotateLoading rotateLoading, Context mContext, ImageView remove) {
+        Calendar calendar = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
+        String timestamp = simpleDateFormat.format(calendar.getTime());
+
         DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(id).child(groupId);
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("groupname", groupId);
+        hashMap.put("groupid", groupId);
         hashMap.put("admin","false");
         databaseReference1.setValue(hashMap);
+
+        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("GroupChat").child(groupId);
+        HashMap<String, Object> hash = new HashMap<>();
+        hash.put("sender", "LOGS");
+        hash.put("group", groupId);
+        hash.put("reply","false");
+        hash.put("message", MyName + " Added "+ username);
+        hash.put("timestamp", timestamp);
+        databaseReference2.push().setValue(hash);
+
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupId).child("members").child(id);
         HashMap<String, String> hashMap1 = new HashMap<>();
         hashMap1.put("id", id);
         hashMap1.put("user_name", username);
         hashMap1.put("admin","false");
-        databaseReference.setValue(hashMap1).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                rotateLoading.stop();
-                rotateLoading.setVisibility(View.GONE);
-                remove.setVisibility(View.VISIBLE);
-                Toast.makeText(mContext,username + " is added.",Toast.LENGTH_SHORT).show();
-            }
+        databaseReference.setValue(hashMap1).addOnCompleteListener(task -> {
+            rotateLoading.stop();
+            rotateLoading.setVisibility(View.GONE);
+
+
+            Toast.makeText(mContext,username + getResources().getString(R.string.is_added),Toast.LENGTH_SHORT).show();
+
+            remove.setVisibility(View.VISIBLE);
         });
 
 

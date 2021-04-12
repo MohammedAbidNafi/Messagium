@@ -1,24 +1,24 @@
 package com.margsapp.messenger.groupclass;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import android.util.Pair;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
@@ -36,11 +36,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
-import com.margsapp.messenger.MainActivity;
-import com.margsapp.messenger.dp_view.group_dpActivity;
 import com.margsapp.messenger.Fragments.GroupInfoFragment;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.R;
+import com.margsapp.messenger.dp_view.group_dpActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -53,7 +52,7 @@ public class group_infoActivity extends AppCompatActivity {
     ImageView group_img;
 
     Intent intent;
-    String groupname;
+    String groupid, groupname;
 
     String imageUrl;
 
@@ -62,9 +61,7 @@ public class group_infoActivity extends AppCompatActivity {
     DatabaseReference reference;
     FirebaseUser firebaseUser;
     StorageReference storageReference;
-    private static int GALLERY_PICK = 1;
-    private Uri imageUri;
-    private StorageTask uploadTask;
+    private static final int GALLERY_PICK = 1;
 
     private ProgressDialog loadingBar;
 
@@ -82,14 +79,16 @@ public class group_infoActivity extends AppCompatActivity {
         group_img = findViewById(R.id.group_img);
 
         intent = getIntent();
-        groupname = intent.getStringExtra("groupname");
+        groupid = intent.getStringExtra("groupid");
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupid);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Group group = snapshot.getValue(Group.class);
+                assert group != null;
                 imageUrl = group.getImageUrl();
+                groupname = group.getGroupname();
                 if(imageUrl.equals("group_default")){
                     group_img.setImageResource(R.drawable.groupicon);
                 }else {
@@ -103,46 +102,36 @@ public class group_infoActivity extends AppCompatActivity {
 
             }
         });
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent openMainActivity = new Intent(group_infoActivity.this, group_messageActivity.class);
-                openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivityIfNeeded(openMainActivity, 0);
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            Intent openMainActivity = new Intent(group_infoActivity.this, group_messageActivity.class);
+            openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(openMainActivity, 0);
         });
 
 
-        group_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String data = imageUrl;
+        group_img.setOnClickListener(v -> {
+            String data = imageUrl;
 
-                Intent intent = new Intent(group_infoActivity.this, group_dpActivity.class);
+            Intent intent = new Intent(group_infoActivity.this, group_dpActivity.class);
 
-                Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair<View, String>(group_img, "imageTransition");
+            Pair[] pairs = new Pair[1];
+            pairs[0] = new Pair<View, String>(group_img, "imageTransition");
 
 
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(group_infoActivity.this, pairs);
-                intent.putExtra("data", data);
-                intent.putExtra("groupname",groupname);
-                startActivity(intent, options.toBundle());
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(group_infoActivity.this, pairs);
+            intent.putExtra("data", data);
+            intent.putExtra("groupid",groupid);
+            intent.putExtra("groupname",groupname);
+            startActivity(intent, options.toBundle());
 
 
-            }
         });
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        storageReference = FirebaseStorage.getInstance().getReference("GroupImages/"+ groupname);
+        storageReference = FirebaseStorage.getInstance().getReference("GroupImages/"+ groupid);
         loadingBar = new ProgressDialog(this);
 
-        cameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openImage();
-            }
-        });
+        cameraButton.setOnClickListener(v -> openImage());
 
 
         final ViewPager viewPager = findViewById(R.id.viewPager);
@@ -154,7 +143,7 @@ public class group_infoActivity extends AppCompatActivity {
     }
 
     public String getMyData() {
-        return groupname;
+        return groupid;
     }
 
     static class ViewPageAdapter extends FragmentPagerAdapter {
@@ -208,7 +197,7 @@ public class group_infoActivity extends AppCompatActivity {
 
 
         if (requestCode == GALLERY_PICK && resultCode == RESULT_OK && data != null) {
-            imageUri = data.getData();
+            Uri imageUri = data.getData();
             CropImage.activity(imageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1, 1)
@@ -232,7 +221,7 @@ public class group_infoActivity extends AppCompatActivity {
                         + "." + getFileExtension(resultUri));
 
 
-                uploadTask = filepath.putFile(resultUri);
+                StorageTask uploadTask = filepath.putFile(resultUri);
                 uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
                     public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
@@ -252,7 +241,7 @@ public class group_infoActivity extends AppCompatActivity {
                             String mUri = downloadUri.toString();
 
 
-                            reference = FirebaseDatabase.getInstance().getReference("Group").child(groupname);
+                            reference = FirebaseDatabase.getInstance().getReference("Group").child(groupid);
                             HashMap<String, Object> map = new HashMap<>();
                             map.put("imageUrl", mUri);
                             reference.updateChildren(map);

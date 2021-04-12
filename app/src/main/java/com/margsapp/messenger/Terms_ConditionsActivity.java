@@ -1,28 +1,23 @@
 package com.margsapp.messenger;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.webkit.WebView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.webkit.WebView;
-
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 public class Terms_ConditionsActivity extends AppCompatActivity {
 
     AppCompatButton agree;
-    private AdView mAdView;
 
     private InterstitialAd mInterstitialAd;
 
@@ -47,10 +42,7 @@ public class Terms_ConditionsActivity extends AppCompatActivity {
         intent = getIntent();
         method = intent.getStringExtra("method");
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
+        MobileAds.initialize(this, initializationStatus -> {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
 
@@ -73,21 +65,18 @@ public class Terms_ConditionsActivity extends AppCompatActivity {
 
 
 
-        agree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Terms_ConditionsActivity.this, privacyActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("method",method);
-                startActivity(intent);
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(Terms_ConditionsActivity.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
-
-                finish();
+        agree.setOnClickListener(v -> {
+            Intent intent = new Intent(Terms_ConditionsActivity.this, privacyActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("method",method);
+            startActivity(intent);
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(Terms_ConditionsActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }
+
+            finish();
         });
     }
 }

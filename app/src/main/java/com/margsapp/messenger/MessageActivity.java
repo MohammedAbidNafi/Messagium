@@ -3,7 +3,6 @@ package com.margsapp.messenger;
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.app.PendingIntent;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ShortcutInfo;
@@ -19,7 +18,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Pair;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,12 +42,8 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -69,7 +63,6 @@ import com.margsapp.messenger.Notifications.MyResponse;
 import com.margsapp.messenger.Notifications.Sender;
 import com.margsapp.messenger.Notifications.Token;
 import com.margsapp.messenger.dp_view.personal_dpActivity;
-import com.margsapp.messenger.reply.ISwipeControllerActions;
 import com.margsapp.messenger.reply.SwipeController;
 
 import org.jetbrains.annotations.NotNull;
@@ -92,7 +85,6 @@ public class MessageActivity extends AppCompatActivity {
 
     private static final String TAG = "MESSAGE ACTIVITY" ;
 
-    private static final String LIMIT = "0";
     CircleImageView profileImage;
     TextView username, statusText, reply_txt;
 
@@ -116,7 +108,12 @@ public class MessageActivity extends AppCompatActivity {
 
     APIService apiService;
 
-    String userid,ReplyId, Sendername,ReplyName,imageUrl,blocked,read;
+    String userid;
+    String ReplyId;
+    String Sendername;
+    String ReplyName;
+    String imageUrl;
+    String blocked;
 
 
     boolean entertosend = false;
@@ -167,10 +164,7 @@ public class MessageActivity extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
              shortcutManager = getSystemService(ShortcutManager.class);
         }
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
+        MobileAds.initialize(this, initializationStatus -> {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
 
@@ -192,18 +186,15 @@ public class MessageActivity extends AppCompatActivity {
         });
 
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent openMainActivity = new Intent(MessageActivity.this, MainActivity.class);
-                openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivityIfNeeded(openMainActivity, 0);
+        toolbar.setNavigationOnClickListener(v -> {
+            Intent openMainActivity = new Intent(MessageActivity.this, MainActivity.class);
+            openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(openMainActivity, 0);
 
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(MessageActivity.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MessageActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }
         });
 
@@ -244,34 +235,21 @@ public class MessageActivity extends AppCompatActivity {
 
 
 
-        SwipeController swipeController = new SwipeController(this, new ISwipeControllerActions() {
-            @Override
-            public void onSwipePerformed(int position) {
-                onReply(mchat.get(position));
-            }
-        });
+        SwipeController swipeController = new SwipeController(this, position -> onReply(mchat.get(position)));
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        btn_cancel_reply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideReplyLayout();
-            }
-        });
+        btn_cancel_reply.setOnClickListener(v -> hideReplyLayout());
 
-        profileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String data = imageUrl;
-                Intent intent = new Intent(MessageActivity.this, personal_dpActivity.class);
-                Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair<View, String>(profileImage, "imageTransition");
-                intent.putExtra("data",data);
-                intent.putExtra("userid",userid);
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MessageActivity.this, pairs);
-                startActivity(intent, options.toBundle());
-            }
+        profileImage.setOnClickListener(v -> {
+            String data = imageUrl;
+            Intent intent = new Intent(MessageActivity.this, personal_dpActivity.class);
+            Pair[] pairs = new Pair[1];
+            pairs[0] = new Pair<View, String>(profileImage, "imageTransition");
+            intent.putExtra("data",data);
+            intent.putExtra("userid",userid);
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MessageActivity.this, pairs);
+            startActivity(intent, options.toBundle());
         });
 
 
@@ -388,68 +366,56 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
-        btn_accept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
-                        .child(firebaseUser.getUid())
-                        .child(userid);
+        btn_accept.setOnClickListener(v -> {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
+                    .child(firebaseUser.getUid())
+                    .child(userid);
 
-                HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("friends", "Messaged");
-                databaseReference.getRef().updateChildren(hashMap);
-                warning.setVisibility(View.GONE);
-                editor.setVisibility(View.VISIBLE);
-                Toast.makeText(MessageActivity.this, "Request Accepted!", Toast.LENGTH_SHORT).show();
-            }
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("friends", "Messaged");
+            databaseReference.getRef().updateChildren(hashMap);
+            warning.setVisibility(View.GONE);
+            editor.setVisibility(View.VISIBLE);
+            Toast.makeText(MessageActivity.this, "Request Accepted!", Toast.LENGTH_SHORT).show();
         });
 
-        btn_reject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Request Rejected!", Toast.LENGTH_SHORT).show();
+        btn_reject.setOnClickListener(v -> {
+            Toast.makeText(getApplicationContext(), "Request Rejected!", Toast.LENGTH_SHORT).show();
 
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
-                        .child(firebaseUser.getUid())
-                        .child(userid);
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
+                    .child(firebaseUser.getUid())
+                    .child(userid);
+            warning.setVisibility(View.GONE);
+            editor.setVisibility(View.GONE);
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("friends", "Rejected");
+            databaseReference.getRef().updateChildren(hashMap).addOnCompleteListener(task -> {
                 warning.setVisibility(View.GONE);
                 editor.setVisibility(View.GONE);
-                HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("friends", "Rejected");
-                databaseReference.getRef().updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        warning.setVisibility(View.GONE);
-                        editor.setVisibility(View.GONE);
-                        Intent intent = new Intent(MessageActivity.this, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }
-                });
+                Intent intent = new Intent(MessageActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            });
 
 
 
 
 
-            }
         });
 
-        btn_block.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
-                        .child(firebaseUser.getUid())
-                        .child(userid);
+        btn_block.setOnClickListener(v -> {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
+                    .child(firebaseUser.getUid())
+                    .child(userid);
 
-                HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("friends", "Blocked");
-                databaseReference.getRef().updateChildren(hashMap);
-                Intent intent = new Intent(MessageActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("friends", "Blocked");
+            databaseReference.getRef().updateChildren(hashMap);
+            Intent intent = new Intent(MessageActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
 
-                Toast.makeText(MessageActivity.this, "User Blocked!", Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(MessageActivity.this, "User Blocked!", Toast.LENGTH_SHORT).show();
         });
 
 
@@ -787,6 +753,7 @@ public class MessageActivity extends AppCompatActivity {
                 Chatlist chatlist = snapshot.getValue(Chatlist.class);
 
                 if(snapshot.exists()){
+                    assert chatlist != null;
                     if(!chatlist.getFriends().equals("Blocked")) {
                         DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
                         Query query = tokens.orderByKey().equalTo(receiver);
@@ -886,19 +853,10 @@ public class MessageActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.block_user:
                 AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-                dialog.setMessage("Are you sure you want to block this user?");
-                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        Block();
-                    }
-                });
-                dialog.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Dont do anything
-                    }
+                dialog.setMessage(getResources().getString(R.string.want_to_block));
+                dialog.setPositiveButton(getResources().getString(R.string.yes), (dialog12, id) -> Block());
+                dialog.setNeutralButton(getResources().getString(R.string.cancel), (dialog1, which) -> {
+                    //Dont do anything
                 });
                 AlertDialog alertDialog = dialog.create();
                 alertDialog.show();
@@ -921,14 +879,12 @@ public class MessageActivity extends AppCompatActivity {
     private void DeleteChat(String userid) {
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid()).child(userid);
-        databaseReference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Intent openMainActivity = new Intent(MessageActivity.this, MainActivity.class);
-                openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivityIfNeeded(openMainActivity, 0);
-            }
+        databaseReference.removeValue().addOnCompleteListener(task -> {
+            Intent openMainActivity = new Intent(MessageActivity.this, MainActivity.class);
+            openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(openMainActivity, 0);
         });
 
     }
@@ -1017,25 +973,6 @@ public class MessageActivity extends AppCompatActivity {
         }else {
             Toast.makeText(this,"Your current Android Version dosent support Shortcuts.",Toast.LENGTH_SHORT).show();
         }
-        /*
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
-
-            ShortcutInfo dynamicShortcut = new ShortcutInfo.Builder(this, username)
-                    .setShortLabel(username)
-                    .setLongLabel(username)
-                    .setIcon(Icon.createWithBitmap(bitmap))
-                    .setIntents(
-                            new Intent[]{
-                                    new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, MessageActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).putExtra("userid",userid),
-                            })
-                    .build();
-            shortcutManager.setDynamicShortcuts(Arrays.asList(dynamicShortcut, dynamicShortcut));
-
-        }else {
-            Toast.makeText(this,"Your current Android Version dosent support Shortcuts.",Toast.LENGTH_SHORT).show();
-        }
-
-         */
     }
 
 

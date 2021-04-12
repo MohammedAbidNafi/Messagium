@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,11 +17,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.GroupChat;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
-import com.margsapp.messenger.StartActivity;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -42,7 +41,8 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
     public static final int REPLY_TYPE_LEFT = 2;
     public static final int REPLY_TYPE_RIGHT = 3;
 
-    private String image_url;
+    public static final int LOGS = 4;
+
 
     public GroupMessageAdapter(Context mContext, List<GroupChat> mGroupChat) {
         this.mContext = mContext;
@@ -50,6 +50,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
 
     }
 
+    @NotNull
     public GroupMessageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         if (viewType == MSG_TYPE_RIGHT) {
 
@@ -65,8 +66,12 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
         if (viewType == REPLY_TYPE_RIGHT) {
             ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.chat_reply_right, parent, false);
             return new GroupMessageAdapter.ViewHolder(viewGroup);
-        } else {
+        }
+        if(viewType == REPLY_TYPE_LEFT){
             ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.chat_reply_left, parent, false);
+            return new GroupMessageAdapter.ViewHolder(viewGroup);
+        }else {
+            ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.logs,parent, false);
             return new GroupMessageAdapter.ViewHolder(viewGroup);
         }
     }
@@ -82,6 +87,10 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
                 return MSG_TYPE_RIGHT;
             }
 
+        }
+
+        if(mGroupChat.get(position).getSender().equals("LOGS")){
+            return LOGS;
         }
         else {
             if(mGroupChat.get(position).getReply().equals("true")){
@@ -110,7 +119,9 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
             holder.username.setVisibility(View.VISIBLE);
         }
 
-
+        if(groupChat.getSender().equals("LOGS")){
+            holder.show_message.setText(groupChat.getMessage());
+        }
 
         holder.show_message.setText(groupChat.getMessage());
 
@@ -118,15 +129,9 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
 
         holder.timestamp.setText(groupChat.getTimestamp());
 
-        if(!groupChat.getSender().equals(firebaseUser.getUid())){
+        if(!groupChat.getSender().equals(firebaseUser.getUid()) & !groupChat.getSender().equals("LOGS")){
             updateImage(groupChat.getSender(), holder.groupImage);
         }
-
-
-
-
-
-
 
         if(groupChat.getReply().equals("true")){
 
@@ -203,11 +208,8 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
             show_message = itemView.findViewById(R.id.show_message);
             timestamp = itemView.findViewById(R.id.timestamp);
             username = itemView.findViewById(R.id.username);
+
             reply_username = itemView.findViewById(R.id.reply_username);
-
-
-
-
             reply_txt_them = itemView.findViewById(R.id.replytextthem);
             reply_txt_us = itemView.findViewById(R.id.replytextus);
 

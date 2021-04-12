@@ -10,19 +10,28 @@ public class Group {
     private String id;
     private String user_name;
     private String admin;
-
+    private String groupid;
     private String createdon;
 
-    public Group(String groupname, String imageUrl, String id, String user_name, String admin, String createdon) {
+    public Group(String groupname, String imageUrl, String id, String user_name, String admin, String createdon,String groupid) {
         this.groupname = groupname;
         this.imageUrl = imageUrl;
         this.id = id;
         this.user_name = user_name;
         this.admin = admin;
         this.createdon = createdon;
+        this.groupid = groupid;
 
 
 
+    }
+
+    public String getGroupid() {
+        return groupid;
+    }
+
+    public void setGroupid(String groupid) {
+        this.groupid = groupid;
     }
 
     public String getCreatedon() {

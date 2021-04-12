@@ -2,20 +2,15 @@ package com.margsapp.messenger.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.hardware.usb.UsbDevice;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,15 +22,14 @@ import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
 
-import java.util.EventListener;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class GroupInfoAdapter extends RecyclerView.Adapter<GroupInfoAdapter.ViewHolder> {
 
-    private Context mContext;
-    private List<User> mUsers;
+    private final Context mContext;
+    private final List<User> mUsers;
     private final String groupname;
 
     EventListener listener;
@@ -65,6 +59,7 @@ public class GroupInfoAdapter extends RecyclerView.Adapter<GroupInfoAdapter.View
         return new GroupInfoAdapter.ViewHolder(viewGroup);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull GroupInfoAdapter.ViewHolder holder, int position) {
         User user = mUsers.get(position);
@@ -105,22 +100,14 @@ public class GroupInfoAdapter extends RecyclerView.Adapter<GroupInfoAdapter.View
 
         assert firebaseUser != null;
         if (!user.getId().equals(firebaseUser.getUid())) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.diffrentBack));
-                    listener.onOptions(user.getId(), user.getUsername(), groupname);
-                }
+            holder.itemView.setOnClickListener(v -> {
+                holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.diffrentBack));
+                listener.onOptions(user.getId(), user.getUsername(), groupname);
             });
 
-            holder.itemView.setOnTouchListener(new View.OnTouchListener() {
-                @SuppressLint("ClickableViewAccessibility")
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.onAdapClick));
-                    return false;
-                }
-
+            holder.itemView.setOnTouchListener((v, event) -> {
+                holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.onAdapClick));
+                return false;
             });
         }
 

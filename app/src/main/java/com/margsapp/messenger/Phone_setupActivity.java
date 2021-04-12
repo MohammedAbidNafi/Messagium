@@ -1,21 +1,19 @@
 package com.margsapp.messenger;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatEditText;
-
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatEditText;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
@@ -55,10 +53,7 @@ public class Phone_setupActivity extends AppCompatActivity {
 
     private ProgressDialog loadingBar;
 
-    String image_url;
-    private static int GALLERY_PICK = 1;
-    private Uri imageUri;
-    private StorageTask uploadTask;
+    private static final int GALLERY_PICK = 1;
     StorageReference storageReference;
 
     @Override
@@ -101,35 +96,22 @@ public class Phone_setupActivity extends AppCompatActivity {
 
 
         loadingBar = new ProgressDialog(this);
-        profile_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openImage();
-            }
-        });
+        profile_image.setOnClickListener(v -> openImage());
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        next.setOnClickListener(v -> {
 
-                String txt_username = Objects.requireNonNull(username.getText()).toString();
-                String txt_dt = Objects.requireNonNull(dt.getText()).toString();
+            String txt_username = Objects.requireNonNull(username.getText()).toString();
+            String txt_dt = Objects.requireNonNull(dt.getText()).toString();
 
 
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+            DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
-                HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("id", firebaseUser.getUid());
-                hashMap.put("username", txt_username);
-                hashMap.put("DT", txt_dt);
-                hashMap.put("typingto","");
-                reference.updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        startActivity(new Intent(Phone_setupActivity.this, Terms_ConditionsActivity.class));
-                    }
-                });
-            }
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("id", firebaseUser.getUid());
+            hashMap.put("username", txt_username);
+            hashMap.put("DT", txt_dt);
+            hashMap.put("typingto","");
+            reference1.updateChildren(hashMap).addOnCompleteListener(task -> startActivity(new Intent(Phone_setupActivity.this, Terms_ConditionsActivity.class)));
         });
     }
 
@@ -148,7 +130,7 @@ public class Phone_setupActivity extends AppCompatActivity {
 
 
         if (requestCode == GALLERY_PICK && resultCode == RESULT_OK && data != null) {
-            imageUri = data.getData();
+            Uri imageUri = data.getData();
             CropImage.activity(imageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1, 1)
@@ -172,7 +154,7 @@ public class Phone_setupActivity extends AppCompatActivity {
                         + "." + getFileExtension(resultUri));
 
 
-                uploadTask = filepath.putFile(resultUri);
+                StorageTask uploadTask = filepath.putFile(resultUri);
                 uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
                     public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {

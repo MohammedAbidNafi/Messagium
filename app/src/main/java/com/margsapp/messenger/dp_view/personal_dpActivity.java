@@ -40,16 +40,13 @@ public class personal_dpActivity extends AppCompatActivity {
         userid = intent.getStringExtra("userid");
         imageurl = intent.getStringExtra("data");
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(personal_dpActivity.this, MessageActivity.class);
-                Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair<View, String>(dpView, "imageTransition");
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(personal_dpActivity.this, pairs);
-                intent.putExtra("userid",userid);
-                startActivity(intent, options.toBundle());
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            Intent intent = new Intent(personal_dpActivity.this, MessageActivity.class);
+            Pair[] pairs = new Pair[1];
+            pairs[0] = new Pair<View, String>(dpView, "imageTransition");
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(personal_dpActivity.this, pairs);
+            intent.putExtra("userid",userid);
+            startActivity(intent, options.toBundle());
         });
 
         dpView = findViewById(R.id.dpview);

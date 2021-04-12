@@ -2,7 +2,6 @@ package com.margsapp.messenger.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,28 +28,18 @@ import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
-    private  Context mContext;
-    private  List<User> mUsers;
-    private boolean isChat;
+    private final Context mContext;
+    private final List<User> mUsers;
+    private final boolean isChat;
 
-    private boolean isBlock;
+    private final boolean isBlock;
 
-    private boolean isAdd;
-
-
-
-    private boolean checked;
-
-    private final boolean unreadbool = true;
-
-
-
-
-    String currentgroup;
-
+    private final boolean isAdd;
 
 
     String theLastMessage;
@@ -72,12 +60,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
 
-
-
-
-
-
-
     private void UnreadMessage(String userid, ImageView unreadview) {
 
         UnreadMessage = "true";
@@ -94,9 +76,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
                     assert chat != null;
                     if (chat.getSender().equals(userid)) {
-
                         UnreadMessage = chat.getIsseen();
-
                     }
 
 
@@ -118,6 +98,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     
+    @NotNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.user_item, parent, false);
@@ -169,31 +150,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             holder.dt.setVisibility(View.VISIBLE);
         }
 
-        holder.UnBlock_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                androidx.appcompat.app.AlertDialog.Builder dialog = new androidx.appcompat.app.AlertDialog.Builder(mContext);
-                dialog.setMessage("Are you sure you want to Unblock this user?");
-                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        holder.UnBlock_btn.setOnClickListener(v -> {
+            androidx.appcompat.app.AlertDialog.Builder dialog = new androidx.appcompat.app.AlertDialog.Builder(mContext);
+            dialog.setMessage(mContext.getResources().getString(R.string.want_to_block));
+            dialog.setPositiveButton(mContext.getResources().getString(R.string.yes), (dialog12, id) -> UnBlock(user.getId()));
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        UnBlock(user.getId());
-                    }
-                });
+            dialog.setNeutralButton(mContext.getResources().getString(R.string.cancel), (dialog1, which) -> {
+                //Dont do anything
+            });
+            androidx.appcompat.app.AlertDialog alertDialog = dialog.create();
+            alertDialog.show();
 
-                dialog.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Dont do anything
-                    }
-                });
-                androidx.appcompat.app.AlertDialog alertDialog = dialog.create();
-                alertDialog.show();
-
-
-
-            }
 
 
         });
@@ -344,6 +311,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
                     if(snapshot.exists()){
 
+                        assert chatlist != null;
                         if (chatlist.getFriends().equals("Blocked")) {
                             Toast.makeText(mContext, "You have blocked this user.", Toast.LENGTH_SHORT).show();
 

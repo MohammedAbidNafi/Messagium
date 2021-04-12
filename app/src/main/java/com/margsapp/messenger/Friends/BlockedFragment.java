@@ -96,8 +96,6 @@ public class BlockedFragment extends Fragment {
                             if(chatlist.getFriends().equals("Blocked")){
                                 mUsers.add(user);
                             }
-
-
                         }
                     }
 

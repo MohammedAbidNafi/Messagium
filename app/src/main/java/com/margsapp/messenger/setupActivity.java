@@ -47,6 +47,8 @@ import com.margsapp.messenger.Model.User;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -68,8 +70,6 @@ public class setupActivity extends AppCompatActivity {
 
     StorageReference storageReference;
     private static final int GALLERY_PICK = 1;
-    private Uri imageUri;
-    private StorageTask uploadTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,10 +84,7 @@ public class setupActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Setup Profile");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
+        MobileAds.initialize(this, initializationStatus -> {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
 
@@ -108,15 +105,12 @@ public class setupActivity extends AppCompatActivity {
             }
         });
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String txt_status = statusEditText.getText().toString();
-                if(txt_status.equals("")){
-                    save("Hey there am using Messenger");
-                }else {
-                    save(txt_status);
-                }
+        saveButton.setOnClickListener(v -> {
+            String txt_status = statusEditText.getText().toString();
+            if(txt_status.equals("")){
+                save("Hey there am using Messenger");
+            }else {
+                save(txt_status);
             }
         });
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -145,12 +139,7 @@ public class setupActivity extends AppCompatActivity {
 
         loadingBar = new ProgressDialog(this);
 
-        profileImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openImage();
-            }
-        });
+        profileImageView.setOnClickListener(v -> openImage());
     }
 
     private void save(String txt_status) {
@@ -190,19 +179,16 @@ public class setupActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
-            case R.id.done:
+        if (item.getItemId() == R.id.done) {
+            startActivity(new Intent(setupActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
-                startActivity(new Intent(setupActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(setupActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
 
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(setupActivity.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
-
-                return true;
-
+            return true;
         }
 
         return false;
@@ -223,7 +209,7 @@ public class setupActivity extends AppCompatActivity {
 
 
         if (requestCode == GALLERY_PICK && resultCode == RESULT_OK && data != null) {
-            imageUri = data.getData();
+            Uri imageUri = data.getData();
             CropImage.activity(imageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1, 1)
@@ -246,15 +232,12 @@ public class setupActivity extends AppCompatActivity {
                 StorageReference filepath = storageReference.child(System.currentTimeMillis()
                         + "." + getFileExtension(resultUri));
 
-                uploadTask = filepath.putFile(resultUri);
-                uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (!task.isSuccessful()) {
-                            throw task.getException();
-                        }
-                        return filepath.getDownloadUrl();
+                StorageTask uploadTask = filepath.putFile(resultUri);
+                uploadTask.continueWithTask((Continuation<UploadTask.TaskSnapshot, Task<Uri>>) task -> {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
                     }
+                    return filepath.getDownloadUrl();
                 }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {

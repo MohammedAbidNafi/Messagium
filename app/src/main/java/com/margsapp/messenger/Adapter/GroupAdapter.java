@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -29,11 +28,11 @@ import java.util.List;
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
 
     private final Context mContext;
-    private boolean isGroup;
+    private final boolean isGroup;
     private final List<Group> mGroups;
 
     String theLastMessage;
-    String UnreadMessage;
+
 
 
     public GroupAdapter(Context mContext, boolean isGroup, List<Group> mGroups) {
@@ -51,6 +50,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         return new GroupAdapter.ViewHolder(viewGroup);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
@@ -68,36 +68,33 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         }
 
 
-        holder.itemView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.onAdapClick));
-                return false;
-            }
+        holder.itemView.setOnTouchListener((v, event) -> {
+            holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.onAdapClick));
+            return false;
         });
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
-            String groupname = group.getGroupname();
-            launch(groupname);
+            String groupid = group.getGroupid();
+            launch(groupid);
 
         });
 
         
     }
 
-    private void launch(String groupname){
+    private void launch(String groupid){
 
 
         Intent intent = new Intent(mContext, group_messageActivity.class);
-        intent.putExtra("groupname", groupname);
+        intent.putExtra("groupid", groupid);
         mContext.startActivity(intent);
 
     }
 
-    private void lastmessage(String groupname, TextView last_msg) {
+    private void lastmessage(String groupid, TextView last_msg) {
         theLastMessage = "default";
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("GroupChat").child(groupname);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("GroupChat").child(groupid);
 
         reference.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
@@ -106,7 +103,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
                     GroupChat groupChat = snapshot1.getValue(GroupChat.class);
                     assert groupChat != null;
-                    if(groupChat.getGroup().equals(groupname)) {
+                    if(groupChat.getGroupid().equals(groupid)) {
                         theLastMessage = groupChat.getMessage();
                     }
 
@@ -136,12 +133,12 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView group_img;
-        private ImageView unread;
+        private final ImageView group_img;
+        private final ImageView unread;
 
-        private TextView last_msg;
+        private final TextView last_msg;
 
-        private TextView groupname;
+        private final TextView groupname;
 
 
         public ViewHolder(View view){

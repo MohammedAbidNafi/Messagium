@@ -1,30 +1,18 @@
 package com.margsapp.messenger;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
-
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowInsets;
-import android.view.WindowInsetsController;
-import android.view.WindowManager;
 
-import com.google.firebase.database.FirebaseDatabase;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import java.util.Locale;
-import java.util.Objects;
 
 import static com.margsapp.messenger.CustomiseActivity.THEME;
-import static java.lang.Thread.sleep;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -54,24 +42,15 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
 
-
-
-        new Handler().postDelayed(new Runnable() {
-
         // Using handler with postDelayed called runnable run method
+        new Handler().postDelayed(() -> {
 
-            @Override
+            Intent i = new Intent(SplashActivity.this, StartActivity.class);
 
-            public void run() {
-
-                Intent i = new Intent(SplashActivity.this, StartActivity.class);
-
-                startActivity(i);
-                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-                // close this activity
-                finish();
-
-            }
+            startActivity(i);
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+            // close this activity
+            finish();
 
         }, 2*1000); // wait for 5 seconds
     }

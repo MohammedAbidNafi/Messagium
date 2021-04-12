@@ -1,15 +1,13 @@
 package com.margsapp.messenger;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.google.android.material.textfield.TextInputLayout;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.hbb20.CountryCodePicker;
-import com.margsapp.messenger.R;
 
 import java.util.Objects;
 
@@ -25,8 +23,6 @@ public class PhoneAuthActivity extends AppCompatActivity {
 
         phoneInputLayout = findViewById(R.id.phone_number);
         countryCodePicker = findViewById(R.id.country_code_picker);
-
-
     }
 
     public void callVerifyOTP(View view){

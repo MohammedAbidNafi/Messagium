@@ -1,21 +1,20 @@
 package com.margsapp.messenger.groupclass;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.Toolbar;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
@@ -43,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -63,8 +63,6 @@ public class create_groupActivity extends AppCompatActivity {
 
     String image_url;
 
-    private Uri imageUri;
-    private StorageTask uploadTask;
     private ProgressDialog loadingBar;
 
 
@@ -79,12 +77,7 @@ public class create_groupActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Create Group");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(create_groupActivity.this, MainActivity.class));
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(create_groupActivity.this, MainActivity.class)));
 
         group_image = findViewById(R.id.group_img);
         group_name = findViewById(R.id.groupname);
@@ -111,62 +104,54 @@ public class create_groupActivity extends AppCompatActivity {
 
         loadingBar = new ProgressDialog(this);
 
-        group_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openImage();
+        group_image.setOnClickListener(v -> openImage());
+
+
+
+        Next.setOnClickListener(v -> {
+            String txt_groupname = Objects.requireNonNull(group_name.getText()).toString();
+
+            String image_;
+            if(image){
+                 image_ = image_url;
+            }else {
+                 image_ = "group_default";
             }
-        });
+
+            Calendar calendar = Calendar.getInstance();
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yy");
+            String timestamp = simpleDateFormat.format(calendar.getTime());
+            reference = FirebaseDatabase.getInstance().getReference("Group");
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    if(snapshot.exists()){
+                        for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                            Group group = snapshot1.getValue(Group.class);
+                            assert group != null;
+                            if (txt_groupname.equals(group.getGroupname())) {
+                                Toast.makeText(create_groupActivity.this, "Group Name already exists. Error code 0x08090101", Toast.LENGTH_SHORT).show();
+                            }else if(!txt_groupname.equals(group.getGroupname())){
+                                creategroup(txt_groupname, image_, timestamp, username);
+                            }
+
+                        }
+                    }else {
+                        creategroup(txt_groupname, image_, timestamp, username);
+                    }
 
 
 
-        Next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String txt_groupname = Objects.requireNonNull(group_name.getText()).toString();
 
-                String image_;
-                if(image){
-                     image_ = image_url;
-                }else {
-                     image_ = "group_default";
                 }
 
-                Calendar calendar = Calendar.getInstance();
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yy");
-                String timestamp = simpleDateFormat.format(calendar.getTime());
-                reference = FirebaseDatabase.getInstance().getReference("Group");
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-                        if(snapshot.exists()){
-                            for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                                Group group = snapshot1.getValue(Group.class);
-                                assert group != null;
-                                if (txt_groupname.equals(group.getGroupname())) {
-                                    Toast.makeText(create_groupActivity.this, "Group Name already exists. Error code 0x08090101", Toast.LENGTH_SHORT).show();
-                                }else if(!txt_groupname.equals(group.getGroupname())){
-                                    creategroup(txt_groupname, image_, timestamp, username);
-                                }
+                }
+            });
 
-                            }
-                        }else {
-                            creategroup(txt_groupname, image_, timestamp, username);
-                        }
-
-
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-            }
         });
 
 
@@ -174,8 +159,10 @@ public class create_groupActivity extends AppCompatActivity {
 
     private void creategroup(String txt_groupname, String image_, String timestamp, String username) {
 
-        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(firebaseUser.getUid()).child(txt_groupname);
-        HashMap<String, String> hashMap2 = new HashMap<>();
+        String groupID = randomString(12);
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(firebaseUser.getUid()).child(groupID);
+        HashMap<String, Object> hashMap2 = new HashMap<>();
+        hashMap2.put("groupid", groupID);
         hashMap2.put("groupname", txt_groupname);
         hashMap2.put("admin","true");
         databaseReference1.setValue(hashMap2);
@@ -183,29 +170,41 @@ public class create_groupActivity extends AppCompatActivity {
 
 
 
-        reference = FirebaseDatabase.getInstance().getReference("Group").child(txt_groupname);
+        reference = FirebaseDatabase.getInstance().getReference("Group").child(groupID);
 
         HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("groupid",groupID);
         hashMap.put("groupname", txt_groupname);
         hashMap.put("imageUrl", image_);
         hashMap.put("createdon",timestamp);
-        reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
+        reference.setValue(hashMap).addOnCompleteListener(task -> {
 
-                databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(txt_groupname).child("members").child(firebaseUser.getUid());
-                HashMap<String, String> hashMap1 = new HashMap<>();
-                hashMap1.put("id", firebaseUser.getUid());
-                hashMap1.put("user_name",username);
-                hashMap1.put("admin","true");
-                databaseReference.setValue(hashMap1);
+            databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupID).child("members").child(firebaseUser.getUid());
+            HashMap<String, String> hashMap1 = new HashMap<>();
+            hashMap1.put("id", firebaseUser.getUid());
+            hashMap1.put("user_name",username);
+            hashMap1.put("admin","true");
+            databaseReference.setValue(hashMap1);
 
-                Intent intent = new Intent(create_groupActivity.this, AddParticipants.class);
-                intent.putExtra("GroupID", txt_groupname);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(create_groupActivity.this, AddParticipants.class);
+            intent.putExtra("GroupID", groupID);
+            startActivity(intent);
         });
     }
+
+    public static final String DATA = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    public static Random RANDOM = new Random();
+
+    public static String randomString(int len) {
+        StringBuilder sb = new StringBuilder(len);
+
+        for (int i = 0; i < len; i++) {
+            sb.append(DATA.charAt(RANDOM.nextInt(DATA.length())));
+        }
+
+        return sb.toString();
+    }
+
 
 
     private void openImage() {
@@ -223,7 +222,7 @@ public class create_groupActivity extends AppCompatActivity {
 
 
         if (requestCode == GALLERY_PICK && resultCode == RESULT_OK && data != null) {
-            imageUri = data.getData();
+            Uri imageUri = data.getData();
             CropImage.activity(imageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1, 1)
@@ -247,15 +246,12 @@ public class create_groupActivity extends AppCompatActivity {
                         + "." + getFileExtension(resultUri));
 
 
-                uploadTask = filepath.putFile(resultUri);
-                uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (!task.isSuccessful()) {
-                            throw task.getException();
-                        }
-                        return filepath.getDownloadUrl();
+                StorageTask uploadTask = filepath.putFile(resultUri);
+                uploadTask.continueWithTask((Continuation<UploadTask.TaskSnapshot, Task<Uri>>) task -> {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
                     }
+                    return filepath.getDownloadUrl();
                 }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
@@ -268,14 +264,6 @@ public class create_groupActivity extends AppCompatActivity {
                             image = true;
 
                             Glide.with((getApplicationContext())).load(image_url).into(group_image);
-
-                            //Update Database
-                            /*reference = FirebaseDatabase.getInstance().getReference("Group").child(firebaseUser.getUid());
-                            HashMap<String, Object> map = new HashMap<>();
-                            map.put("imageURL", mUri);
-                            reference.updateChildren(map);
-
-                             */
 
                             loadingBar.dismiss();
 
