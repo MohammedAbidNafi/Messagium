@@ -12,12 +12,12 @@ public class GroupChat {
     private String replyto;
     private String replyname;
 
-    private String groupid;
+    private String group;
 
-    public GroupChat(String sender,String sendername, String groupid, String message, String timestamp, String replytext, String reply, String replyto,String replyname) {
+    public GroupChat(String sender,String sendername, String group, String message, String timestamp, String replytext, String reply, String replyto,String replyname) {
         this.sender = sender;
         this.sendername = sendername;
-        this.groupid = groupid;
+        this.group = group;
         this.message = message;
         this.timestamp = timestamp;
         this.replytext = replytext;
@@ -54,12 +54,12 @@ public class GroupChat {
         this.sender = sender;
     }
 
-    public String getGroupid() {
-        return groupid;
+    public String getGroup() {
+        return group;
     }
 
-    public void setGroupid(String groupid) {
-        this.groupid = groupid;
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     public String getMessage() {

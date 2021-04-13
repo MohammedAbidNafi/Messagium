@@ -58,8 +58,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
 
         holder.groupname.setText(group.getGroupname());
-        String group_name = group.getGroupname();
-        lastmessage(group_name, holder.last_msg);
+        String groupid = group.getGroupid();
+
+
+        lastmessage(groupid, holder.last_msg);
 
         if(group.getImageUrl().equals("group_default")){
             holder.group_img.setImageResource(R.drawable.groupicon);
@@ -75,7 +77,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
-            String groupid = group.getGroupid();
             launch(groupid);
 
         });
@@ -101,13 +102,17 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
-                    GroupChat groupChat = snapshot1.getValue(GroupChat.class);
-                    assert groupChat != null;
-                    if(groupChat.getGroupid().equals(groupid)) {
+                    if(snapshot1.exists()){
+                        GroupChat groupChat = snapshot1.getValue(GroupChat.class);
+                        assert groupChat != null;
+
                         theLastMessage = groupChat.getMessage();
                     }
 
+
+
                 }
+
                 if ("default".equals(theLastMessage)) {
                     last_msg.setText("No Message");
                 } else {

@@ -7,17 +7,39 @@ public class Data {
     private String body;
     private String title;
     private String sented;
+    private String group;
+    //private String groupid;
 
-    public Data(String user, int icon, String body, String title, String sented) {
+    public Data(String user, int icon, String body, String title, String sented,String group) {
         this.user = user;
         this.icon = icon;
         this.body = body;
         this.title = title;
         this.sented = sented;
+        this.group = group;
+       // this.groupid = groupid;
     }
 
     public Data(){
 
+    }
+    /*
+    public String getGroupid() {
+        return groupid;
+    }
+
+    public void setGroupid(String groupid) {
+        this.groupid = groupid;
+    }
+
+     */
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     public String getUser() {

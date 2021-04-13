@@ -32,7 +32,7 @@ public class manage_partActivty extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Manage Participants");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.manage_participants));
 
         intent = getIntent();
         groupid = intent.getStringExtra("groupid");

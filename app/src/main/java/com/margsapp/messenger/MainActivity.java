@@ -223,10 +223,13 @@ public class MainActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Chat chat = snapshot1.getValue(Chat.class);
 
-                    assert chat != null;
-                    if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getIsseen().equals("false")) {
-                        unread++;
+                    if(snapshot1.exists()){
+                        assert chat != null;
+                        if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getIsseen().equals("false")) {
+                            unread++;
+                        }
                     }
+
 
                 }
 
@@ -234,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                 if (unread == 0) {
                     viewPageAdapter.addFragment(new ChatsFragment(), getResources().getString(R.string.chat));
                 } else {
-                    viewPageAdapter.addFragment(new ChatsFragment(), getResources().getString(R.string.chat)+(" + unread + "));
+                    viewPageAdapter.addFragment(new ChatsFragment(), getResources().getString(R.string.chat)+"("+unread+")");
                 }
 
 

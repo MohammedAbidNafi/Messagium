@@ -92,7 +92,7 @@
     <string name="app_language">App Language</string>
     <string name="english">తెలుగు</string>
     <string name="add_friends">Add Friends</string>
-    <string name="typing">Typing...</string>
+    <string name="typing">Typing…</string>
     <string name="is_added">is added.</string>
     <string name="not_an_admin">Not an Admin!</string>
     <string name="admin_message">You have to be Admin to make changes in group.</string>
@@ -101,7 +101,7 @@
     <string name="no">No</string>
     <string name="group_admin">Group Admin</string>
     <string name="ask_remove">Are you sure you want to remove this user?</string>
-    <string name="ask_to_remove">Are you sure you want to make this user Admin? (Note this is a irreversible process)</string>
+    <string name="ask_to_make">Are you sure you want to make this user Admin? (Note this is a irreversible process)</string>
     <string name="feature_not_availble">This feature is not available yet.</string>
     <string name="blocked_this_user">You have blocked this user.</string>
     <string name="log_removed">has been removed from group</string>
@@ -114,4 +114,6 @@
     <string name="like_to_update">There\'s a new version of this app would you like to update?</string>
     <string name="upto_date">This app is upto date</string>
     <string name="ok">Ok</string>
+    <string name="now_admin">is now Admin.</string>
+    <string name="edit_group_name">Edit Group Name</string>
 </resources>

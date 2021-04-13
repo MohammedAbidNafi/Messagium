@@ -74,7 +74,7 @@
     <string name="username_edit_txt">Username</string>
     <string name="enter_status">Enter status</string>
     <string name="waiting_for_network">Waiting for Network</string>
-    <string name="warning_txt">This user is messaging for the first time if you know accept it. If you dont know reject it. நீங்கள் பேச விரும்பவில்லை என்றால் அவர்களைத் தடு.</string>
+    <string name="warning_txt">This user is messaging for the first time if you know accept it. If you dont know reject it. If you dont want to talk block them.</string>
     <string name="accept_warning">Accept</string>
     <string name="reject_warning">Reject</string>
     <string name="block_warning">Block</string>
@@ -97,11 +97,11 @@
     <string name="login_using_phone_no">Login Using Phone No</string>
     <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="verification_code">Verification Code</string>
-    <string name="Verification_info">A verifcation code is sent to your mobile number \n +91 9491951924</string>
-    <string name="didn_t_recive_code_yet">Didn\'t recive code yet?</string>
+    <string name="Verification_info">A verification code is sent to your mobile number \n +91 9491951924</string>
+    <string name="didn_t_recive_code_yet">Didn\'t receive code yet?</string>
     <string name="wrong_number">Wrong number?</string>
     <string name="manage_participants">Manage Participants</string>
-    <string name="search_partipants">Search Partipants</string>
+    <string name="search_partipants">Search Participants</string>
     <string name="created_on">Created on</string>
     <string name="leave_group">Leave Group</string>
     <string name="search_users">Search Users</string>
@@ -127,7 +127,7 @@
     <string name="english">English</string>
     <string name="add_friends">Add Friends</string>
     <string name="typing">Typing…</string>
-    <string name="is_added">is added.</string>
+    <string name="is_added"> is added.</string>
     <string name="not_an_admin">Not an Admin!</string>
     <string name="admin_message">You have to be Admin to make changes in group.</string>
     <string name="ask_leave_group">Are you sure you want to leave the group?</string>
@@ -135,18 +135,20 @@
     <string name="no">No</string>
     <string name="group_admin">Group Admin</string>
     <string name="ask_remove">Are you sure you want to remove this user?</string>
-    <string name="ask_to_remove">Are you sure you want to make this user Admin? (Note this is a irreversible process)</string>
+    <string name="ask_to_make">Are you sure you want to make this user Admin? (Note this is an irreversible process)</string>
     <string name="feature_not_availble">This feature is not available yet.</string>
     <string name="blocked_this_user">You have blocked this user.</string>
-    <string name="log_removed">has been removed from group</string>
-    <string name="left_group">has left the group.</string>
-    <string name="OTP_DESC">A verifcation code is sent to your mobile number \n</string>
+    <string name="log_removed"> has been removed from group</string>
+    <string name="left_group"> has left the group.</string>
+    <string name="OTP_DESC">A verification code is sent to your mobile number \n</string>
     <string name="Ask_OTP_again">Do you want to get Verification code again?</string>
     <string name="another_code_sent">"Another code has sent to "</string>
     <string name="ErrorOccured">Something went wrong 0x08030201</string>
     <string name="want_to_block">Are you sure you want to block this user?</string>
     <string name="like_to_update">There\'s a new version of this app would you like to update?</string>
-    <string name="upto_date">This app is upto date</string>
-    <string name="ok">Ok</string>
+    <string name="upto_date">This app is up to date</string>
+    <string name="ok">OK</string>
+    <string name="now_admin"> is now Admin.</string>
+    <string name="edit_group_name">Edit Group Name</string>
 
 </resources>

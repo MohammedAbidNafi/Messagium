@@ -104,7 +104,7 @@ public class MessageActivity extends AppCompatActivity {
 
     Intent intent;
 
-    ValueEventListener seenListener,textListener;
+    ValueEventListener seenListener;
 
     APIService apiService;
 
@@ -281,11 +281,6 @@ public class MessageActivity extends AppCompatActivity {
                         hashMap.put("typingto", userid);
                         snapshot.getRef().updateChildren(hashMap);
                     }
-
-
-
-
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
@@ -763,7 +758,7 @@ public class MessageActivity extends AppCompatActivity {
                                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                                     Token token = snapshot1.getValue(Token.class);
                                     Data data = new Data(firebaseUser.getUid(), R.drawable.ic_notification, username + ":" + message, "New Message",
-                                            userid);
+                                            userid,"false");
                                     assert token != null;
                                     Sender sender = new Sender(data, token.getToken());
                                     apiService.sendNotification(sender)
@@ -1008,6 +1003,7 @@ public class MessageActivity extends AppCompatActivity {
     {
         super.onPause();
         databaseReference.removeEventListener(seenListener);
+      //  txt_database.removeEventListener(textListener);
         status("offline");
         currentUser("none");
     }
@@ -1015,7 +1011,7 @@ public class MessageActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         databaseReference.removeEventListener(seenListener);
-        txt_database.removeEventListener(textListener);
+       // txt_database.removeEventListener(textListener);
         status("offline");
         currentUser("none");
     }

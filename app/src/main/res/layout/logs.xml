@@ -6,11 +6,15 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25sp"
+            android:textAlignment="center"
+            android:gravity="center"
             android:id="@+id/show_message"
             android:textSize="13dp"
             android:padding="8dp"

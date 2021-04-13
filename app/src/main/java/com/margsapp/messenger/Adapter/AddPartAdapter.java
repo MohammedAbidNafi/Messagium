@@ -1,5 +1,6 @@
 package com.margsapp.messenger.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -25,6 +26,9 @@ import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
 import com.victor.loading.rotate.RotateLoading;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHolder> {
@@ -33,7 +37,7 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
     private final List<User> mUsers;
 
     private final boolean managepart;
-    private final String GroupName;
+    private final String groupid;
 
     EventListener listener;
 
@@ -58,10 +62,10 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
 
 
 
-    public AddPartAdapter(Context mContext, List<User> mUsers,String GroupName, boolean managepart) {
+    public AddPartAdapter(Context mContext, List<User> mUsers,String groupid, boolean managepart) {
         this.mContext = mContext;
         this.mUsers = mUsers;
-        this.GroupName = GroupName;
+        this.groupid = groupid;
         this.managepart = managepart;
 
     }
@@ -90,7 +94,7 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
         }
 
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(GroupName).child("members");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupid).child("members");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -136,7 +140,7 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
             AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
             dialog.setMessage(mContext.getResources().getString(R.string.remove_from_group));
             dialog.setPositiveButton(mContext.getResources().getString(R.string.yes), (dialog12, id) -> {
-                remove(idd,name);
+                remove(idd,name,groupid);
                 holder.remove.setVisibility(View.GONE);
                 holder.addpart_btn.setVisibility(View.VISIBLE);
             });
@@ -151,13 +155,26 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
 
     }
 
-    private void remove(String id, String name) {
+    private void remove(String id, String name,String groupId) {
 
         listener.RemoveParticipant();
-        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(id).child(GroupName);
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(id).child(groupid);
         databaseReference1.removeValue();
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(GroupName).child("members").child(id);
+        Calendar calendar = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
+        String timestamp = simpleDateFormat.format(calendar.getTime());
+
+        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("GroupChat").child(groupId);
+        HashMap<String, Object> hash = new HashMap<>();
+        hash.put("sender", "LOGS");
+        hash.put("group", groupId);
+        hash.put("reply","false");
+        hash.put("message", name + mContext.getResources().getString(R.string.log_removed));
+        hash.put("timestamp", timestamp);
+        databaseReference2.push().setValue(hash);
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupid).child("members").child(id);
         databaseReference.removeValue();
 
         Toast.makeText(mContext, name + " has been removed",Toast.LENGTH_SHORT).show();

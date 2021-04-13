@@ -13,6 +13,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +38,7 @@ public class edit_group_name extends AppCompatActivity {
 
     EditText GroupName;
 
-    String groupname;
+    String groupid, username;
     Intent intent;
 
 
@@ -53,15 +56,16 @@ public class edit_group_name extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Edit Group Name");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.edit_group_name));
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         intent = getIntent();
-        groupname = intent.getStringExtra("groupname");
+        groupid = intent.getStringExtra("groupid");
+        username = intent.getStringExtra("username");
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupname);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupid);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -80,27 +84,41 @@ public class edit_group_name extends AppCompatActivity {
     }
 
 
-    private void save(String txt_groupname) {
+    private void save(String txt_groupname,String username, String groupid) {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-
-
-
-        reference = FirebaseDatabase.getInstance().getReference("Group").child(groupname);
-        reference.addValueEventListener(new ValueEventListener() {
+        reference = FirebaseDatabase.getInstance().getReference("Group").child(groupid);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-
-
-
                 HashMap<String, Object> hash = new HashMap<>();
                 hash.put("groupname", txt_groupname);
-                reference.updateChildren(hash);
+                reference.updateChildren(hash).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Calendar calendar = Calendar.getInstance();
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
+                        String timestamp = simpleDateFormat.format(calendar.getTime());
 
+                        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("GroupChat").child(groupid);
+                        HashMap<String, Object> hash = new HashMap<>();
+                        hash.put("sender", "LOGS");
+                        hash.put("group", groupid);
+                        hash.put("reply", "false");
+                        hash.put("message", username + " has changed group name to " + txt_groupname);
+                        hash.put("timestamp", timestamp);
+                        databaseReference2.push().setValue(hash).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Intent openMainActivity = new Intent(edit_group_name.this, group_infoActivity.class);
+                                openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivityIfNeeded(openMainActivity, 0);
+                            }
+                        });
+                    }
 
-
+                });
             }
 
 
@@ -120,13 +138,12 @@ public class edit_group_name extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        if (item.getItemId() == R.id.done) {
-            String txt_groupname = GroupName.getText().toString();
-            save(txt_groupname);
-            finish();
+        switch (item.getItemId()) {
+            case R.id.done:
+                String txt_groupname = GroupName.getText().toString();
+                save(txt_groupname, username,groupid);
+                break;
         }
-
         return false;
     }
 
@@ -134,9 +151,6 @@ public class edit_group_name extends AppCompatActivity {
 
 
     public void onBackPressed(){
-        String txt_groupname = GroupName.getText().toString();
-        save(txt_groupname);
-        finish();
 
     }
 

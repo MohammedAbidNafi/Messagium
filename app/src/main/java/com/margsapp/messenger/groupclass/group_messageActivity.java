@@ -53,6 +53,7 @@ import com.margsapp.messenger.MainActivity;
 import com.margsapp.messenger.Model.APIService;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.GroupChat;
+import com.margsapp.messenger.Model.GroupList;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.Notifications.Client;
 import com.margsapp.messenger.Notifications.Data;
@@ -402,7 +403,7 @@ public class group_messageActivity extends AppCompatActivity {
                 if(notify) {
 
                     assert group != null;
-                    sendNotification(group.getId(), sendername, msg,group.getGroupname());
+                    sendNotification(group.getGroupid(), sendername, msg,group.getGroupname(),groupid);
                 }
                 notify = false;
             }
@@ -443,7 +444,7 @@ public class group_messageActivity extends AppCompatActivity {
                     for(DataSnapshot snapshot1 : snapshot.getChildren()){
                         Group group = snapshot1.getValue(Group.class);
                         assert group != null;
-                        sendNotification(group.getId(), sendername, msg,group.getGroupname());
+                        sendNotification(group.getId(), sendername, msg,groupname_,group.getGroupid());
                     }
 
                 }
@@ -460,57 +461,67 @@ public class group_messageActivity extends AppCompatActivity {
 
 
 
-    private void sendNotification(String receiver, String username, String message,String groupname){
+    private void sendNotification(String receiver, String username, String message,String groupname,String group_id){
 
         final DatabaseReference chatref = FirebaseDatabase.getInstance().getReference("Group").child(groupid).child("members");
 
         chatref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-
-                        DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
-                        Query query = tokens.orderByKey().equalTo(receiver);
-                        query.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                                    Token token = snapshot1.getValue(Token.class);
-                                    Data data = new Data(firebaseUser.getUid(), R.drawable.ic_notification, username + ":" + message, "New Message from " + groupname,
-                                            receiver);
-                                    assert token != null;
-                                    Sender sender = new Sender(data, token.getToken());
-                                    apiService.sendNotification(sender)
-                                            .enqueue(new Callback<MyResponse>() {
-                                                @Override
-                                                public void onResponse(@org.jetbrains.annotations.NotNull @NotNull Call<MyResponse> call, @org.jetbrains.annotations.NotNull @NotNull Response<MyResponse> response) {
-                                                    if (response.code() == 200) {
-                                                        assert response.body() != null;
-                                                        if (response.body().success != 1) {
-                                                            Toast.makeText(group_messageActivity.this, "Failed! Error code 0x08060101", Toast.LENGTH_SHORT).show();
-                                                        }
+                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                    Group group = snapshot1.getValue(Group.class);
+                    assert group != null;
+                    String receivers = group.getId();
+                    DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
+                    Query query = tokens.orderByKey().equalTo(receivers);
+                    query.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                Token token = snapshot1.getValue(Token.class);
+                                Data data = new Data(firebaseUser.getUid(), R.drawable.ic_notification, username + " : " + message, "New Message from " + groupname,
+                                        receivers,"true");
+                                assert token != null;
+                                Sender sender = new Sender(data, token.getToken());
+                                apiService.sendNotification(sender)
+                                        .enqueue(new Callback<MyResponse>() {
+                                            @Override
+                                            public void onResponse(@NotNull Call<MyResponse> call, @NotNull Response<MyResponse> response) {
+                                                if (response.code() == 200) {
+                                                    assert response.body() != null;
+                                                    if (response.body().success != 1) {
+                                                        Toast.makeText(group_messageActivity.this, "Failed! Error code 0x08060101", Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
+                                            }
 
-                                                @Override
-                                                public void onFailure(@org.jetbrains.annotations.NotNull @NotNull Call<MyResponse> call, @org.jetbrains.annotations.NotNull @NotNull Throwable t) {
+                                            @Override
+                                            public void onFailure(@NotNull Call<MyResponse> call, @NotNull Throwable t) {
 
-                                                }
-                                            });
-                                }
+                                            }
+                                        });
                             }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                        }
 
-                            }
-                        });
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                        }
+
+                    });
+                }
+
+
 
             }
+
+
+                @Override
+                public void onCancelled (@NonNull DatabaseError error){
+
+                }
+
         });
 
     }

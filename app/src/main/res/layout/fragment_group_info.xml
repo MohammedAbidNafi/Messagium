@@ -27,9 +27,9 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/group_edit"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="65dp"
                     android:background="@color/card_back">
-                    <!--
+
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                         android:layout_marginEnd="10dp"
                         android:background="@color/card_back"
                         android:src="@drawable/ic_baseline_create_24" />
-                    -->
+
                     <TextView
                         android:id="@+id/groupname_txt"
                         android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/manage_part"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="65dp"
                     android:layout_below="@+id/group_edit"
                     android:layout_marginTop="10dp"
                     android:background="@color/card_back"
@@ -84,7 +84,8 @@
                         android:layout_marginStart="50dp"
                         android:text="@string/manage_participants"
                         android:textColor="@color/blacktext"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:layout_marginEnd="22dp"/>
 
 
                 </androidx.cardview.widget.CardView>
@@ -92,7 +93,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/search_users_btn"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="65dp"
                     android:layout_below="@+id/manage_part"
                     android:layout_marginTop="10dp"
                     android:background="@color/card_back"
@@ -122,7 +123,8 @@
                         android:layout_marginStart="50dp"
                         android:text="@string/search_partipants"
                         android:textColor="@color/blacktext"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:layout_marginEnd="22dp"/>
 
 
                 </androidx.cardview.widget.CardView>

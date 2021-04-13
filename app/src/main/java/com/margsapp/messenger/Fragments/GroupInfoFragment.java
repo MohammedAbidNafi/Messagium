@@ -43,6 +43,7 @@ import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
+import com.margsapp.messenger.groupclass.edit_group_name;
 import com.margsapp.messenger.groupclass.group_infoActivity;
 import com.margsapp.messenger.groupclass.manage_partActivty;
 
@@ -111,6 +112,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
         groupname_txt = view.findViewById(R.id.groupname_txt);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Group").child(groupid);
         reference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Group group = snapshot.getValue(Group.class);
@@ -118,7 +120,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
                 assert group != null;
                 groupname_txt.setText(group.getGroupname());
 
-                created_on.setText(getResources().getString(R.string.created_on) + group.getCreatedon());
+                created_on.setText(getResources().getString(R.string.created_on) + " "+group.getCreatedon());
             }
 
             @Override
@@ -159,16 +161,16 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
 
         update();
 
-        /*
-        group_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), edit_group_name.class);
-                intent.putExtra("groupname", groupname);
-                startActivity(intent);
-            }
+
+
+
+        group_edit.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), edit_group_name.class);
+            intent.putExtra("groupid", groupid);
+            intent.putExtra("username", Username);
+            startActivity(intent);
         });
-         */
+
 
         manage_part.setOnClickListener(v -> {
 
@@ -441,6 +443,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
                 if(group.getAdmin().equals("true")){
                     make_admin_txt.setText(getResources().getString(R.string.group_admin));
                     make_admin_txt.setTextColor(requireContext().getResources().getColor(R.color.blacktext));
+
                 }else {
                     make_admin_txt.setText(getResources().getString(R.string.make_admin));
                     make_admin_txt.setTextColor(requireContext().getResources().getColor(R.color.company_blue));
@@ -453,16 +456,36 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
             }
         });
 
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         remove_group.setOnClickListener(v -> {
+            assert firebaseUser != null;
+            DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Group").child(groupid_).child("members").child(firebaseUser.getUid());
+            databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Group group = snapshot.getValue(Group.class);
+                    assert group != null;
+                    if(group.getAdmin().equals("true")){
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
+                        dialog.setMessage(getResources().getString(R.string.ask_remove));
+                        dialog.setPositiveButton(getResources().getString(R.string.yes), (dialog12, id) -> remove(userid,Username,groupid_));
+                        dialog.setNeutralButton(getResources().getString(R.string.no), (dialog1, which) -> {
+                            //Dont do anything
+                        });
+                        AlertDialog alertDialog = dialog.create();
+                        alertDialog.show();
 
-            AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
-            dialog.setMessage(getResources().getString(R.string.ask_remove));
-            dialog.setPositiveButton(getResources().getString(R.string.yes), (dialog12, id) -> remove(userid,Username,groupid_));
-            dialog.setNeutralButton(getResources().getString(R.string.no), (dialog1, which) -> {
-                //Dont do anything
+                    }else {
+                        Toast.makeText(getContext(),getResources().getString(R.string.not_an_admin),Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
             });
-            AlertDialog alertDialog = dialog.create();
-            alertDialog.show();
+
         });
 
 
@@ -476,7 +499,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
                     assert group != null;
                    if(!group.getAdmin().equals("true")) {
                         AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
-                        dialog.setMessage(getResources().getString(R.string.ask_to_remove));
+                        dialog.setMessage(getResources().getString(R.string.ask_to_make));
                         dialog.setPositiveButton(getResources().getString(R.string.yes), (dialog14, id) -> {
                             Calendar calendar = Calendar.getInstance();
                             @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
@@ -487,7 +510,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
                             hash.put("sender", "LOGS");
                             hash.put("group", groupid_);
                             hash.put("reply","false");
-                            hash.put("message", username + "is now Admin.");
+                            hash.put("message", Username + getResources().getString(R.string.now_admin));
                             hash.put("timestamp", timestamp);
                             databaseReference2.push().setValue(hash);
 
