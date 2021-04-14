@@ -1,4 +1,4 @@
-package com.margsapp.messenger;
+package com.margsapp.messenger.Settings;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.margsapp.messenger.R;
 
 import java.util.Locale;
 import java.util.Objects;

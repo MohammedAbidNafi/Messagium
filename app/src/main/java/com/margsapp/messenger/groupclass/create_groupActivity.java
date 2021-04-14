@@ -31,7 +31,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
-import com.margsapp.messenger.MainActivity;
+import com.margsapp.messenger.Main.MainActivity;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;

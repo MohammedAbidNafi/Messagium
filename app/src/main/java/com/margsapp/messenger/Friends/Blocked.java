@@ -19,7 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.margsapp.messenger.Chat_settings;
+import com.margsapp.messenger.Settings.Chat_settings;
 import com.margsapp.messenger.R;
 
 import java.util.ArrayList;

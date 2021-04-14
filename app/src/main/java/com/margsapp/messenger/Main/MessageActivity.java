@@ -1,4 +1,4 @@
-package com.margsapp.messenger;
+package com.margsapp.messenger.Main;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
@@ -62,6 +62,7 @@ import com.margsapp.messenger.Notifications.Data;
 import com.margsapp.messenger.Notifications.MyResponse;
 import com.margsapp.messenger.Notifications.Sender;
 import com.margsapp.messenger.Notifications.Token;
+import com.margsapp.messenger.R;
 import com.margsapp.messenger.dp_view.personal_dpActivity;
 import com.margsapp.messenger.reply.SwipeController;
 
@@ -79,7 +80,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.margsapp.messenger.CustomiseActivity.THEME;
+import static com.margsapp.messenger.Settings.CustomiseActivity.THEME;
 
 public class MessageActivity extends AppCompatActivity {
 

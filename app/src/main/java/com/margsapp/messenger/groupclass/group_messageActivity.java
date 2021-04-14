@@ -49,11 +49,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 import com.margsapp.messenger.Adapter.GroupMessageAdapter;
-import com.margsapp.messenger.MainActivity;
+import com.margsapp.messenger.Main.MainActivity;
 import com.margsapp.messenger.Model.APIService;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.GroupChat;
-import com.margsapp.messenger.Model.GroupList;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.Notifications.Client;
 import com.margsapp.messenger.Notifications.Data;
@@ -75,7 +74,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.margsapp.messenger.CustomiseActivity.THEME;
+import static com.margsapp.messenger.Settings.CustomiseActivity.THEME;
 
 public class group_messageActivity extends AppCompatActivity {
 

@@ -8,7 +8,7 @@
         android:shortcutShortLabel="@string/settings">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="com.margsapp.messenger.edit_profile"
+            android:targetClass="com.margsapp.messenger.Settings.edit_profile"
             android:targetPackage="com.margsapp.messenger" />
     </shortcut>
 
@@ -21,7 +21,7 @@
         android:shortcutShortLabel="@string/add_chat">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="com.margsapp.messenger.edit_profile"
+            android:targetClass="com.margsapp.messenger.Settings.edit_profile"
             android:targetPackage="com.margsapp.messenger" />
 
     </shortcut>

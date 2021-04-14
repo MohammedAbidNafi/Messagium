@@ -38,7 +38,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Adapter.GroupInfoAdapter;
-import com.margsapp.messenger.MessageActivity;
+import com.margsapp.messenger.Main.MessageActivity;
 import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.User;

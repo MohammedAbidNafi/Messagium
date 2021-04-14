@@ -1,4 +1,4 @@
-package com.margsapp.messenger;
+package com.margsapp.messenger.Authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.hbb20.CountryCodePicker;
+import com.margsapp.messenger.R;
 
 import java.util.Objects;
 
@@ -38,7 +39,7 @@ public class PhoneAuthActivity extends AppCompatActivity {
         String _phoneNumber = "+"+countryCodePicker.getSelectedCountryCode()+PhoneNumber;
 
 
-        Intent intent = new Intent(PhoneAuthActivity.this,VerifyOTP.class);
+        Intent intent = new Intent(PhoneAuthActivity.this, VerifyOTP.class);
         intent.putExtra("phoneNo", _phoneNumber);
         startActivity(intent);
     }

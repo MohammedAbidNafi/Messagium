@@ -1,7 +1,6 @@
 package com.margsapp.messenger.Notifications;
 
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,9 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.margsapp.messenger.MainActivity;
-import com.margsapp.messenger.MessageActivity;
-import com.margsapp.messenger.groupclass.group_messageActivity;
+import com.margsapp.messenger.Main.MainActivity;
+import com.margsapp.messenger.Main.MessageActivity;
 
 import org.jetbrains.annotations.NotNull;
 

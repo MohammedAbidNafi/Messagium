@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".privacyActivity"
+    tools:context=".AppDetails.privacyActivity"
     android:background="@color/background">
 
 

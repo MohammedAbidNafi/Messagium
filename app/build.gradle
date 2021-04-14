@@ -44,6 +44,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.7.0'
     implementation 'com.android.support:multidex:1.0.3'
 
+    implementation 'jp.wasabeef:recyclerview-animators:4.0.2'
+
     implementation 'com.github.castorflex.smoothprogressbar:library:1.1.0'
 
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'

@@ -1,8 +1,10 @@
-package com.margsapp.messenger;
+package com.margsapp.messenger.Settings;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.margsapp.messenger.R;
 
 import java.util.Objects;
 

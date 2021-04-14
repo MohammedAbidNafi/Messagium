@@ -1,4 +1,4 @@
-package com.margsapp.messenger;
+package com.margsapp.messenger.Authentication;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,9 +10,11 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.margsapp.messenger.R;
+
 import java.util.Locale;
 
-import static com.margsapp.messenger.CustomiseActivity.THEME;
+import static com.margsapp.messenger.Settings.CustomiseActivity.THEME;
 
 public class SplashActivity extends AppCompatActivity {
 

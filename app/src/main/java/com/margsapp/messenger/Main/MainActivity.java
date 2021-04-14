@@ -1,4 +1,4 @@
-package com.margsapp.messenger;
+package com.margsapp.messenger.Main;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -42,10 +42,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.margsapp.messenger.Authentication.StartActivity;
+import com.margsapp.messenger.BuildConfig;
 import com.margsapp.messenger.Fragments.ChatsFragment;
 import com.margsapp.messenger.Fragments.GroupFragment;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.User;
+import com.margsapp.messenger.R;
+import com.margsapp.messenger.Settings.edit_profile;
 import com.margsapp.messenger.dp_view.main_dpActivity;
 import com.margsapp.messenger.groupclass.create_groupActivity;
 
@@ -58,7 +62,7 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.margsapp.messenger.CustomiseActivity.THEME;
+import static com.margsapp.messenger.Settings.CustomiseActivity.THEME;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.margsapp.messenger;
+package com.margsapp.messenger.Authentication;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -41,6 +41,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.margsapp.messenger.Main.MainActivity;
+import com.margsapp.messenger.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -49,7 +51,7 @@ import java.util.Locale;
 import java.util.concurrent.Executor;
 
 import static androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL;
-import static com.margsapp.messenger.AboutActivity.TEXT;
+import static com.margsapp.messenger.Settings.AboutActivity.TEXT;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -274,7 +276,7 @@ public class StartActivity extends AppCompatActivity {
                                                     hashMap.put("username", username);
                                                     hashMap.put("imageURL", imageurl);
                                                     hashMap.put("joined_on",timestamp);
-                                                    reference.updateChildren(hashMap).addOnCompleteListener(task1 -> startActivity(new Intent(StartActivity.this,google_setupActivity.class)
+                                                    reference.updateChildren(hashMap).addOnCompleteListener(task1 -> startActivity(new Intent(StartActivity.this, google_setupActivity.class)
                                                             .putExtra("method","google")
                                                             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
                                                 }else {

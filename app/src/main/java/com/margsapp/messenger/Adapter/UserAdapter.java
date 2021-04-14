@@ -22,7 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.margsapp.messenger.MessageActivity;
+import com.margsapp.messenger.Main.MessageActivity;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;

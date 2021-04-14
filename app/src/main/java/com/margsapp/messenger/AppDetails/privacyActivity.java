@@ -1,4 +1,4 @@
-package com.margsapp.messenger;
+package com.margsapp.messenger.AppDetails;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,29 +14,33 @@ import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.margsapp.messenger.Main.MainActivity;
+import com.margsapp.messenger.R;
 
-public class Terms_ConditionsActivity extends AppCompatActivity {
+public class privacyActivity extends AppCompatActivity {
 
     AppCompatButton agree;
 
-    private InterstitialAd mInterstitialAd;
 
-    Intent intent;
-    String method;
+    private InterstitialAd mInterstitialAd;
 
     private static final String TAG = "MainActivity";
 
-    WebView t_c;
+    WebView privacyWeb;
+
+    Intent intent;
+
+    String method;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_terms__conditions);
+        setContentView(R.layout.activity_privacy);
 
         agree = findViewById(R.id.agree);
 
-        t_c = findViewById(R.id.t_cpage);
-        t_c.loadUrl("https://margsglobal.weebly.com/messenger-tc.html");
+        privacyWeb = findViewById(R.id.privacy_page);
+        privacyWeb.loadUrl("https://margsglobal.weebly.com/messenger-privacy-policy.html");
 
 
         intent = getIntent();
@@ -46,7 +50,7 @@ public class Terms_ConditionsActivity extends AppCompatActivity {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
 
-        InterstitialAd.load(this,"ca-app-pub-5615682506938042/1159728726", adRequest, new InterstitialAdLoadCallback() {
+        InterstitialAd.load(this,"ca-app-pub-5615682506938042/1799098378", adRequest, new InterstitialAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                 // The mInterstitialAd reference will be null until
@@ -63,20 +67,19 @@ public class Terms_ConditionsActivity extends AppCompatActivity {
             }
         });
 
-
-
         agree.setOnClickListener(v -> {
-            Intent intent = new Intent(Terms_ConditionsActivity.this, privacyActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("method",method);
-            startActivity(intent);
-            if (mInterstitialAd != null) {
-                mInterstitialAd.show(Terms_ConditionsActivity.this);
-            } else {
-                Log.d("TAG", "The interstitial ad wasn't ready yet.");
-            }
 
-            finish();
+                Intent intent = new Intent(privacyActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(privacyActivity.this);
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                }
+
+                finish();
+
         });
     }
 }

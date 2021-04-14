@@ -20,26 +20,26 @@
         android:roundIcon="@mipmap/ic_launcher_appicon_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.Messenger">
-        <activity android:name=".google_setupActivity" />
+        <activity android:name=".Authentication.google_setupActivity" />
         <activity android:name=".dp_view.main_dpActivity" />
         <activity android:name=".dp_view.personal_dpActivity" />
         <activity android:name=".groupclass.manage_partActivty" />
         <activity android:name=".groupclass.edit_group_name" />
-        <activity android:name=".Phone_setupActivity" />
-        <activity android:name=".VerifyOTP" />
-        <activity android:name=".PhoneAuthActivity" />
+        <activity android:name=".Authentication.Phone_setupActivity" />
+        <activity android:name=".Authentication.VerifyOTP" />
+        <activity android:name=".Authentication.PhoneAuthActivity" />
         <activity android:name=".groupclass.group_infoActivity" />
         <activity android:name=".groupclass.group_messageActivity" />
         <activity android:name=".groupclass.AddParticipants" />
         <activity android:name=".groupclass.create_groupActivity" />
-        <activity android:name=".ChatViewActivity" />
-        <activity android:name=".privacyActivity" />
-        <activity android:name=".setupActivity" />
+        <activity android:name=".Settings.ChatViewActivity" />
+        <activity android:name=".AppDetails.privacyActivity" />
+        <activity android:name=".Authentication.setupActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Theme.Messenger.Crop" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".Authentication.SplashActivity"
             android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,30 +51,21 @@
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
-        <activity android:name=".AboutActivity" />
-        <activity android:name=".CustomiseActivity"
+        <activity android:name=".Settings.AboutActivity" />
+        <activity android:name=".Settings.CustomiseActivity"
             android:theme="@style/Loader"/>
         <activity android:name=".dp_view.group_dpActivity" />
         <activity android:name=".Friends.Blocked" />
         <activity android:name=".Friends.Accepted" />
-        <activity android:name=".EditStatusActivity" />
-        <activity android:name=".FindUsersActivity" />
-        <activity android:name=".Terms_ConditionsActivity" />
-        <activity android:name=".edit_profile" />
-        <activity
-            android:name=".ResetPasswordActivity"
-            android:parentActivityName=".LoginAcitivity" />
-        <activity android:name=".MessageActivity" />
-        <activity
-            android:name=".LoginAcitivity"
-            android:parentActivityName=".StartActivity" />
-        <activity android:name=".MainActivity" />
-        <activity
-            android:name=".RegisterActivity"
-            android:parentActivityName=".StartActivity" />
-        <activity android:name=".StartActivity"
+        <activity android:name=".Settings.EditStatusActivity" />
+        <activity android:name=".Main.FindUsersActivity" />
+        <activity android:name=".AppDetails.Terms_ConditionsActivity" />
+        <activity android:name=".Settings.edit_profile" />
+        <activity android:name=".Main.MessageActivity" />
+        <activity android:name=".Main.MainActivity" />
+        <activity android:name=".Authentication.StartActivity"
             android:theme="@style/Loader"/>
-        <activity android:name=".Chat_settings" />
+        <activity android:name=".Settings.Chat_settings" />
 
         <service
             android:name=".Notifications.MyFirebaseIdService"

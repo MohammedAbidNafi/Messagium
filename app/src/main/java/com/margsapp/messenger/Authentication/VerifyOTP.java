@@ -1,4 +1,4 @@
-package com.margsapp.messenger;
+package com.margsapp.messenger.Authentication;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.margsapp.messenger.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

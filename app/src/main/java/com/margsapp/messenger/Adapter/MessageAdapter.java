@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,7 +24,7 @@ import com.margsapp.messenger.R;
 
 import java.util.List;
 
-import static com.margsapp.messenger.AboutActivity.TEXT1;
+import static com.margsapp.messenger.Settings.AboutActivity.TEXT1;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
     private final Context mContext;
@@ -40,6 +43,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public static final int REPLY_TYPE_RIGHT = 3;
 
     private final SharedPreferences sharedPreferences;
+
+    private int lastAnimatedPosition = -1;
 
 
     public MessageAdapter(Context mContext, List<Chat> mChat, String imageUrl,SharedPreferences sharedPreferences) {
@@ -107,6 +112,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     }
 
+    @Override
+    public void onViewDetachedFromWindow(final ViewHolder holder) {
+        holder.clearAnimation();
+    }
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -165,6 +174,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         }
 
 
+        if (position == mChat.size()-1) {
+
+
+            lastAnimatedPosition = position;
+            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.animation_from_right);
+            animation.setInterpolator(new AccelerateDecelerateInterpolator());
+            ((ViewHolder) holder).container.setAnimation(animation);
+            animation.start();
+        }
+
+
 
     }
 
@@ -186,9 +206,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         public TextView reply_txt_us;
         public TextView reply_username;
         public LinearLayout linearLayout;
+        protected View container;
 
         public ViewHolder(View view){
             super(view);
+
+            container = view;
 
             show_message = itemView.findViewById(R.id.show_message);
             profile = itemView.findViewById(R.id.profile_image);
@@ -200,6 +223,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
             reply_txt_them = itemView.findViewById(R.id.replytextthem);
             reply_txt_us = itemView.findViewById(R.id.replytextus);
+        }
+
+        public void clearAnimation() {
+            container.clearAnimation();
         }
 
 

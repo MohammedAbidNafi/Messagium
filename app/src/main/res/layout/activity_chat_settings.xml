@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Chat_settings"
+    tools:context=".Settings.Chat_settings"
     android:background="@color/diffrentBack">
 
     <com.google.android.material.appbar.AppBarLayout

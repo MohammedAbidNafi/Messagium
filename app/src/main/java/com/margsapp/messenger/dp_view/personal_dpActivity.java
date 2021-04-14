@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.margsapp.messenger.MessageActivity;
+import com.margsapp.messenger.Main.MessageActivity;
 import com.margsapp.messenger.R;
 
 import java.util.Objects;

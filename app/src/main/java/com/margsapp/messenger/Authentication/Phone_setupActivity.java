@@ -1,4 +1,4 @@
-package com.margsapp.messenger;
+package com.margsapp.messenger.Authentication;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -31,6 +31,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.margsapp.messenger.Model.User;
+import com.margsapp.messenger.R;
+import com.margsapp.messenger.AppDetails.Terms_ConditionsActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -39,8 +41,7 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class google_setupActivity extends AppCompatActivity {
-
+public class Phone_setupActivity extends AppCompatActivity {
 
     CircleImageView profile_image;
 
@@ -60,7 +61,7 @@ public class google_setupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_google_setup);
+        setContentView(R.layout.activity_phone_setup);
 
         profile_image = findViewById(R.id.DP);
 
@@ -112,7 +113,7 @@ public class google_setupActivity extends AppCompatActivity {
             hashMap.put("username", txt_username);
             hashMap.put("DT", txt_dt);
             hashMap.put("typingto","");
-            reference1.updateChildren(hashMap).addOnCompleteListener(task -> startActivity(new Intent(google_setupActivity.this, Terms_ConditionsActivity.class)));
+            reference1.updateChildren(hashMap).addOnCompleteListener(task -> startActivity(new Intent(Phone_setupActivity.this, Terms_ConditionsActivity.class)));
         });
     }
 
@@ -133,8 +134,7 @@ public class google_setupActivity extends AppCompatActivity {
         if (requestCode == GALLERY_PICK && resultCode == RESULT_OK && data != null) {
             Uri imageUri = data.getData();
             CropImage.activity(imageUri)
-                    .setMultiTouchEnabled(true)
-                    .setGuidelines(CropImageView.Guidelines.OFF)
+                    .setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1, 1)
                     .start(this);
 
@@ -157,16 +157,19 @@ public class google_setupActivity extends AppCompatActivity {
 
 
                 StorageTask uploadTask = filepath.putFile(resultUri);
-                uploadTask.continueWithTask((Continuation<UploadTask.TaskSnapshot, Task<Uri>>) task -> {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
+                uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful()) {
+                            throw task.getException();
+                        }
+                        return filepath.getDownloadUrl();
                     }
-                    return filepath.getDownloadUrl();
                 }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(google_setupActivity.this, "Profile Picture has updated.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Phone_setupActivity.this, "Profile Picture has updated.", Toast.LENGTH_SHORT).show();
 
                             Uri downloadUri = task.getResult();
                             assert downloadUri != null;
@@ -191,7 +194,7 @@ public class google_setupActivity extends AppCompatActivity {
     }
 
     private String getFileExtension(Uri uri){
-        ContentResolver contentResolver = google_setupActivity.this.getContentResolver();
+        ContentResolver contentResolver = Phone_setupActivity.this.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
