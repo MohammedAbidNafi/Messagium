@@ -3,11 +3,13 @@ package com.margsapp.messenger.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -100,15 +102,24 @@ public class GroupInfoAdapter extends RecyclerView.Adapter<GroupInfoAdapter.View
 
         assert firebaseUser != null;
         if (!user.getId().equals(firebaseUser.getUid())) {
+
+            holder.itemView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+
+                    if(event.getAction()== MotionEvent.ACTION_DOWN){
+                        holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.onAdapClick));
+                    }else if(event.getAction()==MotionEvent.ACTION_UP){
+                        holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.diffrentBack));
+                    }
+                    return false;
+                }
+            });
             holder.itemView.setOnClickListener(v -> {
-                holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.diffrentBack));
+              // holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.onAdapClick));
                 listener.onOptions(user.getId(), user.getUsername(), groupname);
             });
 
-            holder.itemView.setOnTouchListener((v, event) -> {
-                holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.onAdapClick));
-                return false;
-            });
         }
 
 

@@ -44,7 +44,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     private final SharedPreferences sharedPreferences;
 
-    private int lastAnimatedPosition = -1;
+
 
 
     public MessageAdapter(Context mContext, List<Chat> mChat, String imageUrl,SharedPreferences sharedPreferences) {
@@ -112,10 +112,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     }
 
-    @Override
-    public void onViewDetachedFromWindow(final ViewHolder holder) {
-        holder.clearAnimation();
-    }
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -173,19 +170,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             holder.txt_seen.setVisibility(View.GONE);
         }
 
-
-        if (position == mChat.size()-1) {
-
-
-            lastAnimatedPosition = position;
-            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.animation_from_right);
-            animation.setInterpolator(new AccelerateDecelerateInterpolator());
-            ((ViewHolder) holder).container.setAnimation(animation);
-            animation.start();
-        }
-
-
-
     }
 
     @Override
@@ -206,12 +190,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         public TextView reply_txt_us;
         public TextView reply_username;
         public LinearLayout linearLayout;
-        protected View container;
+
 
         public ViewHolder(View view){
             super(view);
 
-            container = view;
+
 
             show_message = itemView.findViewById(R.id.show_message);
             profile = itemView.findViewById(R.id.profile_image);
@@ -225,9 +209,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             reply_txt_us = itemView.findViewById(R.id.replytextus);
         }
 
-        public void clearAnimation() {
-            container.clearAnimation();
-        }
 
 
     }
