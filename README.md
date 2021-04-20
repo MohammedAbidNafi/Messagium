@@ -5,6 +5,15 @@ This project uses firebase for Database, Storage and Authentication.
 
 If your working on this make sure you connect this project to your firebase account and enter the API key in API service for notifications.
 
+## Features
+1. Dark Mode for device older than Android 8.0
+2. Support for diffrent languages (Hindi, Tamil, Telugu) More coming.
+3. Users can use Biometric/Pin to Authenticate.
+4. Custom Shortcuts for user who message some particular person/group.
+5. Unique way to reply messages
+6. Uses Firebase for Authentication, Database and Storage so reliable speed and performence.
+
+
 ## Screenshots
 <img src="images/1 (1).png" width="250" height="500"> <img src="images/1 (2).png" width="250" height="500">
 
