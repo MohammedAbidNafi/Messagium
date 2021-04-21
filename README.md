@@ -22,21 +22,22 @@ If your working on this make sure you connect this project to your firebase acco
 ## Road Map
 1. Fix bugs
 2. Improve performence
-3. <S>Phone Authentication</S>
-4. <S>Group Chat</S>
-5. Ability to send Images
-6. Ability to send voice messages
-7. Audio/Video call
-8. A Good Name for this whole thing
-9. Ability to send location
-10. Ablility to Forward Message 
-11. Share Function
-12. High Compression
-13. End to End Encryption
-14. Ability to Share Contacts
-15. Profile Information of Other Users
+3. <S>Phone Authentication.</S>
+4. <S>Group Chat.</S>
+5. Ability to send Images.
+6. Ability to send voice messages.
+7. Audio/Video call.
+8. A Good Name for this whole thing.
+9. Ability to send location.
+10. Ablility to Forward Message. 
+11. Share Function.
+12. High Compression.
+13. End to End Encryption.
+14. Ability to Share Contacts.
+15. Profile Information of Other Users.
 16. Add Diffrent Language Translations.
-17. Click Enter to Send Message
+17. Click Enter to Send Message.
+18. Ability to mute Notifications.
 
 ## Ways to Contribute 
 1. Create an issue to discuss about your idea.(https://github.com/MohammedAbidNafi/MessengerByMargs/issues)
