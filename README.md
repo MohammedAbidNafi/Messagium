@@ -5,6 +5,15 @@ This project uses firebase for Database, Storage and Authentication.
 
 If your working on this make sure you connect this project to your firebase account and enter the API key in API service for notifications.
 
+## Features
+1. Dark Mode for device older than Android 8.0
+2. Support for diffrent languages (Hindi, Tamil, Telugu) More coming.
+3. Users can use Biometric/Pin to Authenticate.
+4. Custom Shortcuts for user who message some particular person/group.
+5. Unique way to reply messages
+6. Uses Firebase for Authentication, Database and Storage so reliable speed and performence.
+
+
 ## Screenshots
 <img src="images/1 (1).png" width="250" height="500"> <img src="images/1 (2).png" width="250" height="500">
 
@@ -13,21 +22,22 @@ If your working on this make sure you connect this project to your firebase acco
 ## Road Map
 1. Fix bugs
 2. Improve performence
-3. <S>Phone Authentication</S>
-4. <S>Group Chat</S>
-5. Ability to send Images
-6. Ability to send voice messages
-7. Audio/Video call
-8. A Good Name for this whole thing
-9. Ability to send location
-10. Ablility to Forward Message 
-11. Share Function
-12. High Compression
-13. End to End Encryption
-14. Ability to Share Contacts
-15. Profile Information of Other Users
+3. <S>Phone Authentication.</S>
+4. <S>Group Chat.</S>
+5. Ability to send Images.
+6. Ability to send voice messages.
+7. Audio/Video call.
+8. A Good Name for this whole thing.
+9. Ability to send location.
+10. Ablility to Forward Message. 
+11. Share Function.
+12. High Compression.
+13. End to End Encryption.
+14. Ability to Share Contacts.
+15. Profile Information of Other Users.
 16. Add Diffrent Language Translations.
-17. Click Enter to Send Message
+17. Click Enter to Send Message.
+18. Ability to mute Notifications.
 
 ## Ways to Contribute 
 1. Create an issue to discuss about your idea.(https://github.com/MohammedAbidNafi/MessengerByMargs/issues)
@@ -232,4 +242,72 @@ If your working on this make sure you connect this project to your firebase acco
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+
+# Contributor Covenant Code of Conduct
+
+## Our Pledge
+
+In the interest of fostering an open and welcoming environment, we as
+contributors and maintainers pledge to making participation in our project and
+our community a harassment-free experience for everyone, regardless of age, body
+size, disability, ethnicity, sex characteristics, gender identity and expression,
+level of experience, education, socio-economic status, nationality, personal
+appearance, race, religion, or sexual identity and orientation.
+
+## Our Standards
+
+Examples of behavior that contributes to creating a positive environment
+include:
+
+* Using welcoming and inclusive language
+* Being respectful of differing viewpoints and experiences
+* Gracefully accepting constructive criticism
+* Focusing on what is best for the community
+* Showing empathy towards other community members
+
+Examples of unacceptable behavior by participants include:
+
+* The use of sexualized language or imagery and unwelcome sexual attention or
+ advances
+* Trolling, insulting/derogatory comments, and personal or political attacks
+* Public or private harassment
+* Publishing others' private information, such as a physical or electronic
+ address, without explicit permission
+* Other conduct which could reasonably be considered inappropriate in a
+ professional setting
+
+## Our Responsibilities
+
+Project maintainers are responsible for clarifying the standards of acceptable
+behavior and are expected to take appropriate and fair corrective action in
+response to any instances of unacceptable behavior.
+
+Project maintainers have the right and responsibility to remove, edit, or
+reject comments, commits, code, wiki edits, issues, and other contributions
+that are not aligned to this Code of Conduct, or to ban temporarily or
+permanently any contributor for other behaviors that they deem inappropriate,
+threatening, offensive, or harmful.
+
+## Scope
+
+This Code of Conduct applies both within project spaces and in public spaces
+when an individual is representing the project or its community. Examples of
+representing a project or community include using an official project e-mail
+address, posting via an official social media account, or acting as an appointed
+representative at an online or offline event. Representation of a project may be
+further defined and clarified by project maintainers.
+
+## Enforcement
+
+Instances of abusive, harassing, or otherwise unacceptable behavior may be
+reported by contacting the project team at margsglobal@gmail.com. All
+complaints will be reviewed and investigated and will result in a response that
+is deemed necessary and appropriate to the circumstances. The project team is
+obligated to maintain confidentiality with regard to the reporter of an incident.
+Further details of specific enforcement policies may be posted separately.
+
+Project maintainers who do not follow or enforce the Code of Conduct in good
+faith may face temporary or permanent repercussions as determined by other
+members of the project's leadership.
 
