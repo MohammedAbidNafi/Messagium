@@ -443,11 +443,15 @@ public class MessageActivity extends AppCompatActivity {
                 assert user != null;
                 username.setText(user.getUsername());
 
-                if(user.getTypingto().equals(firebaseUser.getUid())){
-                    statusText.setText(getResources().getString(R.string.typing));
-                }else {
-                    statusText.setText(user.getStatus());
+
+                if(snapshot.exists()){
+                    if(user.getTypingto().equals(firebaseUser.getUid())){
+                        statusText.setText(getResources().getString(R.string.typing));
+                    }else {
+                        statusText.setText(user.getStatus());
+                    }
                 }
+
 
                 imageUrl = user.getImageUrl();
 

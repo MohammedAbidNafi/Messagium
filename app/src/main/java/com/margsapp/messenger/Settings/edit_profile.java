@@ -233,9 +233,6 @@ public class edit_profile extends AppCompatActivity {
                 String actual_date = DateFormat.getDateInstance().format(joineDate);
                 joined_on.setText(actual_date);
 
-
-
-
                 status.setText(user.getDt());
 
 
@@ -256,11 +253,6 @@ public class edit_profile extends AppCompatActivity {
         loadingBar = new ProgressDialog(this);
 
         profile_image.setOnClickListener(v -> openImage());
-
-
-
-
-
 
 
 

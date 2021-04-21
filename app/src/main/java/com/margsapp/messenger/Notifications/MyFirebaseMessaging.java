@@ -41,7 +41,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        assert group != null;
+
 
         if(group.equals("false")){
             if (firebaseUser != null && sented.equals(firebaseUser.getUid())) {
