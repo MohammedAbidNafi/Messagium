@@ -540,6 +540,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
 
 
         });
+
         message.setOnClickListener(v -> onMessage(userid));
 
         voice_call.setOnClickListener(v -> Toast.makeText(getContext(),getResources().getString(R.string.feature_not_availble), Toast.LENGTH_SHORT).show());
@@ -577,7 +578,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupid_).child("members").child(userid);
         databaseReference.removeValue().addOnCompleteListener(task -> startActivity(new Intent(getContext(),group_infoActivity.class).putExtra("groupid",groupid_)));
 
-        Toast.makeText(getContext(), username + " has been removed",Toast.LENGTH_SHORT).show();
+
 
 
     }

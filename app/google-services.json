@@ -15,11 +15,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "246831665234-puv5q3t2pjfm9nei5lcs210fq6okvppu.apps.googleusercontent.com",
+          "client_id": "246831665234-bp8s2ucsvhcvkg6phthh45mm9p845p03.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.margsapp.messenger",
             "certificate_hash": "d605b7676c3b2d3b3acc00885f2e7281e816f85b"
+          }
+        },
+        {
+          "client_id": "246831665234-n5gfj7645jk0shmlcac58iqt5hnmh53j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.margsapp.messenger",
+            "certificate_hash": "8bf851586e65c4afe5dfa40397d8cd0237fc4af8"
           }
         },
         {

@@ -10,10 +10,6 @@ import android.content.ContextWrapper;
 import android.net.Uri;
 import android.os.Build;
 
-import com.margsapp.messenger.R;
-
-import static android.os.Build.VERSION_CODES.R;
-
 public class OreoNotification extends ContextWrapper {
 
     private static final String CHANNEL_ID = "com.margsapp.messenger";

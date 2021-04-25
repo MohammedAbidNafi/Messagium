@@ -418,7 +418,7 @@ public class MessageActivity extends AppCompatActivity {
 
 
         DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        databaseReference1.addValueEventListener(new ValueEventListener() {
+        databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
@@ -562,7 +562,7 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("replyto",ReplyTo);
         hashMap.put("sendername", sendername);
         hashMap.put("replyname", replyname);
-        hashMap.put("encrypted","false");
+
 
         reference.child("Chats").push().setValue(hashMap);
 
@@ -653,7 +653,6 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("timestamp", timestamp);
         hashMap.put("reply", "false");
         hashMap.put("sendername", sendername);
-        hashMap.put("encrypted","false");
 
         reference.child("Chats").push().setValue(hashMap);
 

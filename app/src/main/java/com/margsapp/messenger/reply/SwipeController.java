@@ -38,11 +38,6 @@ public class SwipeController extends ItemTouchHelper.Callback {
 
     private int mBackgroundColor = 0x20606060;
 
-    private int mReplyBackgroundOffset = 18;
-
-    private int mReplyIconXOffset = 12;
-    private int mReplyIconYOffset = 11;
-
     @SuppressLint("UseCompatLoadingForDrawables")
     public SwipeController(Context context, ISwipeControllerActions swipeControllerActions){
         mContext = context;
@@ -190,6 +185,7 @@ public class SwipeController extends ItemTouchHelper.Callback {
         y = mView.getTop() + ((float) mView.getMeasuredHeight() /2);
         mReplyIconBackground.setColorFilter(mBackgroundColor, PorterDuff.Mode.MULTIPLY);
 
+        int mReplyBackgroundOffset = 18;
         mReplyIconBackground.setBounds(new Rect(
                 (int)(x - convertToDp(mReplyBackgroundOffset) * scale),
                 (int)(y - convertToDp(mReplyBackgroundOffset) * scale),
@@ -198,6 +194,8 @@ public class SwipeController extends ItemTouchHelper.Callback {
         ));
         mReplyIconBackground.draw(canvas);
 
+        int mReplyIconXOffset = 12;
+        int mReplyIconYOffset = 11;
         mReplyIcon.setBounds(new Rect(
                 (int)(x - convertToDp(mReplyIconXOffset) * scale),
                 (int)(y - convertToDp(mReplyIconYOffset) * scale),

@@ -347,7 +347,6 @@ public class group_messageActivity extends AppCompatActivity {
     private void checkText() {
         if(text_send.getText().toString().equals("")){
             btnSend.setVisibility(View.INVISIBLE);
-
         }
 
 
@@ -528,10 +527,10 @@ public class group_messageActivity extends AppCompatActivity {
 
 
 
-    private void readMessage(String group_name){
+    private void readMessage(String group_id){
         mchat = new ArrayList<>();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("GroupChat").child(group_name);
+        databaseReference = FirebaseDatabase.getInstance().getReference("GroupChat").child(group_id);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -539,7 +538,7 @@ public class group_messageActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
                     GroupChat groupChat = snapshot1.getValue(GroupChat.class);
 
-                    if(group_name.equals(groupid)) {
+                    if(group_id.equals(groupid)) {
                         mchat.add(groupChat);
 
                     }
