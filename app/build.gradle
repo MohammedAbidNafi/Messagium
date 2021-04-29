@@ -9,14 +9,6 @@ plugins {
 
 android {
 
-    signingConfigs {
-        release {
-            storeFile file('E:\\Developing Files\\Application Keys\\MessengerByMargs.jks')
-            storePassword 'Khyyati_2004'
-            keyAlias 'key1'
-            keyPassword 'abid 2004'
-        }
-    }
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
@@ -33,15 +25,14 @@ android {
         versionName "2.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        signingConfig signingConfigs.release
+
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-            debuggable false
+            
         }
     }
     compileOptions {
