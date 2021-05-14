@@ -71,6 +71,7 @@ import org.jetbrains.annotations.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -366,9 +367,10 @@ public class MessageActivity extends AppCompatActivity {
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
                     .child(firebaseUser.getUid())
                     .child(userid);
-
+            Long server_timestamp = new Date().getTime();
             HashMap<String, Object> hashMap = new HashMap<>();
             hashMap.put("friends", "Messaged");
+            hashMap.put("time",server_timestamp);
             databaseReference.getRef().updateChildren(hashMap);
             warning.setVisibility(View.GONE);
             editor.setVisibility(View.VISIBLE);
@@ -671,6 +673,8 @@ public class MessageActivity extends AppCompatActivity {
                     chatref.child("id").setValue(receiver);
                     chatref.child("friends").setValue("Messaged");
                 }
+                Long server_timestamp = new Date().getTime();
+                chatref.child("time").setValue(server_timestamp);
             }
 
             @Override

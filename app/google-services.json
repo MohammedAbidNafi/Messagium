@@ -38,6 +38,49 @@
       "api_key": [
         {
           "current_key": "AIzaSyBUWL7Gh6oF0N7KE8qmsKNkQiX9WwqKwAU"
+        },
+        {
+          "current_key": "AIzaSyCzMRG4ETVoVEB86wO-9dbKycL6b5TTOHY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246831665234-urv5fcie13sd3lsiubbv044su3e8m29c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246831665234:android:3d6e327287c5abc1f94f8b",
+        "android_client_info": {
+          "package_name": "com.margsapp.messengermcve"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246831665234-9ufm91f8qvtbsar794tloo5nsoo0h540.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.margsapp.messengermcve",
+            "certificate_hash": "d605b7676c3b2d3b3acc00885f2e7281e816f85b"
+          }
+        },
+        {
+          "client_id": "246831665234-urv5fcie13sd3lsiubbv044su3e8m29c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUWL7Gh6oF0N7KE8qmsKNkQiX9WwqKwAU"
+        },
+        {
+          "current_key": "AIzaSyCzMRG4ETVoVEB86wO-9dbKycL6b5TTOHY"
         }
       ],
       "services": {
