@@ -189,9 +189,12 @@ public class MessageActivity extends AppCompatActivity {
 
 
         toolbar.setNavigationOnClickListener(v -> {
+
             Intent openMainActivity = new Intent(MessageActivity.this, MainActivity.class);
-            openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityIfNeeded(openMainActivity, 0);
+
+            startActivity(openMainActivity);
+
+
 
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(MessageActivity.this);

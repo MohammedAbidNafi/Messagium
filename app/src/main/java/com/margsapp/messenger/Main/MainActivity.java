@@ -178,13 +178,9 @@ public class MainActivity extends AppCompatActivity {
 
             Intent intent = new Intent(MainActivity.this, main_dpActivity.class);
 
-            Pair[] pairs = new Pair[1];
-            pairs[0] = new Pair<View, String>(DP, "imageTransition");
 
-
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
             intent.putExtra("data", data);
-            startActivity(intent, options.toBundle());
+            startActivity(intent);
 
         });
 
