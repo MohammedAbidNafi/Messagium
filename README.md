@@ -1,4 +1,7 @@
 ## Messenger By Margs
+
+![GitHub Contributors Image](https://contrib.rocks/image?repo=MohammedAbidNafi/MessengerByMargs)
+
 Messenger is an android app to instantly message with the users
 
 This project uses firebase for Database, Storage and Authentication.
