@@ -6,8 +6,6 @@ This project uses firebase for Database, Storage and Authentication.
 
 If your working on this make sure you connect this project to your firebase account and enter the API key in API service for notifications.
 
-## Project View Counters
-![Hits](https://hitcounter.pythonanywhere.com/count/tag.svg?url=https://github.com/MohammedAbidNafi/MessengerByMargs)
 ## Contributers
 ![GitHub Contributors Image](https://contrib.rocks/image?repo=MohammedAbidNafi/MessengerByMargs)
 
