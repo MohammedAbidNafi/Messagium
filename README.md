@@ -6,11 +6,6 @@ This project uses firebase for Database, Storage and Authentication.
 
 If your working on this make sure you connect this project to your firebase account and enter the API key in API service for notifications.
 
-## My Stats
-
-![Your Repository's Stats](https://github-readme-stats.vercel.app/api?username=MohammedAbidNafi&show_icons=true)
-
-
 ## Contributers
 ![GitHub Contributors Image](https://contrib.rocks/image?repo=MohammedAbidNafi/MessengerByMargs)
 
