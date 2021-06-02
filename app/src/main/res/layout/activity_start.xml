@@ -11,17 +11,19 @@
     >
 
 
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:fontFamily="@font/nunito_semibold"
             android:text="@string/welcome_to_messenger"
-            android:textColor="@color/blacktext"
             android:textAlignment="center"
 
-            android:textSize="30dp"
+            android:textColor="@color/blacktext"
 
+            android:textSize="30dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -102,6 +104,36 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.752" />
+
+        <com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
+            android:id="@+id/signInWithAppleButtonBlack"
+            style="@style/SignInWithAppleButton.Black"
+            android:layout_width="300dp"
+            android:layout_height="65dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phone"
+            app:layout_constraintVertical_bias="0.379"
+            app:sign_in_with_apple_button_cornerRadius="15dp"
+            app:sign_in_with_apple_button_textType="signInWithApple" />
+
+        <com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
+            android:id="@+id/signInWithAppleButtonWhite"
+            style="@style/SignInWithAppleButton.White"
+            android:layout_width="300dp"
+            android:layout_height="65dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phone"
+            app:layout_constraintVertical_bias="0.379"
+            app:sign_in_with_apple_button_cornerRadius="15dp"
+            app:sign_in_with_apple_button_textType="signInWithApple" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.margsapp.messenger.Authentication;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
@@ -43,6 +45,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Main.MainActivity;
 import com.margsapp.messenger.R;
+import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -52,6 +55,7 @@ import java.util.concurrent.Executor;
 
 import static androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL;
 import static com.margsapp.messenger.Settings.AboutActivity.TEXT;
+import static com.margsapp.messenger.Settings.CustomiseActivity.THEME;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -62,6 +66,9 @@ public class StartActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
 
     FirebaseAuth firebaseAuth;
+
+    SignInWithAppleButton signInWithAppleButtonBlack;
+    SignInWithAppleButton signInWithAppleButtonWhite;
 
     private InterstitialAd mInterstitialAd;
 
@@ -169,6 +176,41 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+        signInWithAppleButtonBlack = findViewById(R.id.signInWithAppleButtonBlack);
+        signInWithAppleButtonWhite = findViewById(R.id.signInWithAppleButtonWhite);
+
+        SharedPreferences preferences = getSharedPreferences("theme", 0);
+        String Theme = preferences.getString(THEME, "");
+        if(Theme.equals("2")){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            signInWithAppleButtonBlack.setVisibility(View.VISIBLE);
+            signInWithAppleButtonWhite.setVisibility(View.INVISIBLE);
+        }
+
+        if(Theme.equals("1")){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            signInWithAppleButtonBlack.setVisibility(View.INVISIBLE);
+            signInWithAppleButtonWhite.setVisibility(View.VISIBLE);
+        }
+        if(Theme.equals("0")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
+
+        signInWithAppleButtonBlack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),"The most secure login method is coming soon.",Toast.LENGTH_SHORT).show();
+            }
+        });
+        signInWithAppleButtonWhite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),"The most secure login method is coming soon.",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
 
         MobileAds.initialize(this, initializationStatus -> {
