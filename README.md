@@ -1,12 +1,16 @@
 ## Messenger By Margs
+
 Messenger is an android app to instantly message with the users
 
 This project uses firebase for Database, Storage and Authentication.
 
 If your working on this make sure you connect this project to your firebase account and enter the API key in API service for notifications.
 
+## Contributers
+![GitHub Contributors Image](https://contrib.rocks/image?repo=MohammedAbidNafi/MessengerByMargs)
+
 ## Features
-1. Dark Mode for device older than Android 8.0
+1. Dark Mode for device more and less than Android 8.0
 2. Support for diffrent languages (Hindi, Tamil, Telugu) More coming.
 3. Users can use Biometric/Pin to Authenticate.
 4. Custom Shortcuts for user who message some particular person/group.
