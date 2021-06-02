@@ -819,7 +819,6 @@ public class MessageActivity extends AppCompatActivity {
 
     private void readMessage(String myid, String userid, String imageUrl){
         mchat = new ArrayList<>();
-        SharedPreferences sharedPreferences = getSharedPreferences("ReadRecipents", 0);
         databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
         databaseReference.keepSynced(true);
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -837,7 +836,7 @@ public class MessageActivity extends AppCompatActivity {
 
 
 
-                    messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageUrl,sharedPreferences);
+                    messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageUrl);
                     recyclerView.setAdapter(messageAdapter);
 
 

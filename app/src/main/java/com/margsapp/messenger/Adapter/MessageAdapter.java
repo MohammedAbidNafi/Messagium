@@ -42,16 +42,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public static final int REPLY_TYPE_LEFT = 2;
     public static final int REPLY_TYPE_RIGHT = 3;
 
-    private final SharedPreferences sharedPreferences;
 
 
 
 
-    public MessageAdapter(Context mContext, List<Chat> mChat, String imageUrl,SharedPreferences sharedPreferences) {
+
+    public MessageAdapter(Context mContext, List<Chat> mChat, String imageUrl) {
         this.mContext = mContext;
         this.mChat = mChat;
         this.imageUrl = imageUrl;
-        this.sharedPreferences = sharedPreferences;
+
 
     }
 
