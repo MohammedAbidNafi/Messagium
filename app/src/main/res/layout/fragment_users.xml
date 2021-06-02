@@ -9,29 +9,49 @@
 
 
 
-
-
-   <EditText
-       android:layout_width="match_parent"
-       android:layout_height="40sp"
-       android:layout_margin="5dp"
-       android:hint="@string/search_users"
-
-       android:background="@drawable/edit_text"
-       android:paddingStart="7sp"
-
-       android:drawableStart="@drawable/ic_baseline_search_24"
-       android:drawablePadding="5dp"
-       android:id="@+id/search_users"
-       tools:ignore="RtlSymmetry" />
-
-   <androidx.recyclerview.widget.RecyclerView
+   <RelativeLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
-       android:layout_marginTop="50dp"
+       tools:ignore="UselessParent">
 
-       android:id="@+id/recycler_view"
-       />
+      <androidx.appcompat.widget.AppCompatEditText
+          android:id="@+id/search_users"
+          android:layout_width="match_parent"
+          android:layout_height="40sp"
+          android:layout_margin="5dp"
+
+          android:background="@drawable/edit_text"
+          android:drawableStart="@drawable/ic_baseline_search_24"
+
+          android:drawablePadding="5dp"
+          android:hint="@string/search_users"
+          android:paddingStart="7sp"
+          android:layout_alignParentTop="true"
+          tools:ignore="RtlSymmetry" />
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_below="@+id/search_users">
+         <com.factor.bouncy.BouncyRecyclerView
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             app:recyclerview_damping_ratio="DAMPING_RATIO_LOW_BOUNCY"
+             app:recyclerview_stiffness="STIFFNESS_MEDIUM"
+             app:allow_drag_reorder="false"
+             app:allow_item_swipe="true"
+             android:id="@+id/recycler_view"
+             />
+
+
+      </RelativeLayout>
+   </RelativeLayout>
+
+
+
+
+
+
 
 
 </FrameLayout>

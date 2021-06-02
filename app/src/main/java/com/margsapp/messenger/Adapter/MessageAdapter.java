@@ -153,19 +153,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         if(position == mChat.size()-1) {
 
-            String read = sharedPreferences.getString(TEXT1, "");
 
-            if(read.equals("0")){
+            if (chat.getIsseen().equals("true")) {
+                holder.txt_seen.setText("Read");
+            }else if(chat.getIsseen().equals("false")) {
                 holder.txt_seen.setText("Delivered");
             }
-            else {
-                if (chat.getIsseen().equals("true")) {
-                    holder.txt_seen.setText("Read");
-                }else {
-                    holder.txt_seen.setText("Delivered");
-                }
 
-            }
+
         }else {
             holder.txt_seen.setVisibility(View.GONE);
         }

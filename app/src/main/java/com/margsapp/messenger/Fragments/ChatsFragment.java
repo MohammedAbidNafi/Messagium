@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.factor.bouncy.BouncyRecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +34,7 @@ public class ChatsFragment extends Fragment {
 
     private UserAdapter userAdapter;
 
-    private RecyclerView recyclerView;
+    private BouncyRecyclerView recyclerView;
     private List<User> mUsers;
 
     private List<Chatlist>usersList;
@@ -57,8 +58,10 @@ public class ChatsFragment extends Fragment {
 
 
         recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setFlingAnimationSize(0.3f);
+        recyclerView.setOverscrollAnimationSize(0.3f);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         usersList = new ArrayList<>();

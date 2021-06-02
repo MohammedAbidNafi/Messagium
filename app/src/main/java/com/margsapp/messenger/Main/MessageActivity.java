@@ -39,6 +39,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.factor.bouncy.BouncyRecyclerView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
@@ -82,6 +83,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.margsapp.messenger.Settings.CustomiseActivity.THEME;
+import static java.security.AccessController.getContext;
 
 public class MessageActivity extends AppCompatActivity {
 
@@ -102,7 +104,7 @@ public class MessageActivity extends AppCompatActivity {
     MessageAdapter messageAdapter;
     List<Chat> mchat;
 
-    RecyclerView recyclerView;
+    BouncyRecyclerView recyclerView;
 
     Intent intent;
 
@@ -234,9 +236,13 @@ public class MessageActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL, false);
         linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setFlingAnimationSize(0.3f);
+        recyclerView.setOverscrollAnimationSize(0.3f);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
+
 
 
 

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.factor.bouncy.BouncyRecyclerView;
 import com.gjiazhe.springrecyclerview.SpringRecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,7 +34,7 @@ import java.util.List;
 
 public class UsersFragment extends Fragment {
 
-    private SpringRecyclerView recyclerView;
+    private BouncyRecyclerView recyclerView;
 
 
     private UserAdapter userAdapter;
@@ -51,7 +52,10 @@ public class UsersFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setFlingAnimationSize(0.3f);
+        recyclerView.setOverscrollAnimationSize(0.3f);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
 
 

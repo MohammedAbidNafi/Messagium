@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "246831665234",
-    "firebase_url": "https://messengerbymargs-default-rtdb.firebaseio.com",
-    "project_id": "messengerbymargs",
-    "storage_bucket": "messengerbymargs.appspot.com"
+    "project_number": "103512201849",
+    "firebase_url": "https://messengerbymargs-asian-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "messengerbymargs-asian",
+    "storage_bucket": "messengerbymargs-asian.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:246831665234:android:469fd3af90692d3cf94f8b",
+        "mobilesdk_app_id": "1:103512201849:android:94c69edf1b88ffeaf552a8",
         "android_client_info": {
           "package_name": "com.margsapp.messenger"
         }
       },
       "oauth_client": [
         {
-          "client_id": "246831665234-bp8s2ucsvhcvkg6phthh45mm9p845p03.apps.googleusercontent.com",
+          "client_id": "103512201849-e1u7fci3m0kpaaduemoj9rulrhaai6m2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.margsapp.messenger",
@@ -23,71 +23,20 @@
           }
         },
         {
-          "client_id": "246831665234-n5gfj7645jk0shmlcac58iqt5hnmh53j.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.margsapp.messenger",
-            "certificate_hash": "8bf851586e65c4afe5dfa40397d8cd0237fc4af8"
-          }
-        },
-        {
-          "client_id": "246831665234-urv5fcie13sd3lsiubbv044su3e8m29c.apps.googleusercontent.com",
+          "client_id": "103512201849-u02rekekhtn7r4nuj8uqpku32qd57bh3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBUWL7Gh6oF0N7KE8qmsKNkQiX9WwqKwAU"
-        },
-        {
-          "current_key": "AIzaSyCzMRG4ETVoVEB86wO-9dbKycL6b5TTOHY"
+          "current_key": "AIzaSyCRvB-S_vYl49XrsdamAsgvkhr20KqEF70"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "246831665234-urv5fcie13sd3lsiubbv044su3e8m29c.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:246831665234:android:3d6e327287c5abc1f94f8b",
-        "android_client_info": {
-          "package_name": "com.margsapp.messengermcve"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "246831665234-9ufm91f8qvtbsar794tloo5nsoo0h540.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.margsapp.messengermcve",
-            "certificate_hash": "d605b7676c3b2d3b3acc00885f2e7281e816f85b"
-          }
-        },
-        {
-          "client_id": "246831665234-urv5fcie13sd3lsiubbv044su3e8m29c.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBUWL7Gh6oF0N7KE8qmsKNkQiX9WwqKwAU"
-        },
-        {
-          "current_key": "AIzaSyCzMRG4ETVoVEB86wO-9dbKycL6b5TTOHY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "246831665234-urv5fcie13sd3lsiubbv044su3e8m29c.apps.googleusercontent.com",
+              "client_id": "103512201849-u02rekekhtn7r4nuj8uqpku32qd57bh3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

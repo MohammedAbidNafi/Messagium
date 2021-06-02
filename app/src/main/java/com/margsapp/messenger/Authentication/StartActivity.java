@@ -206,7 +206,7 @@ public class StartActivity extends AppCompatActivity {
 
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(
                 GoogleSignInOptions.DEFAULT_SIGN_IN
-        ).requestIdToken("246831665234-urv5fcie13sd3lsiubbv044su3e8m29c.apps.googleusercontent.com")
+        ).requestIdToken("103512201849-u02rekekhtn7r4nuj8uqpku32qd57bh3.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -231,15 +231,11 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        googleSignLoader.setVisibility(View.VISIBLE);
+
         if(requestCode ==100){
             Task<GoogleSignInAccount> signInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
 
             if(signInAccountTask.isSuccessful()){
-                String s = "Google Authentication successful";
-
-                displayToast(s);
-
                 try {
                     GoogleSignInAccount googleSignInAccount = signInAccountTask.getResult(ApiException.class);
 
@@ -250,6 +246,9 @@ public class StartActivity extends AppCompatActivity {
                         firebaseAuth.signInWithCredential(authCredential)
                                 .addOnCompleteListener(task -> {
                                     if(task.isSuccessful()){
+                                        String s = "Google Authentication successful";
+                                        googleSignLoader.setVisibility(View.VISIBLE);
+                                        displayToast(s);
 
                                         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                                         assert firebaseUser != null;

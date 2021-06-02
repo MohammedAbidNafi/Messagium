@@ -139,12 +139,16 @@
 
         app:layout_constraintTop_toBottomOf="@+id/bar_layout">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.factor.bouncy.BouncyRecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constrainedHeight="true"
             android:foregroundGravity="top"
+            app:recyclerview_damping_ratio="DAMPING_RATIO_LOW_BOUNCY"
+            app:recyclerview_stiffness="STIFFNESS_MEDIUM"
+            app:allow_drag_reorder="false"
+            app:allow_item_swipe="true"
 
             />
 

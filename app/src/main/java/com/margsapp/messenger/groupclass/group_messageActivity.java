@@ -34,6 +34,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.factor.bouncy.BouncyRecyclerView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
@@ -94,7 +95,7 @@ public class group_messageActivity extends AppCompatActivity {
     GroupMessageAdapter groupMessageAdapter;
     List<GroupChat> mchat;
 
-    RecyclerView recyclerView;
+    BouncyRecyclerView recyclerView;
 
     Intent intent;
 
@@ -229,10 +230,12 @@ public class group_messageActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL, false);
         linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setFlingAnimationSize(0.3f);
+        recyclerView.setOverscrollAnimationSize(0.3f);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-
 
 
 
