@@ -16,7 +16,7 @@
             android:textAlignment="center"
             android:gravity="center"
             android:id="@+id/show_message"
-            android:textSize="13dp"
+            android:textSize="12dp"
             android:padding="8dp"
             android:background="@drawable/log_back"
             android:layout_centerHorizontal="true"
@@ -44,8 +44,6 @@
             android:visibility="gone"/>
 
     </RelativeLayout>
-
-
 
 
 

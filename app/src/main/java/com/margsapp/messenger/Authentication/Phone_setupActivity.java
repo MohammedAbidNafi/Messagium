@@ -192,7 +192,6 @@ public class Phone_setupActivity extends AppCompatActivity {
             }
         }
     }
-
     private String getFileExtension(Uri uri){
         ContentResolver contentResolver = Phone_setupActivity.this.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();

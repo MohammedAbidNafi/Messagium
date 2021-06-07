@@ -42,27 +42,33 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
-
+        assert group != null;
         if(group.equals("false")){
-            if (firebaseUser != null && sented.equals(firebaseUser.getUid())) {
+            if (firebaseUser != null) {
+                assert sented != null;
+                if (sented.equals(firebaseUser.getUid())) {
 
-                if (!currentuser.equals(user)) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        sendOreoNotification(remoteMessage);
-                    } else {
-                        sendNotification(remoteMessage);
+                    if (!currentuser.equals(user)) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            sendOreoNotification(remoteMessage);
+                        } else {
+                            sendNotification(remoteMessage);
+                        }
                     }
+
+
                 }
-
-
             }
         }else {
-            if (firebaseUser != null && sented.equals(firebaseUser.getUid())){
+            if (firebaseUser != null) {
+                assert sented != null;
+                if (sented.equals(firebaseUser.getUid())) {
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    sendOreoGroupNotification(remoteMessage);
-                } else {
-                    sendGroupNotification(remoteMessage);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        sendOreoGroupNotification(remoteMessage);
+                    } else {
+                        sendGroupNotification(remoteMessage);
+                    }
                 }
             }
         }
@@ -93,7 +99,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                 .setSmallIcon(Integer.parseInt(icon))
                 .setContentTitle(title)
                 .setContentText(body)
-                .setAutoCancel(true)
+                .setAutoCancel(false)
                 .setSound(defaultSound)
                 .setContentIntent(pendingIntent);
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
@@ -209,4 +215,5 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         notificationManager.notify(i, builder.build());
     }
 }
+
 

@@ -21,12 +21,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Settings.Chat_settings;
 import com.margsapp.messenger.R;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
 public class Accepted extends AppCompatActivity {
+
 
     FirebaseUser firebaseUser;
 
@@ -39,11 +42,18 @@ public class Accepted extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accepted);
 
+        SlidrInterface slidrInterface = Slidr.attach(this);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.accepted));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(Accepted.this, Chat_settings.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+        toolbar.setNavigationOnClickListener(v -> {
+
+            startActivity(new Intent(Accepted.this, Chat_settings.class).addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT));
+            finish();
+            overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
+        });
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -74,7 +84,9 @@ public class Accepted extends AppCompatActivity {
     }
 
     public void onBackPressed(){
-        startActivity(new Intent(Accepted.this, Chat_settings.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        startActivity(new Intent(Accepted.this, Chat_settings.class).addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT));
+        finish();
+        overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
     }
 
     static class ViewPageAdapter extends FragmentPagerAdapter {
@@ -113,6 +125,7 @@ public class Accepted extends AppCompatActivity {
         }
     }
 
+
     private void status(String status){
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
@@ -121,6 +134,7 @@ public class Accepted extends AppCompatActivity {
 
         reference.updateChildren(hashMap);
     }
+
 
     @Override
     protected void onResume() {

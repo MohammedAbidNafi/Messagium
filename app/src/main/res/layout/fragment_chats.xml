@@ -12,12 +12,14 @@
         android:id="@+id/recycler_view"
         android:layout_height="match_parent"
         app:recyclerview_damping_ratio="DAMPING_RATIO_LOW_BOUNCY"
-        app:recyclerview_stiffness="STIFFNESS_MEDIUM"
+        app:recyclerview_stiffness="STIFFNESS_LOW"
         app:allow_drag_reorder="false"
-        app:allow_item_swipe="true">
+        app:allow_item_swipe="false">
 
 
     </com.factor.bouncy.BouncyRecyclerView>
+
+
 
 
 </FrameLayout>

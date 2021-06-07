@@ -29,8 +29,6 @@ import java.util.List;
 
 public class BlockedFragment extends Fragment {
 
-
-
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
 
@@ -78,8 +76,6 @@ public class BlockedFragment extends Fragment {
         return view;
     }
 
-
-
     private void chatList() {
 
         mUsers = new ArrayList<>();
@@ -101,7 +97,7 @@ public class BlockedFragment extends Fragment {
 
                 }
 
-                userAdapter = new UserAdapter(getContext(), mUsers, false, false,true);
+                userAdapter = new UserAdapter(getContext(), mUsers, false, false,true,getActivity());
                 recyclerView.setAdapter(userAdapter);
             }
 

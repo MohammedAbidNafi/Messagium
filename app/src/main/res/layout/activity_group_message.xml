@@ -151,7 +151,7 @@
             app:recyclerview_fling_animation_size=".7"
             app:recyclerview_overscroll_animation_size=".7"
             app:recyclerview_damping_ratio="DAMPING_RATIO_LOW_BOUNCY"
-            app:recyclerview_stiffness="STIFFNESS_MEDIUM"
+            app:recyclerview_stiffness="STIFFNESS_LOW"
             app:allow_drag_reorder="false"
             app:allow_item_swipe="true"
             />
@@ -314,5 +314,7 @@
     </RelativeLayout>
 
     -->
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

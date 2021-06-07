@@ -27,6 +27,10 @@ public class User {
 
     }
 
+
+
+
+
     public String getTypingto() {
         return typingto;
     }
@@ -82,9 +86,4 @@ public class User {
     public void setStatus(String status) {
         this.status = status;
     }
-
-
-
-
-
 }

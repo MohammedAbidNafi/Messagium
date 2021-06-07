@@ -43,7 +43,6 @@ public class SplashActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         setContentView(R.layout.activity_splash);
 
-
         // Using handler with postDelayed called runnable run method
         new Handler().postDelayed(() -> {
 
@@ -68,7 +67,4 @@ public class SplashActivity extends AppCompatActivity {
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
     }
-
-
-
 }

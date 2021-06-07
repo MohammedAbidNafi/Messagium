@@ -169,7 +169,6 @@ public class create_groupActivity extends AppCompatActivity {
 
 
 
-
         reference = FirebaseDatabase.getInstance().getReference("Group").child(groupID);
 
         HashMap<String, String> hashMap = new HashMap<>();

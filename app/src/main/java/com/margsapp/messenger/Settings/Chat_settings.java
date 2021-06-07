@@ -3,6 +3,7 @@ package com.margsapp.messenger.Settings;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -13,6 +14,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.margsapp.messenger.R;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrInterface;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,13 +33,22 @@ public class Chat_settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_settings);
 
+        SlidrInterface slidrInterface = Slidr.attach(this);
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.people));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(Chat_settings.this, edit_profile.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Chat_settings.this, edit_profile.class));
+                overridePendingTransition(R.anim.activity_slider_in_right, R.anim.activity_slider_out_left);
+
+            }
+        });
 
         Accepted = findViewById(R.id.Accepted);
 
@@ -44,16 +56,14 @@ public class Chat_settings extends AppCompatActivity {
 
         Accepted.setOnClickListener(v -> {
             Intent intent = new Intent(Chat_settings.this, com.margsapp.messenger.Friends.Accepted.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-            finish();
+            overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
         });
 
         Blocked.setOnClickListener(v -> {
             Intent intent = new Intent(Chat_settings.this, com.margsapp.messenger.Friends.Blocked.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-            finish();
+            overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
         });
 
 
@@ -61,9 +71,11 @@ public class Chat_settings extends AppCompatActivity {
 
     public void onBackPressed(){
         Intent intent = new Intent(Chat_settings.this, edit_profile.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
         startActivity(intent);
         finish();
+        overridePendingTransition(R.anim.activity_slider_in_right, R.anim.activity_slider_out_left);
+
     }
 
     private void status(String status){

@@ -109,7 +109,7 @@ public class GroupInfoAdapter extends RecyclerView.Adapter<GroupInfoAdapter.View
 
                     if(event.getAction()== MotionEvent.ACTION_DOWN){
                         holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.onAdapClick));
-                    }else if(event.getAction()==MotionEvent.ACTION_UP){
+                    }else {
                         holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
                     }
                     return false;
@@ -149,5 +149,7 @@ public class GroupInfoAdapter extends RecyclerView.Adapter<GroupInfoAdapter.View
 
         }
     }
+
+
 
 }

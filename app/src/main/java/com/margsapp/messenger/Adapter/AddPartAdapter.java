@@ -170,7 +170,7 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
         hash.put("sender", "LOGS");
         hash.put("group", groupId);
         hash.put("reply","false");
-        hash.put("message", name + mContext.getResources().getString(R.string.log_removed));
+        hash.put("message", name + " has been removed from group.");
         hash.put("timestamp", timestamp);
         databaseReference2.push().setValue(hash);
 

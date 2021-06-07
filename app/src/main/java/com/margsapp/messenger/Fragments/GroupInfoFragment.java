@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 
 public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.EventListener {
@@ -185,6 +186,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
                         Intent intent = new Intent(getContext(), manage_partActivty.class);
                         intent.putExtra("groupid", groupid);
                         startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
                     }else {
                         AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
                         dialog.setTitle(getResources().getString(R.string.not_an_admin));
@@ -293,7 +295,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
         hash.put("sender", "LOGS");
         hash.put("group", groupId);
         hash.put("reply","false");
-        hash.put("message", username + getResources().getString(R.string.left_group));
+        hash.put("message", username + " "+ getResources().getString(R.string.left_group));
         hash.put("timestamp", timestamp);
         databaseReference2.push().setValue(hash);
 
@@ -626,4 +628,5 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
         super.onDestroy();
         groupInfoAdapter.removeEventListener();
     }
+
 }

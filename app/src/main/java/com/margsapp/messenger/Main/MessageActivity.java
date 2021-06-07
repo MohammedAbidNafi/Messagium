@@ -8,12 +8,14 @@ import android.content.SharedPreferences;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -36,7 +38,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.factor.bouncy.BouncyRecyclerView;
@@ -66,6 +67,10 @@ import com.margsapp.messenger.Notifications.Token;
 import com.margsapp.messenger.R;
 import com.margsapp.messenger.dp_view.personal_dpActivity;
 import com.margsapp.messenger.reply.SwipeController;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrInterface;
+import com.r0adkll.slidr.model.SlidrListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -83,7 +88,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.margsapp.messenger.Settings.CustomiseActivity.THEME;
-import static java.security.AccessController.getContext;
 
 public class MessageActivity extends AppCompatActivity {
 
@@ -132,6 +136,7 @@ public class MessageActivity extends AppCompatActivity {
     boolean notify = false;
     ShortcutManager shortcutManager;
 
+    private SlidrInterface slidrInterface;
     @Override
     protected void onStart() {
         super.onStart();
@@ -159,6 +164,22 @@ public class MessageActivity extends AppCompatActivity {
 
 
 
+        /*
+        SlidrConfig config = new SlidrConfig().Builder()
+                .edge(true)
+                .edgeSize(0.18f)
+                .build();
+
+         */
+
+        SlidrConfig config = new SlidrConfig.Builder()
+                .edge(true)
+                .edgeSize(0.2f) // The % of the screen that counts as the edge, default 18%
+                .build();
+
+
+        slidrInterface = Slidr.attach(this,config);
+
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -168,6 +189,7 @@ public class MessageActivity extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
              shortcutManager = getSystemService(ShortcutManager.class);
         }
+        /*
         MobileAds.initialize(this, initializationStatus -> {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -189,12 +211,19 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
+         */
+
 
         toolbar.setNavigationOnClickListener(v -> {
 
-            Intent openMainActivity = new Intent(MessageActivity.this, MainActivity.class);
-
+            /*
+            Intent openMainActivity = new Intent(this, MainActivity.class);
+            openMainActivity.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             startActivity(openMainActivity);
+
+             */
+            finish();
+            overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
 
 
 
@@ -261,6 +290,9 @@ public class MessageActivity extends AppCompatActivity {
             intent.putExtra("userid",userid);
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MessageActivity.this, pairs);
             startActivity(intent, options.toBundle());
+
+            new Handler().postDelayed(this::finish, 1000);
+
         });
 
 
@@ -508,6 +540,14 @@ public class MessageActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void lockSlide(View view){
+        slidrInterface.lock();
+    }
+
+    public void unlockSlide(View view){
+        slidrInterface.unlock();
     }
 
 
@@ -991,32 +1031,33 @@ public class MessageActivity extends AppCompatActivity {
 
 
 
-        public void onBackPressed(){
-
-        Intent openMainActivity = new Intent(MessageActivity.this, MainActivity.class);
-        openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+    public void onBackPressed() {
+        /*
+        Intent openMainActivity = new Intent(this, MainActivity.class);
+        openMainActivity.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
         startActivityIfNeeded(openMainActivity, 0);
+
+         */
+        finish();
+        overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
 
         if (mInterstitialAd != null) {
             mInterstitialAd.show(MessageActivity.this);
         } else {
             Log.d("TAG", "The interstitial ad wasn't ready yet.");
         }
+
     }
 
     @Override
     protected void onResume() {
-
         super.onResume();
         status("online");
-
-
         currentUser(userid);
     }
 
 
-    protected void onPause()
-    {
+    protected void onPause() {
         super.onPause();
         databaseReference.removeEventListener(seenListener);
       //  txt_database.removeEventListener(textListener);

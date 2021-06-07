@@ -9,9 +9,7 @@ public class Token {
     }
 
     public Token(){
-
     }
-
     public String getToken() {
         return token;
     }

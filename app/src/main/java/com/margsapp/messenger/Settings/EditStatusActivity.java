@@ -122,6 +122,7 @@ public class EditStatusActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
+
         }
 
         return false;
@@ -175,4 +176,5 @@ public class EditStatusActivity extends AppCompatActivity {
         super.onDestroy();
         status("offline");
     }
+
 }

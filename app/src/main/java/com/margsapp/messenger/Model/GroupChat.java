@@ -4,9 +4,12 @@ public class GroupChat {
 
     private String sender;
     private String sendername;
+
+
     private String message;
 
     private String timestamp;
+
     private String replytext;
     private String reply;
     private String replyto;
@@ -15,6 +18,7 @@ public class GroupChat {
     private String group;
 
     public GroupChat(String sender,String sendername, String group, String message, String timestamp, String replytext, String reply, String replyto,String replyname) {
+
         this.sender = sender;
         this.sendername = sendername;
         this.group = group;
@@ -27,6 +31,7 @@ public class GroupChat {
 
     }
     public GroupChat(){
+
 
     }
 

@@ -165,6 +165,7 @@ public class group_messageActivity extends AppCompatActivity {
             shortcutManager = getSystemService(ShortcutManager.class);
         }
 
+        /*
         MobileAds.initialize(this, initializationStatus -> {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -185,6 +186,8 @@ public class group_messageActivity extends AppCompatActivity {
                 mInterstitialAd = null;
             }
         });
+
+         */
 
 
         toolbar.setNavigationOnClickListener(v -> {
@@ -357,12 +360,15 @@ public class group_messageActivity extends AppCompatActivity {
 
     private void onReply(GroupChat getChat) {
 
-        reply_txt.setText(getChat.getMessage());
-        ReplyId = getChat.getSender();
-        Replyname = getChat.getSendername();
-        reply.setVisibility(View.VISIBLE);
-        text_send.isFocused();
-        reply_ = true;
+        if(!getChat.getSender().equals("LOGS")){
+            reply_txt.setText(getChat.getMessage());
+            ReplyId = getChat.getSender();
+            Replyname = getChat.getSendername();
+            reply.setVisibility(View.VISIBLE);
+            text_send.isFocused();
+            reply_ = true;
+        }
+
 
     }
 
@@ -664,6 +670,4 @@ public class group_messageActivity extends AppCompatActivity {
 
 
     }
-
-
 }

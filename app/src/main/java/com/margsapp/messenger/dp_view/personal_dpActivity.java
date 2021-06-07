@@ -42,15 +42,16 @@ public class personal_dpActivity extends AppCompatActivity {
 
         toolbar.setNavigationOnClickListener(v -> {
             Intent intent = new Intent(personal_dpActivity.this, MessageActivity.class);
+            intent.putExtra("userid",userid);
+            intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             Pair[] pairs = new Pair[1];
             pairs[0] = new Pair<View, String>(dpView, "imageTransition");
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(personal_dpActivity.this, pairs);
-            intent.putExtra("userid",userid);
-            startActivity(intent, options.toBundle());
+            startActivity(intent,options.toBundle());
+            finish();
         });
 
         dpView = findViewById(R.id.dpview);
-
 
 
         if(imageurl.equals("default"))
@@ -65,12 +66,15 @@ public class personal_dpActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         Intent intent = new Intent(personal_dpActivity.this, MessageActivity.class);
+        intent.putExtra("userid",userid);
+        intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
         Pair[] pairs = new Pair[1];
         pairs[0] = new Pair<View, String>(dpView, "imageTransition");
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(personal_dpActivity.this, pairs);
-        startActivityIfNeeded(intent,0, options.toBundle());
+        startActivity(intent,options.toBundle());
+        finish();
+
+
     }
 }

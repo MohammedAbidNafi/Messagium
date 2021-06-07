@@ -154,7 +154,6 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
 
 
 
-
     public void AddParticipant(String id, String username, RotateLoading rotateLoading, Context mContext, ImageView remove) {
         Calendar calendar = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
@@ -175,7 +174,6 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
         hash.put("timestamp", timestamp);
         databaseReference2.push().setValue(hash);
 
-
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupId).child("members").child(id);
         HashMap<String, String> hashMap1 = new HashMap<>();
         hashMap1.put("id", id);
@@ -184,13 +182,9 @@ public class AddParticipantsFragment extends Fragment implements AddPartAdapter.
         databaseReference.setValue(hashMap1).addOnCompleteListener(task -> {
             rotateLoading.stop();
             rotateLoading.setVisibility(View.GONE);
-
-
             Toast.makeText(mContext,username + getResources().getString(R.string.is_added),Toast.LENGTH_SHORT).show();
-
             remove.setVisibility(View.VISIBLE);
         });
-
 
     }
 

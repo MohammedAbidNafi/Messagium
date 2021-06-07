@@ -76,8 +76,6 @@ public class AcceptedFragment extends Fragment {
         return view;
     }
 
-
-
     private void chatList() {
 
         mUsers = new ArrayList<>();
@@ -99,8 +97,7 @@ public class AcceptedFragment extends Fragment {
                     }
 
                 }
-
-                userAdapter = new UserAdapter(getContext(), mUsers, true, false,false);
+                userAdapter = new UserAdapter(getContext(), mUsers, true, false,false,getActivity());
                 recyclerView.setAdapter(userAdapter);
             }
 

@@ -70,6 +70,7 @@ public class group_infoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_info);
 
+
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Group Info");
@@ -104,7 +105,7 @@ public class group_infoActivity extends AppCompatActivity {
         });
         toolbar.setNavigationOnClickListener(v -> {
             Intent openMainActivity = new Intent(group_infoActivity.this, group_messageActivity.class);
-            openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            openMainActivity.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             startActivityIfNeeded(openMainActivity, 0);
         });
 
@@ -174,7 +175,6 @@ public class group_infoActivity extends AppCompatActivity {
             titles.add(title);
         }
 
-
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
@@ -220,7 +220,6 @@ public class group_infoActivity extends AppCompatActivity {
                 StorageReference filepath = storageReference.child(System.currentTimeMillis()
                         + "." + getFileExtension(resultUri));
 
-
                 StorageTask uploadTask = filepath.putFile(resultUri);
                 uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
@@ -257,18 +256,15 @@ public class group_infoActivity extends AppCompatActivity {
             }
         }
     }
-
     private String getFileExtension(Uri uri){
         ContentResolver contentResolver = group_infoActivity.this.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
-
-
     @Override
     public void onBackPressed() {
         Intent openMainActivity = new Intent(group_infoActivity.this, group_messageActivity.class);
-        openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        openMainActivity.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
         startActivityIfNeeded(openMainActivity, 0);
     }
 }

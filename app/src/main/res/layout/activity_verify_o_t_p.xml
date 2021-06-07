@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Authentication.VerifyOTP">
+    tools:context=".Authentication.VerifyOTP"
+    android:background="@color/background">
 
 
     <TextView
@@ -101,6 +102,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pin_view"
         app:layout_constraintVertical_bias="0.537" />
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

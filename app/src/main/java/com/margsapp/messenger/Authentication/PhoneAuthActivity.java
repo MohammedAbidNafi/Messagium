@@ -15,6 +15,7 @@ import java.util.Objects;
 public class PhoneAuthActivity extends AppCompatActivity {
 
     EditText phoneInputLayout;
+
     CountryCodePicker countryCodePicker;
 
     @Override
@@ -23,6 +24,7 @@ public class PhoneAuthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_phone_auth);
 
         phoneInputLayout = findViewById(R.id.phone_number);
+
         countryCodePicker = findViewById(R.id.country_code_picker);
     }
 

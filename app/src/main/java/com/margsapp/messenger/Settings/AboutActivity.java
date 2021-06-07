@@ -32,6 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.BuildConfig;
 import com.margsapp.messenger.Model.AppVersion;
 import com.margsapp.messenger.R;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrInterface;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -74,6 +76,8 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
+        SlidrInterface slidrInterface = Slidr.attach(this);
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -97,6 +101,8 @@ public class AboutActivity extends AppCompatActivity {
                 Intent intent = new Intent(AboutActivity.this, edit_profile.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                overridePendingTransition(R.anim.activity_slider_in_right, R.anim.activity_slider_out_left);
+
             }else if(!Read_Recipients.isChecked()){
 
                 SharedPreferences sharedPreferences = getSharedPreferences("ReadRecipents",0);
@@ -114,6 +120,8 @@ public class AboutActivity extends AppCompatActivity {
                 Intent intent = new Intent(AboutActivity.this, edit_profile.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                overridePendingTransition(R.anim.activity_slider_in_right, R.anim.activity_slider_out_left);
+
             }
             if(Swicth_authenticate.isChecked()) {
                 Biometric();
@@ -146,6 +154,7 @@ public class AboutActivity extends AppCompatActivity {
         Read_Recipients.setChecked(true);
 
 
+        /*
 
         MobileAds.initialize(this, initializationStatus -> {
         });
@@ -171,6 +180,8 @@ public class AboutActivity extends AppCompatActivity {
         AdView mAdView = findViewById(R.id.adView);
 
         mAdView.loadAd(adRequest);
+
+         */
 
         loadData();
         updateViews();
@@ -318,6 +329,8 @@ public class AboutActivity extends AppCompatActivity {
             Intent intent = new Intent(AboutActivity.this, edit_profile.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            overridePendingTransition(R.anim.activity_slider_in_right, R.anim.activity_slider_out_left);
+
         }else if(!Read_Recipients.isChecked()){
 
             SharedPreferences sharedPreferences = getSharedPreferences("ReadRecipents",0);
@@ -335,6 +348,8 @@ public class AboutActivity extends AppCompatActivity {
             Intent intent = new Intent(AboutActivity.this, edit_profile.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            overridePendingTransition(R.anim.activity_slider_in_right, R.anim.activity_slider_out_left);
+
         }
 
         if(Swicth_authenticate.isChecked()) {
@@ -355,6 +370,8 @@ public class AboutActivity extends AppCompatActivity {
             Intent intent = new Intent(AboutActivity.this, edit_profile.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            overridePendingTransition(R.anim.activity_slider_in_right, R.anim.activity_slider_out_left);
+
 
 
         }

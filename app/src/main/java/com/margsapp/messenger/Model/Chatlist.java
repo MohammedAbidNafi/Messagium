@@ -9,7 +9,6 @@ public class Chatlist {
     public Chatlist(String id, String friends){
         this.id = id;
         this.friends = friends;
-
     }
 
     public Chatlist(){
@@ -20,12 +19,9 @@ public class Chatlist {
         return friends;
     }
 
-
-
     public  String getId(){
         return id;
     }
-
 
     public void setId(String id) {
         this.id = id;

@@ -2,6 +2,7 @@ package com.margsapp.messenger.Notifications;
 
 public class Sender {
 
+
     public Data data;
     public String to;
 

@@ -8,6 +8,7 @@
     tools:context=".Authentication.StartActivity"
     android:gravity="center"
     android:orientation="vertical"
+    android:background="@color/background"
     >
 
 
@@ -44,28 +45,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.141" />
 
-
-
-        <!--
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/register"
-            android:layout_width="370dp"
-            android:layout_height="60dp"
-            android:background="@drawable/button"
-            android:text="Register"
-            android:textColor="#fff"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.486"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.707">
-
-        </androidx.appcompat.widget.AppCompatButton>
-
-        -->
 
         <ProgressBar
             android:id="@+id/googleSignLoader"
@@ -134,6 +113,8 @@
             app:layout_constraintVertical_bias="0.379"
             app:sign_in_with_apple_button_cornerRadius="15dp"
             app:sign_in_with_apple_button_textType="signInWithApple" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

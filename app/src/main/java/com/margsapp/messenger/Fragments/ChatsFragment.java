@@ -106,9 +106,8 @@ public class ChatsFragment extends Fragment {
     private void chatList() {
 
         mUsers = new ArrayList<>();
-        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username");
-        query.keepSynced(true);
-        query.addValueEventListener(new ValueEventListener() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mUsers.clear();
@@ -117,11 +116,13 @@ public class ChatsFragment extends Fragment {
                     for (Chatlist chatlist : usersList){
                         assert user != null;
                         if(user.getId().equals(chatlist.getId())){
+
                             if(chatlist.getFriends().equals("Messaged")){
                                 mUsers.add(user);
 
-                            }if (chatlist.getFriends().equals("Requested")){
-                                mUsers.add(user);
+                            }
+                            if(chatlist.getFriends().equals("Blocked")){
+                                //Dont do anything
                             }
 
                         }
@@ -133,7 +134,7 @@ public class ChatsFragment extends Fragment {
 
 
 
-                userAdapter = new UserAdapter(getContext(), mUsers, true, false, false);
+                userAdapter = new UserAdapter(getContext(), mUsers, true, false, false,getActivity());
                 recyclerView.setAdapter(userAdapter);
                 userAdapter.notifyDataSetChanged();
             }
@@ -144,8 +145,6 @@ public class ChatsFragment extends Fragment {
             }
         });
     }
-
-
 
 
 

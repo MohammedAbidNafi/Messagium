@@ -126,7 +126,5 @@ public class GroupFragment extends Fragment {
             }
         });
     }
-
-
-
+    
 }

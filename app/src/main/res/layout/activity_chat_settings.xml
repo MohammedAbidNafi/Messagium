@@ -79,6 +79,7 @@
             android:layout_gravity="center_vertical|end"
             android:background="@color/card_back"
             />
+
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -86,6 +87,7 @@
             android:layout_marginLeft="10dp"
 
             android:layout_gravity="center_vertical|start"/>
+
 
 
         <TextView
@@ -99,6 +101,7 @@
             android:textColor="@color/blacktext"
             android:textSize="20dp"
             />
+
 
 
     </androidx.cardview.widget.CardView>

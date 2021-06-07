@@ -1,12 +1,6 @@
 package com.margsapp.messenger.Fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -14,8 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
+
 import com.factor.bouncy.BouncyRecyclerView;
-import com.gjiazhe.springrecyclerview.SpringRecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -51,11 +50,15 @@ public class UsersFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_users, container, false);
 
         recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
         recyclerView.setFlingAnimationSize(0.3f);
         recyclerView.setOverscrollAnimationSize(0.3f);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+
+        RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
+        if (animator instanceof SimpleItemAnimator) {
+            ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
+        }
 
 
 
@@ -106,7 +109,7 @@ public class UsersFragment extends Fragment {
                     }
                 }
 
-                userAdapter = new UserAdapter(getContext(), mUsers,false, true,false);
+                userAdapter = new UserAdapter(getContext(), mUsers,false, true,false,getActivity());
                 recyclerView.setAdapter(userAdapter);
             }
 
@@ -138,14 +141,11 @@ public class UsersFragment extends Fragment {
 
                     }
 
-                    userAdapter = new UserAdapter(getContext(), mUsers, false, true,false);
+                    userAdapter = new UserAdapter(getContext(), mUsers, false, true, false, getActivity());
                     recyclerView.setAdapter(userAdapter);
                 }
 
             }
-
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

@@ -34,6 +34,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory;
+import com.google.firebase.appcheck.safetynet.SafetyNetAppCheckProviderFactory;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -84,6 +88,15 @@ public class StartActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("lang_settings", Activity.MODE_PRIVATE);
         String language = preferences.getString("lang","");
         setLocale(language);
+
+        FirebaseApp.initializeApp(this);
+        FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
+        firebaseAppCheck.installAppCheckProviderFactory(
+                SafetyNetAppCheckProviderFactory.getInstance());
+        firebaseAppCheck.installAppCheckProviderFactory(
+                DebugAppCheckProviderFactory.getInstance());
+
+
 
 
 
@@ -212,7 +225,6 @@ public class StartActivity extends AppCompatActivity {
 
 
 
-
         MobileAds.initialize(this, initializationStatus -> {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -244,7 +256,6 @@ public class StartActivity extends AppCompatActivity {
         phone = findViewById(R.id.phone);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
 
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(
                 GoogleSignInOptions.DEFAULT_SIGN_IN
@@ -283,7 +294,6 @@ public class StartActivity extends AppCompatActivity {
 
                     if(googleSignInAccount != null){
                         AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
-
 
                         firebaseAuth.signInWithCredential(authCredential)
                                 .addOnCompleteListener(task -> {

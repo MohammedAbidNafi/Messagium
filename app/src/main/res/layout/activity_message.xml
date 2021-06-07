@@ -146,7 +146,7 @@
             app:layout_constrainedHeight="true"
             android:foregroundGravity="top"
             app:recyclerview_damping_ratio="DAMPING_RATIO_LOW_BOUNCY"
-            app:recyclerview_stiffness="STIFFNESS_MEDIUM"
+            app:recyclerview_stiffness="STIFFNESS_LOW"
             app:allow_drag_reorder="false"
             app:allow_item_swipe="true"
 
@@ -275,50 +275,6 @@
             app:layout_constraintStart_toEndOf="@+id/text_send"
             app:layout_constraintTop_toTopOf="@+id/text_send"/>
 
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <!--
-    <RelativeLayout
-        android:id="@+id/down"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#fff"
-        android:padding="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-
-        tools:ignore="MissingConstraints">
-
-
-        <EditText
-            android:id="@+id/text_send"
-            android:layout_width="match_parent"
-            android:layout_height="40sp"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/btn_send"
-            android:background="@drawable/edit_text"
-            android:hint="Enter text...."
-
-            android:paddingLeft="13dp" />
-
-        <ImageButton
-            android:id="@+id/btn_send"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/send"
-            android:visibility="visible" />
-
-    </RelativeLayout>
-
-    -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

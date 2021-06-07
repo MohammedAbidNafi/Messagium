@@ -112,5 +112,4 @@
 
         android:layout_below="@+id/show_message"
         />
-
 </RelativeLayout>

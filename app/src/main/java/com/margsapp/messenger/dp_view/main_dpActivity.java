@@ -21,7 +21,6 @@ public class main_dpActivity extends AppCompatActivity {
     ImageView dpView;
 
     String imageurl;
-
     Intent intent;
 
     @Override
@@ -40,8 +39,10 @@ public class main_dpActivity extends AppCompatActivity {
             Intent intent = new Intent(main_dpActivity.this, MainActivity.class);
             Pair[] pairs = new Pair[1];
             pairs[0] = new Pair<View, String>(dpView, "imageTransition");
+            intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(main_dpActivity.this, pairs);
             startActivity(intent, options.toBundle());
+            finish();
         });
 
         dpView = findViewById(R.id.dpview);
@@ -65,7 +66,9 @@ public class main_dpActivity extends AppCompatActivity {
         Intent intent = new Intent(main_dpActivity.this, MainActivity.class);
         Pair[] pairs = new Pair[1];
         pairs[0] = new Pair<View, String>(dpView, "imageTransition");
+        intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(main_dpActivity.this, pairs);
         startActivity(intent, options.toBundle());
+        finish();
     }
 }

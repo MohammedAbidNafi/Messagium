@@ -27,11 +27,6 @@ public class Data {
     public String getGroupid() {
         return groupid;
     }
-
-    public void setGroupid(String groupid) {
-        this.groupid = groupid;
-    }
-
      */
 
     public String getGroup() {

@@ -5,18 +5,23 @@ public class Chat {
     private String sender;
     private String receiver;
     private String message;
+
     private String isseen;
+
     private String timestamp;
 
     private String replytext;
     private String reply;
     private String replyto;
+
     private String sendername;
+
     private String replyname;
 
     private String encrypted;
 
     public Chat(String sender, String receiver, String message, String isseen, String timestamp, String replytext, String reply,String replyto,String replyname, String sendername, String encrypted) {
+
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;

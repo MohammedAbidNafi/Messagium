@@ -30,9 +30,11 @@ public class manage_partActivty extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_part);
 
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.manage_participants));
+
 
         intent = getIntent();
         groupid = intent.getStringExtra("groupid");
@@ -59,6 +61,7 @@ public class manage_partActivty extends AppCompatActivity {
             this.fragments = new ArrayList<>();
             this.titles = new ArrayList<>();
         }
+
 
         @NonNull
         @Override
@@ -91,6 +94,7 @@ public class manage_partActivty extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_in_manage_part, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

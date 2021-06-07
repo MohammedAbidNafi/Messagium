@@ -16,6 +16,8 @@ import androidx.cardview.widget.CardView;
 
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.margsapp.messenger.R;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrInterface;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -36,6 +38,8 @@ public class CustomiseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customize);
 
+        SlidrInterface slidrInterface = Slidr.attach(this);
+
         sun = findViewById(R.id.sun_img);
         moon = findViewById(R.id.moon_img);
         default_settings = findViewById(R.id.default_img);
@@ -53,7 +57,16 @@ public class CustomiseActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.customize));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(CustomiseActivity.this,edit_profile.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CustomiseActivity.this,edit_profile.class).addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT));
+                finish();
+                overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
+
+            }
+        });
+
 
         materialButtonToggleGroup = findViewById(R.id.btg_theme);
         materialButtonToggleGroup.check(R.id.btnDefault);
@@ -191,11 +204,11 @@ public class CustomiseActivity extends AppCompatActivity {
 
 
     }
-
-
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(CustomiseActivity.this,edit_profile.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        startActivity(new Intent(CustomiseActivity.this,edit_profile.class).addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT));
+        finish();
+        overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
 
     }
 }

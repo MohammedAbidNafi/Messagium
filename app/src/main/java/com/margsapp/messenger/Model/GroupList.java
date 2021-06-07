@@ -16,7 +16,6 @@ public class GroupList {
 
     public GroupList() {
     }
-
     public String getGroupid() {
         return groupid;
     }

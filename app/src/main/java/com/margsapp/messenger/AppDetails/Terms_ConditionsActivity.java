@@ -66,6 +66,7 @@ public class Terms_ConditionsActivity extends AppCompatActivity {
 
 
 
+
         agree.setOnClickListener(v -> {
             Intent intent = new Intent(Terms_ConditionsActivity.this, privacyActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -80,4 +81,5 @@ public class Terms_ConditionsActivity extends AppCompatActivity {
             finish();
         });
     }
+
 }

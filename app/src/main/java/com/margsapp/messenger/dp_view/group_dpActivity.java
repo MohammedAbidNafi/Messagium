@@ -33,13 +33,18 @@ public class group_dpActivity extends AppCompatActivity {
     Intent intent;
     String groupid;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);
 
-        setContentView(R.layout.activity_dp_view);
+        setContentView(R.layout.activity_dp_group);
+
+
+
 
         intent = getIntent();
         imageurl = intent.getStringExtra("data");
@@ -104,7 +109,9 @@ public class group_dpActivity extends AppCompatActivity {
         pairs[0] = new Pair<View, String>(dpView, "imageTransition");
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(group_dpActivity.this, pairs);
         intent.putExtra("groupid",groupid);
+
         startActivity(intent, options.toBundle());
+
     }
 
 
@@ -124,6 +131,4 @@ public class group_dpActivity extends AppCompatActivity {
         super.onDestroy();
         status("offline");
     }
-
-
 }

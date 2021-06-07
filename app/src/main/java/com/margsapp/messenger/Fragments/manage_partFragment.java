@@ -35,9 +35,7 @@ public class manage_partFragment extends Fragment implements AddPartAdapter.Even
 
     private RecyclerView recyclerView;
     private List<Group> mUsers;
-
     FirebaseUser firebaseUser;
-
     private List<User> usersList;
 
     public String groupname;
@@ -58,15 +56,11 @@ public class manage_partFragment extends Fragment implements AddPartAdapter.Even
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
         mUsers = new ArrayList<>();
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         chatList();
-
-
-
 
         return view;
     }

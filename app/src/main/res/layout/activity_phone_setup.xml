@@ -4,7 +4,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context=".Authentication.setupActivity"
+tools:context=".Authentication.Phone_setupActivity"
 android:background="@color/diffrentBack">
 
 <include
@@ -74,8 +74,7 @@ android:background="@color/diffrentBack">
 
 
 
-
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
 </RelativeLayout>

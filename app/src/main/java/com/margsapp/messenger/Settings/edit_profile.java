@@ -43,6 +43,10 @@ import com.google.firebase.storage.UploadTask;
 import com.margsapp.messenger.Main.MainActivity;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrInterface;
+import com.r0adkll.slidr.model.SlidrListener;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -105,10 +109,14 @@ public class edit_profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_edit);
 
+
+        SlidrInterface slidrInterface = Slidr.attach(this);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.settings));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        /*
 
         MobileAds.initialize(this, initializationStatus -> {
         });
@@ -135,8 +143,11 @@ public class edit_profile extends AppCompatActivity {
 
         mAdView.loadAd(adRequest);
 
+         */
+
         toolbar.setNavigationOnClickListener(v -> {
-            startActivity(new Intent(edit_profile.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            startActivity(new Intent(edit_profile.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT));
+            overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
             /*if (mInterstitialAd != null) {
                 mInterstitialAd.show(edit_profile.this);
             } else {
@@ -161,45 +172,50 @@ public class edit_profile extends AppCompatActivity {
 
         Status_card.setOnClickListener(v -> {
             Intent intent = new Intent(edit_profile.this, EditStatusActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
             startActivity(intent);
+            overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
+
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(edit_profile.this);
             } else {
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }
-            finish();
         });
 
         Account_card.setOnClickListener(v -> {
             Intent intent = new Intent(edit_profile.this, Chat_settings.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
+
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(edit_profile.this);
             } else {
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }
-            finish();
+
 
         });
 
         Customize_card.setOnClickListener(v -> {
             Intent intent = new Intent(edit_profile.this, CustomiseActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
+
+
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(edit_profile.this);
             } else {
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }
-            finish();
+
         });
 
         About_card.setOnClickListener(v -> {
             Intent intent = new Intent(edit_profile.this, AboutActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
+
             /*
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(edit_profile.this);
@@ -208,7 +224,7 @@ public class edit_profile extends AppCompatActivity {
             }
 
              */
-            finish();
+
         });
 
 
@@ -217,8 +233,7 @@ public class edit_profile extends AppCompatActivity {
 
 
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        reference.keepSynced(true);
-        reference.addValueEventListener(new ValueEventListener() {
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -250,6 +265,7 @@ public class edit_profile extends AppCompatActivity {
 
             }
         });
+
         loadingBar = new ProgressDialog(this);
 
         profile_image.setOnClickListener(v -> openImage());
@@ -260,8 +276,9 @@ public class edit_profile extends AppCompatActivity {
 
     public void onBackPressed(){
         Intent intent = new Intent(edit_profile.this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
+
 
         if (mInterstitialAd != null) {
             mInterstitialAd.show(edit_profile.this);
@@ -269,7 +286,6 @@ public class edit_profile extends AppCompatActivity {
             Log.d("TAG", "The interstitial ad wasn't ready yet.");
         }
 
-        finish();
 
     }
 

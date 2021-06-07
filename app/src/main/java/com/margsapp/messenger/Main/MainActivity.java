@@ -3,12 +3,17 @@ package com.margsapp.messenger.Main;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +56,7 @@ import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
 import com.margsapp.messenger.Settings.edit_profile;
 import com.margsapp.messenger.dp_view.main_dpActivity;
+import com.margsapp.messenger.dp_view.personal_dpActivity;
 import com.margsapp.messenger.groupclass.create_groupActivity;
 
 import java.text.SimpleDateFormat;
@@ -84,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressBar network_check;
 
+    Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +100,13 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("lang_settings", Activity.MODE_PRIVATE);
         String language = sharedPreferences.getString("lang","");
         setLocale(language);
+
+
+      //  dialog = new Dialog(this);
+
+
+
+      //  onOptions();
 
 
         SharedPreferences preferences = getSharedPreferences("theme", 0);
@@ -111,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("");
 
+        /*
         MobileAds.initialize(this, initializationStatus -> {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -131,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
                 mInterstitialAd = null;
             }
         });
+
+         */
 
         DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
         connectedRef.addValueEventListener(new ValueEventListener() {
@@ -177,10 +195,11 @@ public class MainActivity extends AppCompatActivity {
             String data = imageurl;
 
             Intent intent = new Intent(MainActivity.this, main_dpActivity.class);
-
-
-            intent.putExtra("data", data);
-            startActivity(intent);
+            Pair[] pairs = new Pair[1];
+            pairs[0] = new Pair<View, String>(DP, "imageTransition");
+            intent.putExtra("data",data);
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+            startActivity(intent, options.toBundle());
 
         });
 
@@ -260,6 +279,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    /*
+    public void onOptions(){
+
+        dialog.setContentView(R.layout.new_update_release_notes);
+
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+     */
+
     private void setLocale(String lang) {
 
         Locale locale = new Locale(lang);
@@ -302,12 +335,13 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.edit:
                 startActivity(new Intent(MainActivity.this, edit_profile.class));
+                overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
                 if (mInterstitialAd != null) {
                     mInterstitialAd.show(MainActivity.this);
                 } else {
                     Log.d("TAG", "The interstitial ad wasn't ready yet.");
                 }
-                return true;
+                return false;
 
             case R.id.create_group:
                 startActivity(new Intent(MainActivity.this, create_groupActivity.class));
@@ -402,16 +436,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     protected void onRestart() {
         super.onRestart();
-
+        status("online");
     }
+
 
     @Override
     protected void onPause() {
         super.onPause();
         status("offline");
     }
+
 
     protected void onDestroy() {
         super.onDestroy();

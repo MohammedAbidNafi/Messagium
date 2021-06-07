@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    tools:context=".AppDetails.Terms_ConditionsActivity">
+    tools:context=".AppDetails.Terms_ConditionsActivity"
+    android:background="@color/background">
 
     <TextView
         android:layout_width="wrap_content"
@@ -58,6 +59,7 @@
         android:id="@+id/agree"
         android:layout_marginBottom="20dp"
         android:background="@drawable/button"/>
+
 
 
 </RelativeLayout>

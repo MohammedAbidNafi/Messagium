@@ -76,6 +76,7 @@ public class FindUsersActivity extends AppCompatActivity {
 
 
 
+        /*
 
         MobileAds.initialize(this, initializationStatus -> {
         });
@@ -98,6 +99,8 @@ public class FindUsersActivity extends AppCompatActivity {
             }
         });
 
+         */
+
         toolbar.setNavigationOnClickListener(v -> {
             startActivity(new Intent(FindUsersActivity.this, MainActivity.class));
             if (mInterstitialAd != null) {
@@ -114,7 +117,6 @@ public class FindUsersActivity extends AppCompatActivity {
         final ViewPager viewPager = findViewById(R.id.viewPager);
 
 
-
         FindUsersActivity.ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
         viewPageAdapter.addFragment(new UsersFragment(), "Users");
         viewPager.setAdapter(viewPageAdapter);
@@ -124,8 +126,6 @@ public class FindUsersActivity extends AppCompatActivity {
 
 
     }
-
-
 
     static class ViewPageAdapter extends FragmentPagerAdapter {
 
@@ -206,8 +206,5 @@ public class FindUsersActivity extends AppCompatActivity {
             Log.d("TAG", "The interstitial ad wasn't ready yet.");
         }
     }
-
-
-
 
 }

@@ -2,11 +2,10 @@ package com.margsapp.messenger.Adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,7 +24,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.margsapp.messenger.Main.MainActivity;
 import com.margsapp.messenger.Main.MessageActivity;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.Chatlist;
@@ -35,8 +33,6 @@ import com.margsapp.messenger.R;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private final Context mContext;
@@ -52,14 +48,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     String date_time;
     String UnreadMessage;
 
+    Activity activity;
 
 
-    public UserAdapter(Context mContext, List<User> mUsers, boolean isChat, boolean isAdd, boolean isBlock) {
+
+    public UserAdapter(Context mContext, List<User> mUsers, boolean isChat, boolean isAdd, boolean isBlock,Activity activity) {
         this.mUsers = mUsers;
         this.mContext = mContext;
         this.isChat = isChat;
         this.isAdd = isAdd;
         this.isBlock = isBlock;
+        this.activity = activity;
 
 
     }
@@ -117,7 +116,18 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
         holder.UsernameText.setText(user.getUsername());
-        holder.dt.setText(user.getDt());
+
+        if (user.getStatus().equals("online")) {
+            holder.img_on.setVisibility(View.VISIBLE);
+            holder.img_off.setVisibility(View.GONE);
+        } else {
+            holder.img_off.setVisibility(View.VISIBLE);
+            holder.img_on.setVisibility(View.GONE);
+        }
+
+        lastmessage(user.getId(), holder.last_msg,holder.date_lastmsg);
+        UnreadMessage(user.getId(), holder.unread);
+
 
         if (user.getImageUrl().equals("default")) {
             holder.profile.setImageResource(R.drawable.user);
@@ -134,26 +144,18 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
 
         if (isChat) {
-            if (user.getStatus().equals("online")) {
-                holder.img_on.setVisibility(View.VISIBLE);
-                holder.img_off.setVisibility(View.GONE);
-            } else {
-                holder.img_off.setVisibility(View.VISIBLE);
-                holder.img_on.setVisibility(View.GONE);
-            }
-            holder.date_lastmsg.setVisibility(View.VISIBLE);
-            lastmessage(user.getId(), holder.last_msg,holder.date_lastmsg);
-            UnreadMessage(user.getId(), holder.unread);
+
             holder.dt.setVisibility(View.GONE);
 
         }
         if (!isChat) {
-
+            holder.dt.setText(user.getDt());
             holder.last_msg.setVisibility(View.GONE);
             holder.img_on.setVisibility(View.GONE);
             holder.img_off.setVisibility(View.VISIBLE);
             holder.date_lastmsg.setVisibility(View.GONE);
             holder.dt.setVisibility(View.VISIBLE);
+
         }
 
         holder.UnBlock_btn.setOnClickListener(v -> {
@@ -172,8 +174,23 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         });
 
 
+        holder.itemView.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN)  {
+                    holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.onAdapClick));
+
+                }else {
+                    holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
+
+                }
+                return false;
+            }
+        });
+
         holder.itemView.setOnClickListener(v -> {
-            holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.onAdapClick));
+
             String userid = user.getId();
             OnMessage(userid);
         });
@@ -323,15 +340,20 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
                         }
                         else {
+
                             Intent intent = new Intent(mContext, MessageActivity.class);
+
                             intent.putExtra("userid", userid);
                             mContext.startActivity(intent);
+                            activity.overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
+
 
                         }
                     }else if(!snapshot.exists()){
                         Intent intent = new Intent(mContext, MessageActivity.class);
                         intent.putExtra("userid", userid);
                         mContext.startActivity(intent);
+                        activity.overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
                     }
 
 
@@ -351,6 +373,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
     }
+
+
 
 
 }

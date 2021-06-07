@@ -60,12 +60,6 @@ public class AddParticipants extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
     static class ViewPageAdapter extends FragmentPagerAdapter {
 
         private final ArrayList<Fragment> fragments;

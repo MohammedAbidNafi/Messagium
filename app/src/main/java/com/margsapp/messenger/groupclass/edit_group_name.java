@@ -84,7 +84,7 @@ public class edit_group_name extends AppCompatActivity {
     }
 
 
-    private void save(String txt_groupname,String username, String groupid) {
+    private void save(String txt_groupname, String username, String groupid) {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Group").child(groupid);
@@ -141,20 +141,18 @@ public class edit_group_name extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.done:
                 String txt_groupname = GroupName.getText().toString();
-                save(txt_groupname, username,groupid);
+                save(txt_groupname, username, groupid);
                 break;
         }
         return false;
     }
 
 
-
-
-    public void onBackPressed(){
+    public void onBackPressed() {
 
     }
 
-    private void status(String status){
+    private void status(String status) {
         FirebaseUser firebaseUserStatus = FirebaseAuth.getInstance().getCurrentUser();
         assert firebaseUserStatus != null;
         DatabaseReference statusdatabaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUserStatus.getUid());
@@ -189,6 +187,4 @@ public class edit_group_name extends AppCompatActivity {
         status("offline");
     }
 
-
-    }
-
+}
