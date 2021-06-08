@@ -21,8 +21,8 @@ android {
         applicationId "com.margsapp.messenger"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 18
-        versionName "2.5"
+        versionCode 19
+        versionName "2.5.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 

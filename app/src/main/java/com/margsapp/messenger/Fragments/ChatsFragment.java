@@ -68,8 +68,8 @@ public class ChatsFragment extends Fragment {
 
 
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid());
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        Query query = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid()).orderByChild("time");
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 usersList.clear();
@@ -120,6 +120,10 @@ public class ChatsFragment extends Fragment {
                             if(chatlist.getFriends().equals("Messaged")){
                                 mUsers.add(user);
 
+                            }
+
+                            if(chatlist.getFriends().equals("Requested")){
+                                mUsers.add(user);
                             }
                             if(chatlist.getFriends().equals("Blocked")){
                                 //Dont do anything
