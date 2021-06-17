@@ -89,12 +89,12 @@ public class StartActivity extends AppCompatActivity {
         String language = preferences.getString("lang","");
         setLocale(language);
 
-        FirebaseApp.initializeApp(this);
+        FirebaseApp.initializeApp(/*context=*/ this);
         FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
         firebaseAppCheck.installAppCheckProviderFactory(
-                SafetyNetAppCheckProviderFactory.getInstance());
-        firebaseAppCheck.installAppCheckProviderFactory(
                 DebugAppCheckProviderFactory.getInstance());
+
+
 
 
 

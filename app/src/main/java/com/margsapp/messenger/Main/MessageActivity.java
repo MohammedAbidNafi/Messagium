@@ -67,6 +67,7 @@ import com.margsapp.messenger.Notifications.Token;
 import com.margsapp.messenger.R;
 import com.margsapp.messenger.dp_view.personal_dpActivity;
 import com.margsapp.messenger.reply.SwipeController;
+import com.margsapp.messenger.video_call.CallActivity;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrInterface;
@@ -164,13 +165,7 @@ public class MessageActivity extends AppCompatActivity {
 
 
 
-        /*
-        SlidrConfig config = new SlidrConfig().Builder()
-                .edge(true)
-                .edgeSize(0.18f)
-                .build();
 
-         */
 
         SlidrConfig config = new SlidrConfig.Builder()
                 .edge(true)
@@ -914,6 +909,10 @@ public class MessageActivity extends AppCompatActivity {
 
                 break;
 
+            case R.id.video_call:
+                VideoCall();
+                break;
+
             case R.id.create_shortcut:
                 Shortcuts(userid,username.getText().toString().trim(),profileImage.getDrawable());
                 break;
@@ -925,6 +924,14 @@ public class MessageActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    private void VideoCall() {
+
+        String otherID = userid;
+
+        startActivity(new Intent(MessageActivity.this, CallActivity.class).putExtra("userid", otherID));
+
     }
 
     private void DeleteChat(String userid) {

@@ -9,8 +9,12 @@ public class User {
     private String DT;
     private String typingto;
 
+    private String lastseen;
+
+    private String version_name;
+
     private String joined_on;
-    public User(String id, String username, String imageUrl, String status, String DT, String joined_on, String typingto)
+    public User(String id, String username, String imageUrl, String status, String DT, String joined_on, String typingto, String lastseen,String version_name)
     {
         this.id = id;
         this.username = username;
@@ -19,6 +23,8 @@ public class User {
         this.DT = DT;
         this.joined_on = joined_on;
         this.typingto = typingto;
+        this.lastseen = lastseen;
+        this.version_name = version_name;
 
     }
 
@@ -27,9 +33,21 @@ public class User {
 
     }
 
+    public String getLastseen() {
+        return lastseen;
+    }
 
+    public void setLastseen(String lastseen) {
+        this.lastseen = lastseen;
+    }
 
+    public String getVersion_name() {
+        return version_name;
+    }
 
+    public void setVersion_name(String version_name) {
+        this.version_name = version_name;
+    }
 
     public String getTypingto() {
         return typingto;

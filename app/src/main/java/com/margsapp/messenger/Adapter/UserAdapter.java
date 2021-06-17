@@ -291,7 +291,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
                     Chat chat = snapshot1.getValue(Chat.class);
                     assert chat != null;
-                    assert firebaseUser != null;
+
                     if(chat.getReceiver().equals(firebaseUser.getUid())&& chat.getSender().equals(userid) ||
                             chat.getReceiver().equals(userid)&& chat.getSender().equals(firebaseUser.getUid())) {
                         theLastMessage = chat.getMessage();

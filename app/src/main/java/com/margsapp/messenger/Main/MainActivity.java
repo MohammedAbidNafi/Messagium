@@ -249,7 +249,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-
                 }
 
 
@@ -276,8 +275,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
+        
+
 
     }
+
+
 
 
     /*
@@ -321,8 +324,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.logout:
                 googleSignInClient.signOut().addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
-                        firebaseAuth.signOut();
+
                         startActivity(new Intent(MainActivity.this, StartActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                        finish();
+                        FirebaseAuth.getInstance().signOut();
                         if (mInterstitialAd != null) {
                             mInterstitialAd.show(MainActivity.this);
                         } else {
