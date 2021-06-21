@@ -10,13 +10,14 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
+import com.margsapp.messenger.Model.User
+import com.margsapp.messenger.Notifications.*
 import com.margsapp.messenger.R
 import kotlinx.android.synthetic.main.activity_video_call.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 
 class CallActivity : AppCompatActivity() {
@@ -28,9 +29,15 @@ class CallActivity : AppCompatActivity() {
 
     var firebaseRef = FirebaseDatabase.getInstance().getReference("Users")
 
+    var tokens = FirebaseDatabase.getInstance().getReference("Tokens")
+
     var isAudio = true
     var isVideo = true
 
+    var name = ""
+    var imageurl = ""
+
+    var apiService: APIService? = null
 
 
 
@@ -41,6 +48,18 @@ class CallActivity : AppCompatActivity() {
 
         username = FirebaseAuth.getInstance().uid.toString();
         friendsUsername = intent.getStringExtra("userid")!!
+
+        firebaseRef.child(username).addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {}
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val user = snapshot.getValue(User::class.java)
+
+                name = user?.username!!
+                imageurl = user.imageUrl!!
+
+            }
+        })
 
 
 
@@ -77,6 +96,41 @@ class CallActivity : AppCompatActivity() {
         }
 
         firebaseRef.child(friendsUsername).child("videocall").child("incall").setValue(username)
+        val query: Query = tokens.orderByKey().equalTo(friendsUsername)
+        query.addValueEventListener(object: ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {}
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Toast.makeText(applicationContext,"Sent Noti", Toast.LENGTH_SHORT).show()
+
+                for (snapshot1 in snapshot.children) {
+                    val token = snapshot1.getValue(Token::class.java)
+                    val data = VideoCallData(friendsUsername,username, name, imageurl,"true")
+                    assert(token != null)
+                    val invite = Inviter(data, token!!.token)
+
+                    apiService?.sendRemoteMessage(invite)
+                        ?.enqueue(object : Callback<MyResponse?> {
+                            override fun onResponse(
+                                call: Call<MyResponse?>,
+                                response: Response<MyResponse?>
+                            )
+                            {
+                                if (response.code() == 200) {
+                                    assert(response.body() != null)
+                                    if (response.body()!!.success != 1) {
+                                        Toast.makeText(applicationContext,"Failed! Error code 0x08060101", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
+
+                            override fun onFailure(call: Call<MyResponse?>, t: Throwable) {}
+                        })
+                }
+
+            }
+        })
+
         firebaseRef.child(friendsUsername).child("videocall").child("isAvailable").addValueEventListener(object: ValueEventListener {
             override fun onCancelled(error: DatabaseError) {}
 

@@ -20,6 +20,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.margsapp.messenger.Main.MainActivity;
 import com.margsapp.messenger.Main.MessageActivity;
+import com.margsapp.messenger.video_call.IncomingCallActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -35,11 +36,28 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         String user = remoteMessage.getData().get("user");
         String group = remoteMessage.getData().get("group");
 
+
+
+
+        String VideoCall = remoteMessage.getData().get("VideoCall");
+
         SharedPreferences preferences = getSharedPreferences("PREFS", MODE_PRIVATE);
         String currentuser = preferences.getString("currentuser", "none");
 
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        if(VideoCall != null){
+            if(VideoCall.equals("true")){
+
+                assert sented != null;
+                if(sented.equals(firebaseUser.getUid())){
+                    sendIncomingCall(remoteMessage);
+                }
+            }
+        }
+
 
 
         assert group != null;
@@ -75,10 +93,22 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
     }
 
-    private void incomingVideoCall(RemoteMessage remoteMessage){
+    private void sendIncomingCall(RemoteMessage remoteMessage) {
+        String user = remoteMessage.getData().get("user");
+        String imageUrl = remoteMessage.getData().get("imageurl");
+        String username = remoteMessage.getData().get("username");
 
+        Intent intent = new Intent("android.intent.action.MAIN");
+        intent.setClass(getApplicationContext(),IncomingCallActivity.class);
+        intent.putExtra("user", user);
+        intent.putExtra("imageUrl", imageUrl);
+        intent.putExtra("username", username);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
     }
+
+
 
     private void sendGroupNotification(RemoteMessage remoteMessage) {
         String user = remoteMessage.getData().get("user");

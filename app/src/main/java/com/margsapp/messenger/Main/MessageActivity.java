@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
@@ -41,11 +40,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.factor.bouncy.BouncyRecyclerView;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -55,7 +50,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Adapter.MessageAdapter;
-import com.margsapp.messenger.Model.APIService;
+import com.margsapp.messenger.Notifications.APIService;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
@@ -71,7 +66,6 @@ import com.margsapp.messenger.video_call.CallActivity;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrInterface;
-import com.r0adkll.slidr.model.SlidrListener;
 
 import org.jetbrains.annotations.NotNull;
 
