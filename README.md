@@ -18,6 +18,7 @@ If your working on this make sure you connect this project to your firebase acco
 6. Uses Firebase for Authentication, Database and Storage so reliable speed and performence.
 7. Slide back to go back
 8. Subtle Animations 
+9. Personal Messages are end to end encrypted
 
 
 ## Screenshots
@@ -38,7 +39,7 @@ If your working on this make sure you connect this project to your firebase acco
 10. Ablility to Forward Message. 
 11. Share Function.
 12. High Compression.
-13. End to End Encryption.
+13. <s>End to End Encryption.</s> Group Messages End to End Encryption
 14. Ability to Share Contacts.
 15. Profile Information of Other Users.
 16. Add Diffrent Language Translations.
