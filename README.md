@@ -16,6 +16,8 @@ If your working on this make sure you connect this project to your firebase acco
 4. Custom Shortcuts for user who message some particular person/group.
 5. Unique way to reply messages
 6. Uses Firebase for Authentication, Database and Storage so reliable speed and performence.
+7. Slide back to go back
+8. Subtle Animations 
 
 
 ## Screenshots
