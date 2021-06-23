@@ -3,7 +3,6 @@ package com.margsapp.messenger.video_call;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.margsapp.messenger.R;
@@ -11,7 +10,7 @@ import com.margsapp.messenger.R;
 public class IncomingCallActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.incoming_call);
 

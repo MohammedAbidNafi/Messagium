@@ -106,6 +106,7 @@ public class group_infoActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> {
             Intent openMainActivity = new Intent(group_infoActivity.this, group_messageActivity.class);
             openMainActivity.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+            openMainActivity.putExtra("groupid",groupid);
             startActivityIfNeeded(openMainActivity, 0);
         });
 
@@ -265,6 +266,7 @@ public class group_infoActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent openMainActivity = new Intent(group_infoActivity.this, group_messageActivity.class);
         openMainActivity.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+        openMainActivity.putExtra("groupid",groupid);
         startActivityIfNeeded(openMainActivity, 0);
     }
 }
