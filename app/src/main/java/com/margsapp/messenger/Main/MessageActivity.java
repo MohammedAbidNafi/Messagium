@@ -3,6 +3,7 @@ package com.margsapp.messenger.Main;
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ShortcutInfo;
@@ -62,6 +63,7 @@ import com.margsapp.messenger.Notifications.Token;
 import com.margsapp.messenger.R;
 import com.margsapp.messenger.dp_view.personal_dpActivity;
 import com.margsapp.messenger.reply.SwipeController;
+import com.margsapp.messenger.utils.AES;
 import com.margsapp.messenger.video_call.CallActivity;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
@@ -90,6 +92,8 @@ public class MessageActivity extends AppCompatActivity {
 
     CircleImageView profileImage;
     TextView username, statusText, reply_txt;
+
+    private AES aes;
 
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference,txt_database;
@@ -267,6 +271,8 @@ public class MessageActivity extends AppCompatActivity {
         SwipeController swipeController = new SwipeController(this, position -> onReply(mchat.get(position)));
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        aes = new AES(this);
 
         btn_cancel_reply.setOnClickListener(v -> hideReplyLayout());
 
@@ -590,11 +596,13 @@ public class MessageActivity extends AppCompatActivity {
 
     private void ReplyMessage(String sender, String receiver, String message, String timestamp, String isseen,String ReplyMessage,String ReplyTo,String sendername,String replyname){
 
+        String encryptedmessage = aes.Encrypt(message, this);
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
         hashMap.put("receiver", receiver);
-        hashMap.put("message", message);
+        hashMap.put("message", encryptedmessage);
         hashMap.put("isseen", isseen);
         hashMap.put("timestamp", timestamp);
         hashMap.put("reply", "true");
@@ -683,12 +691,14 @@ public class MessageActivity extends AppCompatActivity {
     {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
+        String encryptedmessage = aes.Encrypt(message, this);
+
 
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
         hashMap.put("receiver", receiver);
-        hashMap.put("message", message);
+        hashMap.put("message", encryptedmessage);
         hashMap.put("isseen", isseen);
         hashMap.put("timestamp", timestamp);
         hashMap.put("reply", "false");

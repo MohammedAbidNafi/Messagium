@@ -19,8 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.margsapp.messenger.Main.MessageActivity;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.R;
+import com.margsapp.messenger.utils.AES;
 
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     private final String imageUrl;
 
 
+    AES aes;
     FirebaseUser firebaseUser;
 
 
@@ -121,7 +124,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         Chat chat = mChat.get(position);
         holder.username.setVisibility(View.GONE);
 
-        holder.show_message.setText(chat.getMessage());
+        if(chat.getMessage()!=null){
+            aes = new AES(mContext);
+            String decryptedmessage = aes.Decrypt(chat.getMessage(),mContext);
+            holder.show_message.setText(decryptedmessage);
+        }
+
+
+
         holder.timestamp.setText(chat.getTimestamp());
 
 

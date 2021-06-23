@@ -29,6 +29,7 @@ import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
+import com.margsapp.messenger.utils.AES;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -49,6 +50,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     String UnreadMessage;
 
     Activity activity;
+
+    AES aes;
 
 
 
@@ -125,7 +128,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             holder.img_on.setVisibility(View.GONE);
         }
 
-        lastmessage(user.getId(), holder.last_msg,holder.date_lastmsg);
+        lastmessage(user.getId(), holder.last_msg,holder.date_lastmsg,mContext);
         UnreadMessage(user.getId(), holder.unread);
 
 
@@ -278,9 +281,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
 
-    private void lastmessage(String userid, TextView lastmsg,TextView date_lastmsg){
+    private void lastmessage(String userid, TextView lastmsg,TextView date_lastmsg,Context mContext){
         theLastMessage = "default";
         date_time = "default";
+        aes = new AES(mContext);
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
 
@@ -306,7 +310,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 if ("default".equals(theLastMessage)) {
                     lastmsg.setText("No Message");
                 } else {
-                    lastmsg.setText(theLastMessage);
+                    String decryptedmessage = aes.Decrypt(theLastMessage, mContext);
+                    lastmsg.setText(decryptedmessage);
                     date_lastmsg.setText(date_time);
                 }
 
