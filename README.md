@@ -19,6 +19,7 @@ If your working on this make sure you connect this project to your firebase acco
 7. Slide back to go back
 8. Subtle Animations 
 9. Personal Messages are end to end encrypted
+10. Ability to VideoCall
 
 
 ## Screenshots
@@ -31,9 +32,9 @@ If your working on this make sure you connect this project to your firebase acco
 2. Improve performence
 3. <S>Phone Authentication.</S>
 4. <S>Group Chat.</S>
-5. Ability to send Images.
+5. <S>Ability to send Images.</S>(In Testing)
 6. Ability to send voice messages.
-7. Audio/Video call.
+7. <s>Audio/Video call.</s>(In Testing)
 8. A Good Name for this whole thing.
 9. Ability to send location.
 10. Ablility to Forward Message. 
@@ -45,6 +46,7 @@ If your working on this make sure you connect this project to your firebase acco
 16. Add Diffrent Language Translations.
 17. Click Enter to Send Message.
 18. Ability to mute Notifications.
+19. An Offline sql-lite Database synced with Firebase Database
 
 ## Ways to Contribute 
 1. Create an issue to discuss about your idea.(https://github.com/MohammedAbidNafi/MessengerByMargs/issues)
