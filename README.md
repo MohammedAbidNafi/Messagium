@@ -18,7 +18,7 @@ The second branch called my-sql is the branch which will have sql-lite as databa
 4. Custom Shortcuts for user who message some particular person/group.
 5. Unique way to reply messages
 6. Uses Firebase for Authentication, Database and Storage so reliable speed and performence.
-7. Slide back to go back
+7. Swipe left to go back
 8. Subtle Animations 
 9. Personal Messages are end to end encrypted
 10. Ability to VideoCall
