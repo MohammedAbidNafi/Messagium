@@ -10,6 +10,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFF0</color>
 
+    <color name="recycler_seperator">#C6C6C6</color>
     <color name="true_black_white">#fff</color>
 
     <color name="other_reply">#AFAFAF</color>
@@ -27,10 +28,10 @@
     <color name="blacktext">#000</color>
     <color name="greytext">#616161</color>
 
-    <color name="editText">#000</color>
+    <color name="editText">#FFFF</color>
 
     <color name="card_back">#fff</color>
-    <color name="diffrentBack">#DFDFDF</color>
+    <color name="diffrentBack">#EDEDED</color>
     <color name="othertext">#E5E4E9</color>
 
     <color name="company_blue">#0064CF</color>
@@ -45,5 +46,9 @@
 
 
     <color name="primary">#689F38</color>
+    <color name="light_blue_50">#FFE1F5FE</color>
+    <color name="light_blue_200">#FF81D4FA</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
 
 </resources>

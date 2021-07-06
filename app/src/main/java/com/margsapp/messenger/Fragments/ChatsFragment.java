@@ -28,6 +28,7 @@ import com.margsapp.messenger.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class ChatsFragment extends Fragment {
@@ -62,7 +63,8 @@ public class ChatsFragment extends Fragment {
         recyclerView.setOverscrollAnimationSize(0.3f);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-
+        Objects.requireNonNull(recyclerView.getItemAnimator()).setAddDuration(0);
+        recyclerView.getItemAnimator().setRemoveDuration(0);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         usersList = new ArrayList<>();
 

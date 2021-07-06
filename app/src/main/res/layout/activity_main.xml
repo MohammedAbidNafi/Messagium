@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:animateLayoutChanges="true"
     tools:context=".Main.MainActivity"
     android:background="@color/background">
 
@@ -44,7 +45,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:transitionName="imageTransition"
+                android:transitionName="main_image"
                 android:id="@+id/DP"
                 android:visibility="gone"/>
 

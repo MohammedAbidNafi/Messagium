@@ -85,8 +85,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#C6C6C6"
-
+        android:background="@color/recycler_seperator"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="50dp"/>
 

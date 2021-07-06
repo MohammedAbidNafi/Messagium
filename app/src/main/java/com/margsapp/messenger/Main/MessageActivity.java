@@ -2,16 +2,18 @@ package com.margsapp.messenger.Main;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
+import android.app.Dialog;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,28 +22,36 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.transition.TransitionManager;
 
 import com.bumptech.glide.Glide;
 import com.factor.bouncy.BouncyRecyclerView;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -61,6 +71,7 @@ import com.margsapp.messenger.Notifications.MyResponse;
 import com.margsapp.messenger.Notifications.Sender;
 import com.margsapp.messenger.Notifications.Token;
 import com.margsapp.messenger.R;
+import com.margsapp.messenger.dp_view.chat_image_viewActivity;
 import com.margsapp.messenger.dp_view.personal_dpActivity;
 import com.margsapp.messenger.reply.SwipeController;
 import com.margsapp.messenger.utils.AES;
@@ -68,6 +79,7 @@ import com.margsapp.messenger.video_call.CallActivity;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrInterface;
+import com.r0adkll.slidr.model.SlidrListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -86,7 +98,7 @@ import retrofit2.Response;
 
 import static com.margsapp.messenger.Settings.CustomiseActivity.THEME;
 
-public class MessageActivity extends AppCompatActivity {
+public class MessageActivity extends AppCompatActivity implements MessageAdapter.EventListener {
 
     private static final String TAG = "MESSAGE ACTIVITY" ;
 
@@ -98,6 +110,7 @@ public class MessageActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference,txt_database;
 
+    ImageView addImage;
 
     ImageButton btnSend, btn_cancel_reply;
     EditText text_send;
@@ -115,6 +128,8 @@ public class MessageActivity extends AppCompatActivity {
 
     APIService apiService;
 
+
+
     String userid;
     String ReplyId;
     String Sendername;
@@ -122,10 +137,12 @@ public class MessageActivity extends AppCompatActivity {
     String imageUrl;
     String blocked;
 
+    Dialog dialog;
+
 
     boolean entertosend = false;
-    ConstraintLayout reply, editor;
-    RelativeLayout warning;
+    ConstraintLayout reply;
+    RelativeLayout warning,editor;
 
 
     private InterstitialAd mInterstitialAd;
@@ -136,6 +153,9 @@ public class MessageActivity extends AppCompatActivity {
     ShortcutManager shortcutManager;
 
     private SlidrInterface slidrInterface;
+
+    private static final int RC_PHOTO_PICKER =  105;
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -152,6 +172,9 @@ public class MessageActivity extends AppCompatActivity {
         if(Theme.equals("0")) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         }
+
+        TransitionManager.beginDelayedTransition(editor);
+        dialog = new Dialog(MessageActivity.this);
     }
 
     @SuppressLint("GetInstance")
@@ -161,13 +184,30 @@ public class MessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
 
-
-
-
-
         SlidrConfig config = new SlidrConfig.Builder()
                 .edge(true)
-                .edgeSize(0.2f) // The % of the screen that counts as the edge, default 18%
+                .edgeSize(0.2f)
+                .listener(new SlidrListener() {
+                    @Override
+                    public void onSlideStateChanged(int state) {
+
+                    }
+
+                    @Override
+                    public void onSlideChange(float percent) {
+
+                    }
+
+                    @Override
+                    public void onSlideOpened() {
+
+                    }
+
+                    @Override
+                    public boolean onSlideClosed() {
+                        return false;
+                    }
+                })// The % of the screen that counts as the edge, default 18%
                 .build();
 
 
@@ -206,7 +246,17 @@ public class MessageActivity extends AppCompatActivity {
 
          */
 
+        addImage = findViewById(R.id.addimage);
 
+
+
+        addImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onMediaSelect();
+                editor.setVisibility(View.GONE);
+            }
+        });
         toolbar.setNavigationOnClickListener(v -> {
 
             /*
@@ -268,6 +318,10 @@ public class MessageActivity extends AppCompatActivity {
 
 
 
+
+
+
+
         SwipeController swipeController = new SwipeController(this, position -> onReply(mchat.get(position)));
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -303,11 +357,12 @@ public class MessageActivity extends AppCompatActivity {
         text_send.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                //recyclerView.scrollToPosition(messageAdapter.getItemCount()-1);
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //recyclerView.scrollToPosition(messageAdapter.getItemCount()-1);
                 btnSend.setVisibility(View.VISIBLE);
                 entertosend = true;
                 txt_database = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
@@ -517,7 +572,7 @@ public class MessageActivity extends AppCompatActivity {
 
     private void checkText() {
         if(text_send.getText().toString().equals("")){
-            btnSend.setVisibility(View.INVISIBLE);
+            btnSend.setVisibility(View.GONE);
             entertosend = false;
             txt_database = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
             txt_database.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -537,18 +592,12 @@ public class MessageActivity extends AppCompatActivity {
         }
     }
 
-    public void lockSlide(View view){
-        slidrInterface.lock();
-    }
-
-    public void unlockSlide(View view){
-        slidrInterface.unlock();
-    }
 
 
     private void onReply(Chat getChat) {
 
-        reply_txt.setText(getChat.getMessage());
+        String decryptedmessage = aes.Decrypt(getChat.getMessage(),getApplicationContext());
+        reply_txt.setText(decryptedmessage);
         ReplyId = getChat.getSender();
         ReplyName = getChat.getSendername();
         reply.setVisibility(View.VISIBLE);
@@ -612,7 +661,13 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("replyname", replyname);
 
 
-        reference.child("Chats").push().setValue(hashMap);
+        reference.child("Chats").push().setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                MediaPlayer mp = MediaPlayer.create(MessageActivity.this, R.raw.messagesent);
+                mp.start();
+            }
+        });
 
 
 
@@ -704,7 +759,13 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("reply", "false");
         hashMap.put("sendername", sendername);
 
-        reference.child("Chats").push().setValue(hashMap);
+        reference.child("Chats").push().setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                MediaPlayer mp = MediaPlayer.create(MessageActivity.this, R.raw.messagesent);
+                mp.start();
+            }
+        });
 
 
 
@@ -875,7 +936,8 @@ public class MessageActivity extends AppCompatActivity {
 
 
 
-                    messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageUrl);
+                    messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageUrl,MessageActivity.this);
+                    messageAdapter.addEventListener(MessageActivity.this);
                     recyclerView.setAdapter(messageAdapter);
 
 
@@ -887,6 +949,95 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+
+
+    public void onMediaSelect(){
+
+
+        AppCompatButton gallery,camera;
+
+        CardView cancel;
+
+        dialog.setContentView(R.layout.add_image_pop_up);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        lp.copyFrom(window.getAttributes());
+        //This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+
+
+        dialog.setCancelable(false);
+
+
+
+        gallery = dialog.findViewById(R.id.gallery);
+
+        camera = dialog.findViewById(R.id.camera);
+
+        cancel = dialog.findViewById(R.id.cancel);
+
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/jpeg");
+                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                startActivityForResult(Intent.createChooser(intent, "Complete action using"),
+                        RC_PHOTO_PICKER);
+                dialog.dismiss();
+                editor.setVisibility(View.VISIBLE);
+            }
+        });
+
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"Camera!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.setVisibility(View.VISIBLE);
+                dialog.dismiss();
+            }
+        });
+
+
+
+
+
+
+
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == RC_PHOTO_PICKER) {
+            assert data != null;
+            Uri selectedImage = data.getData();
+
+
+            Intent intent = new Intent(getApplicationContext(), SendImageActivity.class);
+            intent.putExtra("imageUri", selectedImage.toString());
+            intent.putExtra("userid", userid);
+            intent.putExtra("sendername",Sendername);
+            startActivity(intent);
+
+
+        }
     }
 
     @Override
@@ -1082,6 +1233,25 @@ public class MessageActivity extends AppCompatActivity {
        // txt_database.removeEventListener(textListener);
         status("offline");
         currentUser("none");
+        messageAdapter.removeEventListener();
+    }
+
+
+    @Override
+    public void openImage(String uri, String timestamp, String senderid, String extraid, ImageView chatimageview) {
+
+        Intent intent = new Intent(MessageActivity.this, chat_image_viewActivity.class);
+        Pair[] pairs = new Pair[1];
+        pairs[0] = new Pair<View, String>(chatimageview, "chatImage");
+        intent.putExtra("imageuri",uri);
+        intent.putExtra("senderid",senderid);
+        intent.putExtra("extraid",extraid);
+        intent.putExtra("timestamp",timestamp);
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MessageActivity.this, pairs);
+        startActivity(intent, options.toBundle());
+
+        new Handler().postDelayed(this::finish, 1000);
+
     }
 
 

@@ -19,8 +19,8 @@ android {
         applicationId "com.margsapp.messenger"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 19
-        versionName "2.6.1.1"
+        versionCode 20
+        versionName "3.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -28,8 +28,8 @@ android {
 
     buildTypes {
         release {
-            shrinkResources false
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             
         }
@@ -37,6 +37,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
     }
 }
 
@@ -105,8 +108,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'com.factor:bouncy:1.8'
-    implementation 'com.willowtreeapps:signinwithapplebutton:0.3'
+
     implementation 'com.r0adkll:slidableactivity:2.1.0'
+    implementation 'com.github.nyakokishi:ChatImageView:1.0.2'
+    implementation 'com.burhanrashid52:photoeditor:1.1.4'
 
 
 

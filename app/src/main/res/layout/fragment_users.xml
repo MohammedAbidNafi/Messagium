@@ -5,13 +5,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.UsersFragment"
-    android:background="@color/background">
+    android:background="@color/diffrentBack">
 
 
 
    <RelativeLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
+       android:background="@color/diffrentBack"
        tools:ignore="UselessParent">
 
       <androidx.appcompat.widget.AppCompatEditText
@@ -32,6 +33,7 @@
       <RelativeLayout
           android:layout_width="match_parent"
           android:layout_height="match_parent"
+          android:background="@color/diffrentBack"
           android:layout_below="@+id/search_users">
          <com.factor.bouncy.BouncyRecyclerView
              android:layout_width="match_parent"

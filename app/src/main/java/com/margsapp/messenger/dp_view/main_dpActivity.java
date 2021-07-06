@@ -65,7 +65,7 @@ public class main_dpActivity extends AppCompatActivity {
         super.onBackPressed();
         Intent intent = new Intent(main_dpActivity.this, MainActivity.class);
         Pair[] pairs = new Pair[1];
-        pairs[0] = new Pair<View, String>(dpView, "imageTransition");
+        pairs[0] = new Pair<View, String>(dpView, "main_image");
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(main_dpActivity.this, pairs);
         startActivity(intent, options.toBundle());
         finish();

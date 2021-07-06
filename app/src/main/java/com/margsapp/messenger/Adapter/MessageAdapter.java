@@ -1,14 +1,14 @@
 package com.margsapp.messenger.Adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,20 +22,35 @@ import com.google.firebase.auth.FirebaseUser;
 import com.margsapp.messenger.Main.MessageActivity;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.R;
+import com.margsapp.messenger.dp_view.chat_image_viewActivity;
+import com.margsapp.messenger.dp_view.personal_dpActivity;
 import com.margsapp.messenger.utils.AES;
+import com.squareup.picasso.Picasso;
 
+import java.util.EventListener;
 import java.util.List;
 
-import static com.margsapp.messenger.Settings.AboutActivity.TEXT1;
+import io.github.leibnik.chatimageview.ChatImageView;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
     private final Context mContext;
     private final List<Chat> mChat;
     private final String imageUrl;
 
+    private final Activity activity;
+
 
     AES aes;
     FirebaseUser firebaseUser;
+
+    EventListener eventListener;
+
+    public interface EventListener {
+        void openImage(String uri, String timestamp, String senderid,String extraid, ImageView chatimageview);
+    }
+
+    public void addEventListener(EventListener eventListener){ this.eventListener = eventListener;}
+    public void removeEventListener(){ eventListener = null;}
 
 
 
@@ -45,15 +60,19 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public static final int REPLY_TYPE_LEFT = 2;
     public static final int REPLY_TYPE_RIGHT = 3;
 
+    public static final int IMAGE_TYPE_LEFT = 4;
+    public static final int IMAGE_TYPE_RIGHT = 5;
 
 
 
 
 
-    public MessageAdapter(Context mContext, List<Chat> mChat, String imageUrl) {
+
+    public MessageAdapter(Context mContext, List<Chat> mChat, String imageUrl, Activity activity) {
         this.mContext = mContext;
         this.mChat = mChat;
         this.imageUrl = imageUrl;
+        this.activity = activity;
 
 
     }
@@ -81,8 +100,20 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         if (viewType == REPLY_TYPE_RIGHT) {
             ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.chat_reply_right, parent, false);
             return new MessageAdapter.ViewHolder(viewGroup);
-        } else {
+        }
+
+        if(viewType == REPLY_TYPE_LEFT) {
             ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.chat_reply_left, parent, false);
+            return new MessageAdapter.ViewHolder(viewGroup);
+        }
+
+        if(viewType == IMAGE_TYPE_LEFT){
+            ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.chat_image_left, parent, false);
+            return new MessageAdapter.ViewHolder(viewGroup);
+        }
+
+        else {
+            ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.chat_image_right, parent, false);
             return new MessageAdapter.ViewHolder(viewGroup);
         }
 
@@ -95,9 +126,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if(mChat.get(position).getSender().equals(firebaseUser.getUid()))
         {
+
             if(mChat.get(position).getReply().equals("true")) {
                 return REPLY_TYPE_RIGHT;
-            }else{
+            }
+
+            if(mChat.get(position).getReply().equals("image")){
+                return IMAGE_TYPE_RIGHT;
+            }
+
+            else{
                 return MSG_TYPE_RIGHT;
             }
 
@@ -105,7 +143,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         else {
             if(mChat.get(position).getReply().equals("true")){
                 return REPLY_TYPE_LEFT;
-            }else{
+            }
+
+            if(mChat.get(position).getReply().equals("image")){
+                return IMAGE_TYPE_LEFT;
+            }
+
+            else{
                 return MSG_TYPE_LEFT;
             }
 
@@ -119,9 +163,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Chat chat = mChat.get(position);
+
+
+
         holder.username.setVisibility(View.GONE);
 
         if(chat.getMessage()!=null){
@@ -135,19 +182,23 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         holder.timestamp.setText(chat.getTimestamp());
 
 
+
+
         if(chat.getReply().equals("true")){
 
             if(chat.getReceiver().equals(chat.getReplyto())){
                 holder.reply_txt_them.setVisibility(View.GONE);
                 holder.reply_txt_us.setVisibility(View.VISIBLE);
                 holder.reply_username.setText(chat.getReplyname());
-                holder.reply_txt_us.setText(chat.getReplytext());
+                String decryptedmessage = aes.Decrypt(chat.getReplytext(),mContext);
+                holder.reply_txt_us.setText(decryptedmessage);
 
             }else {
                 holder.reply_txt_us.setVisibility(View.GONE);
                 holder.reply_txt_them.setVisibility(View.VISIBLE);
                 holder.reply_username.setText(chat.getReplyname());
-                holder.reply_txt_them.setText(chat.getReplytext());
+                String decryptedmessage = aes.Decrypt(chat.getReplytext(),mContext);
+                holder.reply_txt_them.setText(decryptedmessage);
             }
 
 
@@ -175,6 +226,42 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             holder.txt_seen.setVisibility(View.GONE);
         }
 
+
+        if(chat.getReply().equals("image")){
+
+            String uri = chat.getImageurl();
+            String timestamp = chat.getTimestamp();
+            String senderid = chat.getSender();
+            String extraid = chat.getReceiver();
+            Picasso.get().load(uri).placeholder(R.drawable.loading).into(holder.chatimage);
+
+            holder.chatimage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openImage(uri,timestamp,senderid,extraid,holder.chatimage);
+                }
+            });
+        }
+    }
+
+    private void openImage(String uri, String timestamp, String senderid,String extraid, ImageView chatimageview) {
+
+
+        eventListener.openImage(uri, timestamp, senderid, extraid, chatimageview);
+        /*
+        Intent intent = new Intent(mContext, chat_image_viewActivity.class);
+        Pair[] pairs = new Pair[1];
+        pairs[0] = new Pair<View, String>(chatimageview, "chatImage");
+        intent.putExtra("imageuri",uri);
+        intent.putExtra("senderid",senderid);
+        intent.putExtra("extraid",extraid);
+        intent.putExtra("timestamp",timestamp);
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, pairs);
+        mContext.startActivity(intent, options.toBundle());
+
+         */
+
+
     }
 
     @Override
@@ -196,6 +283,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         public TextView reply_username;
         public LinearLayout linearLayout;
 
+        public ChatImageView chatimage;
+
 
         public ViewHolder(View view){
             super(view);
@@ -212,6 +301,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
             reply_txt_them = itemView.findViewById(R.id.replytextthem);
             reply_txt_us = itemView.findViewById(R.id.replytextus);
+
+            chatimage = itemView.findViewById(R.id.chatimage);
         }
 
 

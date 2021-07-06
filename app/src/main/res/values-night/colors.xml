@@ -12,6 +12,8 @@
 
     <color name="true_black_white">#000</color>
 
+    <color name="recycler_seperator">#474747</color>
+
     <color name="dp_view_toolbar">#191919</color>
     <color name="other_reply">#FFFFFF</color>
     <color name="onToolClick">#FF9392</color>
@@ -22,7 +24,7 @@
 
     <color name="WebLink">#0055FF</color>
 
-    <color name="editText">#fff</color>
+    <color name="editText">#434343</color>
 
     <color name="red">#FF1919</color>
 

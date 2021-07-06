@@ -10,11 +10,13 @@
         <item name="colorSecondaryVariant">@color/coral</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
 
     <style name="Loader" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/coral</item>
@@ -25,6 +27,7 @@
         <item name="colorSecondaryVariant">@color/coral</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     </style>
@@ -41,6 +44,7 @@
         <item name="colorSecondaryVariant">@color/coral</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowContentTransitions">true</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
@@ -69,6 +73,11 @@
 
     <style name="MenuStyle" parent="Theme.AppCompat.DayNight">
         <item name="background">@color/background</item>
+    </style>
+
+    <style name="ThemeOverlay.Messenger.AppWidgetContainer" parent="">
+        <item name="appWidgetBackgroundColor">@color/light_blue_900</item>
+        <item name="appWidgetTextColor">@color/light_blue_200</item>
     </style>
 
 

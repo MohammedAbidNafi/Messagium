@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|bottom"
+    >
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:id="@+id/camera"
+        android:layout_marginHorizontal="5dp"
+        android:background="@drawable/group_info_popup_top"
+        android:text="@string/camera"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:textColor="@color/company_blue"
+
+        >
+
+    </androidx.appcompat.widget.AppCompatButton>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#707070"
+        android:layout_marginHorizontal="5dp"
+        />
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:id="@+id/gallery"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginBottom="15sp"
+        android:text="@string/gallery"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textColor="@color/company_blue"
+        android:background="@drawable/group_info_popup_bottom"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:id="@+id/cancel"
+        android:layout_marginHorizontal="5dp"
+        app:cardCornerRadius="15sp"
+        android:layout_marginBottom="10dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                android:textStyle="bold"
+                android:textColor="@color/red"
+                android:textSize="20sp"
+                android:layout_centerInParent="true"
+                />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
+</LinearLayout>

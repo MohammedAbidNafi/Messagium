@@ -79,7 +79,7 @@ public class AES {
             Toast.makeText(context, "Decryption Error! 1", Toast.LENGTH_SHORT).show();
         } catch (BadPaddingException e) {
             e.printStackTrace();
-            Toast.makeText(context, "Decryption Error! 2", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Decryption Error! 2", Toast.LENGTH_SHORT).show();
         } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
             //Toast.makeText(context, "Decryption Error! 3", Toast.LENGTH_SHORT).show();

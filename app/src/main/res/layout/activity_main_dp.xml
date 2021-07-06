@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="410dp"
         android:layout_marginTop="70dp"
-        android:transitionName="imageTransition"
+        android:transitionName="main_image"
         android:id="@+id/dpview"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bar"

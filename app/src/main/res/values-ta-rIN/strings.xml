@@ -3,16 +3,6 @@
     <string name="app_name">மெஸ்சேன்ஜ்ர்</string>
 
 
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be > 5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-    <string name="note_Register">🔒 Your email Id and Password are highly encrypted if there\'s a data breach your information wont be leaked. And even Margs Global can\'t read your password. But has access to your email for password recovery purposes only.</string>
 
     <string name="tandc">கிளிக் செய்வதன் மூலம் விதிமுறைகள் மற்றும் நிபந்தனைகளுக்கு நீங்கள் ஒப்புக்கொள்கிறீர்கள்.</string>
 
@@ -116,5 +106,13 @@
     <string name="ok">சரி</string>
     <string name="now_admin">இப்போது நிர்வாகி.</string>
     <string name="edit_group_name">குழு பெயரைத் திருத்து.</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="downloadimage">Download</string>
+    <string name="set_as_wallpaper">Set Wallpaper</string>
+    <string name="profile">Set Profile</string>
+    <string name="share">Share</string>
+    <string name="wallpaper_ask">Are you sure you want to set this image as wallpaper?</string>
+    <string name="wallpaper_title">Set Wallpaper</string>
 
 </resources>

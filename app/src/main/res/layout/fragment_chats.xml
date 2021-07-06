@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.ChatsFragment"
+    android:animateLayoutChanges="true"
     android:background="@color/background">
 
     <com.factor.bouncy.BouncyRecyclerView

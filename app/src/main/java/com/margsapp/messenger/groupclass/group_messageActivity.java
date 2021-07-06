@@ -11,12 +11,14 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,7 +26,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatButton;
@@ -64,6 +68,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -79,7 +84,7 @@ public class group_messageActivity extends AppCompatActivity {
     TextView groupusername, part_names, reply_txt;
 
     FirebaseUser firebaseUser;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference,partdatabaseReference;
 
 
     ImageButton btnSend, btn_cancel_reply;
@@ -88,7 +93,9 @@ public class group_messageActivity extends AppCompatActivity {
     AppCompatButton btn_accept, btn_reject, btn_block;
 
     GroupMessageAdapter groupMessageAdapter;
+
     List<GroupChat> mchat;
+    List<String> mUsernames;
 
     BouncyRecyclerView recyclerView;
 
@@ -129,6 +136,7 @@ public class group_messageActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,12 +156,21 @@ public class group_messageActivity extends AppCompatActivity {
 
 
         group_info.setOnTouchListener((v, event) -> {
-            group_info.setBackgroundColor(group_messageActivity.this.getResources().getColor(R.color.onToolClick));
+
+
+
+            if(event.getAction() == MotionEvent.ACTION_DOWN)  {
+                group_info.setBackgroundColor(getResources().getColor(R.color.onToolClick));
+
+            }else {
+                group_info.setBackgroundColor(getResources().getColor(R.color.coral));
+
+            }
             return false;
         });
         group_info.setOnClickListener(v -> {
             startActivity(new Intent(group_messageActivity.this, group_infoActivity.class).putExtra("groupid", groupid));
-            group_info.setBackgroundColor(group_messageActivity.this.getResources().getColor(R.color.coral));
+
         });
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
@@ -311,6 +328,7 @@ public class group_messageActivity extends AppCompatActivity {
             }
         });
 
+
         databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupid);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -331,10 +349,98 @@ public class group_messageActivity extends AppCompatActivity {
                     Glide.with(getApplicationContext()).load(group.getImageUrl()).into(group_image);
                 }
                 readMessage(groupid);
+
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        mUsernames = new ArrayList<>();
+        partdatabaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupid).child("members");
+        partdatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @org.jetbrains.annotations.NotNull DataSnapshot snapshot) {
+                mUsernames.clear();
+                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                    Group group1 = snapshot1.getValue(Group.class);
+
+                    assert group1 != null;
+                    mUsernames.add(group1.getUser_name());
+
+                }
+
+                StringBuilder str = new StringBuilder("");
+
+                // Traversing the ArrayList
+                for (String eachstring : mUsernames) {
+
+                    // Each element in ArrayList is appended
+                    // followed by comma
+                    str.append(eachstring).append(" , ");
+                }
+
+                // StringBuffer to String conversion
+                String commaseparatedlist = str.toString();
+
+                // By following condition you can remove the last
+                // comma
+                if (commaseparatedlist.length() > 0)
+                    commaseparatedlist
+                            = commaseparatedlist.substring(
+                            0, commaseparatedlist.length() - 1);
+
+                part_names.setText(commaseparatedlist);
+            }
+
+            @Override
+            public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError error) {
+
+            }
+        });
+
+        mUsernames = new ArrayList<>();
+        partdatabaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupid).child("members");
+        partdatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @org.jetbrains.annotations.NotNull DataSnapshot snapshot) {
+                mUsernames.clear();
+                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                    Group group1 = snapshot1.getValue(Group.class);
+
+                    assert group1 != null;
+                    mUsernames.add(group1.getUser_name());
+
+                }
+
+                StringBuilder str = new StringBuilder("");
+
+                // Traversing the ArrayList
+                for (String eachstring : mUsernames) {
+
+                    // Each element in ArrayList is appended
+                    // followed by comma
+                    str.append(eachstring).append(" , ");
+                }
+
+                // StringBuffer to String conversion
+                String commaseparatedlist = str.toString();
+
+                // By following condition you can remove the last
+                // comma
+                if (commaseparatedlist.length() > 0)
+                    commaseparatedlist
+                            = commaseparatedlist.substring(
+                            0, commaseparatedlist.length() - 1);
+
+                part_names.setText(commaseparatedlist);
+            }
+
+            @Override
+            public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError error) {
 
             }
         });

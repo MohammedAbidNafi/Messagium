@@ -12,7 +12,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
             android:layout_below="@id/txt_seen"
             android:layout_alignParentEnd="true"
             android:id="@+id/timestamp"/>
@@ -33,7 +32,7 @@
             android:layout_alignParentEnd="true"
             android:padding="8dp"
             android:id="@+id/show_message"
-            android:layout_below="@+id/replyline"
+
             android:textSize="18sp"
 
             android:textColor="#fff"/>

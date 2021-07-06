@@ -7,13 +7,10 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.util.Pair;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,11 +28,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -56,7 +49,6 @@ import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
 import com.margsapp.messenger.Settings.edit_profile;
 import com.margsapp.messenger.dp_view.main_dpActivity;
-import com.margsapp.messenger.dp_view.personal_dpActivity;
 import com.margsapp.messenger.groupclass.create_groupActivity;
 
 import java.text.SimpleDateFormat;
@@ -92,6 +84,10 @@ public class MainActivity extends AppCompatActivity {
 
     Dialog dialog;
 
+    ViewPager viewPager;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +96,10 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("lang_settings", Activity.MODE_PRIVATE);
         String language = sharedPreferences.getString("lang","");
         setLocale(language);
+
+        viewPager = findViewById(R.id.viewPager);
+
+        TransitionManager.beginDelayedTransition(viewPager);
 
 
       //  dialog = new Dialog(this);
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
             Intent intent = new Intent(MainActivity.this, main_dpActivity.class);
             Pair[] pairs = new Pair[1];
-            pairs[0] = new Pair<View, String>(DP, "imageTransition");
+            pairs[0] = new Pair<View, String>(DP, "main_image");
             intent.putExtra("data",data);
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
             startActivity(intent, options.toBundle());
