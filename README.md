@@ -22,6 +22,7 @@ The second branch called my-sql is the branch which will have sql-lite as databa
 8. Subtle Animations 
 9. Personal Messages are end to end encrypted
 10. Ability to VideoCall
+11. Send Images without losing any quality
 
 
 ## Screenshots
@@ -34,7 +35,7 @@ The second branch called my-sql is the branch which will have sql-lite as databa
 2. Improve performence
 3. <S>Phone Authentication.</S>
 4. <S>Group Chat.</S>
-5. <S>Ability to send Images.</S>(In Testing)
+5. <S>Ability to send Images.</S>
 6. Ability to send voice messages.
 7. <s>Audio/Video call.</s>(In Testing)
 8. A Good Name for this whole thing.
