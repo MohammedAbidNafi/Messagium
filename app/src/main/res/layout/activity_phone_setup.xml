@@ -33,37 +33,66 @@ android:background="@color/diffrentBack">
 
             />
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:layout_width="250dp"
-            android:layout_height="50sp"
-            android:layout_centerHorizontal="true"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:id="@+id/username_item"
+            android:layout_height="90dp"
+            app:counterEnabled="true"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxBackgroundColor="@color/editText"
+            app:boxBackgroundMode="outline"
+            android:layout_marginHorizontal="35dp"
+            android:layout_marginTop="10dp"
             android:layout_below="@+id/DP"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:background="@drawable/edit_text_card_back"
-            android:hint="@string/username_edit_txt"
-            android:id="@+id/username"
-            android:layout_marginBottom="25sp"/>
-        <androidx.appcompat.widget.AppCompatEditText
-            android:layout_width="250dp"
-            android:layout_height="50sp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/username"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:background="@drawable/edit_text_card_back"
-            android:hint="Enter status"
-            android:id="@+id/dt"
-            android:layout_marginBottom="25sp"/>
+            app:counterMaxLength="30"
+            >
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:maxLength="30"
+                android:layout_height="60dp"
+                android:hint="Username..."/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:id="@+id/dt_item"
+            android:layout_height="90dp"
+            app:counterEnabled="true"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxBackgroundColor="@color/editText"
+            app:boxBackgroundMode="outline"
+            android:layout_marginHorizontal="35dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/username_item"
+            app:counterMaxLength="150"
+            >
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/dt"
+                android:layout_width="match_parent"
+                android:maxLength="150"
+                android:layout_height="60dp"
+                android:hint="Status..."/>
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="200dp"
             android:layout_height="40dp"
             android:id="@+id/next"
             android:background="@drawable/button"
-            android:text="Next"
+            android:text="@string/next"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/dt"
+            android:layout_below="@+id/dt_item"
             android:layout_marginBottom="20dp"
             android:textColor="@color/background_white"/>
 

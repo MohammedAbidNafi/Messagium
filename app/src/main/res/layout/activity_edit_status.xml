@@ -15,7 +15,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         app:counterEnabled="true"
         app:boxCornerRadiusBottomEnd="15dp"
         app:boxCornerRadiusBottomStart="15dp"
@@ -26,12 +26,14 @@
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="50dp"
         android:layout_below="@+id/toolbar"
-        app:counterMaxLength="150">
+        app:counterMaxLength="150"
+        >
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:maxLength="150"
+            android:layout_height="60dp"
             android:hint="Enter Status"/>
     </com.google.android.material.textfield.TextInputLayout>
 

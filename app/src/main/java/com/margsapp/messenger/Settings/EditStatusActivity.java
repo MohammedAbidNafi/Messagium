@@ -13,6 +13,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -90,7 +94,16 @@ public class EditStatusActivity extends AppCompatActivity {
 
                 HashMap<String, Object> hash = new HashMap<>();
                 hash.put("DT", txt_status);
-                reference.updateChildren(hash);
+                reference.updateChildren(hash).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<Void> task) {
+                        Intent intent = new Intent(EditStatusActivity.this, edit_profile.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
+                        finish();
+                    }
+                });
 
 
 
@@ -118,10 +131,7 @@ public class EditStatusActivity extends AppCompatActivity {
             String txt_status = statusEditText.getText().toString();
             save(txt_status);
 
-            Intent intent = new Intent(EditStatusActivity.this, edit_profile.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
+
 
         }
 
@@ -134,12 +144,6 @@ public class EditStatusActivity extends AppCompatActivity {
     public void onBackPressed(){
         String txt_status = statusEditText.getText().toString();
         save(txt_status);
-
-        Intent intent = new Intent(EditStatusActivity.this, edit_profile.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
-
     }
 
     private void status(String status){
