@@ -314,9 +314,6 @@ public class StartActivity extends AppCompatActivity {
                                             }
                                         });
 
-
-
-
                                     }
                                 });
                     }
@@ -326,7 +323,6 @@ public class StartActivity extends AppCompatActivity {
             }
         }
     }
-
     private void displayToast(String s) {
 
         Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show();

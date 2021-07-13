@@ -1,4 +1,4 @@
-package com.margsapp.messenger.dp_view;
+package com.margsapp.messenger.ImageView;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
@@ -113,6 +113,7 @@ public class group_dpActivity extends AppCompatActivity {
         startActivity(intent, options.toBundle());
 
     }
+
 
 
     @Override

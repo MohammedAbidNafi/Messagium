@@ -1,4 +1,4 @@
-package com.margsapp.messenger.video_call
+package com.margsapp.messenger.VideoCall
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -257,6 +257,8 @@ class CallActivity : AppCompatActivity() {
         webView.loadUrl("about:blank")
         super.onDestroy()
     }
+
+
 
 
 

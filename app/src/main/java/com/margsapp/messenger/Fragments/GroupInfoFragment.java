@@ -622,8 +622,6 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
 
         });
     }
-
-
     public void onDestroy() {
         super.onDestroy();
         groupInfoAdapter.removeEventListener();

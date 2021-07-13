@@ -2,10 +2,7 @@ package com.margsapp.messenger.Adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.Intent;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,15 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.margsapp.messenger.Main.MessageActivity;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.R;
-import com.margsapp.messenger.dp_view.chat_image_viewActivity;
-import com.margsapp.messenger.dp_view.personal_dpActivity;
 import com.margsapp.messenger.utils.AES;
 import com.squareup.picasso.Picasso;
 
-import java.util.EventListener;
 import java.util.List;
 
 import io.github.leibnik.chatimageview.ChatImageView;

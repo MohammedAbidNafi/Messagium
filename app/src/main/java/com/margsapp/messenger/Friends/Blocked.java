@@ -74,7 +74,6 @@ public class Blocked extends AppCompatActivity {
             }
         });
 
-
     }
 
     public void onBackPressed(){

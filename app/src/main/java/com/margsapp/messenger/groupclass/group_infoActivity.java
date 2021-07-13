@@ -39,7 +39,7 @@ import com.google.firebase.storage.UploadTask;
 import com.margsapp.messenger.Fragments.GroupInfoFragment;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.R;
-import com.margsapp.messenger.dp_view.group_dpActivity;
+import com.margsapp.messenger.ImageView.group_dpActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -239,8 +239,6 @@ public class group_infoActivity extends AppCompatActivity {
                             Uri downloadUri = task.getResult();
                             assert downloadUri != null;
                             String mUri = downloadUri.toString();
-
-
                             reference = FirebaseDatabase.getInstance().getReference("Group").child(groupid);
                             HashMap<String, Object> map = new HashMap<>();
                             map.put("imageUrl", mUri);

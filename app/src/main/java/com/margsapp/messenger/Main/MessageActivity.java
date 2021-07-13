@@ -71,11 +71,11 @@ import com.margsapp.messenger.Notifications.MyResponse;
 import com.margsapp.messenger.Notifications.Sender;
 import com.margsapp.messenger.Notifications.Token;
 import com.margsapp.messenger.R;
-import com.margsapp.messenger.dp_view.chat_image_viewActivity;
-import com.margsapp.messenger.dp_view.personal_dpActivity;
+import com.margsapp.messenger.ImageView.chat_image_viewActivity;
+import com.margsapp.messenger.ImageView.personal_dpActivity;
 import com.margsapp.messenger.reply.SwipeController;
 import com.margsapp.messenger.utils.AES;
-import com.margsapp.messenger.video_call.CallActivity;
+import com.margsapp.messenger.VideoCall.CallActivity;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrInterface;
@@ -1253,6 +1253,8 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         new Handler().postDelayed(this::finish, 1000);
 
     }
+
+
 
 
 }

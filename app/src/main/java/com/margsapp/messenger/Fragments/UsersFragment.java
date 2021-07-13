@@ -151,6 +151,5 @@ public class UsersFragment extends Fragment {
 
             }
         });
-
     }
 }

@@ -48,7 +48,7 @@ import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
 import com.margsapp.messenger.Settings.edit_profile;
-import com.margsapp.messenger.dp_view.main_dpActivity;
+import com.margsapp.messenger.ImageView.main_dpActivity;
 import com.margsapp.messenger.groupclass.create_groupActivity;
 
 import java.text.SimpleDateFormat;
@@ -459,6 +459,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         status("offline");
     }
+
 
 
 }

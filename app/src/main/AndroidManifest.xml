@@ -31,7 +31,7 @@
         android:showOnLockScreen="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.Messenger">
-        <receiver android:name=".widgets.UnreadMessagesWidget">
+        <receiver android:name=".Widgets.UnreadMessagesWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -41,13 +41,13 @@
                 android:resource="@xml/unread_messages_widget_info" />
         </receiver>
 
-        <activity android:name=".dp_view.chat_image_viewActivity" />
+        <activity android:name=".ImageView.chat_image_viewActivity" />
         <activity
             android:name=".Main.SendImageActivity"
             android:theme="@style/Theme.Messenger.SendImage" />
         <activity android:name=".Authentication.google_setupActivity" />
-        <activity android:name=".dp_view.main_dpActivity" />
-        <activity android:name=".dp_view.personal_dpActivity" />
+        <activity android:name=".ImageView.main_dpActivity" />
+        <activity android:name=".ImageView.personal_dpActivity" />
         <activity android:name=".groupclass.manage_partActivty" />
         <activity android:name=".groupclass.edit_group_name" />
         <activity android:name=".Authentication.Phone_setupActivity" />
@@ -79,7 +79,7 @@
         <activity
             android:name=".Settings.CustomiseActivity"
             android:theme="@style/Loader" />
-        <activity android:name=".dp_view.group_dpActivity" />
+        <activity android:name=".ImageView.group_dpActivity" />
         <activity android:name=".Friends.Blocked" />
         <activity android:name=".Friends.Accepted" />
         <activity android:name=".Settings.EditStatusActivity" />
@@ -95,7 +95,7 @@
             android:name=".Authentication.StartActivity"
             android:theme="@style/Loader" />
         <activity
-            android:name=".video_call.CallActivity"
+            android:name=".VideoCall.CallActivity"
             android:theme="@style/Theme.Messenger.Fullscreen" />
 
         <service

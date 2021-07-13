@@ -20,7 +20,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.margsapp.messenger.Main.MainActivity;
 import com.margsapp.messenger.Main.MessageActivity;
-import com.margsapp.messenger.video_call.IncomingCallActivity;
+import com.margsapp.messenger.VideoCall.IncomingCallActivity;
 
 import org.jetbrains.annotations.NotNull;
 

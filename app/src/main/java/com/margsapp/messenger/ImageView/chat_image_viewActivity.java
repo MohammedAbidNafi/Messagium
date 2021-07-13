@@ -1,4 +1,4 @@
-package com.margsapp.messenger.dp_view;
+package com.margsapp.messenger.ImageView;
 
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -39,22 +38,17 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
-import com.margsapp.messenger.Authentication.google_setupActivity;
 import com.margsapp.messenger.Main.MessageActivity;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Random;
-
-import ja.burhanrashid52.photoeditor.PhotoEditorView;
 
 
 public class chat_image_viewActivity extends AppCompatActivity {
@@ -348,6 +342,7 @@ public class chat_image_viewActivity extends AppCompatActivity {
 
         return sb.toString();
     }
+
 
 
     public void onBackPressed(){

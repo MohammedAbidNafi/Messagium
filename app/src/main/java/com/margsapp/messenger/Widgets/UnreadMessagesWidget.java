@@ -1,4 +1,4 @@
-package com.margsapp.messenger.widgets;
+package com.margsapp.messenger.Widgets;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;

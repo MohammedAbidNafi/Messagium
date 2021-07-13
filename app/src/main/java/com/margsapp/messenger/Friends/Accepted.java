@@ -147,6 +147,4 @@ public class Accepted extends AppCompatActivity {
         super.onPause();
         status("offline");
     }
-
-
 }

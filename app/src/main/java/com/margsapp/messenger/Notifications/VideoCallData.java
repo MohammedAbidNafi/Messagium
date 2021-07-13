@@ -25,7 +25,6 @@ public class VideoCallData {
     }
 
     public VideoCallData(){
-
     }
 
     public String getSented() {
