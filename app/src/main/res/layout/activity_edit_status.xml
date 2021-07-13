@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,37 +10,30 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/bar_layout">
-
     </include>
 
 
-
-
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/editText"
-        android:layout_width="368dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLength="40"
-        app:met_maxCharacters="40"
+        app:counterEnabled="true"
+        app:boxCornerRadiusBottomEnd="15dp"
+        app:boxCornerRadiusBottomStart="15dp"
+        app:boxCornerRadiusTopEnd="15dp"
+        app:boxCornerRadiusTopStart="15dp"
+        app:boxBackgroundColor="@color/editText"
+        app:boxBackgroundMode="outline"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/toolbar"
+        app:counterMaxLength="150">
 
-
-        app:met_baseColor="@color/editText"
-        app:met_checkCharactersCountAtBeginning="true"
-
-
-        android:hint="@string/edit_status"
-
-        app:met_textColorHint="@color/greytext"
-        app:met_textColor="@color/blacktext"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.111">
-
-
-    </com.rengwuxian.materialedittext.MaterialEditText>
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Enter Status"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
@@ -57,4 +50,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.988" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
