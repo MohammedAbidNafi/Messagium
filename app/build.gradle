@@ -19,8 +19,8 @@ android {
         applicationId "com.margsapp.messenger"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 20
-        versionName "3.0"
+        versionCode 21
+        versionName "3.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -114,6 +114,9 @@ dependencies {
     implementation 'com.burhanrashid52:photoeditor:1.1.4'
 
     implementation 'com.stephentuso:welcome:1.4.1'
+
+    def lottieVersion = "3.6.1"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
 
 
 

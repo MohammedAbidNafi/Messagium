@@ -296,10 +296,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     Chat chat = snapshot1.getValue(Chat.class);
                     assert chat != null;
 
-                    if(chat.getReceiver().equals(firebaseUser.getUid())&& chat.getSender().equals(userid) ||
-                            chat.getReceiver().equals(userid)&& chat.getSender().equals(firebaseUser.getUid())) {
-                        theLastMessage = chat.getMessage();
-                        date_time = chat.getTimestamp();
+                    if(snapshot.exists()){
+                        if(chat.getReceiver().equals(firebaseUser.getUid())&& chat.getSender().equals(userid) ||
+                                chat.getReceiver().equals(userid)&& chat.getSender().equals(firebaseUser.getUid())) {
+                            theLastMessage = chat.getMessage();
+                            date_time = chat.getTimestamp();
+                        }
+
                     }
 
                 }
@@ -363,7 +366,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
 
-                    }
+            }
 
 
 

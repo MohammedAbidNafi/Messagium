@@ -41,6 +41,9 @@
                 android:resource="@xml/unread_messages_widget_info" />
         </receiver>
 
+        <activity android:name=".Welcome.MyWelcomeActivity"
+            android:theme="@style/WelcomeScreenTheme.SolidNavigation"/>
+
         <activity android:name=".ImageView.chat_image_viewActivity" />
         <activity
             android:name=".Main.SendImageActivity"

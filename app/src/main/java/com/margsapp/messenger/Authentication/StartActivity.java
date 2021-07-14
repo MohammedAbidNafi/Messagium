@@ -45,6 +45,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messenger.Main.MainActivity;
 import com.margsapp.messenger.R;
+import com.margsapp.messenger.Welcome.MyWelcomeActivity;
+import com.stephentuso.welcome.WelcomeHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -74,6 +76,8 @@ public class StartActivity extends AppCompatActivity {
 
     ProgressBar googleSignLoader;
 
+    WelcomeHelper welcomeScreen;
+
     @Override
     protected void onStart() {
         //Check if user is logged
@@ -82,6 +86,8 @@ public class StartActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("lang_settings", Activity.MODE_PRIVATE);
         String language = preferences.getString("lang","");
         setLocale(language);
+
+
 
 
 
@@ -179,6 +185,8 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
 
 
+        welcomeScreen = new WelcomeHelper(this, MyWelcomeActivity.class);
+        welcomeScreen.show(savedInstanceState);
 
         SharedPreferences preferences = getSharedPreferences("theme", 0);
         String Theme = preferences.getString(THEME, "");
@@ -250,6 +258,12 @@ public class StartActivity extends AppCompatActivity {
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        welcomeScreen.onSaveInstanceState(outState);
     }
 
     @Override
