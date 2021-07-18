@@ -139,6 +139,7 @@
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         android:visibility="visible"
+        android:layout_marginBottom="10dp"
         android:layout_alignParentBottom="true">
 
 
@@ -175,7 +176,6 @@
             android:layout_marginEnd="4dp"
             android:background="@drawable/send"
             android:visibility="visible"
-
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"/>
     </RelativeLayout>

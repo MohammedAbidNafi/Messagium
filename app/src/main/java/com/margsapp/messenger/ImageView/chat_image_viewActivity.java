@@ -55,7 +55,7 @@ public class chat_image_viewActivity extends AppCompatActivity {
 
     ImageView imageView;
 
-    TextView usernameView, timestampView;
+    TextView usernameView;// timestampView;
 
     Intent intent;
     String username;
@@ -88,7 +88,7 @@ public class chat_image_viewActivity extends AppCompatActivity {
 
 
         String senderid = intent.getStringExtra("senderid");
-        String timestamp = intent.getStringExtra("timestamp");
+        //String timestamp = intent.getStringExtra("timestamp");
         String extraid = intent.getStringExtra("extraid");
 
         String firebaseuser_ = firebaseUser.getUid();
@@ -97,9 +97,9 @@ public class chat_image_viewActivity extends AppCompatActivity {
 
         usernameView = findViewById(R.id.username);
 
-        timestampView = findViewById(R.id.timestamp);
+        //timestampView = findViewById(R.id.timestamp);
 
-        timestampView.setText(timestamp);
+       // timestampView.setText(timestamp);
 
 
         loadingBar = new ProgressDialog(chat_image_viewActivity.this);

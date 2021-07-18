@@ -23,41 +23,18 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/MenuStyle">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
+                android:text="Username"
+                android:textColor="#fff"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"/>
 
-
-                <TextView
-                    android:id="@+id/username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="Username"
-                    android:textColor="#fff"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"/>
-
-                <TextView
-                    android:id="@+id/timestamp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/username"
-
-
-                    android:text="15/07/2004"
-                    android:layout_centerHorizontal="true"
-
-                    android:textColor="#fff"
-                    android:textSize="13dp"
-
-                    />
-
-
-            </RelativeLayout>
 
 
         </androidx.appcompat.widget.Toolbar>
@@ -242,7 +219,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_baseline_share_24" />
+                android:src="@drawable/ic_shareside" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"

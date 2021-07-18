@@ -1,13 +1,19 @@
 package com.margsapp.messenger.Settings;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
@@ -77,6 +84,9 @@ public class edit_profile extends AppCompatActivity {
 
     private InterstitialAd mInterstitialAd;
 
+    Dialog dialog;
+    private static final int RC_PHOTO_PICKER =  105;
+
 
     @Override
     protected void onStart() {
@@ -102,7 +112,7 @@ public class edit_profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_edit);
 
-
+        dialog = new Dialog(this);
         SlidrInterface slidrInterface = Slidr.attach(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -261,7 +271,7 @@ public class edit_profile extends AppCompatActivity {
 
         loadingBar = new ProgressDialog(this);
 
-        profile_image.setOnClickListener(v -> openImage());
+        profile_image.setOnClickListener(v -> onMediaSelect());
 
 
 
@@ -282,15 +292,70 @@ public class edit_profile extends AppCompatActivity {
 
     }
 
+    public void onMediaSelect(){
 
 
-    private void openImage() {
+        AppCompatButton gallery,camera;
 
-        Intent galleryIntent = new Intent();
-        galleryIntent.setType("image/*");
-        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(galleryIntent, GALLERY_PICK);
+        CardView cancel;
 
+        dialog.setContentView(R.layout.add_image_pop_up);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        lp.copyFrom(window.getAttributes());
+        //This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+
+
+        dialog.setCancelable(false);
+
+
+
+        gallery = dialog.findViewById(R.id.gallery);
+
+        camera = dialog.findViewById(R.id.camera);
+
+        cancel = dialog.findViewById(R.id.cancel);
+
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/jpeg");
+                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                startActivityForResult(Intent.createChooser(intent, "Complete action using"),
+                        RC_PHOTO_PICKER);
+                dialog.dismiss();
+            }
+        });
+
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"Camera!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+
+
+
+
+
+
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.show();
     }
 
     @Override
@@ -298,7 +363,7 @@ public class edit_profile extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if (requestCode == GALLERY_PICK && resultCode == RESULT_OK && data != null) {
+        if (requestCode == RC_PHOTO_PICKER && resultCode == RESULT_OK && data != null) {
             Uri imageUri = data.getData();
             CropImage.activity(imageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)

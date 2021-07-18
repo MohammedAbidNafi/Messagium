@@ -7,6 +7,14 @@ plugins {
 
 android {
 
+    signingConfigs {
+        MessengerByMargs {
+            storeFile file('E:\\Developing Files\\Application Keys\\MessengerByMargs.jks')
+            storePassword 'Khyyati_2004'
+            keyAlias 'key1'
+            keyPassword 'abid 2004'
+        }
+    }
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
@@ -19,8 +27,8 @@ android {
         applicationId "com.margsapp.messenger"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 21
-        versionName "3.0.1"
+        versionCode 22
+        versionName "3.0.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
