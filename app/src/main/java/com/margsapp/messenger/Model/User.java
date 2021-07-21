@@ -14,7 +14,9 @@ public class User {
     private String version_name;
 
     private String joined_on;
-    public User(String id, String username, String imageUrl, String status, String DT, String joined_on, String typingto, String lastseen,String version_name)
+    private String phoneno;
+
+    public User(String id, String username, String imageUrl, String status, String DT, String joined_on, String typingto, String lastseen,String version_name,String phoneno)
     {
         this.id = id;
         this.username = username;
@@ -25,12 +27,20 @@ public class User {
         this.typingto = typingto;
         this.lastseen = lastseen;
         this.version_name = version_name;
-
+        this.phoneno = phoneno;
     }
 
     public User()
     {
 
+    }
+
+    public String getPhoneno() {
+        return phoneno;
+    }
+
+    public void setPhoneno(String phoneno) {
+        this.phoneno = phoneno;
     }
 
     public String getLastseen() {

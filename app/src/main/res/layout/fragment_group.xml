@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.GroupFragment" android:background="@color/background">
-   <androidx.recyclerview.widget.RecyclerView
+   <com.factor.bouncy.BouncyRecyclerView
        android:layout_width="match_parent"
        android:id="@+id/recycler_view"
        android:layout_height="match_parent"/>

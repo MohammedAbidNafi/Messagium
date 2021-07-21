@@ -40,6 +40,10 @@ import com.margsapp.messenger.Fragments.GroupInfoFragment;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.R;
 import com.margsapp.messenger.ImageView.group_dpActivity;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrInterface;
+import com.r0adkll.slidr.model.SlidrListener;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -65,10 +69,41 @@ public class group_infoActivity extends AppCompatActivity {
 
     private ProgressDialog loadingBar;
 
+    private SlidrInterface slidrInterface;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_info);
+
+        SlidrConfig config = new SlidrConfig.Builder()
+                .edge(true)
+                .edgeSize(0.2f)
+                .listener(new SlidrListener() {
+                    @Override
+                    public void onSlideStateChanged(int state) {
+
+                    }
+
+                    @Override
+                    public void onSlideChange(float percent) {
+
+                    }
+
+                    @Override
+                    public void onSlideOpened() {
+
+                    }
+
+                    @Override
+                    public boolean onSlideClosed() {
+                        return false;
+                    }
+                })// The % of the screen that counts as the edge, default 18%
+                .build();
+
+
+        slidrInterface = Slidr.attach(this,config);
 
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
@@ -104,13 +139,12 @@ public class group_infoActivity extends AppCompatActivity {
             }
         });
         toolbar.setNavigationOnClickListener(v -> {
-            Intent openMainActivity = new Intent(group_infoActivity.this, group_messageActivity.class);
-            openMainActivity.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-            openMainActivity.putExtra("groupid",groupid);
-            startActivityIfNeeded(openMainActivity, 0);
+            overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
+            finish();
         });
 
 
+        /*
         group_img.setOnClickListener(v -> {
             String data = imageUrl;
 
@@ -128,6 +162,8 @@ public class group_infoActivity extends AppCompatActivity {
 
 
         });
+
+         */
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference("GroupImages/"+ groupid);
@@ -262,9 +298,7 @@ public class group_infoActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        Intent openMainActivity = new Intent(group_infoActivity.this, group_messageActivity.class);
-        openMainActivity.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-        openMainActivity.putExtra("groupid",groupid);
-        startActivityIfNeeded(openMainActivity, 0);
+        overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
+        finish();
     }
 }

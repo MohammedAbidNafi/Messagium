@@ -21,10 +21,12 @@ import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.margsapp.messenger.Fragments.ContactsFragment;
 import com.margsapp.messenger.Fragments.UsersFragment;
 import com.margsapp.messenger.R;
 
@@ -43,7 +45,10 @@ public class FindUsersActivity extends AppCompatActivity {
 
     FirebaseUser firebaseUser;
 
+
+
     private InterstitialAd mInterstitialAd;
+    ViewPager viewPager;
 
 
     @Override
@@ -74,6 +79,7 @@ public class FindUsersActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.add_chat));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        viewPager = findViewById(R.id.viewPager);
 
 
         /*
@@ -115,10 +121,12 @@ public class FindUsersActivity extends AppCompatActivity {
 
 
         final ViewPager viewPager = findViewById(R.id.viewPager);
-
+        final TabLayout tabLayout = findViewById(R.id.tablayout);
 
         FindUsersActivity.ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
         viewPageAdapter.addFragment(new UsersFragment(), "Users");
+        viewPageAdapter.addFragment(new ContactsFragment(), "Contacts");
+        tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(viewPageAdapter);
 
 

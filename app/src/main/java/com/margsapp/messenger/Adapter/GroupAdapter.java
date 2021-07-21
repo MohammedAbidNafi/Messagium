@@ -1,6 +1,7 @@
 package com.margsapp.messenger.Adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -33,13 +34,15 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     private final List<Group> mGroups;
 
     String theLastMessage;
+    Activity activity;
 
 
 
-    public GroupAdapter(Context mContext, boolean isGroup, List<Group> mGroups) {
+    public GroupAdapter(Context mContext, boolean isGroup, List<Group> mGroups, Activity activity) {
         this.mContext = mContext;
         this.isGroup = isGroup;
         this.mGroups = mGroups;
+        this.activity = activity;
     }
 
 
@@ -102,6 +105,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         Intent intent = new Intent(mContext, group_messageActivity.class);
         intent.putExtra("groupid", groupid);
         mContext.startActivity(intent);
+        activity.overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
+
 
     }
 

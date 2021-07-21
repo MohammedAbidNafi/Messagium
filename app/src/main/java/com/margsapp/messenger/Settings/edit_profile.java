@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -173,6 +174,21 @@ public class edit_profile extends AppCompatActivity {
         About_card = findViewById(R.id.About_card);
 
 
+        Status_card.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN)  {
+                    Status_card.setCardBackgroundColor(getResources().getColor(R.color.greytext));
+
+                }else {
+                    Status_card.setCardBackgroundColor(getResources().getColor(R.color.card_back));
+
+                }
+                return false;
+            }
+        });
+
         Status_card.setOnClickListener(v -> {
             Intent intent = new Intent(edit_profile.this, EditStatusActivity.class);
 
@@ -183,6 +199,21 @@ public class edit_profile extends AppCompatActivity {
                 mInterstitialAd.show(edit_profile.this);
             } else {
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
+        });
+
+        Account_card.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN)  {
+                    Account_card.setCardBackgroundColor(getResources().getColor(R.color.greytext));
+
+                }else {
+                    Account_card.setCardBackgroundColor(getResources().getColor(R.color.card_back));
+
+                }
+                return false;
             }
         });
 
@@ -200,6 +231,21 @@ public class edit_profile extends AppCompatActivity {
 
         });
 
+        Customize_card.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN)  {
+                    Customize_card.setCardBackgroundColor(getResources().getColor(R.color.greytext));
+
+                }else {
+                    Customize_card.setCardBackgroundColor(getResources().getColor(R.color.card_back));
+
+                }
+                return false;
+            }
+        });
+
         Customize_card.setOnClickListener(v -> {
             Intent intent = new Intent(edit_profile.this, CustomiseActivity.class);
             startActivity(intent);
@@ -214,6 +260,20 @@ public class edit_profile extends AppCompatActivity {
 
         });
 
+        About_card.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN)  {
+                    About_card.setCardBackgroundColor(getResources().getColor(R.color.greytext));
+
+                }else {
+                    About_card.setCardBackgroundColor(getResources().getColor(R.color.card_back));
+
+                }
+                return false;
+            }
+        });
         About_card.setOnClickListener(v -> {
             Intent intent = new Intent(edit_profile.this, AboutActivity.class);
             startActivity(intent);

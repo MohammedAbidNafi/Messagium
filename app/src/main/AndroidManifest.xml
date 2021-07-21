@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <uses-feature android:name="android.hardware.camera" />
 
@@ -56,8 +57,10 @@
         <activity android:name=".Authentication.Phone_setupActivity" />
         <activity android:name=".Authentication.VerifyOTP" />
         <activity android:name=".Authentication.PhoneAuthActivity" />
-        <activity android:name=".groupclass.group_infoActivity" />
-        <activity android:name=".groupclass.group_messageActivity" />
+        <activity android:name=".groupclass.group_infoActivity"
+                  android:theme="@style/Theme.Messenger.Message" />
+        <activity android:name=".groupclass.group_messageActivity"
+                  android:theme="@style/Theme.Messenger.Message" />
         <activity android:name=".groupclass.AddParticipants" />
         <activity android:name=".groupclass.create_groupActivity" />
         <activity android:name=".Settings.ChatViewActivity" />

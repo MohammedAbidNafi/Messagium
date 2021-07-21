@@ -61,6 +61,10 @@ import com.margsapp.messenger.Notifications.Sender;
 import com.margsapp.messenger.Notifications.Token;
 import com.margsapp.messenger.R;
 import com.margsapp.messenger.reply.SwipeController;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrInterface;
+import com.r0adkll.slidr.model.SlidrListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -107,8 +111,10 @@ public class group_messageActivity extends AppCompatActivity {
 
     String imageUrl;
 
-    ConstraintLayout reply, editor,group_info;
-    RelativeLayout warning;
+    ConstraintLayout reply,group_info;
+    RelativeLayout warning,editor;
+
+    private SlidrInterface slidrInterface;
 
     private InterstitialAd mInterstitialAd;
 
@@ -151,6 +157,35 @@ public class group_messageActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        SlidrConfig config = new SlidrConfig.Builder()
+                .edge(true)
+                .edgeSize(0.2f)
+                .listener(new SlidrListener() {
+                    @Override
+                    public void onSlideStateChanged(int state) {
+
+                    }
+
+                    @Override
+                    public void onSlideChange(float percent) {
+
+                    }
+
+                    @Override
+                    public void onSlideOpened() {
+
+                    }
+
+                    @Override
+                    public boolean onSlideClosed() {
+                        return false;
+                    }
+                })// The % of the screen that counts as the edge, default 18%
+                .build();
+
+
+        slidrInterface = Slidr.attach(this,config);
+
         group_info = findViewById(R.id.group_info);
 
 
@@ -170,7 +205,7 @@ public class group_messageActivity extends AppCompatActivity {
         });
         group_info.setOnClickListener(v -> {
             startActivity(new Intent(group_messageActivity.this, group_infoActivity.class).putExtra("groupid", groupid));
-
+            overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
         });
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
@@ -203,9 +238,8 @@ public class group_messageActivity extends AppCompatActivity {
 
 
         toolbar.setNavigationOnClickListener(v -> {
-            Intent openMainActivity = new Intent(group_messageActivity.this, MainActivity.class);
-            openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityIfNeeded(openMainActivity, 0);
+            finish();
+            overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
 
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(group_messageActivity.this);
@@ -453,7 +487,7 @@ public class group_messageActivity extends AppCompatActivity {
 
     private void checkText() {
         if(text_send.getText().toString().equals("")){
-            btnSend.setVisibility(View.INVISIBLE);
+            btnSend.setVisibility(View.GONE);
         }
 
 
@@ -737,10 +771,9 @@ public class group_messageActivity extends AppCompatActivity {
     }
 
     public void onBackPressed(){
-        Intent openMainActivity = new Intent(this, MainActivity.class);
-        openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivityIfNeeded(openMainActivity, 0);
-        //startActivity(new Intent(group_messageActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        finish();
+        overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
+
         if (mInterstitialAd != null) {
             mInterstitialAd.show(group_messageActivity.this);
         } else {

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -197,6 +198,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             String userid = user.getId();
             OnMessage(userid);
         });
+
     }
 
 
@@ -208,6 +210,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return mUsers.size();
+
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -350,7 +353,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                         else {
 
                             Intent intent = new Intent(mContext, MessageActivity.class);
-
                             intent.putExtra("userid", userid);
                             mContext.startActivity(intent);
                             activity.overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);

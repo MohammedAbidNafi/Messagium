@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.ContactsFragment"
+    android:background="@color/diffrentBack">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/diffrentBack"
+        tools:ignore="UselessParent">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/search_users"
+            android:layout_width="match_parent"
+            android:layout_height="40sp"
+            android:layout_margin="5dp"
+
+            android:background="@drawable/edit_text"
+            android:drawableStart="@drawable/ic_baseline_search_24"
+
+            android:drawablePadding="5dp"
+            android:hint="@string/search_users"
+            android:paddingStart="7sp"
+            android:layout_alignParentTop="true"
+            tools:ignore="RtlSymmetry" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/diffrentBack"
+            android:layout_below="@+id/search_users">
+            <com.factor.bouncy.BouncyRecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:recyclerview_damping_ratio="DAMPING_RATIO_LOW_BOUNCY"
+                app:recyclerview_stiffness="STIFFNESS_LOW"
+                app:allow_drag_reorder="false"
+                app:allow_item_swipe="false"
+                android:id="@+id/recycler_view"
+                />
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</FrameLayout>

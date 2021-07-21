@@ -6,7 +6,8 @@
     android:paddingTop="6dp"
 
     android:layout_height="70dp"
-    tools:ignore="RtlSymmetry">
+    tools:ignore="RtlSymmetry"
+    android:background="@color/background">
 
 
 

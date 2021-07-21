@@ -241,18 +241,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
 
         eventListener.openImage(uri, timestamp, senderid, extraid, chatimageview);
-        /*
-        Intent intent = new Intent(mContext, chat_image_viewActivity.class);
-        Pair[] pairs = new Pair[1];
-        pairs[0] = new Pair<View, String>(chatimageview, "chatImage");
-        intent.putExtra("imageuri",uri);
-        intent.putExtra("senderid",senderid);
-        intent.putExtra("extraid",extraid);
-        intent.putExtra("timestamp",timestamp);
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, pairs);
-        mContext.startActivity(intent, options.toBundle());
 
-         */
 
 
     }
@@ -281,8 +270,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         public ViewHolder(View view){
             super(view);
-
-
 
             show_message = itemView.findViewById(R.id.show_message);
             profile = itemView.findViewById(R.id.profile_image);

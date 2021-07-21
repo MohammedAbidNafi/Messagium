@@ -110,6 +110,8 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
 
         GroupChat groupChat = mGroupChat.get(position);
 
+
+
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         assert firebaseUser != null;
@@ -200,8 +202,10 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
         public TextView reply_username;
         public TextView timestamp;
 
+
         public ViewHolder(View view){
             super(view);
+
             groupImage = itemView.findViewById(R.id.profile_image);
             groupname = itemView.findViewById(R.id.groupname);
             participants_name = itemView.findViewById(R.id.participants_name);

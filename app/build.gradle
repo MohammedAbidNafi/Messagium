@@ -27,8 +27,8 @@ android {
         applicationId "com.margsapp.messenger"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 22
-        versionName "3.0.4"
+        versionCode 23
+        versionName "3.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -121,6 +121,7 @@ dependencies {
     implementation 'com.github.nyakokishi:ChatImageView:1.0.2'
     implementation 'com.burhanrashid52:photoeditor:1.1.4'
 
+    implementation 'com.github.Shashank02051997:FancyAlertDialog-Android:0.2'
     implementation 'com.stephentuso:welcome:1.4.1'
 
     def lottieVersion = "3.6.1"

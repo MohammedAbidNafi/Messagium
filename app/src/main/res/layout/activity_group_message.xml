@@ -22,7 +22,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
             android:background="@color/coral"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/MenuStyle"
@@ -213,12 +213,14 @@
 
     </RelativeLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/editor_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/diffrentBack"
+        android:animateLayoutChanges="true"
         app:layout_constraintStart_toStartOf="parent"
         android:visibility="visible"
         >
@@ -229,15 +231,23 @@
             android:background="@color/colorE"
             app:layout_constraintBottom_toTopOf="@+id/text_send"/>
 
+        <ImageView
+            android:id="@+id/addimage"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/ic_baseline_add_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/text_send"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="40dp"
-            android:background="@android:color/transparent"
+            android:layout_height="40dp"
+            android:background="@drawable/edit_text"
             android:ems="10"
-            android:hint="Send message"
+            android:hint="@string/send_message"
             android:imeOptions="flagNoExtractUi|actionSend"
             android:inputType="textMultiLine|textCapSentences|textShortMessage"
             android:maxLength="2000"
@@ -245,17 +255,18 @@
             android:minHeight="52dp"
             android:paddingLeft="8dp"
             android:paddingTop="8dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:paddingRight="8dp"
             android:paddingBottom="8dp"
             android:scrollbars="vertical"
             android:scrollHorizontally="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            tools:text="Hello"/>
+            android:layout_toEndOf="@+id/addimage"
+            android:layout_toStartOf="@+id/btn_send"
+            android:scrollIndicators="none"
+            tools:text="Hello"
+            tools:targetApi="m" />
 
         <ImageButton
             android:id="@+id/btn_send"
@@ -263,15 +274,12 @@
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
             android:background="@drawable/send"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/text_send"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/text_send"
-            app:layout_constraintTop_toTopOf="@+id/text_send"/>
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
 
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 
     <!--

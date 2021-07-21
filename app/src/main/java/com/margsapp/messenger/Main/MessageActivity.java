@@ -128,8 +128,6 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
     APIService apiService;
 
-
-
     String userid;
     String ReplyId;
     String Sendername;
@@ -259,12 +257,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         });
         toolbar.setNavigationOnClickListener(v -> {
 
-            /*
-            Intent openMainActivity = new Intent(this, MainActivity.class);
-            openMainActivity.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-            startActivity(openMainActivity);
 
-             */
             finish();
             overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
 
@@ -1194,12 +1187,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
 
     public void onBackPressed() {
-        /*
-        Intent openMainActivity = new Intent(this, MainActivity.class);
-        openMainActivity.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-        startActivityIfNeeded(openMainActivity, 0);
 
-         */
         finish();
         overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
 
@@ -1250,7 +1238,6 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MessageActivity.this, pairs);
         startActivity(intent, options.toBundle());
 
-        new Handler().postDelayed(this::finish, 1000);
 
     }
 

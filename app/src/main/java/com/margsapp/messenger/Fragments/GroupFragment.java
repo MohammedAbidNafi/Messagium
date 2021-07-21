@@ -9,7 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import com.factor.bouncy.BouncyRecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +32,7 @@ import java.util.List;
 
 public class GroupFragment extends Fragment {
 
-    private RecyclerView recyclerView;
+    private BouncyRecyclerView recyclerView;
 
     public GroupAdapter groupAdapter;
 
@@ -50,8 +52,15 @@ public class GroupFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_group, container,false);
 
         recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setFlingAnimationSize(0.3f);
+        recyclerView.setOverscrollAnimationSize(0.3f);
+        recyclerView.setHasFixedSize(false);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+
+        RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
+        if (animator instanceof SimpleItemAnimator) {
+            ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
+        }
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         groupLists = new ArrayList<>();
@@ -116,8 +125,9 @@ public class GroupFragment extends Fragment {
 
 
 
-                groupAdapter = new GroupAdapter(getContext(), true, mGroup);
+                groupAdapter = new GroupAdapter(getContext(), true, mGroup,getActivity());
                 recyclerView.setAdapter(groupAdapter);
+                groupAdapter.notifyDataSetChanged();
             }
 
             @Override

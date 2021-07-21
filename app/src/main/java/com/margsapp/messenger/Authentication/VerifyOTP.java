@@ -151,6 +151,7 @@ public class VerifyOTP extends AppCompatActivity {
                                 }else {
                                     HashMap<String, String> hashMap = new HashMap<>();
                                     hashMap.put("id", userid);
+                                    hashMap.put("phoneno",phoneNo);
                                     hashMap.put("imageURL", "default");
                                     hashMap.put("username", "");
                                     hashMap.put("DT", "");

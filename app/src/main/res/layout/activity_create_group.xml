@@ -31,17 +31,30 @@
                 android:layout_marginTop="25sp"
                 android:src="@drawable/clicky"/>
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:layout_width="250dp"
-                android:layout_height="50sp"
-                android:id="@+id/groupname"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:id="@+id/edit_textlayout"
+                android:layout_height="90dp"
+                app:counterEnabled="true"
+                app:boxCornerRadiusBottomEnd="15dp"
+                app:boxCornerRadiusBottomStart="15dp"
+                app:boxCornerRadiusTopEnd="15dp"
+                app:boxCornerRadiusTopStart="15dp"
+                app:boxBackgroundColor="@color/editText"
+                app:boxBackgroundMode="outline"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="50dp"
                 android:layout_below="@+id/group_img"
-                android:background="@drawable/edit_text_card_back"
-                android:layout_marginTop="25sp"
-                android:layout_centerHorizontal="true"
-                android:hint="@string/group_name"
-                android:padding="10dp"
-                android:paddingStart="20dp"/>
+                app:counterMaxLength="40"
+                >
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/groupname"
+                    android:layout_width="match_parent"
+                    android:maxLength="40"
+                    android:layout_height="60dp"
+                    android:hint="@string/group_name"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="200dp"
@@ -50,7 +63,7 @@
                 android:background="@drawable/button"
                 android:text="@string/next"
                 android:textColor="@android:color/white"
-                android:layout_below="@+id/groupname"
+                android:layout_below="@+id/edit_textlayout"
                 android:layout_marginTop="25sp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="25sp"/>
