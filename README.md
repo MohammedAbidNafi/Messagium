@@ -6,7 +6,9 @@ This project uses Firebase for Database, Storage, Push Notification, Analytics a
 
 If your working on this make sure you connect this project to your firebase account and enter the API key in API service for notifications.
 
-The second branch called my-sql is the branch which will have sql-lite as database for the app which will be synced with Firebase Database
+
+## Credits
+* iOS Style Alert Dialog https://github.com/MohammedAbidNafi/iOS-Style-Alert-Dialog
 
 ## Contributers
 ![GitHub Contributors Image](https://contrib.rocks/image?repo=MohammedAbidNafi/MessengerByMargs)
