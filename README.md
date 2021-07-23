@@ -8,6 +8,8 @@ If your working on this make sure you connect this project to your firebase acco
 
 The second branch called my-sql is the branch which will have sql-lite as database for the app which will be synced with Firebase Database
 
+## Credits
+
 ## Contributers
 ![GitHub Contributors Image](https://contrib.rocks/image?repo=MohammedAbidNafi/MessengerByMargs)
 
