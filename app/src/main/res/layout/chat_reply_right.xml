@@ -89,11 +89,11 @@
             android:textColorLink="@color/WebLink"
             android:layout_marginStart="45dp"
             android:layout_alignParentEnd="true"
-            android:padding="8dp"
+            android:padding="10dp"
             android:id="@+id/show_message"
             android:layout_below="@+id/replyline"
             android:textSize="18sp"
-
+            android:fontFamily="@font/helvetica"
             android:textColor="#fff"/>
 
         <TextView

@@ -44,12 +44,13 @@
         android:textAllCaps="false"
         android:textSize="20sp"
         android:textColor="@color/company_blue"
-        android:background="@drawable/group_info_popup_bottom"/>
+        android:background="@color/card_back"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="61dp"
         android:id="@+id/cancel"
+        app:cardBackgroundColor="@color/card_back"
         android:layout_marginHorizontal="5dp"
         app:cardCornerRadius="15sp"
         android:layout_marginBottom="10dp"

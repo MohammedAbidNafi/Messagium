@@ -17,10 +17,10 @@
         android:layout_marginStart="5dp"
         android:text="Hello"
         android:textColor="@color/blacktext"
-        android:padding="8dp"
+        android:padding="10dp"
         android:id="@+id/show_message"
         android:textSize="18dp"
-
+        android:fontFamily="@font/helvetica"
         android:autoLink="web|email|phone|map"
         android:textColorLink="@color/WebLink"
         android:background="@drawable/background_left"/>

@@ -55,7 +55,7 @@
             app:arrow_width="20dp"
             app:arrow_top="270dp"
             app:offset="25dp"
-            app:radius="20dp"
+            app:radius="15dp"
 
             android:transitionName="chatImage"
 

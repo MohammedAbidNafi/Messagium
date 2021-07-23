@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="61dp"
         android:id="@+id/info"
+        app:cardBackgroundColor="@color/card_back"
         android:layout_marginHorizontal="5dp">
 
         <RelativeLayout
@@ -55,6 +56,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="61dp"
+        app:cardBackgroundColor="@color/card_back"
         android:id="@+id/make_admin"
         android:layout_marginHorizontal="5dp">
 
@@ -82,6 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="61dp"
         android:layout_marginHorizontal="5dp"
+        app:cardBackgroundColor="@color/card_back"
         android:id="@+id/message">
 
         <RelativeLayout
@@ -106,6 +109,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="61dp"
+        app:cardBackgroundColor="@color/card_back"
         android:layout_marginHorizontal="5dp"
         android:id="@+id/voice_call">
 
@@ -133,6 +137,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="61dp"
+        app:cardBackgroundColor="@color/card_back"
         android:layout_marginHorizontal="5dp"
         android:id="@+id/video_call">
 
@@ -174,6 +179,7 @@
         android:layout_width="match_parent"
         android:layout_height="61dp"
         android:id="@+id/cancel"
+        app:cardBackgroundColor="@color/card_back"
         android:layout_marginHorizontal="5dp"
         app:cardCornerRadius="15sp"
         android:layout_marginBottom="10dp"

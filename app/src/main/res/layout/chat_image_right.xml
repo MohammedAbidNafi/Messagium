@@ -12,7 +12,6 @@
         android:id="@+id/username"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
-        android:text="Khyyati Vegiraju"
         android:visibility="gone"
        />
 
@@ -43,7 +42,7 @@
             app:arrow_top="270dp"
         android:transitionName="chatImage"
             app:offset="25dp"
-            app:radius="20dp"
+            app:radius="15dp"
             android:layout_alignParentEnd="true"
             android:layout_width="250dp"
             android:layout_height="300dp"
