@@ -1,6 +1,7 @@
 package com.margsapp.messenger.ImageView;
 
 import android.app.ActivityOptions;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.WallpaperManager;
 import android.content.ContentResolver;
@@ -38,9 +39,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.margsapp.iosdialog.iOSDialog;
+import com.margsapp.iosdialog.iOSDialogListener;
 import com.margsapp.messenger.Main.MessageActivity;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
+import com.margsapp.messenger.groupclass.group_messageActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -213,20 +217,31 @@ public class chat_image_viewActivity extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(chat_image_viewActivity.this);
-                dialog.setTitle("Profile Picture");
-                dialog.setMessage("Are you sure want to keep this image as your profile picture?");
-                dialog.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setProfilePicture(imageuri);
-                    }
-                });
-                dialog.setNeutralButton(getResources().getString(R.string.cancel), (dialog1, which) -> {
-                    //Dont do anything
-                });
-                AlertDialog alertDialog = dialog.create();
-                alertDialog.show();
+                iOSDialog.Builder
+                        .with(chat_image_viewActivity.this)
+                        .setTitle(getResources().getString(R.string.profile_picture))
+                        .setMessage(getResources().getString(R.string.ask_to_setProfile))
+                        .setPositiveText(getResources().getString(R.string.yes))
+                        .setPostiveTextColor(getResources().getColor(R.color.red))
+                        .setNegativeText(getResources().getString(R.string.cancel))
+                        .setNegativeTextColor(getResources().getColor(R.color.company_blue))
+                        .onPositiveClicked(new iOSDialogListener() {
+                            @Override
+                            public void onClick(Dialog dialog) {
+                                setProfilePicture(imageuri);
+                            }
+                        })
+                        .onNegativeClicked(new iOSDialogListener() {
+                            @Override
+                            public void onClick(Dialog dialog) {
+                                //Do Nothing
+                            }
+                        })
+                        .isCancellable(true)
+                        .build()
+                        .show();
+
+
             }
         });
 

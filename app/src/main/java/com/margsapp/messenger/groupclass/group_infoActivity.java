@@ -143,28 +143,6 @@ public class group_infoActivity extends AppCompatActivity {
             finish();
         });
 
-
-        /*
-        group_img.setOnClickListener(v -> {
-            String data = imageUrl;
-
-            Intent intent = new Intent(group_infoActivity.this, group_dpActivity.class);
-
-            Pair[] pairs = new Pair[1];
-            pairs[0] = new Pair<View, String>(group_img, "imageTransition");
-
-
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(group_infoActivity.this, pairs);
-            intent.putExtra("data", data);
-            intent.putExtra("groupid",groupid);
-            intent.putExtra("groupname",groupname);
-            startActivity(intent, options.toBundle());
-
-
-        });
-
-         */
-
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference("GroupImages/"+ groupid);
         loadingBar = new ProgressDialog(this);

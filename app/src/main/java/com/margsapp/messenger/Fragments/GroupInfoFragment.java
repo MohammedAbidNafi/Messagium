@@ -37,6 +37,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.margsapp.iosdialog.iOSDialog;
+import com.margsapp.iosdialog.iOSDialogListener;
 import com.margsapp.messenger.Adapter.GroupInfoAdapter;
 import com.margsapp.messenger.Main.MessageActivity;
 import com.margsapp.messenger.Model.Chatlist;
@@ -210,14 +212,31 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
         leaveGroup = view.findViewById(R.id.leave_group);
 
         leaveGroup.setOnClickListener(v -> {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
-            dialog.setMessage(getResources().getString(R.string.ask_leave_group));
-            dialog.setPositiveButton(getResources().getString(R.string.yes), (dialog12, id) -> leave(groupid,Username));
-            dialog.setNeutralButton(getResources().getString(R.string.no), (dialog13, which) -> {
-                //Dont do anything
-            });
-            AlertDialog alertDialog = dialog.create();
-            alertDialog.show();
+
+            iOSDialog.Builder
+                    .with(requireContext())
+                    .setTitle(getResources().getString(R.string.leave_group))
+                    .setMessage(getResources().getString(R.string.ask_leave_group))
+                    .setPositiveText(getResources().getString(R.string.yes))
+                    .setPostiveTextColor(getResources().getColor(R.color.red))
+                    .setNegativeText(getResources().getString(R.string.cancel))
+                    .setNegativeTextColor(getResources().getColor(R.color.company_blue))
+                    .onPositiveClicked(new iOSDialogListener() {
+                        @Override
+                        public void onClick(Dialog dialog) {
+                            leave(groupid,Username);
+                        }
+                    })
+                    .onNegativeClicked(new iOSDialogListener() {
+                        @Override
+                        public void onClick(Dialog dialog) {
+                            //Do Nothing
+                        }
+                    })
+                    .isCancellable(true)
+                    .build()
+                    .show();
+
 
         });
 
@@ -468,14 +487,29 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
                     Group group = snapshot.getValue(Group.class);
                     assert group != null;
                     if(group.getAdmin().equals("true")){
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
-                        dialog.setMessage(getResources().getString(R.string.ask_remove));
-                        dialog.setPositiveButton(getResources().getString(R.string.yes), (dialog12, id) -> remove(userid,Username,groupid_));
-                        dialog.setNeutralButton(getResources().getString(R.string.no), (dialog1, which) -> {
-                            //Dont do anything
-                        });
-                        AlertDialog alertDialog = dialog.create();
-                        alertDialog.show();
+                        iOSDialog.Builder
+                                .with(requireContext())
+                                .setTitle(getResources().getString(R.string.remove_from_group))
+                                .setMessage(getResources().getString(R.string.ask_remove))
+                                .setPositiveText(getResources().getString(R.string.yes))
+                                .setPostiveTextColor(getResources().getColor(R.color.red))
+                                .setNegativeText(getResources().getString(R.string.cancel))
+                                .setNegativeTextColor(getResources().getColor(R.color.company_blue))
+                                .onPositiveClicked(new iOSDialogListener() {
+                                    @Override
+                                    public void onClick(Dialog dialog) {
+                                        remove(userid,Username,groupid_);
+                                    }
+                                })
+                                .onNegativeClicked(new iOSDialogListener() {
+                                    @Override
+                                    public void onClick(Dialog dialog) {
+                                        //Do Nothing
+                                    }
+                                })
+                                .isCancellable(true)
+                                .build()
+                                .show();
 
                     }else {
                         Toast.makeText(getContext(),getResources().getString(R.string.not_an_admin),Toast.LENGTH_SHORT).show();
@@ -500,34 +534,48 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
                     Group group = snapshot.getValue(Group.class);
                     assert group != null;
                    if(!group.getAdmin().equals("true")) {
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
-                        dialog.setMessage(getResources().getString(R.string.ask_to_make));
-                        dialog.setPositiveButton(getResources().getString(R.string.yes), (dialog14, id) -> {
-                            Calendar calendar = Calendar.getInstance();
-                            @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
-                            String timestamp = simpleDateFormat.format(calendar.getTime());
+                       iOSDialog.Builder
+                               .with(requireContext())
+                               .setTitle(getResources().getString(R.string.group_admin))
+                               .setMessage(getResources().getString(R.string.ask_to_make))
+                               .setPositiveText(getResources().getString(R.string.yes))
+                               .setPostiveTextColor(getResources().getColor(R.color.red))
+                               .setNegativeText(getResources().getString(R.string.cancel))
+                               .setNegativeTextColor(getResources().getColor(R.color.company_blue))
+                               .onPositiveClicked(new iOSDialogListener() {
+                                   @Override
+                                   public void onClick(Dialog dialog) {
+                                       Calendar calendar = Calendar.getInstance();
+                                       @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
+                                       String timestamp = simpleDateFormat.format(calendar.getTime());
 
-                            DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("GroupChat").child(groupid_);
-                            HashMap<String, Object> hash = new HashMap<>();
-                            hash.put("sender", "LOGS");
-                            hash.put("group", groupid_);
-                            hash.put("reply","false");
-                            hash.put("message", Username + getResources().getString(R.string.now_admin));
-                            hash.put("timestamp", timestamp);
-                            databaseReference2.push().setValue(hash);
+                                       DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("GroupChat").child(groupid_);
+                                       HashMap<String, Object> hash = new HashMap<>();
+                                       hash.put("sender", "LOGS");
+                                       hash.put("group", groupid_);
+                                       hash.put("reply","false");
+                                       hash.put("message", Username + getResources().getString(R.string.now_admin));
+                                       hash.put("timestamp", timestamp);
+                                       databaseReference2.push().setValue(hash);
 
-                            DatabaseReference databaseReference11 = FirebaseDatabase.getInstance().getReference("Group").child(groupid_).child("members").child(userid);
-                            HashMap<String, Object> map = new HashMap<>();
-                            map.put("admin", "true");
-                            databaseReference11.updateChildren(map).addOnCompleteListener(task -> startActivity(new Intent(getContext(),group_infoActivity.class).putExtra("groupid",groupid_)));
+                                       DatabaseReference databaseReference11 = FirebaseDatabase.getInstance().getReference("Group").child(groupid_).child("members").child(userid);
+                                       HashMap<String, Object> map = new HashMap<>();
+                                       map.put("admin", "true");
+                                       databaseReference11.updateChildren(map).addOnCompleteListener(task -> startActivity(new Intent(getContext(),group_infoActivity.class).putExtra("groupid",groupid_)));
 
-                        });
+                                   }
+                               })
+                               .onNegativeClicked(new iOSDialogListener() {
+                                   @Override
+                                   public void onClick(Dialog dialog) {
+                                       //Do Nothing
+                                   }
+                               })
+                               .isCancellable(true)
+                               .build()
+                               .show();
 
-                        dialog.setNeutralButton(getResources().getString(R.string.no), (dialog13, which) -> {
-                            //Dont do anything
-                        });
-                        AlertDialog alertDialog = dialog.create();
-                        alertDialog.show();
+
                     }
                 }
 
@@ -558,6 +606,8 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
+
+
 
     private void remove(String userid, String username,String groupid_) {
         Calendar calendar = Calendar.getInstance();

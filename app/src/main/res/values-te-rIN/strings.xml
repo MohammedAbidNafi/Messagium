@@ -121,5 +121,10 @@
     <string name="Fragment5_description">We want as much as people to understand and use our app easily hence this app supports localization. It follows the system default or you can even manually change from customisation in settings. It currently supports English, Tamizh (Tamil), Telugu and Hindi more languages coming soon.</string>
     <string name="Fragment6_description">This app is made in India and made for India. We completely support Atma Nirbar Bharat Abhiyan (Self reliant India). We have an Obligiation to give back to community hence this app is completely open-sourced. Anyone can audit our app. By this we are allowing our app\'s stakeholders to participate directly in the app development process. Project is available in Github.</string>
     <string name="Fragment7_description">You can send messages and images. Have a one on one video/audio call. Make a group and talk with your buddies. And many more features are coming soon. This app is completely free but it will be ad-supported for some amount of time. Enjoy using this app!</string>
+    <string name="ask_to_delete_chat">Are you sure you want to delete this chat?</string>
+    <string name="ask_to_call">Are you sure you want to call this person?</string>
+    <string name="unblock">Unblock</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="ask_to_setProfile">Are you sure want to keep this image as your profile picture?</string>
 
 </resources>

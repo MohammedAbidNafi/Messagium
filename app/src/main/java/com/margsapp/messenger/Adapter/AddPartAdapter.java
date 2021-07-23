@@ -1,7 +1,9 @@
 package com.margsapp.messenger.Adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +23,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.margsapp.iosdialog.iOSDialog;
+import com.margsapp.iosdialog.iOSDialogListener;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
+import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
 import com.victor.loading.rotate.RotateLoading;
 
 import java.text.SimpleDateFormat;
@@ -135,20 +142,33 @@ public class AddPartAdapter extends RecyclerView.Adapter<AddPartAdapter.ViewHold
             String name = user.getUsername();
 
 
+            iOSDialog.Builder
+                    .with(mContext)
+                    .setTitle("Remove")
+                    .setMessage(mContext.getResources().getString(R.string.ask_remove))
+                    .setPositiveText(mContext.getResources().getString(R.string.yes))
+                    .setPostiveTextColor(mContext.getResources().getColor(R.color.red))
+                    .setNegativeText(mContext.getResources().getString(R.string.cancel))
+                    .setNegativeTextColor(mContext.getResources().getColor(R.color.company_blue))
+                    .onPositiveClicked(new iOSDialogListener() {
+                        @Override
+                        public void onClick(Dialog dialog) {
+                            remove(idd,name,groupid);
+                            holder.remove.setVisibility(View.GONE);
+                            holder.addpart_btn.setVisibility(View.VISIBLE);
+                        }
+                    })
+                    .onNegativeClicked(new iOSDialogListener() {
+                        @Override
+                        public void onClick(Dialog dialog) {
+                            //Do Nothing
+                        }
+                    })
+                    .isCancellable(true)
+                    .build()
+                    .show();
 
 
-            AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-            dialog.setMessage(mContext.getResources().getString(R.string.remove_from_group));
-            dialog.setPositiveButton(mContext.getResources().getString(R.string.yes), (dialog12, id) -> {
-                remove(idd,name,groupid);
-                holder.remove.setVisibility(View.GONE);
-                holder.addpart_btn.setVisibility(View.VISIBLE);
-            });
-            dialog.setNeutralButton(mContext.getResources().getString(R.string.cancel), (dialog1, which) -> {
-                //Dont do anything
-            });
-            AlertDialog alertDialog = dialog.create();
-            alertDialog.show();
 
 
         });

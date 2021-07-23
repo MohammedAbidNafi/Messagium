@@ -30,7 +30,9 @@
 
     <color name="editText">#FFFF</color>
 
+    <color name="onCardClick">#DFDFDF</color>
     <color name="card_back">#fff</color>
+
     <color name="diffrentBack">#EDEDED</color>
     <color name="othertext">#E5E4E9</color>
 

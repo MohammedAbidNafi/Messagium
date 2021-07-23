@@ -2,8 +2,10 @@ package com.margsapp.messenger.Adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -25,12 +27,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.margsapp.iosdialog.iOSDialog;
+import com.margsapp.iosdialog.iOSDialogListener;
 import com.margsapp.messenger.Main.MessageActivity;
 import com.margsapp.messenger.Model.Chat;
 import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
 import com.margsapp.messenger.utils.AES;
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
+import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -163,16 +170,29 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
 
         holder.UnBlock_btn.setOnClickListener(v -> {
-            androidx.appcompat.app.AlertDialog.Builder dialog = new androidx.appcompat.app.AlertDialog.Builder(mContext);
-            dialog.setMessage(mContext.getResources().getString(R.string.want_to_block));
-            dialog.setPositiveButton(mContext.getResources().getString(R.string.yes), (dialog12, id) -> UnBlock(user.getId()));
-
-            dialog.setNeutralButton(mContext.getResources().getString(R.string.cancel), (dialog1, which) -> {
-                //Dont do anything
-            });
-            androidx.appcompat.app.AlertDialog alertDialog = dialog.create();
-            alertDialog.show();
-
+            iOSDialog.Builder
+                    .with(mContext)
+                    .setTitle(mContext.getResources().getString(R.string.unblock))
+                    .setMessage(mContext.getResources().getString(R.string.ask_to_unblock))
+                    .setPositiveText(mContext.getResources().getString(R.string.yes))
+                    .setPostiveTextColor(mContext.getResources().getColor(R.color.red))
+                    .setNegativeText(mContext.getResources().getString(R.string.cancel))
+                    .setNegativeTextColor(mContext.getResources().getColor(R.color.company_blue))
+                    .onPositiveClicked(new iOSDialogListener() {
+                        @Override
+                        public void onClick(Dialog dialog) {
+                            UnBlock(user.getId());
+                        }
+                    })
+                    .onNegativeClicked(new iOSDialogListener() {
+                        @Override
+                        public void onClick(Dialog dialog) {
+                            //Do Nothing
+                        }
+                    })
+                    .isCancellable(true)
+                    .build()
+                    .show();
 
 
         });

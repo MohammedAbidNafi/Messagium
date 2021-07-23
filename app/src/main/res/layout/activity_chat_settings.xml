@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,11 +25,13 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="90dp"
-
+        app:cardCornerRadius="15dp"
+        android:layout_marginHorizontal="15dp"
+        app:cardBackgroundColor="@color/card_back"
         android:id="@+id/Accepted"
         >
 
-        <ImageButton
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
@@ -51,7 +53,7 @@
             android:layout_height="wrap_content"
             android:text="@string/accepted"
 
-
+            android:fontFamily="@font/nunito_semibold"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="50dp"
             android:textColor="@color/blacktext"
@@ -66,12 +68,15 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="160dp"
-
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/Accepted"
+        android:layout_marginHorizontal="15dp"
+        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="@color/card_back"
         android:id="@+id/Blocked"
         >
 
-        <ImageButton
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
@@ -107,4 +112,4 @@
     </androidx.cardview.widget.CardView>
 
 
-</FrameLayout>
+</RelativeLayout>

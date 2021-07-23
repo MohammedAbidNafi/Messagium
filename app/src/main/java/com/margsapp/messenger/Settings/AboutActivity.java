@@ -1,6 +1,7 @@
 package com.margsapp.messenger.Settings;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -29,6 +30,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.margsapp.iosdialog.iOSDialog;
+import com.margsapp.iosdialog.iOSDialogListener;
 import com.margsapp.messenger.BuildConfig;
 import com.margsapp.messenger.Model.AppVersion;
 import com.margsapp.messenger.R;
@@ -209,19 +212,31 @@ public class AboutActivity extends AppCompatActivity {
 
                     } else {
 
-                        androidx.appcompat.app.AlertDialog.Builder dialog = new androidx.appcompat.app.AlertDialog.Builder(AboutActivity.this);
-                        dialog.setMessage(getResources().getString(R.string.like_to_update));
-                        dialog.setPositiveButton(getResources().getString(R.string.yes), (dialog1, id) -> {
-                            Uri uri = Uri.parse("https://margsweb.wixsite.com/messenger");
-                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                            startActivity(intent);
-                        });
-
-                        dialog.setNeutralButton(getResources().getString(R.string.cancel), (dialog12, which) -> {
-                            //Dont do anything
-                        });
-                        androidx.appcompat.app.AlertDialog alertDialog = dialog.create();
-                        alertDialog.show();
+                        iOSDialog.Builder
+                                .with(AboutActivity.this)
+                                .setTitle(getResources().getString(R.string.check_update))
+                                .setMessage(getString(R.string.like_to_update))
+                                .setPositiveText(getResources().getString(R.string.yes))
+                                .setPostiveTextColor(getResources().getColor(R.color.red))
+                                .setNegativeText(getResources().getString(R.string.no))
+                                .setNegativeTextColor(getResources().getColor(R.color.company_blue))
+                                .onPositiveClicked(new iOSDialogListener() {
+                                    @Override
+                                    public void onClick(Dialog dialog) {
+                                        Uri uri = Uri.parse("https://margsweb.wixsite.com/messenger");
+                                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .onNegativeClicked(new iOSDialogListener() {
+                                    @Override
+                                    public void onClick(Dialog dialog) {
+                                        //Do Nothing
+                                    }
+                                })
+                                .isCancellable(true)
+                                .build()
+                                .show();
 
 
                     }

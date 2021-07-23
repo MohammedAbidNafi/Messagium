@@ -45,6 +45,7 @@ public class Chat_settings extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Chat_settings.this, edit_profile.class));
+                finish();
                 overridePendingTransition(R.anim.activity_slider_in_right, R.anim.activity_slider_out_left);
 
             }

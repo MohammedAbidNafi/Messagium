@@ -1,6 +1,7 @@
 package com.margsapp.messenger.groupclass;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -48,6 +49,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
+import com.margsapp.iosdialog.iOSDialog;
+import com.margsapp.iosdialog.iOSDialogListener;
 import com.margsapp.messenger.Adapter.GroupMessageAdapter;
 import com.margsapp.messenger.Main.MainActivity;
 import com.margsapp.messenger.Notifications.APIService;
@@ -713,8 +716,63 @@ public class group_messageActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.create_shortcut) {
             Shortcuts(groupid, groupname_, group_image.getDrawable());
         }
+        if(item.getItemId() == R.id.leave_group){
+
+            iOSDialog.Builder
+                    .with(group_messageActivity.this)
+                    .setTitle(getResources().getString(R.string.leave_group))
+                    .setMessage(getResources().getString(R.string.ask_leave_group))
+                    .setPositiveText(getResources().getString(R.string.yes))
+                    .setPostiveTextColor(getResources().getColor(R.color.red))
+                    .setNegativeText(getResources().getString(R.string.cancel))
+                    .setNegativeTextColor(getResources().getColor(R.color.company_blue))
+                    .onPositiveClicked(new iOSDialogListener() {
+                        @Override
+                        public void onClick(Dialog dialog) {
+                            leave(groupid,username);
+                        }
+                    })
+                    .onNegativeClicked(new iOSDialogListener() {
+                        @Override
+                        public void onClick(Dialog dialog) {
+                            //Do Nothing
+                        }
+                    })
+                    .isCancellable(true)
+                    .build()
+                    .show();
+
+
+        }
 
         return false;
+    }
+
+    private void leave(String groupId,String username) {
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+
+        Calendar calendar = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
+        String timestamp = simpleDateFormat.format(calendar.getTime());
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Group").child(groupid).child("members").child(firebaseUser.getUid());
+        databaseReference.removeValue();
+
+        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("GroupChat").child(groupId);
+        HashMap<String, Object> hash = new HashMap<>();
+        hash.put("sender", "LOGS");
+        hash.put("group", groupId);
+        hash.put("reply","false");
+        hash.put("message", username + " "+ getResources().getString(R.string.left_group));
+        hash.put("timestamp", timestamp);
+        databaseReference2.push().setValue(hash);
+
+
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Grouplist").child(firebaseUser.getUid()).child(groupid);
+        databaseReference1.removeValue();
+
     }
 
 

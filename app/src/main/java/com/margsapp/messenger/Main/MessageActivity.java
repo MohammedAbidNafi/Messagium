@@ -60,6 +60,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.margsapp.iosdialog.iOSDialog;
+import com.margsapp.iosdialog.iOSDialogListener;
 import com.margsapp.messenger.Adapter.MessageAdapter;
 import com.margsapp.messenger.Notifications.APIService;
 import com.margsapp.messenger.Model.Chat;
@@ -136,6 +138,8 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
     String blocked;
 
     Dialog dialog;
+
+
 
 
     boolean entertosend = false;
@@ -486,6 +490,8 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         });
 
         btn_block.setOnClickListener(v -> {
+
+
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
                     .child(firebaseUser.getUid())
                     .child(userid);
@@ -1046,14 +1052,32 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
         switch (item.getItemId()) {
             case R.id.block_user:
-                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-                dialog.setMessage(getResources().getString(R.string.want_to_block));
-                dialog.setPositiveButton(getResources().getString(R.string.yes), (dialog12, id) -> Block());
-                dialog.setNeutralButton(getResources().getString(R.string.cancel), (dialog1, which) -> {
-                    //Dont do anything
-                });
-                AlertDialog alertDialog = dialog.create();
-                alertDialog.show();
+
+
+                iOSDialog.Builder
+                        .with(this)
+                        .setTitle(getResources().getString(R.string.block))
+                        .setMessage(getResources().getString(R.string.want_to_block))
+                        .setPositiveText(getResources().getString(R.string.yes))
+                        .setPostiveTextColor(getResources().getColor(R.color.red))
+                        .setNegativeText(getResources().getString(R.string.cancel))
+                        .setNegativeTextColor(getResources().getColor(R.color.company_blue))
+                        .onPositiveClicked(new iOSDialogListener() {
+                            @Override
+                            public void onClick(Dialog dialog) {
+                                Block();
+                            }
+                        })
+                        .onNegativeClicked(new iOSDialogListener() {
+                            @Override
+                            public void onClick(Dialog dialog) {
+                                //Do Nothing
+                            }
+                        })
+                        .isCancellable(true)
+                        .build()
+                        .show();
+
 
                 break;
 
@@ -1066,7 +1090,30 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
                 break;
 
             case R.id.delete_chat:
-                DeleteChat(userid);
+                iOSDialog.Builder
+                        .with(this)
+                        .setTitle(getResources().getString(R.string.delete_chat))
+                        .setMessage(getString(R.string.ask_to_delete_chat))
+                        .setPositiveText(getResources().getString(R.string.yes))
+                        .setPostiveTextColor(getResources().getColor(R.color.red))
+                        .setNegativeText(getResources().getString(R.string.no))
+                        .setNegativeTextColor(getResources().getColor(R.color.company_blue))
+                        .onPositiveClicked(new iOSDialogListener() {
+                            @Override
+                            public void onClick(Dialog dialog) {
+                                DeleteChat(userid);
+                            }
+                        })
+                        .onNegativeClicked(new iOSDialogListener() {
+                            @Override
+                            public void onClick(Dialog dialog) {
+                                //Do Nothing
+                            }
+                        })
+                        .isCancellable(true)
+                        .build()
+                        .show();
+
                 break;
 
         }
@@ -1076,10 +1123,38 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
     private void VideoCall() {
 
+        iOSDialog.Builder
+                .with(this)
+                .setTitle(getResources().getString(R.string.video_call))
+                .setMessage(getString(R.string.ask_to_call))
+                .setPositiveText(getResources().getString(R.string.yes))
+                .setPostiveTextColor(getResources().getColor(R.color.red))
+                .setNegativeText(getResources().getString(R.string.no))
+                .setNegativeTextColor(getResources().getColor(R.color.company_blue))
+                .onPositiveClicked(new iOSDialogListener() {
+                    @Override
+                    public void onClick(Dialog dialog) {
+                        call();
+                    }
+                })
+                .onNegativeClicked(new iOSDialogListener() {
+                    @Override
+                    public void onClick(Dialog dialog) {
+                        //Do Nothing
+                    }
+                })
+                .isCancellable(true)
+                .build()
+                .show();
+
+
+
+    }
+
+    private void call() {
         String otherID = userid;
 
         startActivity(new Intent(MessageActivity.this, CallActivity.class).putExtra("userid", otherID));
-
     }
 
     private void DeleteChat(String userid) {

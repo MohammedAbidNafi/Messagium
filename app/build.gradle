@@ -28,7 +28,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 23
-        versionName "3.2.0"
+        versionName "3.3.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -126,6 +126,10 @@ dependencies {
 
     def lottieVersion = "3.6.1"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+
+
+    implementation 'com.github.MohammedAbidNafi:iOS-Style-Alert-Dialog:1.9'
+
 
 
 

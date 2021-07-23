@@ -5,4 +5,8 @@
         android:id="@+id/create_shortcut"
         android:title="@string/create_shortcut" />
 
+    <item
+        android:id="@+id/leave_group"
+        android:title="@string/leave_group"/>
+
 </menu>

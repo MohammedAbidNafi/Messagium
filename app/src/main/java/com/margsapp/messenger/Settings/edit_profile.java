@@ -179,7 +179,7 @@ public class edit_profile extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN)  {
-                    Status_card.setCardBackgroundColor(getResources().getColor(R.color.greytext));
+                    Status_card.setCardBackgroundColor(getResources().getColor(R.color.onCardClick));
 
                 }else {
                     Status_card.setCardBackgroundColor(getResources().getColor(R.color.card_back));
@@ -207,7 +207,7 @@ public class edit_profile extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN)  {
-                    Account_card.setCardBackgroundColor(getResources().getColor(R.color.greytext));
+                    Account_card.setCardBackgroundColor(getResources().getColor(R.color.onCardClick));
 
                 }else {
                     Account_card.setCardBackgroundColor(getResources().getColor(R.color.card_back));
@@ -236,7 +236,7 @@ public class edit_profile extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN)  {
-                    Customize_card.setCardBackgroundColor(getResources().getColor(R.color.greytext));
+                    Customize_card.setCardBackgroundColor(getResources().getColor(R.color.onCardClick));
 
                 }else {
                     Customize_card.setCardBackgroundColor(getResources().getColor(R.color.card_back));
@@ -265,7 +265,7 @@ public class edit_profile extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN)  {
-                    About_card.setCardBackgroundColor(getResources().getColor(R.color.greytext));
+                    About_card.setCardBackgroundColor(getResources().getColor(R.color.onCardClick));
 
                 }else {
                     About_card.setCardBackgroundColor(getResources().getColor(R.color.card_back));
