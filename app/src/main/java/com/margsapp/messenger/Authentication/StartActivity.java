@@ -335,10 +335,16 @@ public class StartActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+
         }
+
     }
+
     private void displayToast(String s) {
 
+
         Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show();
+
     }
+
 }

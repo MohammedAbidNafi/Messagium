@@ -56,6 +56,5 @@ public class MyWelcomeActivity extends WelcomeActivity {
                 })
                 .swipeToDismiss(true)
                 .build();
-
     }
 }

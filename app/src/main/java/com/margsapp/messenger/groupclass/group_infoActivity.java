@@ -276,7 +276,10 @@ public class group_infoActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
+
         overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
+
         finish();
     }
+
 }

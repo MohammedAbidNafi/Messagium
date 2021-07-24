@@ -220,4 +220,5 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
 
         }
     }
+
 }

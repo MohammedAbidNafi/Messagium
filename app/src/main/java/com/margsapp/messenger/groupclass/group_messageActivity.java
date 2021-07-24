@@ -861,6 +861,5 @@ public class group_messageActivity extends AppCompatActivity {
         status("offline");
 
 
-
     }
 }

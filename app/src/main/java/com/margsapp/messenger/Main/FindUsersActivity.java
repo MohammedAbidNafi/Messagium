@@ -206,6 +206,7 @@ public class FindUsersActivity extends AppCompatActivity {
         status("offline");
     }
 
+
     public void onBackPressed(){
         startActivity(new Intent(FindUsersActivity.this, MainActivity.class));
         if (mInterstitialAd != null) {
@@ -214,5 +215,6 @@ public class FindUsersActivity extends AppCompatActivity {
             Log.d("TAG", "The interstitial ad wasn't ready yet.");
         }
     }
+
 
 }

@@ -73,5 +73,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             profile = itemView.findViewById(R.id.profile_image);
 
         }
+
+
     }
+
 }

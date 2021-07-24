@@ -176,7 +176,6 @@ public class ContactsFragment extends Fragment {
                 adapter = new ContactsAdapter(mUsers,requireActivity());
                 recyclerView.setAdapter(adapter);
             }
-
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
 

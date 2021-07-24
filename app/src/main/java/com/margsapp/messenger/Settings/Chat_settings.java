@@ -102,7 +102,6 @@ public class Chat_settings extends AppCompatActivity {
         super.onResume();
         status("online");
     }
-
     @Override
     protected void onPause() {
         super.onPause();

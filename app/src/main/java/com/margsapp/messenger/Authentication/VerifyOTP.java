@@ -181,7 +181,6 @@ public class VerifyOTP extends AppCompatActivity {
                 });
 
     }
-
     public void callNextScreenFromOTP(View view){
         String code = Objects.requireNonNull(pinFromUser.getText()).toString();
         if(!code.isEmpty()){

@@ -1317,6 +1317,4 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
     }
 
 
-
-
 }
