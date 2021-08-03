@@ -1,6 +1,7 @@
 package com.margsapp.messenger.Authentication;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +25,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.margsapp.iosdialog.iOSDialog;
+import com.margsapp.iosdialog.iOSDialogListener;
 import com.margsapp.messenger.R;
 
 import java.text.SimpleDateFormat;
@@ -59,18 +62,33 @@ public class VerifyOTP extends AppCompatActivity {
         TextView resend = findViewById(R.id.resend);
         TextView wrongnumber = findViewById(R.id.wrongnumber);
         resend.setOnClickListener(v -> {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(VerifyOTP.this);
-            dialog.setMessage(getResources().getString(R.string.Ask_OTP_again));
-            dialog.setPositiveButton(getResources().getString(R.string.yes), (dialog12, id) -> {
-                sendVerificationCodeToUser(phoneNo);
 
-                Toast.makeText(VerifyOTP.this, getResources().getString(R.string.another_code_sent) + phoneNo,Toast.LENGTH_SHORT).show();
-            });
-            dialog.setNeutralButton(getResources().getString(R.string.no), (dialog1, which) -> {
-                //Dont do anything
-            });
-            AlertDialog alertDialog = dialog.create();
-            alertDialog.show();
+            iOSDialog.Builder
+                    .with(VerifyOTP.this)
+                    .setTitle(getApplicationContext().getResources().getString(R.string.otp_again_title))
+                    .setMessage(getApplicationContext().getResources().getString(R.string.Ask_OTP_again))
+                    .setPositiveText(getApplicationContext().getResources().getString(R.string.yes))
+                    .setPostiveTextColor(getApplicationContext().getResources().getColor(R.color.red))
+                    .setNegativeText(getApplicationContext().getResources().getString(R.string.cancel))
+                    .setNegativeTextColor(getApplicationContext().getResources().getColor(R.color.company_blue))
+                    .onPositiveClicked(new iOSDialogListener() {
+                        @Override
+                        public void onClick(Dialog dialog) {
+                            sendVerificationCodeToUser(phoneNo);
+                            Toast.makeText(VerifyOTP.this, getResources().getString(R.string.another_code_sent) + phoneNo,Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .onNegativeClicked(new iOSDialogListener() {
+                        @Override
+                        public void onClick(Dialog dialog) {
+                            //Do Nothing
+                        }
+                    })
+                    .isCancellable(true)
+                    .build()
+                    .show();
+
+
         });
 
         wrongnumber.setOnClickListener(v -> onBackPressed());

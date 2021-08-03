@@ -28,9 +28,9 @@
                     android:id="@+id/group_edit"
                     android:layout_width="match_parent"
                     android:layout_height="65dp"
-                    android:background="@color/card_back">
+                    app:cardBackgroundColor="@color/card_back">
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|end"
@@ -57,10 +57,10 @@
                     android:layout_height="65dp"
                     android:layout_below="@+id/group_edit"
                     android:layout_marginTop="10dp"
-                    android:background="@color/card_back"
+                    app:cardBackgroundColor="@color/card_back"
                     android:visibility="visible">
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
@@ -96,10 +96,10 @@
                     android:layout_height="65dp"
                     android:layout_below="@+id/manage_part"
                     android:layout_marginTop="10dp"
-                    android:background="@color/card_back"
+                    app:cardBackgroundColor="@color/card_back"
                     android:visibility="visible">
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/search_button"
@@ -187,7 +187,7 @@
                     android:layout_height="50dp"
                     android:layout_below="@+id/created_on"
                     android:layout_marginTop="10dp"
-                    android:background="@color/card_back"
+                    app:cardBackgroundColor="@color/card_back"
                     android:visibility="visible">
 
                     <ImageView

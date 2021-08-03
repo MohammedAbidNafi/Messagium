@@ -41,6 +41,7 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.margsapp.iosdialog.iOSDialog;
 import com.margsapp.iosdialog.iOSDialogListener;
+import com.margsapp.messenger.Authentication.VerifyOTP;
 import com.margsapp.messenger.Main.MessageActivity;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
@@ -178,26 +179,33 @@ public class chat_image_viewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder dialog = new AlertDialog.Builder(chat_image_viewActivity.this);
-                dialog.setTitle(getResources().getString(R.string.wallpaper_title));
-                dialog.setMessage(getResources().getString(R.string.wallpaper_ask));
-                dialog.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            setWallpaper(imageuri);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Toast.makeText(chat_image_viewActivity.this,"Something went wrong! Error Code 0x08040202",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                dialog.setNeutralButton(getResources().getString(R.string.cancel), (dialog1, which) -> {
-                    //Dont do anything
-                });
-                AlertDialog alertDialog = dialog.create();
-                alertDialog.show();
-
+                iOSDialog.Builder
+                        .with(chat_image_viewActivity.this)
+                        .setTitle(getApplicationContext().getResources().getString(R.string.wallpaper_title))
+                        .setMessage(getApplicationContext().getResources().getString(R.string.wallpaper_ask))
+                        .setPositiveText(getApplicationContext().getResources().getString(R.string.yes))
+                        .setPostiveTextColor(getApplicationContext().getResources().getColor(R.color.red))
+                        .setNegativeText(getApplicationContext().getResources().getString(R.string.cancel))
+                        .setNegativeTextColor(getApplicationContext().getResources().getColor(R.color.company_blue))
+                        .onPositiveClicked(new iOSDialogListener() {
+                            @Override
+                            public void onClick(Dialog dialog) {
+                                try {
+                                    setWallpaper(imageuri);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+                        .onNegativeClicked(new iOSDialogListener() {
+                            @Override
+                            public void onClick(Dialog dialog) {
+                                //Do Nothing
+                            }
+                        })
+                        .isCancellable(true)
+                        .build()
+                        .show();
 
             }
         });

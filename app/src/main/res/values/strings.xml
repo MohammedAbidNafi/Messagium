@@ -163,6 +163,7 @@
     <string name="ask_to_unblock">Are you sure you want to unblock this user?</string>
     <string name="profile_picture">Profile Picture</string>
     <string name="ask_to_setProfile">Are you sure want to keep this image as your profile picture?</string>
+    <string name="otp_again_title">Resend OTP</string>
 
 
 </resources>

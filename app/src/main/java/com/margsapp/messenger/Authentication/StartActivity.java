@@ -87,19 +87,11 @@ public class StartActivity extends AppCompatActivity {
         String language = preferences.getString("lang","");
         setLocale(language);
 
-
-
-
-
-
-
-
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (firebaseUser != null) {
             SharedPreferences sharedPreferences = getSharedPreferences("Authentication", 0);
             String bio = sharedPreferences.getString(TEXT, "");
-
 
             if (bio.equals("1")) {
 
@@ -108,15 +100,11 @@ public class StartActivity extends AppCompatActivity {
 
                     // this means we can use biometric sensor
                     case BiometricManager.BIOMETRIC_SUCCESS:
-
                         break;
-
                     // this means that the device doesn't have fingerprint sensor
                     case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
-
                         // this means that the device doesn't contain your fingerprint
                     case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-
                         // this means that biometric sensor is not available
                     case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
                     case BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED:
@@ -339,6 +327,8 @@ public class StartActivity extends AppCompatActivity {
         }
 
     }
+
+
 
     private void displayToast(String s) {
 

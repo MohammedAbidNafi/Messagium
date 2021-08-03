@@ -17,12 +17,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -40,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.margsapp.iosdialog.iOSDialog;
 import com.margsapp.iosdialog.iOSDialogListener;
 import com.margsapp.messenger.Adapter.GroupInfoAdapter;
+import com.margsapp.messenger.Authentication.VerifyOTP;
 import com.margsapp.messenger.Main.MessageActivity;
 import com.margsapp.messenger.Model.Chatlist;
 import com.margsapp.messenger.Model.Group;
@@ -75,7 +76,7 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
 
     CardView group_edit, manage_part;
 
-    ImageButton search_button;
+    ImageView search_button;
 
     private TextView created_on,groupname_txt;
 
@@ -190,14 +191,31 @@ public class GroupInfoFragment extends Fragment implements GroupInfoAdapter.Even
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
                     }else {
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
-                        dialog.setTitle(getResources().getString(R.string.not_an_admin));
-                        dialog.setMessage(getResources().getString(R.string.admin_message));
-                        dialog.setPositiveButton(getResources().getString(R.string.ok), (dialog1, id) -> {
+                        iOSDialog.Builder
+                                .with(requireActivity())
+                                .setTitle(requireContext().getResources().getString(R.string.not_an_admin))
+                                .setMessage(requireContext().getResources().getString(R.string.admin_message))
+                                .setPositiveText(requireContext().getResources().getString(R.string.ok))
+                                .setPostiveTextColor(requireContext().getResources().getColor(R.color.red))
+                                .setNegativeText(requireContext().getResources().getString(R.string.cancel))
+                                .setNegativeTextColor(requireContext().getResources().getColor(R.color.company_blue))
+                                .onPositiveClicked(new iOSDialogListener() {
+                                    @Override
+                                    public void onClick(Dialog dialog) {
 
-                        });
-                        AlertDialog alertDialog = dialog.create();
-                        alertDialog.show();
+                                    }
+                                })
+                                .onNegativeClicked(new iOSDialogListener() {
+                                    @Override
+                                    public void onClick(Dialog dialog) {
+                                        //Do Nothing
+                                    }
+                                })
+                                .isCancellable(true)
+                                .build()
+                                .show();
+
+
                     }
                 }
 

@@ -37,6 +37,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.margsapp.messenger.Fragments.GroupInfoFragment;
+import com.margsapp.messenger.ImageView.main_dpActivity;
+import com.margsapp.messenger.Main.MainActivity;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.R;
 import com.margsapp.messenger.ImageView.group_dpActivity;
@@ -136,6 +138,23 @@ public class group_infoActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        group_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String data = imageUrl;
+                String groupid_ = groupid;
+                Intent intent = new Intent(group_infoActivity.this, group_dpActivity.class);
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair<View, String>(group_img, "image");
+                intent.putExtra("data",data);
+                intent.putExtra("groupid",groupid_);
+                intent.putExtra("groupname", groupname);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(group_infoActivity.this, pairs);
+                startActivity(intent, options.toBundle());
             }
         });
         toolbar.setNavigationOnClickListener(v -> {
