@@ -1,19 +1,6 @@
 ## Messenger By Margs
 
-https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs.svg
-
 [![wakatime](https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs.svg)](https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs)
-
-!https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs.svg!:https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs
-
-{<img src="https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs.svg" alt="wakatime" />}[https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs]
-
-image:https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs.svg["wakatime", link="https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs"]
-
-.. image:: https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs.svg
-    :target: https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs
-    
-    =for html <a href="https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs"><img src="https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs.svg"></a>
 
 Messenger is an android app to instantly communicate with people while keeping their privacy secured.
 
