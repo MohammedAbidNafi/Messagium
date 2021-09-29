@@ -1,5 +1,7 @@
 ## Messenger By Margs
 
+[![wakatime](https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs.svg)](https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs)
+
 Messenger is an android app to instantly communicate with people while keeping their privacy secured.
 
 This project uses Firebase for Database, Storage, Push Notification, Analytics and Authentication.
@@ -22,7 +24,7 @@ If your working on this make sure you connect this project to your firebase acco
 6. Uses Firebase for Authentication, Database and Storage so reliable speed and performence.
 7. Swipe left to go back
 8. Subtle Animations 
-9. Personal Messages are end to end encrypted
+9. Personal Messages are encrypted
 10. Ability to VideoCall
 11. Send Images without losing any quality
 
