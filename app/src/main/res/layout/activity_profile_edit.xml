@@ -108,45 +108,45 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/status_card"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="15dp"
         android:layout_below="@+id/imagecard"
-        android:id="@+id/status_card"
-        app:cardCornerRadius="10dp"
         android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="15dp"
         app:cardBackgroundColor="@color/card_back"
+        app:cardCornerRadius="10dp"
 
         >
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:src="@drawable/ic_baseline_chevron_right_24"
+            app:tint="@color/greytext"
             android:layout_gravity="center_vertical|end"
+            android:src="@drawable/ic_baseline_chevron_right_24"
 
             />
+
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/thinking"
+            android:layout_gravity="center_vertical|start"
             android:layout_marginStart="10dp"
 
-            android:layout_gravity="center_vertical|start"/>
+            android:src="@drawable/thinking" />
 
 
         <TextView
+            android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/status"
-            android:id="@+id/status"
-
             android:layout_gravity="center_vertical"
+
             android:layout_marginStart="50dp"
+            android:text="@string/status"
             android:textColor="@color/blacktext"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp" />
 
 
     </androidx.cardview.widget.CardView>
@@ -173,7 +173,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            app:tint="@color/greytext"
             android:src="@drawable/ic_baseline_chevron_right_24"
             android:layout_gravity="center_vertical|end"
 
@@ -224,7 +224,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            app:tint="@color/greytext"
             android:src="@drawable/ic_baseline_chevron_right_24"
             android:layout_gravity="center_vertical|end"
 
@@ -268,7 +268,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            app:tint="@color/greytext"
             android:src="@drawable/ic_baseline_chevron_right_24"
             android:layout_gravity="center_vertical|end"
 

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Settings.Wallpaper"
+    android:background="@color/diffrentBack">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/bar_layout"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:cardCornerRadius="15dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginHorizontal="20dp"
+        app:cardElevation="10dp"
+        app:cardBackgroundColor="@color/background"
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/default_wallpaper"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Default Wallpaper "
+                android:layout_centerVertical="true"
+                android:textColor="@color/black_text"
+                android:fontFamily="@font/nunito_semibold"
+                android:layout_marginStart="20dp"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_baseline_chevron_right_24"
+                app:tint="@color/greytext" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/default_wallpaper">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:rowCount="5"
+                android:layout_marginVertical="25dp"
+                android:columnCount="2"
+                android:useDefaultMargins="true"
+                >
+                <ImageView
+                    android:id="@+id/dark1"
+                    android:layout_width="190dp"
+                    android:layout_height="330dp"
+                    android:src="@raw/dark1"
+
+                    />
+                <ImageView
+                    android:id="@+id/dark2"
+                    android:layout_width="190dp"
+                    android:layout_height="330dp"
+                    android:src="@raw/dark2"/>
+                <ImageView
+                    android:id="@+id/dark3"
+                    android:layout_width="190dp"
+                    android:layout_height="330dp"
+                    android:src="@raw/dark3"/>
+                <ImageView
+                    android:id="@+id/light1"
+                    android:layout_width="190dp"
+                    android:layout_height="330dp"
+                    android:src="@raw/light1"/>
+                <ImageView
+                    android:id="@+id/light2"
+                    android:layout_width="190dp"
+                    android:layout_height="330dp"
+                    android:src="@raw/light2"/>
+                <ImageView
+                    android:id="@+id/light3"
+                    android:layout_width="190dp"
+                    android:layout_height="330dp"
+                    android:src="@raw/light3"/>
+            </GridLayout>
+
+        </LinearLayout>
+
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

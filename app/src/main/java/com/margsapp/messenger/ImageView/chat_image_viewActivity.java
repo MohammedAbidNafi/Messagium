@@ -145,13 +145,8 @@ public class chat_image_viewActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(chat_image_viewActivity.this, MessageActivity.class);
-                Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair<View, String>(imageView, "chatImage");
-                intent.putExtra("userid", finalIdtosend);
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(chat_image_viewActivity.this, pairs);
-                startActivity(intent, options.toBundle());
                 finish();
+
             }
         });
 
@@ -370,13 +365,6 @@ public class chat_image_viewActivity extends AppCompatActivity {
 
     public void onBackPressed(){
 
-        Intent intent = new Intent(chat_image_viewActivity.this, MessageActivity.class);
-        Pair[] pairs = new Pair[1];
-        pairs[0] = new Pair<View, String>(imageView, "chatImage");
-        intent.putExtra("userid", idtosend);
-        intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(chat_image_viewActivity.this, pairs);
-        startActivity(intent, options.toBundle());
         finish();
 
     }

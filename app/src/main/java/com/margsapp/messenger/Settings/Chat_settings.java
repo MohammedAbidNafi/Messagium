@@ -3,6 +3,7 @@ package com.margsapp.messenger.Settings;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,7 +45,6 @@ public class Chat_settings extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Chat_settings.this, edit_profile.class));
                 finish();
                 overridePendingTransition(R.anim.activity_slider_in_right, R.anim.activity_slider_out_left);
 
@@ -55,11 +55,43 @@ public class Chat_settings extends AppCompatActivity {
 
         Blocked = findViewById(R.id.Blocked);
 
+
+        Accepted.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN)  {
+                    Accepted.setCardBackgroundColor(getResources().getColor(R.color.onCardClick));
+
+                }else {
+                    Accepted.setCardBackgroundColor(getResources().getColor(R.color.card_back));
+
+                }
+                return false;
+            }
+        });
+
         Accepted.setOnClickListener(v -> {
             Intent intent = new Intent(Chat_settings.this, com.margsapp.messenger.Friends.Accepted.class);
             startActivity(intent);
             overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
         });
+
+        Blocked.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN)  {
+                    Blocked.setCardBackgroundColor(getResources().getColor(R.color.onCardClick));
+
+                }else {
+                    Blocked.setCardBackgroundColor(getResources().getColor(R.color.card_back));
+
+                }
+                return false;
+            }
+        });
+
 
         Blocked.setOnClickListener(v -> {
             Intent intent = new Intent(Chat_settings.this, com.margsapp.messenger.Friends.Blocked.class);
@@ -71,9 +103,6 @@ public class Chat_settings extends AppCompatActivity {
     }
 
     public void onBackPressed(){
-        Intent intent = new Intent(Chat_settings.this, edit_profile.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-        startActivity(intent);
         finish();
         overridePendingTransition(R.anim.activity_slider_in_right, R.anim.activity_slider_out_left);
 

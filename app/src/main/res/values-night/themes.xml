@@ -11,12 +11,35 @@
         <item name="colorSecondary">@color/white</item>
         <item name="colorSecondaryVariant">@color/coral</item>
         <item name="colorOnSecondary">@color/black</item>
+        <!--
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="actionOverflowMenuStyle">@style/MenuStyle</item>
+        -->
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.Messenger.Main" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/coral</item>
+        <item name="colorPrimaryVariant">@color/coral</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/white</item>
+        <item name="colorSecondaryVariant">@color/coral</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+
+        <!--
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowContentTransitions">true</item>
+        -->
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
     </style>
 
 
@@ -28,10 +51,14 @@
         <item name="colorSecondary">@color/coral</item>
         <item name="colorSecondaryVariant">@color/coral</item>
         <item name="colorOnSecondary">@color/black</item>
+        <!--
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowContentTransitions">true</item>
+        -->
 
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
-        <item name="actionOverflowMenuStyle">@style/MenuStyle</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     </style>
@@ -43,13 +70,14 @@
         <item name="colorOnPrimary">@color/black</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/coral</item>
         <item name="colorSecondaryVariant">@color/coral</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="actionOverflowMenuStyle">@style/MenuStyle</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
@@ -68,19 +96,17 @@
         <item name="colorPrimaryVariant">@color/coral</item>
         <item name="colorOnPrimary">#fff</item>
         <!-- Secondary brand color. -->
+
         <item name="colorSecondary">@color/coral</item>
         <item name="colorSecondaryVariant">@color/coral</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <item name="actionOverflowMenuStyle">@style/MenuStyle</item>
+
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="MenuStyle" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:colorBackground">@android:color/transparent</item>
-        <item name="android:popupBackground">@drawable/rounded</item>
-    </style>
+
 
     <style name="ThemeOverlay.Messenger.AppWidgetContainer" parent="">
         <item name="appWidgetBackgroundColor">@color/light_blue_900</item>

@@ -14,7 +14,7 @@
         android:id="@+id/camera"
         android:layout_marginHorizontal="5dp"
         android:background="@drawable/group_info_popup_top"
-        android:text="@string/camera"
+        android:text="Dummy"
         android:textAllCaps="false"
         android:textSize="20sp"
         android:textAlignment="center"
@@ -25,12 +25,37 @@
     </androidx.appcompat.widget.AppCompatButton>
 
 
-    <View
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#707070"
-        android:layout_marginHorizontal="5dp"
-        />
+        android:layout_height="61dp"
+        android:id="@+id/gif"
+        app:cardBackgroundColor="@color/card_back"
+        android:layout_marginHorizontal="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height=".5dp"
+                android:background="#707070"
+                android:layout_alignParentBottom="true"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height=".5dp"
+                android:background="#707070"
+                android:layout_alignParentTop="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/GIF"
+                android:textSize="25sp"
+                android:textColor="@color/company_blue"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
 
 
@@ -40,11 +65,11 @@
         android:id="@+id/gallery"
         android:layout_marginHorizontal="5dp"
         android:layout_marginBottom="15sp"
-        android:text="@string/gallery"
+        android:text="@string/Image"
         android:textAllCaps="false"
         android:textSize="20sp"
         android:textColor="@color/company_blue"
-        android:background="@color/card_back"/>
+        android:background="@drawable/group_info_popup_bottom"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

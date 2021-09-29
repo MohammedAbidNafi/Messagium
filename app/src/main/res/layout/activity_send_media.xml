@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Main.SendMediaActivity"
+    android:background="@color/black">
+
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+
+        android:contentDescription="@string/GIF" />
+
+    <RelativeLayout
+        android:id="@+id/top_controls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:id="@+id/cancel"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/ic_baseline_close_24"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/message_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:visibility="visible"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true">
+
+
+        <EditText
+            style="@style/Theme.Messenger.SendImage"
+            android:id="@+id/text_send"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/edit_text"
+            android:ems="10"
+            android:hint="@string/send_message"
+            android:imeOptions="flagNoExtractUi|actionSend"
+            android:inputType="textMultiLine|textCapSentences|textShortMessage"
+            android:maxLength="2000"
+            android:maxLines="5"
+            android:minHeight="52dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp"
+            android:scrollbars="vertical"
+            android:scrollHorizontally="false"
+            android:layout_toStartOf="@+id/btn_send"
+            android:layout_marginStart="20dp"
+            tools:text="Hello" />
+
+        <ImageButton
+            android:id="@+id/btn_send"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/send"
+            android:visibility="visible"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

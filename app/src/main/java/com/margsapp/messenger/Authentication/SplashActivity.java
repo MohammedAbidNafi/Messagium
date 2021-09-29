@@ -53,7 +53,7 @@ public class SplashActivity extends AppCompatActivity {
             // close this activity
             finish();
 
-        }, 2*1000); // wait for 5 seconds
+        }, 3*1000); // wait for 2 seconds
     }
 
     private void setLocale(String lang) {

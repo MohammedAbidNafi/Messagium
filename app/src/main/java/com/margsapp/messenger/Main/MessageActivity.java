@@ -49,6 +49,12 @@ import androidx.transition.TransitionManager;
 
 import com.bumptech.glide.Glide;
 import com.factor.bouncy.BouncyRecyclerView;
+import com.giphy.sdk.core.models.Media;
+import com.giphy.sdk.ui.GPHContentType;
+import com.giphy.sdk.ui.GPHSettings;
+import com.giphy.sdk.ui.Giphy;
+import com.giphy.sdk.ui.drawables.ImageFormat;
+import com.giphy.sdk.ui.views.GiphyDialogFragment;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,6 +80,7 @@ import com.margsapp.messenger.Notifications.MyResponse;
 import com.margsapp.messenger.Notifications.Sender;
 import com.margsapp.messenger.Notifications.Token;
 import com.margsapp.messenger.R;
+import com.margsapp.messenger.Settings.Wallpaper;
 import com.margsapp.messenger.VideoCall.CallActivity;
 import com.margsapp.messenger.reply.SwipeController;
 import com.margsapp.messenger.utils.AES;
@@ -86,6 +93,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -93,15 +101,19 @@ import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import gun0912.tedbottompicker.TedBottomPicker;
+import gun0912.tedbottompicker.TedBottomSheetDialogFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 import static com.margsapp.messenger.Settings.CustomiseActivity.THEME;
 
 public class MessageActivity extends AppCompatActivity implements MessageAdapter.EventListener {
 
     private static final String TAG = "MESSAGE ACTIVITY" ;
+    private static final String WALLPAPER = "WALLPAPER";
 
     CircleImageView profileImage;
     TextView username, statusText, reply_txt;
@@ -157,12 +169,61 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
     private static final int RC_PHOTO_PICKER =  105;
 
+    ConstraintLayout mainbackgound;
+
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onStart() {
         super.onStart();
 
+        mainbackgound = findViewById(R.id.mainbackgound);
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("wallpaper", 0);
+        String wallpaper = sharedPreferences.getString(WALLPAPER, "");
+
+        switch(wallpaper){
+
+
+            case "null":
+                mainbackgound.setBackgroundColor(getResources().getColor(R.color.background));
+                Log.d("imageBackground", "null");
+                break;
+
+            case "dark1":
+                mainbackgound.setBackground(getResources().getDrawable(R.drawable.dark1));
+                Log.d("imageBackground", "dark1");
+                break;
+
+            case "dark2":
+                mainbackgound.setBackground(getResources().getDrawable(R.drawable.dark2));
+                Log.d("imageBackground", "dark2");
+                break;
+
+            case "dark3":
+                mainbackgound.setBackground(getResources().getDrawable(R.drawable.dark3));
+                Log.d("imageBackground", "dark3");
+                break;
+
+            case "light1":
+                mainbackgound.setBackground(getResources().getDrawable(R.drawable.light1));
+                Log.d("imageBackground", "light1");
+                break;
+
+            case "light2":
+                mainbackgound.setBackground(getResources().getDrawable(R.drawable.light2));
+                Log.d("imageBackground", "light2");
+                break;
+
+            case "light3":
+                mainbackgound.setBackground(getResources().getDrawable(R.drawable.light3));
+                Log.d("imageBackground", "light3");
+                break;
+        }
+
         SharedPreferences preferences = getSharedPreferences("theme", 0);
         String Theme = preferences.getString(THEME, "");
+
         if(Theme.equals("2")){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
@@ -957,6 +1018,8 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
         AppCompatButton gallery,camera;
 
+        CardView gif;
+
         CardView cancel;
 
         dialog.setContentView(R.layout.add_image_pop_up);
@@ -971,11 +1034,11 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         window.setAttributes(lp);
 
 
-        dialog.setCancelable(false);
-
 
 
         gallery = dialog.findViewById(R.id.gallery);
+
+        gif = dialog.findViewById(R.id.gif);
 
         camera = dialog.findViewById(R.id.camera);
 
@@ -984,15 +1047,81 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/jpeg");
                 intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                 startActivityForResult(Intent.createChooser(intent, "Complete action using"),
                         RC_PHOTO_PICKER);
+
+
+                 */
+
+                TedBottomPicker.with(MessageActivity.this)
+                        .show(new TedBottomSheetDialogFragment.OnImageSelectedListener() {
+                            @Override
+                            public void onImageSelected(Uri uri) {
+                                // here is selected image uri
+
+                                String imageuri = uri.toString();
+                                Timber.d(imageuri);
+                                Intent intent = new Intent(getApplicationContext(), SendImageActivity.class);
+                                intent.putExtra("imageUri", imageuri);
+                                intent.putExtra("userid", userid);
+                                intent.putExtra("sendername",Sendername);
+                                startActivity(intent);
+                            }
+                        });
+
                 dialog.dismiss();
                 editor.setVisibility(View.VISIBLE);
             }
         });
+
+
+        gif.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Giphy.INSTANCE.configure(MessageActivity.this, "oRWoXZrudMifFWvkqcnDVymhHKYiyh34", false);
+
+                final GPHSettings settings = new GPHSettings();
+
+                settings.setImageFormat(ImageFormat.WEBP);
+                final GiphyDialogFragment dialog_ = GiphyDialogFragment.Companion.newInstance(settings);
+                GiphyDialogFragment.GifSelectionListener listener = null;
+                dialog_.setGifSelectionListener(listener);
+                dialog_.show(getSupportFragmentManager(), "giphy_dialog");
+
+                dialog_.setGifSelectionListener(new GiphyDialogFragment.GifSelectionListener() {
+                    @Override
+                    public void onGifSelected(@NonNull Media media, @androidx.annotation.Nullable String s, @NonNull GPHContentType gphContentType) {
+                        //Your user tapped a GIF
+                        Intent intent = new Intent(MessageActivity.this, SendImageActivity.class);
+                        String uri = media.toString();
+                        intent.putExtra("imageUri", uri);
+                        startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void onDismissed(@NonNull GPHContentType gphContentType) {
+                        //Your user dismissed the dialog without selecting a GIF
+                    }
+
+                    @Override
+                    public void didSearchTerm(@NonNull String s) {
+                        //Callback for search terms
+                    }
+                });
+
+
+
+                editor.setVisibility(View.VISIBLE);
+                dialog.dismiss();
+            }
+        });
+
+
 
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1014,29 +1143,12 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
 
 
-
+        dialog.setCancelable(true);
         dialog.getWindow().setGravity(Gravity.BOTTOM);
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.show();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == RC_PHOTO_PICKER) {
-            assert data != null;
-            Uri selectedImage = data.getData();
-
-
-            Intent intent = new Intent(getApplicationContext(), SendImageActivity.class);
-            intent.putExtra("imageUri", selectedImage.toString());
-            intent.putExtra("userid", userid);
-            intent.putExtra("sendername",Sendername);
-            startActivity(intent);
-
-
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -1309,8 +1421,10 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         intent.putExtra("senderid",senderid);
         intent.putExtra("extraid",extraid);
         intent.putExtra("timestamp",timestamp);
+
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MessageActivity.this, pairs);
         startActivity(intent, options.toBundle());
+
 
 
     }

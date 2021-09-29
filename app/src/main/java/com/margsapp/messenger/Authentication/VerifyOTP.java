@@ -28,6 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.margsapp.iosdialog.iOSDialog;
 import com.margsapp.iosdialog.iOSDialogListener;
 import com.margsapp.messenger.R;
+import com.stfalcon.smsverifycatcher.OnSmsCatchListener;
+import com.stfalcon.smsverifycatcher.SmsVerifyCatcher;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -41,7 +43,15 @@ public class VerifyOTP extends AppCompatActivity {
     PinView pinFromUser;
     String phoneNo;
 
+    SmsVerifyCatcher smsVerifyCatcher;
+
     public TextView description;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        smsVerifyCatcher.onStart();
+    }
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -95,6 +105,14 @@ public class VerifyOTP extends AppCompatActivity {
 
         sendVerificationCodeToUser(phoneNo);
 
+        smsVerifyCatcher = new SmsVerifyCatcher(this, new OnSmsCatchListener<String>() {
+            @Override
+            public void onSmsCatch(String message) {
+                pinFromUser.setText(message);
+                verifyCode(message);
+
+            }
+        });
     }
 
 
@@ -204,5 +222,17 @@ public class VerifyOTP extends AppCompatActivity {
         if(!code.isEmpty()){
             verifyCode(code);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        smsVerifyCatcher.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        smsVerifyCatcher.onStop();
     }
 }

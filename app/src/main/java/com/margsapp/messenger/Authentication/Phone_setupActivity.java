@@ -3,6 +3,7 @@ package com.margsapp.messenger.Authentication;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.MimeTypeMap;
@@ -30,9 +31,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.margsapp.messenger.AppDetails.Terms_ConditionsActivity;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
-import com.margsapp.messenger.AppDetails.Terms_ConditionsActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -43,6 +44,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Phone_setupActivity extends AppCompatActivity {
 
+    private static final String WALLPAPER = "WALLPAPER";
     CircleImageView profile_image;
 
     AppCompatEditText username, dt;
@@ -107,6 +109,11 @@ public class Phone_setupActivity extends AppCompatActivity {
 
 
             DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+            SharedPreferences sharedPreferences = getSharedPreferences("wallpaper", 0);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(WALLPAPER, "null");
+            editor.apply();
 
             HashMap<String, Object> hashMap = new HashMap<>();
             hashMap.put("id", firebaseUser.getUid());

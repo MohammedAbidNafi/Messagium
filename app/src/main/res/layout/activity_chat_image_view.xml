@@ -21,7 +21,7 @@
             android:layout_height="70dp"
             android:background="@color/black"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/MenuStyle">
+           >
 
             <TextView
                 android:id="@+id/username"

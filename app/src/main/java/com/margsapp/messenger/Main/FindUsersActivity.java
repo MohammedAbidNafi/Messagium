@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +30,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.margsapp.messenger.Fragments.ContactsFragment;
 import com.margsapp.messenger.Fragments.UsersFragment;
 import com.margsapp.messenger.R;
+import com.margsapp.messenger.Settings.edit_profile;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrInterface;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,7 +83,18 @@ public class FindUsersActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.add_chat));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FindUsersActivity.this, MainActivity.class));
+                overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
+
+            }
+        });
+
         viewPager = findViewById(R.id.viewPager);
+
+        SlidrInterface slidrInterface = Slidr.attach(this);
 
 
         /*
@@ -209,6 +224,7 @@ public class FindUsersActivity extends AppCompatActivity {
 
     public void onBackPressed(){
         startActivity(new Intent(FindUsersActivity.this, MainActivity.class));
+        overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
         if (mInterstitialAd != null) {
             mInterstitialAd.show(FindUsersActivity.this);
         } else {

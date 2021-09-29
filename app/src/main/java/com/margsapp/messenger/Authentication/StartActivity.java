@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -68,8 +69,6 @@ public class StartActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
 
-
-
     private InterstitialAd mInterstitialAd;
 
     GoogleSignInClient googleSignInClient;
@@ -82,6 +81,8 @@ public class StartActivity extends AppCompatActivity {
     protected void onStart() {
         //Check if user is logged
         super.onStart();
+
+
 
         SharedPreferences preferences = getSharedPreferences("lang_settings", Activity.MODE_PRIVATE);
         String language = preferences.getString("lang","");

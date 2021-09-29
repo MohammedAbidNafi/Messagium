@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:background="@color/coral"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/MenuStyle"/>
+            />
 
     </com.google.android.material.appbar.AppBarLayout>
 

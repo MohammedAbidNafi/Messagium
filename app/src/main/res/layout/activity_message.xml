@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainbackgound"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -24,8 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@color/coral"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/MenuStyle">
+
+            >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -147,6 +148,8 @@
             app:recyclerview_stiffness="STIFFNESS_LOW"
             app:allow_drag_reorder="false"
             app:allow_item_swipe="true"
+            android:layoutAnimation="@anim/layout_animation"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             />
 
     </RelativeLayout>
@@ -201,6 +204,7 @@
             android:layout_marginTop="10dp"
             android:background="@color/grey"
             android:text="@string/reject_warning"
+
             android:textColor="@color/company_blue" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -269,7 +273,9 @@
             android:layout_toEndOf="@+id/addimage"
             android:layout_toStartOf="@+id/btn_send"
 
-            tools:text="Hello" />
+            tools:text="Enter Message" >
+
+        </EditText>
 
         <ImageButton
             android:id="@+id/btn_send"

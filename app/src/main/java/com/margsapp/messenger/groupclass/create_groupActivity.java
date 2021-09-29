@@ -35,6 +35,8 @@ import com.margsapp.messenger.Main.MainActivity;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.User;
 import com.margsapp.messenger.R;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrInterface;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -76,6 +78,8 @@ public class create_groupActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Create Group");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        SlidrInterface slidrInterface = Slidr.attach(this);
 
         toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(create_groupActivity.this, MainActivity.class)));
 

@@ -32,7 +32,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class EditStatusActivity extends AppCompatActivity {
+public class    EditStatusActivity extends AppCompatActivity {
 
     FirebaseUser firebaseUser;
     DatabaseReference reference;
@@ -97,9 +97,6 @@ public class EditStatusActivity extends AppCompatActivity {
                 reference.updateChildren(hash).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<Void> task) {
-                        Intent intent = new Intent(EditStatusActivity.this, edit_profile.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
                         overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
                         finish();
                     }

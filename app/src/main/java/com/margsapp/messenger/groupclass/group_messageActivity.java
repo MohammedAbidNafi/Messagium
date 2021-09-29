@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.bumptech.glide.Glide;
 import com.factor.bouncy.BouncyRecyclerView;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -53,6 +55,7 @@ import com.margsapp.iosdialog.iOSDialog;
 import com.margsapp.iosdialog.iOSDialogListener;
 import com.margsapp.messenger.Adapter.GroupMessageAdapter;
 import com.margsapp.messenger.Main.MainActivity;
+import com.margsapp.messenger.Main.MessageActivity;
 import com.margsapp.messenger.Notifications.APIService;
 import com.margsapp.messenger.Model.Group;
 import com.margsapp.messenger.Model.GroupChat;
@@ -534,7 +537,13 @@ public class group_messageActivity extends AppCompatActivity {
         hashMap.put("replyto",ReplyTo);
         hashMap.put("replyname", Replyname);
 
-        reference.child("GroupChat").child(groupid).push().setValue(hashMap);
+        reference.child("GroupChat").child(groupid).push().setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                MediaPlayer mp = MediaPlayer.create(group_messageActivity.this, R.raw.messagesent);
+                mp.start();
+            }
+        });
 
         final String msg = message;
 
@@ -573,7 +582,13 @@ public class group_messageActivity extends AppCompatActivity {
         hashMap.put("timestamp", timestamp);
         hashMap.put("reply", "false");
 
-        reference.child("GroupChat").child(groupid).push().setValue(hashMap);
+        reference.child("GroupChat").child(groupid).push().setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                MediaPlayer mp = MediaPlayer.create(group_messageActivity.this, R.raw.messagesent);
+                mp.start();
+            }
+        });
 
 
         final String msg = message;

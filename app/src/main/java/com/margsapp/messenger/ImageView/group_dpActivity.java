@@ -58,12 +58,8 @@ public class group_dpActivity extends AppCompatActivity {
 
 
         toolbar.setNavigationOnClickListener(v -> {
-            Intent intent = new Intent(group_dpActivity.this, group_infoActivity.class);
-            Pair[] pairs = new Pair[1];
-            pairs[0] = new Pair<View, String>(dpView, "image");
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(group_dpActivity.this, pairs);
-            intent.putExtra("groupid",groupid);
-            startActivity(intent, options.toBundle());
+
+            finish();
 
         });
 
@@ -104,13 +100,8 @@ public class group_dpActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(group_dpActivity.this, group_infoActivity.class);
-        Pair[] pairs = new Pair[1];
-        pairs[0] = new Pair<View, String>(dpView, "image");
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(group_dpActivity.this, pairs);
-        intent.putExtra("groupid",groupid);
 
-        startActivity(intent, options.toBundle());
+        finish();
 
     }
 

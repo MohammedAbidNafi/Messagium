@@ -126,6 +126,12 @@
     <string name="unblock">Unblock</string>
     <string name="profile_picture">Profile Picture</string>
     <string name="ask_to_setProfile">Are you sure want to keep this image as your profile picture?</string>
+    <string name="ask_to_unblock">Are you sure you want to unblock this user?</string>
     <string name="otp_again_title">Resend OTP</string>
+    <string name="ChatWallpaper">Chat wallpaper</string>
+    <string name="change_wallpaper">Change Wallpaper</string>
+    <string name="GIF">GIF</string>
+    <string name="Image">Image</string>
+    <string name="ChooseWallpaper">Choose Wallpaper</string>
 
 </resources>

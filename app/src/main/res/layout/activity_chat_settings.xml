@@ -17,48 +17,46 @@
             android:layout_height="wrap_content"
             android:background="@color/coral"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/MenuStyle"/>
+          />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/Accepted"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="90dp"
-        app:cardCornerRadius="15dp"
         android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="90dp"
         app:cardBackgroundColor="@color/card_back"
-        android:id="@+id/Accepted"
-        >
+        app:cardCornerRadius="15dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:src="@drawable/ic_baseline_chevron_right_24"
+            app:tint="@color/greytext"
             android:layout_gravity="center_vertical|end"
             android:background="@color/card_back"
-            />
+            android:src="@drawable/ic_baseline_chevron_right_24" />
+
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/check"
+            android:layout_gravity="center_vertical|start"
             android:layout_marginLeft="10dp"
 
-            android:layout_gravity="center_vertical|start"/>
+            android:src="@drawable/check" />
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/accepted"
-
-            android:fontFamily="@font/nunito_semibold"
             android:layout_gravity="center_vertical"
+
             android:layout_marginStart="50dp"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="@string/accepted"
             android:textColor="@color/blacktext"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp" />
 
 
     </androidx.cardview.widget.CardView>
@@ -79,7 +77,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            app:tint="@color/greytext"
             android:src="@drawable/ic_baseline_chevron_right_24"
             android:layout_gravity="center_vertical|end"
             android:background="@color/card_back"

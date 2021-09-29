@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:background="@color/dp_view_toolbar"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/MenuStyle"
+
             >
 
         </androidx.appcompat.widget.Toolbar>

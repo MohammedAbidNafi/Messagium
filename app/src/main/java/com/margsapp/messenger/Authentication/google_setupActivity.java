@@ -3,6 +3,7 @@ package com.margsapp.messenger.Authentication;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.MimeTypeMap;
@@ -44,6 +45,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class google_setupActivity extends AppCompatActivity {
 
 
+    private static final String WALLPAPER = "WALLPAPER";
     CircleImageView profile_image;
 
     AppCompatEditText username, dt;
@@ -106,6 +108,10 @@ public class google_setupActivity extends AppCompatActivity {
             String txt_username = Objects.requireNonNull(username.getText()).toString();
             String txt_dt = Objects.requireNonNull(dt.getText()).toString();
 
+            SharedPreferences sharedPreferences = getSharedPreferences("wallpaper", 0);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(WALLPAPER, "null");
+            editor.apply();
 
             DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 

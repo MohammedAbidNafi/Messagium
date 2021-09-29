@@ -350,6 +350,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.create_group:
                 startActivity(new Intent(MainActivity.this, create_groupActivity.class));
+                overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
                 if (mInterstitialAd != null) {
                     mInterstitialAd.show(MainActivity.this);
                 } else {
@@ -361,6 +362,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.addchat:
                 startActivity(new Intent(MainActivity.this, FindUsersActivity.class));
+                overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
                 if (mInterstitialAd != null) {
                     mInterstitialAd.show(MainActivity.this);
                 } else {

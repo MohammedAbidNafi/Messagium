@@ -33,6 +33,8 @@ public class CustomiseActivity extends AppCompatActivity {
 
     int languageid;
 
+    CardView set_wallpaper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,7 @@ public class CustomiseActivity extends AppCompatActivity {
         default_settings.setVisibility(View.VISIBLE);
 
         lang_card = findViewById(R.id.lang_card);
+        set_wallpaper = findViewById(R.id.set_wallpaper);
 
         SharedPreferences preferences = getSharedPreferences("lang_settings", Activity.MODE_PRIVATE);
         languageid = preferences.getInt("langid", 0);
@@ -60,7 +63,6 @@ public class CustomiseActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CustomiseActivity.this,edit_profile.class).addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT));
                 finish();
                 overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
 
@@ -113,6 +115,15 @@ public class CustomiseActivity extends AppCompatActivity {
 
         lang_card.setOnClickListener(v -> showLanguageDialog());
 
+
+        set_wallpaper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CustomiseActivity.this,setWallpaper.class));
+                overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
+            }
+        });
+
     }
 
     private void showLanguageDialog() {
@@ -164,6 +175,8 @@ public class CustomiseActivity extends AppCompatActivity {
         editor.putInt("langid",langid);
         editor.apply();
 
+
+
     }
 
     private void loadData() {
@@ -206,7 +219,6 @@ public class CustomiseActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(CustomiseActivity.this,edit_profile.class).addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT));
         finish();
         overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
 

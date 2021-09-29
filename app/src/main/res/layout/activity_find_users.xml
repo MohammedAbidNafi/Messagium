@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Main.FindUsersActivity"
-    android:background="@color/background">
+    android:background="@color/diffrentBack">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:background="@color/coral"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/MenuStyle"/>
+           />
 
         <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"

@@ -17,7 +17,7 @@
         android:layout_marginTop="25dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        app:lottie_rawRes="@raw/applogo"/>
+        app:lottie_rawRes="@raw/app_logo_anim"/>
 
     <TextView
         android:id="@+id/title"

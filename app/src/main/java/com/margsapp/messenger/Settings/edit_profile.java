@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -150,7 +151,7 @@ public class edit_profile extends AppCompatActivity {
          */
 
         toolbar.setNavigationOnClickListener(v -> {
-            startActivity(new Intent(edit_profile.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT));
+            finish();
             overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
             /*if (mInterstitialAd != null) {
                 mInterstitialAd.show(edit_profile.this);
@@ -248,16 +249,15 @@ public class edit_profile extends AppCompatActivity {
 
         Customize_card.setOnClickListener(v -> {
             Intent intent = new Intent(edit_profile.this, CustomiseActivity.class);
+
             startActivity(intent);
             overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
-
 
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(edit_profile.this);
             } else {
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }
-
         });
 
         About_card.setOnTouchListener(new View.OnTouchListener() {
@@ -423,6 +423,7 @@ public class edit_profile extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
 
+
         if (requestCode == RC_PHOTO_PICKER && resultCode == RESULT_OK && data != null) {
             Uri imageUri = data.getData();
             CropImage.activity(imageUri)
@@ -479,6 +480,8 @@ public class edit_profile extends AppCompatActivity {
                 Toast.makeText(this, "Profile Picture updation is cancelled", Toast.LENGTH_SHORT).show();
                 loadingBar.dismiss();
             }
+
+
         }
     }
 
