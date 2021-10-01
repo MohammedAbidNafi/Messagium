@@ -98,6 +98,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -444,6 +445,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
             }
         });
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
 
         btnSend.setOnClickListener(v -> {
@@ -464,10 +466,10 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
                 String Sender_name = Sendername;
 
                     if(reply_){
-                        ReplyMessage(firebaseUser.getUid(),userid, msg, timestamp, isseen, Reply, ReplyId, Sendername,ReplyName);
+                        ReplyMessage(firebaseUser.getUid(),userid, msg, timestamp, isseen, Reply, ReplyId, Sendername,ReplyName,reference);
                     }
                     if(!reply_){
-                        sendMessage(firebaseUser.getUid(),userid,msg, timestamp,isseen, Sender_name);
+                        sendMessage(firebaseUser.getUid(),userid,msg, timestamp,isseen, Sender_name,reference);
                     }
 
 
@@ -702,25 +704,25 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
 
 
-    private void ReplyMessage(String sender, String receiver, String message, String timestamp, String isseen,String ReplyMessage,String ReplyTo,String sendername,String replyname){
+    private void ReplyMessage(String sender, String receiver, String message, String timestamp, String isseen,String ReplyMessage,String ReplyTo,String sendername,String replyname,DatabaseReference reference){
 
         String encryptedmessage = aes.Encrypt(message, this);
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("sender", sender);
-        hashMap.put("receiver", receiver);
-        hashMap.put("message", encryptedmessage);
-        hashMap.put("isseen", isseen);
-        hashMap.put("timestamp", timestamp);
-        hashMap.put("reply", "true");
-        hashMap.put("replytext", ReplyMessage);
-        hashMap.put("replyto",ReplyTo);
-        hashMap.put("sendername", sendername);
-        hashMap.put("replyname", replyname);
+        Map hashmap = new HashMap();
+        hashmap.put("sender", sender);
+        hashmap.put("receiver", receiver);
+        hashmap.put("message", encryptedmessage);
+        hashmap.put("isseen", isseen);
+        hashmap.put("timestamp", timestamp);
+        hashmap.put("reply", "true");
+        hashmap.put("replytext", ReplyMessage);
+        hashmap.put("replyto",ReplyTo);
+        hashmap.put("sendername", sendername);
+        hashmap.put("replyname", replyname);
 
 
-        reference.child("Chats").push().setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+        reference.child("Chats").push().setValue(hashmap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 MediaPlayer mp = MediaPlayer.create(MessageActivity.this, R.raw.messagesent);
@@ -801,24 +803,24 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
     }
 
-    private void sendMessage(String sender, String receiver, String message,String timestamp,String isseen,String sendername)
+    private void sendMessage(String sender, String receiver, String message,String timestamp,String isseen,String sendername,DatabaseReference reference)
     {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
 
         String encryptedmessage = aes.Encrypt(message, this);
 
 
+        Map hashmap = new HashMap();
+        hashmap.put("sender", sender);
+        hashmap.put("receiver", receiver);
+        hashmap.put("message", encryptedmessage);
+        hashmap.put("isseen", isseen);
+        hashmap.put("timestamp", timestamp);
+        hashmap.put("reply", "false");
+        hashmap.put("sendername", sendername);
 
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("sender", sender);
-        hashMap.put("receiver", receiver);
-        hashMap.put("message", encryptedmessage);
-        hashMap.put("isseen", isseen);
-        hashMap.put("timestamp", timestamp);
-        hashMap.put("reply", "false");
-        hashMap.put("sendername", sendername);
 
-        reference.child("Chats").push().setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+        reference.child("Chats").push().setValue(hashmap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 MediaPlayer mp = MediaPlayer.create(MessageActivity.this, R.raw.messagesent);

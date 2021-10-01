@@ -102,7 +102,7 @@
         <activity android:name=".Settings.AboutActivity" />
         <activity
             android:name=".Settings.CustomiseActivity"
-            android:theme="@style/Loader" />
+           />
         <activity android:name=".ImageView.group_dpActivity" />
         <activity android:name=".Friends.Blocked" />
         <activity android:name=".Friends.Accepted" />

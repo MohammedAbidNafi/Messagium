@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             app:tint="@color/greytext"
             android:layout_gravity="center_vertical|end"
-            android:background="@color/card_back"
+
             android:src="@drawable/ic_baseline_chevron_right_24" />
 
         <ImageView
@@ -80,7 +80,6 @@
             app:tint="@color/greytext"
             android:src="@drawable/ic_baseline_chevron_right_24"
             android:layout_gravity="center_vertical|end"
-            android:background="@color/card_back"
             />
 
         <ImageView

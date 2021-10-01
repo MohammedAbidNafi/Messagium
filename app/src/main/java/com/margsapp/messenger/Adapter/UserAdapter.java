@@ -136,7 +136,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             holder.img_on.setVisibility(View.GONE);
         }
 
-        lastmessage(user.getId(), holder.last_msg,holder.date_lastmsg,mContext);
+
         UnreadMessage(user.getId(), holder.unread);
 
 
@@ -218,6 +218,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             String userid = user.getId();
             OnMessage(userid);
         });
+
+        lastmessage(user.getId(), holder.last_msg,holder.date_lastmsg,mContext);
 
     }
 

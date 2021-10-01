@@ -195,7 +195,8 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center_vertical|start"
                         android:layout_marginStart="10dp"
-                        android:src="@drawable/ic_baseline_exit_to_app_24" />
+                        android:src="@drawable/ic_baseline_exit_to_app_24"
+                        app:tint="@color/red" />
 
                     <TextView
                         android:layout_width="wrap_content"
