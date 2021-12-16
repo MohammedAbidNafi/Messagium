@@ -2,7 +2,7 @@
 
 [![wakatime](https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs.svg)](https://wakatime.com/badge/github/MohammedAbidNafi/MessengerByMargs)
 
-Messenger is an android app to instantly communicate with people while keeping their privacy secured.
+Messagium is an android app to instantly communicate with people while keeping their privacy secured.
 
 This project uses Firebase for Database, Storage, Push Notification, Analytics and Authentication.
 
