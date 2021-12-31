@@ -41,7 +41,7 @@ https://github.com/MohammedAbidNafi/Messagium
 5. <S>Ability to send Images.</S>
 6. Ability to send voice messages.
 7. <s>Audio/Video call.</s>(In Testing)
-8. A Good Name for this whole thing.
+8. <s>A Good Name for this whole thing.</s>
 9. Ability to send location.
 10. Ablility to Forward Message. 
 11. Share Function.
