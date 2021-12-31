@@ -37,11 +37,12 @@
                 android:layout_height=".5dp"
                 android:background="#707070"
                 android:layout_alignParentBottom="true"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height=".5dp"
-                android:background="#707070"
-                android:layout_alignParentTop="true"/>
+                android:layout_alignParentTop="true"
+                android:background="#707070" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -124,7 +125,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height=".5dp"
-                android:background="#707070"
+                android:background="#A5A5A5"
                 android:layout_alignParentBottom="true"/>
 
             <TextView
@@ -153,8 +154,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height=".5dp"
-                android:background="#707070"
-                android:layout_alignParentBottom="true"/>
+                android:layout_alignParentBottom="true"
+                android:background="#A5A5A5" />
 
             <TextView
                 android:layout_width="wrap_content"

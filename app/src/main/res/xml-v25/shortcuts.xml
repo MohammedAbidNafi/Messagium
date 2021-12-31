@@ -9,7 +9,7 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="com.margsapp.messenger.Settings.edit_profile"
-            android:targetPackage="com.margsapp.messenger" />
+            android:targetPackage="com.margsapp.messageium" />
     </shortcut>
 
 
@@ -22,7 +22,7 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="com.margsapp.messenger.Main.FindUsersActivity"
-            android:targetPackage="com.margsapp.messenger" />
+            android:targetPackage="com.margsapp.messageium" />
     </shortcut>
 
 

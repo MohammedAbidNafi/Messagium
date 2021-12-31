@@ -14,7 +14,7 @@
         android:id="@+id/camera"
         android:layout_marginHorizontal="5dp"
         android:background="@drawable/group_info_popup_top"
-        android:text="Dummy"
+        android:text="Camera"
         android:textAllCaps="false"
         android:textSize="20sp"
         android:textAlignment="center"

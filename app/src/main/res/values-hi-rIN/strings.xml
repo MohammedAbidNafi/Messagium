@@ -114,7 +114,7 @@
     <string name="share">Share</string>
     <string name="wallpaper_ask">Are you sure you want to set this image as wallpaper?</string>
     <string name="wallpaper_title">Set Wallpaper</string>
-    <string name="fragment1_description">Messenger is an instant messaging service with user\'s privacy in mind. It Aims to give user\'s a fluent and pleasant experience. This app is still under development so it maybe unstable and may have bugs. Soon a user feedback portal would be created so you can give feedback and report any issues with app.</string>
+    <string name="fragment1_description">Messageium is an instant messaging service with user\'s privacy in mind. It Aims to give user\'s a fluent and pleasant experience. This app is still under development so it maybe unstable and may have bugs. You can give feedback and report any issues by clicking contact us in the settings.</string>
     <string name="fragment2_description">MargsApp takes privacy seriously all your personal messages are encrypted. Messages are only seen by who you send them to. MargsApp cannot read your messages while they are being sent between you and the person you are sending to. MargsApp nor MargsGlobal sells your personal data to advertisers or data brokers for more information check the privacy policy.</string>
     <string name="Fragment3_description">Once signed in with google or phone number you can add pin/fingerprint/face (Depends on your device) as authentication for additional security. If you have enabled for android then you can add for the app too. You can enable this in App\'s settings.</string>
     <string name="Fragment4_description">This app supports both light and dark mode. It follows the system defaults. You can even manually change in customisation in settings. Even if your device dosent support dark mode you can change it from customisation.</string>
@@ -133,5 +133,10 @@
     <string name="GIF">GIF</string>
     <string name="Image">Image</string>
     <string name="ChooseWallpaper">Choose Wallpaper</string>
+    <string name="Contact_us">Contact Us</string>
+    <string name="credit_6"><a href="https://www.freepik.com/photos/tree">Tree photo created by wirestock - www.freepik.com</a></string>
+    <string name="credit_7"><a href="https://www.freepik.com/photos/background">Background photo created by fanjianhua - www.freepik.com</a></string>
+    <string name="credit_8"><a href="https://www.freepik.com/photos/tree">Tree photo created by wirestock - www.freepik.com</a></string>
+    <string name="credit_9"><a href="https://www.freepik.com/photos/background">Background photo created by dashu83 - www.freepik.com</a></string>
 
 </resources>

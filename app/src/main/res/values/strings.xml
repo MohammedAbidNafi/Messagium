@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Messenger</string>
+    <string name="app_name">Messageium</string>
 
     <string name="credit_1"><div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
     <string name="credit_2"><div>Icons made by <a href="https://icon54.com/" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
@@ -84,7 +84,7 @@
     <string name="status">Status</string>
     <string name="save">Save</string>
     <string name="app_by_margsapp">App by MargsApp</string>
-    <string name="welcome_to_messenger">Welcome to Messenger</string>
+    <string name="welcome_to_messenger">Welcome to Messageium</string>
     <string name="login_using_phone_no">Login Using Phone No</string>
     <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="verification_code">Verification Code</string>
@@ -149,10 +149,10 @@
     <string name="share">Share</string>
     <string name="wallpaper_ask">Are you sure you want to set this image as wallpaper?</string>
     <string name="wallpaper_title">Set Wallpaper</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="configure">Configure</string>
-    <string name="add_widget">Add widget</string>
-    <string name="fragment1_description">Messenger is an instant messaging service with user\'s privacy in mind. It Aims to give user\'s a fluent and pleasant experience. This app is still under development so it maybe unstable and may have bugs. Soon a user feedback portal would be created so you can give feedback and report any issues with app.</string>
+    <string name="appwidget_text" translatable="false">EXAMPLE</string>
+    <string name="configure" translatable="false">Configure</string>
+    <string name="add_widget" translatable="false">Add widget</string>
+    <string name="fragment1_description">Messageium is an instant messaging service with user\'s privacy in mind. It Aims to give user\'s a fluent and pleasant experience. This app is still under development so it maybe unstable and may have bugs. You can give feedback and report any issues by clicking contact us in the settings.</string>
     <string name="fragment2_description">MargsApp takes privacy seriously all your personal messages are encrypted. Messages are only seen by who you send them to. MargsApp cannot read your messages while they are being sent between you and the person you are sending to. MargsApp nor MargsGlobal sells your personal data to advertisers or data brokers for more information check the privacy policy.</string>
     <string name="Fragment3_description">Once signed in with google or phone number you can add pin/fingerprint/face (Depends on your device) as authentication for additional security. If you have enabled for android then you can add for the app too. You can enable this in App\'s settings.</string>
     <string name="Fragment4_description">This app supports both light and dark mode. It follows the system defaults. You can even manually change in customisation in settings. Even if your device dosent support dark mode you can change it from customisation.</string>
@@ -171,6 +171,7 @@
     <string name="GIF">GIF</string>
     <string name="Image">Image</string>
     <string name="ChooseWallpaper">Choose Wallpaper</string>
+    <string name="Contact_us">Contact Us</string>
 
 
 </resources>

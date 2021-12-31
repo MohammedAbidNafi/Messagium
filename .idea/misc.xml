@@ -30,7 +30,13 @@
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_exit_to_app_24.xml" value="0.24947916666666667" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_ios_share_24.xml" value="0.24947916666666667" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.24947916666666667" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_mic_24.xml" value="0.19010416666666666" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_mic_off_24.xml" value="0.19010416666666666" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.24947916666666667" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_people_alt_24.xml" value="0.19010416666666666" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_photo_camera_24.xml" value="0.19010416666666666" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_reply_24.xml" value="0.19010416666666666" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_rotate_left_24.xml" value="0.19010416666666666" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/phone_back.xml" value="0.1442982456140351" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/rounded.xml" value="0.22121212121212122" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/sync.xml" value="0.22121212121212122" />
@@ -75,11 +81,17 @@
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/add_image_pop_up.xml" value="0.23333333333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/add_part_item.xml" value="0.23333333333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/bar_layout.xml" value="0.15520833333333334" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/chat_gif_left.xml" value="0.11458333333333333" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/chat_gif_right.xml" value="0.1109375" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/chat_image_left.xml" value="0.15520833333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/chat_image_right.xml" value="0.23333333333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_1.xml" value="0.15520833333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_2.xml" value="0.15520833333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_3.xml" value="0.15520833333333334" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_4.xml" value="0.18703703703703703" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_5.xml" value="0.18703703703703703" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_6.xml" value="0.18703703703703703" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_7.xml" value="0.18703703703703703" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_accepted.xml" value="0.15520833333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_add_participants.xml" value="0.15520833333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_chats.xml" value="0.15520833333333334" />
@@ -103,6 +115,8 @@
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/menu/menuinstatus.xml" value="0.234375" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/mipmap-anydpi-v26/ic_launcher_appicon.xml" value="0.17135416666666667" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/mipmap-anydpi-v26/ic_launcher_appicon_round.xml" value="0.17135416666666667" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/xml/header_preferences.xml" value="0.17395833333333333" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/xml/messages_preferences.xml" value="0.17395833333333333" />
       </map>
     </option>
   </component>

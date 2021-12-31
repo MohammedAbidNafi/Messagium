@@ -31,19 +31,26 @@
         android:textColor="@color/blacktext"
         android:layout_below="@+id/biometric"/>
 
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="25dp">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/description"
-        android:layout_below="@+id/title"
-        android:layout_marginTop="30dp"
+
+
         android:fontFamily="@font/nunito_semibold"
         android:textAlignment="center"
         android:textColor="@color/blacktext"
         android:justificationMode="inter_word"
         android:layout_marginHorizontal="20dp"
-        android:textSize="23dp"
+        android:textSize="20dp"
         android:text="@string/Fragment3_description"/>
+    </ScrollView>
 
 
 </RelativeLayout>

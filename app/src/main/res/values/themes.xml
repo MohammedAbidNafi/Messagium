@@ -22,6 +22,28 @@
 
     </style>
 
+    <style name="Theme.Messenger.Mainmenu" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/coral</item>
+        <item name="colorPrimaryVariant">@color/coral</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@color/background</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/black</item>
+        <item name="colorSecondaryVariant">@color/coral</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <!--
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowContentTransitions">true</item>
+        -->
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+    </style>
+
     <style name="Theme.Messenger.Main" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/coral</item>

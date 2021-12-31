@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">மெஸ்சேன்ஜ்ர்</string>
+    <string name="app_name">"மெசேஜ்இளம் "</string>
 
 
 
@@ -51,7 +51,7 @@
     <string name="status">ஸ்டேட்டஸ்</string>
     <string name="save">சேமிக்கவும்</string>
     <string name="app_by_margsapp">மார்க்ஸ்ஆப் வழங்கும்</string>
-    <string name="welcome_to_messenger">மெஸேஞ்சர்இல் வரவேற்கிறோம்</string>
+    <string name="welcome_to_messenger">மெசேஜ்இளம் வரவேற்கிறோம்</string>
     <string name="login_using_phone_no">தொலைபேசி எண் பயன்படுத்தி உள்நுழைக</string>
     <string name="terms_and_conditions">விதிமுறைகள் மற்றும் நிபந்தனைகள்</string>
     <string name="verification_code">சரிபார்ப்புக் குறியீடு</string>
@@ -106,32 +106,37 @@
     <string name="ok">சரி</string>
     <string name="now_admin">இப்போது நிர்வாகி.</string>
     <string name="edit_group_name">குழு பெயரைத் திருத்து.</string>
-    <string name="camera">Camera</string>
-    <string name="gallery">Gallery</string>
-    <string name="downloadimage">Download</string>
-    <string name="set_as_wallpaper">Set Wallpaper</string>
-    <string name="profile">Set Profile</string>
-    <string name="share">Share</string>
-    <string name="wallpaper_ask">Are you sure you want to set this image as wallpaper?</string>
-    <string name="wallpaper_title">Set Wallpaper</string>
-    <string name="fragment1_description">Messenger is an instant messaging service with user\'s privacy in mind. It Aims to give user\'s a fluent and pleasant experience. This app is still under development so it maybe unstable and may have bugs. Soon a user feedback portal would be created so you can give feedback and report any issues with app.</string>
+    <string name="camera">"கேமரா "</string>
+    <string name="gallery">கேலரி</string>
+    <string name="downloadimage">"பதிவிறக்க "</string>
+    <string name="set_as_wallpaper">வால்பேப்பரை அமைக்கவும்</string>
+    <string name="profile">சுயவிவரத்தை அமைக்கவும்</string>
+    <string name="share">பகிர்</string>
+    <string name="wallpaper_ask">இந்தப் படத்தை வால்பேப்பராக நிச்சயமாக அமைக்க விரும்புகிறீர்களா?</string>
+    <string name="wallpaper_title">வால்பேப்பரை அமைக்கவும்</string>
+    <string name="fragment1_description">Messageium is an instant messaging service with user\'s privacy in mind. It Aims to give user\'s a fluent and pleasant experience. This app is still under development so it maybe unstable and may have bugs. You can give feedback and report any issues by clicking contact us in the settings.</string>
     <string name="fragment2_description">MargsApp takes privacy seriously all your personal messages are encrypted. Messages are only seen by who you send them to. MargsApp cannot read your messages while they are being sent between you and the person you are sending to. MargsApp nor MargsGlobal sells your personal data to advertisers or data brokers for more information check the privacy policy.</string>
     <string name="Fragment3_description">Once signed in with google or phone number you can add pin/fingerprint/face (Depends on your device) as authentication for additional security. If you have enabled for android then you can add for the app too. You can enable this in App\'s settings.</string>
     <string name="Fragment4_description">This app supports both light and dark mode. It follows the system defaults. You can even manually change in customisation in settings. Even if your device dosent support dark mode you can change it from customisation.</string>
     <string name="Fragment5_description">We want as much as people to understand and use our app easily hence this app supports localization. It follows the system default or you can even manually change from customisation in settings. It currently supports English, Tamizh (Tamil), Telugu and Hindi more languages coming soon.</string>
     <string name="Fragment6_description">This app is made in India and made for India. We completely support Atma Nirbar Bharat Abhiyan (Self reliant India). We have an Obligiation to give back to community hence this app is completely open-sourced. Anyone can audit our app. By this we are allowing our app\'s stakeholders to participate directly in the app development process. Project is available in Github.</string>
     <string name="Fragment7_description">You can send messages and images. Have a one on one video/audio call. Make a group and talk with your buddies. And many more features are coming soon. This app is completely free but it will be ad-supported for some amount of time. Enjoy using this app!</string>
-    <string name="ask_to_delete_chat">Are you sure you want to delete this chat?</string>
-    <string name="ask_to_call">Are you sure you want to call this person?</string>
-    <string name="unblock">Unblock</string>
-    <string name="profile_picture">Profile Picture</string>
-    <string name="ask_to_setProfile">Are you sure want to keep this image as your profile picture?</string>
+    <string name="ask_to_delete_chat">இந்த அரட்டையை நிச்சயமாக நீக்க விரும்புகிறீர்களா?</string>
+    <string name="ask_to_call">இவரை நிச்சயமாக அழைக்க விரும்புகிறீர்களா?</string>
+    <string name="unblock">இந்தப் பயனரை நிச்சயமாக தடைநீக்க விரும்புகிறீர்களா?</string>
+    <string name="profile_picture">சுயவிவர படம்</string>
+    <string name="ask_to_setProfile">இந்தப் படத்தை உங்கள் சுயவிவரப் படமாக நிச்சயமாக வைத்திருக்க விரும்புகிறீர்களா?</string>
     <string name="ask_to_unblock">Are you sure you want to unblock this user?</string>
     <string name="otp_again_title">Resend OTP</string>
-    <string name="ChatWallpaper">Chat wallpaper</string>
-    <string name="change_wallpaper">Change Wallpaper</string>
-    <string name="GIF">GIF</string>
-    <string name="Image">Image</string>
-    <string name="ChooseWallpaper">Choose Wallpaper</string>
+    <string name="ChatWallpaper">வால்பேப்பர்</string>
+    <string name="change_wallpaper">வால்பேப்பரை மாற்றவும்</string>
+    <string name="GIF">"கிப்  "</string>
+    <string name="Image">படம்</string>
+    <string name="ChooseWallpaper">வால்பேப்பரைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="Contact_us">எங்களை தொடர்பு கொள்ள</string>
+    <string name="credit_6"><a href="https://www.freepik.com/photos/tree">Tree photo created by wirestock - www.freepik.com</a></string>
+    <string name="credit_7"><a href="https://www.freepik.com/photos/background">Background photo created by fanjianhua - www.freepik.com</a></string>
+    <string name="credit_8"><a href="https://www.freepik.com/photos/tree">Tree photo created by wirestock - www.freepik.com</a></string>
+    <string name="credit_9"><a href="https://www.freepik.com/photos/background">Background photo created by dashu83 - www.freepik.com</a></string>
 
 </resources>

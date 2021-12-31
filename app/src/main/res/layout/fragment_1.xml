@@ -23,7 +23,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to Messenger"
+        android:text="@string/welcome_to_messenger"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:textSize="30dp"
@@ -32,18 +32,29 @@
         android:textColor="@color/blacktext"
         android:layout_below="@+id/applogo"/>
 
-    <TextView
+    <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/description"
+        android:layout_height="match_parent"
         android:layout_below="@+id/title"
-        android:layout_marginTop="25dp"
-        android:fontFamily="@font/nunito_semibold"
-        android:textAlignment="center"
-        android:textColor="@color/blacktext"
-        android:justificationMode="inter_word"
-        android:layout_marginHorizontal="20dp"
-        android:textSize="22dp"
-        android:text="@string/fragment1_description"/>
+        android:scrollbars="vertical"
+        android:verticalScrollbarPosition="defaultPosition"
+        android:layout_marginTop="25dp">
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="@font/nunito_semibold"
+            android:justificationMode="inter_word"
+            android:text="@string/fragment1_description"
+            android:textAlignment="center"
+            android:textColor="@color/blacktext"
+            android:textSize="22dp" />
+
+    </ScrollView>
+
 
 </RelativeLayout>
