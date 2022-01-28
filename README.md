@@ -29,9 +29,8 @@ If your working on this make sure you connect this project to your firebase acco
 11. Send Images without losing any quality
 
 
-## Screenshots
-<img src="images/1 (1).png" width="250" height="500"> <img src="images/1 (2).png" width="250" height="500">
-
+## Demo
+https://youtu.be/LqVgOFAlg0k
 
 
 ## Road Map
@@ -42,7 +41,7 @@ If your working on this make sure you connect this project to your firebase acco
 5. <S>Ability to send Images.</S>
 6. Ability to send voice messages.
 7. <s>Audio/Video call.</s>(In Testing)
-8. A Good Name for this whole thing.
+8. <s>A Good Name for this whole thing.</s>
 9. Ability to send location.
 10. Ablility to Forward Message. 
 11. Share Function.
