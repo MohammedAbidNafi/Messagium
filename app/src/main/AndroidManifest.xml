@@ -24,31 +24,35 @@
         tools:ignore="ScopedStorage" />
 
     <application
-        android:name="com.margsapp.messageium.utils.FirebaseOffline"
+        android:name=".utils.FirebaseOffline"
         android:allowBackup="true"
-        android:debuggable="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher_appicon"
         android:label="@string/app_name"
-        android:launchMode="singleTop"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_appicon_round"
         android:showOnLockScreen="true"
-        android:supportsRtl="true"
-        android:testOnly="false"
         android:theme="@style/Theme.Messenger"
-        tools:ignore="HardcodedDebugMode">
+        >
+
+        <activity android:name="com.ashiqurrahman.easyvidchat.ui.CallActivity" />
+
         <activity
-            android:name="com.margsapp.messageium.Settings.Wallpaper"
+            android:name=".Authentication.PermissionCheck"
+            android:exported="false" />
+        <activity
+            android:name=".Settings.Wallpaper"
             android:exported="true" />
         <activity
-            android:name="com.margsapp.messageium.Main.SendMediaActivity"
+            android:name=".Main.SendMediaActivity"
             android:exported="true" />
         <activity
-            android:name="com.margsapp.messageium.Settings.setWallpaper"
+            android:name=".Settings.setWallpaper"
             android:exported="true" />
 
-        <receiver android:name="com.margsapp.messageium.Widgets.UnreadMessagesWidget">
+        <receiver
+            android:name=".Widgets.UnreadMessagesWidget"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -59,35 +63,36 @@
         </receiver>
 
         <activity
-            android:name="com.margsapp.messageium.Welcome.MyWelcomeActivity"
+            android:name=".Welcome.MyWelcomeActivity"
             android:theme="@style/WelcomeScreenTheme.SolidNavigation" />
-        <activity android:name="com.margsapp.messageium.ImageView.chat_image_viewActivity" />
+        <activity android:name=".ImageView.chat_image_viewActivity" />
         <activity
-            android:name="com.margsapp.messageium.Main.SendImageActivity"
+            android:name=".Main.SendImageActivity"
             android:theme="@style/Theme.Messenger.SendImage" />
-        <activity android:name="com.margsapp.messageium.Authentication.google_setupActivity" />
-        <activity android:name="com.margsapp.messageium.ImageView.main_dpActivity" />
-        <activity android:name="com.margsapp.messageium.ImageView.personal_dpActivity" />
-        <activity android:name="com.margsapp.messageium.groupclass.manage_partActivty" />
-        <activity android:name="com.margsapp.messageium.groupclass.edit_group_name" />
-        <activity android:name="com.margsapp.messageium.Authentication.Phone_setupActivity" />
-        <activity android:name="com.margsapp.messageium.Authentication.VerifyOTP" />
-        <activity android:name="com.margsapp.messageium.Authentication.PhoneAuthActivity" />
+        <activity android:name=".Authentication.google_setupActivity" />
+        <activity android:name=".ImageView.main_dpActivity" />
+        <activity android:name=".ImageView.personal_dpActivity" />
+        <activity android:name=".groupclass.manage_partActivty" />
+        <activity android:name=".groupclass.edit_group_name" />
+        <activity android:name=".Authentication.Phone_setupActivity" />
+        <activity android:name=".Authentication.VerifyOTP" />
+        <activity android:name=".Authentication.PhoneAuthActivity" />
         <activity
-            android:name="com.margsapp.messageium.groupclass.group_infoActivity"
+            android:name=".groupclass.group_infoActivity"
             android:theme="@style/Theme.Messenger.Message" />
         <activity
-            android:name="com.margsapp.messageium.groupclass.group_messageActivity"
+            android:name=".groupclass.group_messageActivity"
             android:theme="@style/Theme.Messenger.Message" />
-        <activity android:name="com.margsapp.messageium.groupclass.AddParticipants" />
-        <activity android:name="com.margsapp.messageium.groupclass.create_groupActivity" />
-        <activity android:name="com.margsapp.messageium.Settings.ChatViewActivity" />
-        <activity android:name="com.margsapp.messageium.AppDetails.privacyActivity" />
+        <activity android:name=".groupclass.AddParticipants" />
+        <activity android:name=".groupclass.create_groupActivity" />
+        <activity android:name=".Settings.ChatViewActivity" />
+        <activity android:name=".AppDetails.privacyActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Theme.Messenger.Crop" />
         <activity
-            android:name="com.margsapp.messageium.Authentication.SplashActivity"
+            android:name=".Authentication.SplashActivity"
+            android:exported="true"
             android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -99,33 +104,32 @@
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
-        <activity android:name="com.margsapp.messageium.Settings.AboutActivity" />
+        <activity android:name=".Settings.AboutActivity" />
+        <activity android:name=".Settings.CustomiseActivity"
+            android:theme="@style/Theme.Messenger.ThemeSwitcher"/>
+        <activity android:name=".ImageView.group_dpActivity" />
+        <activity android:name=".Friends.Blocked" />
+        <activity android:name=".Friends.Accepted" />
+        <activity android:name=".Settings.EditStatusActivity" />
+        <activity android:name=".Main.FindUsersActivity" />
+        <activity android:name=".AppDetails.Terms_ConditionsActivity" />
+        <activity android:name=".Settings.edit_profile" />
+        <activity android:name=".Settings.Chat_settings" />
         <activity
-            android:name="com.margsapp.messageium.Settings.CustomiseActivity"
-           />
-        <activity android:name="com.margsapp.messageium.ImageView.group_dpActivity" />
-        <activity android:name="com.margsapp.messageium.Friends.Blocked" />
-        <activity android:name="com.margsapp.messageium.Friends.Accepted" />
-        <activity android:name="com.margsapp.messageium.Settings.EditStatusActivity" />
-        <activity android:name="com.margsapp.messageium.Main.FindUsersActivity" />
-        <activity android:name="com.margsapp.messageium.AppDetails.Terms_ConditionsActivity" />
-        <activity android:name="com.margsapp.messageium.Settings.edit_profile" />
-        <activity android:name="com.margsapp.messageium.Settings.Chat_settings" />
-        <activity
-            android:name="com.margsapp.messageium.Main.MessageActivity"
+            android:name=".Main.MessageActivity"
             android:theme="@style/Theme.Messenger.Message" />
         <activity
-            android:name="com.margsapp.messageium.Main.MainActivity"
+            android:name=".Main.MainActivity"
             android:theme="@style/Theme.Messenger.Mainmenu" />
         <activity
-            android:name="com.margsapp.messageium.Authentication.StartActivity"
+            android:name=".Authentication.StartActivity"
             android:theme="@style/Loader" />
         <activity
-            android:name="com.margsapp.messageium.VideoCall.CallActivity"
+            android:name=".VideoCall.CallActivity"
             android:theme="@style/Theme.Messenger.Fullscreen" />
 
         <service
-            android:name="com.margsapp.messageium.Notifications.MyFirebaseIdService"
+            android:name=".Notifications.MyFirebaseIdService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -133,7 +137,7 @@
             </intent-filter>
         </service>
         <service
-            android:name="com.margsapp.messageium.Notifications.MyFirebaseMessaging"
+            android:name=".Notifications.MyFirebaseMessaging"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

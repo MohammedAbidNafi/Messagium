@@ -20,9 +20,13 @@ public class Chat {
 
     private String imageurl;
 
+    private String type;
+
+    private String encrypted;
 
 
-    public Chat(String sender, String receiver, String message, String isseen, String timestamp, String replytext, String reply,String replyto,String replyname, String sendername, String imageurl) {
+
+    public Chat(String sender, String receiver, String message, String isseen, String timestamp, String replytext, String reply,String replyto,String replyname, String sendername, String imageurl,String type,String encrypted) {
 
         this.sender = sender;
         this.receiver = receiver;
@@ -35,11 +39,33 @@ public class Chat {
         this.replyname = replyname;
         this.sendername = sendername;
         this.imageurl = imageurl;
+        this.type = type;
+        this.encrypted = encrypted;
 
 
     }
 
     public Chat() {
+    }
+
+    public String getEncrypted() {
+        return encrypted;
+    }
+
+    public void setEncrypted(String encrypted) {
+        this.encrypted = encrypted;
+    }
+
+    public void setReplytext(String replytext) {
+        this.replytext = replytext;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getImageurl() {

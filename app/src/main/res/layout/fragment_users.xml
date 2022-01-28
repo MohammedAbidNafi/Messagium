@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,11 +10,22 @@
 
 
 
+
+
    <RelativeLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        android:background="@color/diffrentBack"
        tools:ignore="UselessParent">
+
+      <ProgressBar
+          android:id="@+id/progressBar"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_marginStart="10dp"
+          android:indeterminateTint="@color/black_text"
+          android:layout_centerInParent="true"
+          android:rotation="@integer/google_play_services_version" />
 
       <androidx.appcompat.widget.AppCompatEditText
           android:id="@+id/search_users"

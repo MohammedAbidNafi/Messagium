@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messageium.Model.GroupChat;
 import com.margsapp.messageium.Model.User;
 import com.margsapp.messageium.R;
+import com.margsapp.messageium.utils.AES;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -42,6 +43,8 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
     public static final int REPLY_TYPE_RIGHT = 3;
 
     public static final int LOGS = 4;
+
+    AES aes;
 
 
     public GroupMessageAdapter(Context mContext, List<GroupChat> mGroupChat) {
@@ -125,7 +128,11 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
             holder.show_message.setText(groupChat.getMessage());
         }
 
-        holder.show_message.setText(groupChat.getMessage());
+        if(groupChat.getMessage() != null){
+            aes = new AES(mContext);
+            String decryptedmessage = aes.Decrypt(groupChat.getMessage(),mContext);
+            holder.show_message.setText(decryptedmessage);
+        }
 
         holder.username.setText(groupChat.getSendername());
 

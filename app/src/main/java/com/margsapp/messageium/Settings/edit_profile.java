@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
+import com.emredavarci.noty.Noty;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,6 +46,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.margsapp.messageium.Authentication.StartActivity;
 import com.margsapp.messageium.Main.MainActivity;
 import com.margsapp.messageium.Model.User;
 import com.margsapp.messageium.R;
@@ -77,6 +80,7 @@ public class edit_profile extends AppCompatActivity {
     CardView Status_card, Account_card, Customize_card, About_card,Contact_card;
 
 
+    RelativeLayout mainlayout;
 
     DatabaseReference reference;
 
@@ -94,6 +98,8 @@ public class edit_profile extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        mainlayout = findViewById(R.id.mainlayout);
 
         SharedPreferences preferences = getSharedPreferences("theme", 0);
         String Theme = preferences.getString(THEME, "");
@@ -122,45 +128,12 @@ public class edit_profile extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.settings));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        /*
 
-        MobileAds.initialize(this, initializationStatus -> {
-        });
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        InterstitialAd.load(this,"ca-app-pub-5615682506938042/5865260490", adRequest, new InterstitialAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                // The mInterstitialAd reference will be null until
-                // an ad is loaded.
-                mInterstitialAd = interstitialAd;
-                Log.i(TAG, "onAdLoaded");
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                // Handle the error
-                Log.i(TAG, loadAdError.getMessage());
-                mInterstitialAd = null;
-            }
-        });
-
-        AdView mAdView = findViewById(R.id.adView);
-
-        mAdView.loadAd(adRequest);
-
-         */
 
         toolbar.setNavigationOnClickListener(v -> {
             finish();
             overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
-            /*if (mInterstitialAd != null) {
-                mInterstitialAd.show(edit_profile.this);
-            } else {
-                Log.d("TAG", "The interstitial ad wasn't ready yet.");
-            }
 
-             */
         });
 
 
@@ -502,7 +475,13 @@ public class edit_profile extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(edit_profile.this, "Image has been stored in our servers", Toast.LENGTH_SHORT).show();
+                            Noty.init(edit_profile.this,"Login Success",mainlayout, Noty.WarningStyle.ACTION)
+                                    .setWarningBoxBgColor("#4BB543")
+                                    .setWarningBoxRadius(80,80,80,80)
+                                    .setWarningBoxMargins(15,15,15,10)
+                                    .setAnimation(Noty.RevealAnim.SLIDE_UP, Noty.DismissAnim.BACK_TO_BOTTOM, 400,400)
+                                    .setWarningBoxPosition(Noty.WarningPos.BOTTOM)
+                                    .show();
 
                             Uri downloadUri = task.getResult();
                             assert downloadUri != null;

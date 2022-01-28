@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import com.emredavarci.noty.Noty;
 import com.factor.bouncy.BouncyRecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,11 +27,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messageium.Adapter.UserAdapter;
+import com.margsapp.messageium.Authentication.PermissionCheck;
 import com.margsapp.messageium.Model.User;
 import com.margsapp.messageium.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import timber.log.Timber;
 
 
 public class UsersFragment extends Fragment {
@@ -41,30 +48,65 @@ public class UsersFragment extends Fragment {
 
     EditText search_user;
 
+    FrameLayout mainlayout;
+
+    ProgressBar progressBar;
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-
         View view = inflater.inflate(R.layout.fragment_users, container, false);
 
         recyclerView = view.findViewById(R.id.recycler_view);
+
+        progressBar = view.findViewById(R.id.progressBar);
+
+        mainlayout = view.findViewById(R.id.mainlayout);
+        mUsers = new ArrayList<>();
         recyclerView.setFlingAnimationSize(0.3f);
         recyclerView.setOverscrollAnimationSize(0.3f);
-        recyclerView.setHasFixedSize(false);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setDrawingCacheEnabled(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
-        RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
-        if (animator instanceof SimpleItemAnimator) {
-            ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
-        }
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot1) {
+                boolean connected = snapshot1.getValue(Boolean.class);
+                if (connected) {
 
 
 
-        mUsers = new ArrayList<>();
+                    readUsers();
 
-        readUsers();
+
+
+                } else {
+                    Noty.init(requireContext(),"No Internet Connection.",mainlayout, Noty.WarningStyle.ACTION)
+                            .setWarningBoxBgColor("#F70000")
+                            .setWarningBoxRadius(80,80,80,80)
+                            .setWarningBoxMargins(15,15,15,10)
+                            .setAnimation(Noty.RevealAnim.SLIDE_DOWN, Noty.DismissAnim.BACK_TO_BOTTOM, 500,500)
+                            .setWarningBoxPosition(Noty.WarningPos.BOTTOM)
+                            .show();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+
 
         search_user = view.findViewById(R.id.search_users);
         search_user.addTextChangedListener(new TextWatcher() {
@@ -121,10 +163,11 @@ public class UsersFragment extends Fragment {
     }
 
     private void readUsers() {
+        progressBar.setVisibility(View.INVISIBLE);
 
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        reference.addValueEventListener(new ValueEventListener() {
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (search_user.getText().toString().equals("")) {
@@ -143,6 +186,7 @@ public class UsersFragment extends Fragment {
 
                     userAdapter = new UserAdapter(getContext(), mUsers, false, true, false, getActivity());
                     recyclerView.setAdapter(userAdapter);
+
                 }
 
             }

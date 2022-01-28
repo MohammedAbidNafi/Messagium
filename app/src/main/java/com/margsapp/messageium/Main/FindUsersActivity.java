@@ -27,7 +27,9 @@ import com.margsapp.messageium.Fragments.ContactsFragment;
 import com.margsapp.messageium.Fragments.UsersFragment;
 import com.margsapp.messageium.R;
 import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrInterface;
+import com.r0adkll.slidr.model.SlidrListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,6 +50,7 @@ public class FindUsersActivity extends AppCompatActivity {
 
     private InterstitialAd mInterstitialAd;
     ViewPager viewPager;
+    private SlidrInterface slidrInterface;
 
 
     @Override
@@ -78,10 +81,41 @@ public class FindUsersActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.add_chat));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        SlidrConfig config = new SlidrConfig.Builder()
+                .edge(true)
+                .edgeSize(0.2f)
+                .listener(new SlidrListener() {
+                    @Override
+                    public void onSlideStateChanged(int state) {
+
+                    }
+
+                    @Override
+                    public void onSlideChange(float percent) {
+
+                    }
+
+                    @Override
+                    public void onSlideOpened() {
+
+                    }
+
+                    @Override
+                    public boolean onSlideClosed() {
+                        return false;
+                    }
+                })// The % of the screen that counts as the edge, default 18%
+                .build();
+
+
+        slidrInterface = Slidr.attach(this,config);
+
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FindUsersActivity.this, MainActivity.class));
+                finish();
                 overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
 
             }
@@ -89,42 +123,11 @@ public class FindUsersActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.viewPager);
 
-        SlidrInterface slidrInterface = Slidr.attach(this);
 
 
-        /*
 
-        MobileAds.initialize(this, initializationStatus -> {
-        });
-        AdRequest adRequest = new AdRequest.Builder().build();
 
-        InterstitialAd.load(this,"ca-app-pub-5615682506938042/4782730227", adRequest, new InterstitialAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                // The mInterstitialAd reference will be null until
-                // an ad is loaded.
-                mInterstitialAd = interstitialAd;
-                Log.i(TAG, "onAdLoaded");
-            }
 
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                // Handle the error
-                Log.i(TAG, loadAdError.getMessage());
-                mInterstitialAd = null;
-            }
-        });
-
-         */
-
-        toolbar.setNavigationOnClickListener(v -> {
-            startActivity(new Intent(FindUsersActivity.this, MainActivity.class));
-            if (mInterstitialAd != null) {
-                mInterstitialAd.show(FindUsersActivity.this);
-            } else {
-                Log.d("TAG", "The interstitial ad wasn't ready yet.");
-            }
-        });
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -132,6 +135,8 @@ public class FindUsersActivity extends AppCompatActivity {
 
         final ViewPager viewPager = findViewById(R.id.viewPager);
         final TabLayout tabLayout = findViewById(R.id.tablayout);
+
+
 
         FindUsersActivity.ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
         viewPageAdapter.addFragment(new UsersFragment(), "Users");

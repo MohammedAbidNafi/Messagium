@@ -1,5 +1,6 @@
 package com.margsapp.messageium.Fragments;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -54,9 +55,27 @@ public class ContactsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
 
         if(firebaseUser != null){
-            getContacts();
 
-            getContactList();
+
+            DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+            connectedRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot1) {
+                    boolean connected = snapshot1.getValue(Boolean.class);
+                    if (connected) {
+                        getContacts();
+
+                        getContactList();
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
         }
 
 
@@ -69,10 +88,6 @@ public class ContactsFragment extends Fragment {
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
-        RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
-        if (animator instanceof SimpleItemAnimator) {
-            ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
-        }
 
         return view;
     }
@@ -94,27 +109,21 @@ public class ContactsFragment extends Fragment {
             ActivityCompat.requestPermissions(requireActivity(), new String[]{android.Manifest.permission.READ_CONTACTS},
                     REQUEST_READ_CONTACTS);
         }
-        if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), android.Manifest.permission.READ_CONTACTS)) {
-        } else {
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{android.Manifest.permission.READ_CONTACTS},
-                    REQUEST_READ_CONTACTS);
-        }
+
     }
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_READ_CONTACTS: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mobileArray = getAllPhoneContacts();
-                } else {
-                    requireActivity().finish();
-                }
-                return;
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_READ_CONTACTS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mobileArray = getAllPhoneContacts();
+            } else {
+                requireActivity().finish();
             }
         }
     }
 
+    @SuppressLint("Range")
     private ArrayList getAllPhoneContacts() {
         ArrayList<String> phoneList = new ArrayList<>();
         ContentResolver cr = requireActivity().getContentResolver();
@@ -122,7 +131,7 @@ public class ContactsFragment extends Fragment {
                 null, null, null, null);
         if ((cur != null ? cur.getCount() : 0) > 0) {
             while (cur.moveToNext()) {
-                String id = cur.getString(
+                @SuppressLint("Range") String id = cur.getString(
                         cur.getColumnIndex(ContactsContract.Contacts._ID));
 //                String name = cur.getString(cur.getColumnIndex(
 //                        ContactsContract.Contacts.DISPLAY_NAME));
@@ -170,7 +179,7 @@ public class ContactsFragment extends Fragment {
 
                 }
 
-                adapter = new ContactsAdapter(mUsers,requireActivity());
+                adapter = new ContactsAdapter(mUsers,requireActivity(),getActivity());
                 recyclerView.setAdapter(adapter);
             }
             @Override

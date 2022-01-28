@@ -1,6 +1,8 @@
 package com.margsapp.messageium.Fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import timber.log.Timber;
+
 
 public class ChatsFragment extends Fragment {
 
@@ -42,11 +46,6 @@ public class ChatsFragment extends Fragment {
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
 
-
-
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,38 +56,16 @@ public class ChatsFragment extends Fragment {
 
 
 
+
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setFlingAnimationSize(0.3f);
         recyclerView.setOverscrollAnimationSize(0.3f);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        Objects.requireNonNull(recyclerView.getItemAnimator()).setAddDuration(0);
-        recyclerView.getItemAnimator().setRemoveDuration(0);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         usersList = new ArrayList<>();
 
-
-
-        Query query = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid()).orderByChild("time");
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                usersList.clear();
-                for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                    Chatlist chatlist = snapshot1.getValue(Chatlist.class);
-                    usersList.add(chatlist);
-                }
-
-
-
-                chatList();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        loadMessages();
 
         updateToken(FirebaseInstanceId.getInstance().getToken());
 
@@ -101,12 +78,60 @@ public class ChatsFragment extends Fragment {
         reference.child(firebaseUser.getUid()).setValue(token1);
     }
 
+    private void loadMessages(){
+
+
+        new Thread(){
+            @Override
+            public void run(){
+
+                try {
+
+                    loadMessage();
+                }
+                catch (final Exception exception){
+                    Timber.i("Exception in Thread LoadMessages");
+                }
+
+
+            }
+        }.start();
+
+
+
+    }
+
+    protected void loadMessage(){
+
+        Query query = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid()).orderByChild("time");
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                usersList.clear();
+                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                    Chatlist chatlist = snapshot1.getValue(Chatlist.class);
+                    usersList.add(chatlist);
+                }
+
+                chatList();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+
 
 
 
     private void chatList() {
 
         mUsers = new ArrayList<>();
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -126,9 +151,6 @@ public class ChatsFragment extends Fragment {
                             if(chatlist.getFriends().equals("Requested")){
                                 mUsers.add(user);
                             }
-                            if(chatlist.getFriends().equals("Blocked")){
-                                //Dont do anything
-                            }
 
                         }
 
@@ -141,7 +163,6 @@ public class ChatsFragment extends Fragment {
 
                 userAdapter = new UserAdapter(getContext(), mUsers, true, false, false,getActivity());
                 recyclerView.setAdapter(userAdapter);
-                userAdapter.notifyDataSetChanged();
             }
 
             @Override

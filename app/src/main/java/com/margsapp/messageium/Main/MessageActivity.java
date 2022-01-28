@@ -46,6 +46,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.transition.TransitionManager;
 
+import com.ashiqurrahman.easyvidchat.VidChat;
+import com.ashiqurrahman.easyvidchat.data.CustomTURNSTUNConfig;
+import com.ashiqurrahman.easyvidchat.data.VidChatConfig;
 import com.bumptech.glide.Glide;
 import com.factor.bouncy.BouncyRecyclerView;
 import com.giphy.sdk.core.models.Media;
@@ -112,6 +115,8 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
     private static final String TAG = "MESSAGE ACTIVITY" ;
     private static final String WALLPAPER = "WALLPAPER";
+    private static final int PERMISSION_REQUEST_CODE = 1232;
+    private static final int CALLREQUESTCODE = 1234;
 
     CircleImageView profileImage;
     TextView username, statusText, reply_txt;
@@ -160,10 +165,16 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
     boolean reply_ = false;
 
+    boolean checklist = false;
+
     boolean notify = false;
     ShortcutManager shortcutManager;
 
     private SlidrInterface slidrInterface;
+
+    public static Handler seenMessageHandler = new Handler();
+    public static Handler readMessageHandler = new Handler();
+    public static Handler sendMessageHandler = new Handler();
 
 
     ConstraintLayout mainbackgound;
@@ -174,7 +185,6 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         super.onStart();
 
         mainbackgound = findViewById(R.id.mainbackgound);
-
 
         SharedPreferences sharedPreferences = getSharedPreferences("wallpaper", 0);
         String wallpaper = sharedPreferences.getString(WALLPAPER, "");
@@ -270,7 +280,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
                 .build();
 
 
-        slidrInterface = Slidr.attach(this,config);
+        slidrInterface = Slidr.attach(this, config);
 
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
@@ -279,12 +289,11 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
-             shortcutManager = getSystemService(ShortcutManager.class);
+            shortcutManager = getSystemService(ShortcutManager.class);
         }
 
 
         addImage = findViewById(R.id.addimage);
-
 
 
         addImage.setOnClickListener(new View.OnClickListener() {
@@ -296,16 +305,9 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         });
         toolbar.setNavigationOnClickListener(v -> {
 
-
             finish();
-            overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
-
-
-
-
+            overridePendingTransition(R.anim.activity_slider_in_right, R.anim.activity_slider_out_left);
         });
-
-
 
 
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
@@ -326,28 +328,21 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         btn_cancel_reply = findViewById(R.id.cancelButton);
 
 
-
         btnSend = findViewById(R.id.btn_send);
         text_send = findViewById(R.id.text_send);
 
         reply_txt = findViewById(R.id.txtQuotedMsg);
 
         recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
 
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL, false);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setFlingAnimationSize(0.3f);
         recyclerView.setOverscrollAnimationSize(0.3f);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-
-
-
-
-
-
 
 
         SwipeController swipeController = new SwipeController(this, position -> onReply(mchat.get(position)));
@@ -363,18 +358,14 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             Intent intent = new Intent(MessageActivity.this, personal_dpActivity.class);
             Pair[] pairs = new Pair[1];
             pairs[0] = new Pair<View, String>(profileImage, "imageTransition");
-            intent.putExtra("data",data);
-            intent.putExtra("userid",userid);
+            intent.putExtra("data", data);
+            intent.putExtra("userid", userid);
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MessageActivity.this, pairs);
             startActivity(intent, options.toBundle());
 
             new Handler().postDelayed(this::finish, 1000);
 
         });
-
-
-
-
 
 
         intent = getIntent();
@@ -402,6 +393,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
                         hashMap.put("typingto", userid);
                         snapshot.getRef().updateChildren(hashMap);
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
@@ -417,6 +409,58 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         });
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
+        new Thread(() -> {
+
+            CheckFirst();
+
+            DatabaseReference chatRefReceiver = FirebaseDatabase.getInstance().getReference("Chatlist")
+                    .child(firebaseUser.getUid())
+                    .child(userid);
+
+            chatRefReceiver.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Chatlist chatlist = snapshot.getValue(Chatlist.class);
+                    if (snapshot.exists()) {
+                        assert chatlist != null;
+                        blocked = chatlist.getFriends();
+                        if (chatlist.getFriends().equals("Requested")) {
+                            editor.setVisibility(View.GONE);
+                            warning.setVisibility(View.VISIBLE);
+
+                        }
+                    }
+
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+            databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    User user = snapshot.getValue(User.class);
+                    assert user != null;
+                    Myname = user.getUsername();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+        }).start();
+
+
+
+
 
         btnSend.setOnClickListener(v -> {
 
@@ -424,64 +468,41 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             String isseen = "false";
 
             String msg = text_send.getText().toString();
-            if(!msg.equals(""))
-            {
-                Calendar calendar = Calendar.getInstance();
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
-                String timestamp = simpleDateFormat.format(calendar.getTime());
 
-
-                String Reply = reply_txt.getText().toString();
+            new Thread(() -> {
+                if (!msg.equals("")) {
+                    Calendar calendar = Calendar.getInstance();
+                    @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
+                    String timestamp = simpleDateFormat.format(calendar.getTime());
 
 
 
-                    if(reply_){
-                        ReplyMessage(firebaseUser.getUid(),userid, msg, timestamp, isseen, Reply,ReplyId,reference);
+                    if (reply_) {
+                        String Reply = reply_txt.getText().toString();
+                        ReplyMessage(firebaseUser.getUid(), userid, msg, timestamp, isseen, Reply, ReplyId, reference,checklist);
                     }
-                    if(!reply_){
-                        sendMessage(firebaseUser.getUid(),userid,msg, timestamp,isseen,reference);
+                    if (!reply_) {
+                        sendMessage(firebaseUser.getUid(), userid, msg, timestamp, isseen, reference,checklist);
                     }
 
 
-
-
-            }
-            else {
-                Toast.makeText(MessageActivity.this, "You cant send empty message Error code 0x08040101", Toast.LENGTH_SHORT).show();
-            }
-
-            text_send.setText("");
-
-            hideReplyLayout();
-
-        });
-
-        DatabaseReference chatRefReceiver = FirebaseDatabase.getInstance().getReference("Chatlist")
-                .child(firebaseUser.getUid())
-                .child(userid);
-
-        chatRefReceiver.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-               Chatlist chatlist = snapshot.getValue(Chatlist.class);
-                if(snapshot.exists()){
-                    assert chatlist != null;
-                    blocked = chatlist.getFriends();
-                    if(chatlist.getFriends().equals("Requested")) {
-                        editor.setVisibility(View.GONE);
-                        warning.setVisibility(View.VISIBLE);
-
-                    }
+                } else {
+                    Toast.makeText(MessageActivity.this, "You cant send empty message Error code 0x08040101", Toast.LENGTH_SHORT).show();
                 }
 
+                runOnUiThread(() -> {
+                    text_send.setText("");
 
-            }
+                    hideReplyLayout();
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                });
 
-            }
+            }).start();
+
+
+
         });
+
 
         btn_accept.setOnClickListener(v -> {
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chatlist")
@@ -490,7 +511,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             Long server_timestamp = new Date().getTime();
             HashMap<String, Object> hashMap = new HashMap<>();
             hashMap.put("friends", "Messaged");
-            hashMap.put("time",server_timestamp);
+            hashMap.put("time", server_timestamp);
             databaseReference.getRef().updateChildren(hashMap);
             warning.setVisibility(View.GONE);
             editor.setVisibility(View.VISIBLE);
@@ -516,9 +537,6 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             });
 
 
-
-
-
         });
 
         btn_block.setOnClickListener(v -> {
@@ -540,24 +558,10 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
 
 
-
-        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                assert user != null;
-                Myname = user.getUsername();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
+
+
+
 
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -569,10 +573,10 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
                 Username = user.getUsername();
 
 
-                if(snapshot.exists()){
-                    if(user.getTypingto().equals(firebaseUser.getUid())){
+                if (snapshot.exists()) {
+                    if (user.getTypingto().equals(firebaseUser.getUid())) {
                         statusText.setText(getResources().getString(R.string.typing));
-                    }else {
+                    } else {
                         statusText.setText(user.getStatus());
                     }
                 }
@@ -580,12 +584,10 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
                 imageUrl = user.getImageUrl();
 
-                if(imageUrl.equals("default"))
-                {
+                if (imageUrl.equals("default")) {
                     profileImage.setImageResource(R.drawable.user);
 
-                }
-                else {
+                } else {
                     Glide.with(getApplicationContext()).load(imageUrl).into(profileImage);
                 }
 
@@ -598,9 +600,56 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             }
         });
 
-        seenMessage(userid);
+
+
+        MessageActivity.seenMessageHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                seenMessage(userid);
+            }
+        });
+
+
 
     }
+
+    private void CheckFirst() {
+
+        final DatabaseReference chatRefReceiver = FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(userid)
+                .child(firebaseUser.getUid());
+        chatRefReceiver.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Chatlist chatlist = snapshot.getValue(Chatlist.class);
+                if(!snapshot.exists()){
+                    chatRefReceiver.child("id").setValue(firebaseUser.getUid());
+                    chatRefReceiver.child("friends").setValue("Requested");
+                    checklist = true;
+
+                }
+
+                if(snapshot.exists()){
+                    assert chatlist != null;
+                    if(chatlist.getFriends().equals("Rejected")){
+                        chatRefReceiver.child("id").setValue(firebaseUser.getUid());
+                        chatRefReceiver.child("friends").setValue("Requested");
+                        checklist = true;
+                    }
+                }
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
 
     private void checkText() {
         if(text_send.getText().toString().equals("")){
@@ -674,7 +723,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
 
 
-    private void ReplyMessage(String sender, String receiver, String message, String timestamp, String isseen,String ReplyMessage,String ReplyTo,DatabaseReference reference){
+    private void ReplyMessage(String sender, String receiver, String message, String timestamp, String isseen,String ReplyMessage,String ReplyTo,DatabaseReference reference,boolean checklist_){
 
         String encryptedmessage = aes.Encrypt(message, this);
 
@@ -696,8 +745,11 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         reference.child("Chats").push().setValue(hashmap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
+                /*
                 MediaPlayer mp = MediaPlayer.create(MessageActivity.this, R.raw.messagesent);
                 mp.start();
+
+                 */
             }
         });
 
@@ -705,6 +757,31 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
 
 
+        if(checklist_){
+
+            final DatabaseReference chatRefReceiver = FirebaseDatabase.getInstance().getReference("Chatlist")
+                    .child(receiver)
+                    .child(firebaseUser.getUid());
+            chatRefReceiver.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(!snapshot.exists()){
+                        chatRefReceiver.child("id").setValue(firebaseUser.getUid());
+                        chatRefReceiver.child("friends").setValue("Requested");
+                        checklist = false;
+                    }
+
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+        }
         final DatabaseReference chatref = FirebaseDatabase.getInstance().getReference("Chatlist")
                 .child(firebaseUser.getUid())
                 .child(receiver);
@@ -724,24 +801,6 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             }
         });
 
-        final DatabaseReference chatRefReceiver = FirebaseDatabase.getInstance().getReference("Chatlist")
-                .child(receiver)
-                .child(firebaseUser.getUid());
-        chatRefReceiver.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(!snapshot.exists()){
-                    chatRefReceiver.child("id").setValue(firebaseUser.getUid());
-                    chatRefReceiver.child("friends").setValue("Requested");
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
 
         final String msg = message;
@@ -774,111 +833,124 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
     }
 
-    private void sendMessage(String sender, String receiver, String message,String timestamp,String isseen,DatabaseReference reference)
+    private void sendMessage(String sender, String receiver, String message,String timestamp,String isseen,DatabaseReference reference,boolean checklist_)
     {
 
-
-        String encryptedmessage = aes.Encrypt(message, this);
-
-
-        Map hashmap = new HashMap();
-        hashmap.put("sender", sender);
-        hashmap.put("receiver", receiver);
-        hashmap.put("message", encryptedmessage);
-        hashmap.put("isseen", isseen);
-        hashmap.put("timestamp", timestamp);
-        hashmap.put("reply", "false");
-
-
-
-        reference.child("Chats").push().setValue(hashmap).addOnSuccessListener(new OnSuccessListener<Void>() {
+        MessageActivity.sendMessageHandler.post(new Runnable() {
             @Override
-            public void onSuccess(Void unused) {
-                MediaPlayer mp = MediaPlayer.create(MessageActivity.this, R.raw.messagesent);
-                mp.start();
-            }
-        });
+            public void run() {
+                String encryptedmessage = aes.Encrypt(message, getApplicationContext());
+
+
+                Map hashmap = new HashMap();
+                hashmap.put("sender", sender);
+                hashmap.put("receiver", receiver);
+                hashmap.put("message", encryptedmessage);
+                hashmap.put("isseen", isseen);
+                hashmap.put("timestamp", timestamp);
+                hashmap.put("reply", "false");
 
 
 
+                reference.child("Chats").push().setValue(hashmap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        /*
+                        MediaPlayer mp = MediaPlayer.create(MessageActivity.this, R.raw.messagesent);
+                        mp.start();
 
-
-        final DatabaseReference chatref = FirebaseDatabase.getInstance().getReference("Chatlist")
-                .child(firebaseUser.getUid())
-                .child(receiver);
-
-        chatref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(!snapshot.exists()){
-                    chatref.child("id").setValue(receiver);
-                    chatref.child("friends").setValue("Messaged");
-                }
-                Long server_timestamp = new Date().getTime();
-                chatref.child("time").setValue(server_timestamp);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-
-        final DatabaseReference chatRefReceiver = FirebaseDatabase.getInstance().getReference("Chatlist")
-                .child(receiver)
-                .child(firebaseUser.getUid());
-        chatRefReceiver.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Chatlist chatlist = snapshot.getValue(Chatlist.class);
-                if(!snapshot.exists()){
-                    chatRefReceiver.child("id").setValue(firebaseUser.getUid());
-                    chatRefReceiver.child("friends").setValue("Requested");
-
-                }
-
-                if(snapshot.exists()){
-                    assert chatlist != null;
-                    if(chatlist.getFriends().equals("Rejected")){
-                        chatRefReceiver.child("id").setValue(firebaseUser.getUid());
-                        chatRefReceiver.child("friends").setValue("Requested");
+                         */
                     }
+                });
+
+
+
+
+                if(checklist_){
+
+
+                    final DatabaseReference chatRefReceiver = FirebaseDatabase.getInstance().getReference("Chatlist")
+                            .child(receiver)
+                            .child(firebaseUser.getUid());
+                    chatRefReceiver.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            Chatlist chatlist = snapshot.getValue(Chatlist.class);
+                            if(!snapshot.exists()){
+                                chatRefReceiver.child("id").setValue(firebaseUser.getUid());
+                                chatRefReceiver.child("friends").setValue("Requested");
+                                checklist = false;
+
+                            }
+
+                            if(snapshot.exists()){
+                                assert chatlist != null;
+                                if(chatlist.getFriends().equals("Rejected")){
+                                    chatRefReceiver.child("id").setValue(firebaseUser.getUid());
+                                    chatRefReceiver.child("friends").setValue("Requested");
+                                    checklist = false;
+                                }
+                            }
+
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            checklist = false;
+
+                        }
+                    });
+
+
                 }
 
+                final DatabaseReference chatref = FirebaseDatabase.getInstance().getReference("Chatlist")
+                        .child(firebaseUser.getUid())
+                        .child(receiver);
+
+                chatref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(!snapshot.exists()){
+                            chatref.child("id").setValue(receiver);
+                            chatref.child("friends").setValue("Messaged");
+                        }
+                        Long server_timestamp = new Date().getTime();
+                        chatref.child("time").setValue(server_timestamp);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
 
 
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user = snapshot.getValue(User.class);
+                        if(notify) {
+                            assert user != null;
+                            sendNotification(receiver, user.getUsername(), message);
+                        }
+                        notify = false;
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
 
 
-
-        final String msg = message;
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                if(notify) {
-                    assert user != null;
-                    sendNotification(receiver, user.getUsername(), msg);
-                }
-                notify = false;
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
 
 
@@ -891,7 +963,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
                 .child(receiver)
                 .child(firebaseUser.getUid());
 
-        chatref.addValueEventListener(new ValueEventListener() {
+        chatref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Chatlist chatlist = snapshot.getValue(Chatlist.class);
@@ -950,37 +1022,45 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
 
     private void readMessage(String myid, String userid, String imageUrl){
-        mchat = new ArrayList<>();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
-        databaseReference.keepSynced(true);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mchat.clear();
-                for (DataSnapshot snapshot1 : snapshot.getChildren()){
-                    Chat chat = snapshot1.getValue(Chat.class);
-                    assert chat != null;
-                    if(chat.getReceiver().equals(myid)&& chat.getSender().equals(userid) ||
-                    chat.getReceiver().equals(userid)&&chat.getSender().equals(myid)) {
-                        mchat.add(chat);
 
+        MessageActivity.readMessageHandler.post(new Runnable() {
+            @Override
+            public void run(){
+                mchat = new ArrayList<>();
+                databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
+                databaseReference.keepSynced(true);
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        mchat.clear();
+                        for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                            Chat chat = snapshot1.getValue(Chat.class);
+                            assert chat != null;
+                            if(chat.getReceiver().equals(myid)&& chat.getSender().equals(userid) ||
+                                    chat.getReceiver().equals(userid)&&chat.getSender().equals(myid)) {
+                                mchat.add(chat);
+
+                            }
+
+
+
+                            messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageUrl,MessageActivity.this,Username,Myname);
+                            messageAdapter.addEventListener(MessageActivity.this);
+                            recyclerView.setAdapter(messageAdapter);
+
+
+                        }
                     }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-
-                    messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageUrl,MessageActivity.this,Username,Myname);
-                    messageAdapter.addEventListener(MessageActivity.this);
-                    recyclerView.setAdapter(messageAdapter);
-
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+                    }
+                });
             }
         });
+
+
     }
 
 
@@ -1020,17 +1100,11 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/jpeg");
-                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-                startActivityForResult(Intent.createChooser(intent, "Complete action using"),
-                        RC_PHOTO_PICKER);
 
-
-                 */
 
                 TedBottomPicker.with(MessageActivity.this)
+                        .setSpacing(2)
+                        .showGalleryTile(false)
                         .show(new TedBottomSheetDialogFragment.OnImageSelectedListener() {
                             @Override
                             public void onImageSelected(Uri uri) {
@@ -1238,9 +1312,29 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
     }
 
     private void call() {
+
+
         String otherID = userid;
 
         startActivity(new Intent(MessageActivity.this, CallActivity.class).putExtra("userid", otherID));
+
+         /*
+
+        VidChat.INSTANCE.requestVideoChatPermissions(MessageActivity.this,PERMISSION_REQUEST_CODE);
+        startActivityForResult(VidChat.INSTANCE.getCallingIntent(this, "ABCDEF"),CALLREQUESTCODE);
+
+        CustomTURNSTUNConfig config = new CustomTURNSTUNConfig(
+                "turn:103.147.168.11:3478",
+                "abid",
+                "1234",
+                "stun:103.147.168.11:3478"
+        );
+
+        VidChatConfig.INSTANCE.setCustomTURNSTUNConfig(config);
+        // setting up custom room server url
+        VidChatConfig.INSTANCE.setCustomRoomServerUrl("https://mycustomroomserverurl");
+
+          */
     }
 
     private void DeleteChat(String userid) {
@@ -1366,7 +1460,6 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
     protected void onPause() {
         super.onPause();
         databaseReference.removeEventListener(seenListener);
-      //  txt_database.removeEventListener(textListener);
         status("offline");
         currentUser("none");
     }
@@ -1374,7 +1467,6 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
     protected void onDestroy() {
         super.onDestroy();
         databaseReference.removeEventListener(seenListener);
-       // txt_database.removeEventListener(textListener);
         status("offline");
         currentUser("none");
         messageAdapter.removeEventListener();

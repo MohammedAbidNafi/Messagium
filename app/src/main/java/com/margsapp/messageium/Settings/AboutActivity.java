@@ -247,10 +247,7 @@ public class AboutActivity extends AppCompatActivity {
                     Log.d("TAG", "The interstitial ad wasn't ready yet.");
                 }
 
-                Intent intent = new Intent(AboutActivity.this, edit_profile.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+
 
                 break;
 

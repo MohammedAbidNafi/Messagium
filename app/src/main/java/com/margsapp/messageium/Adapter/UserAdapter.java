@@ -18,6 +18,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -95,8 +96,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
                 if ("true".equals(UnreadMessage)) {
                     unreadview.setVisibility(View.GONE);
-                } else {
+                } else if("false".equals(UnreadMessage)) {
                     unreadview.setVisibility(View.VISIBLE);
+                }else {
+                    unreadview.setVisibility(View.GONE);
                 }
             }
 
@@ -135,8 +138,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         UnreadMessage(user.getId(), holder.unread);
 
 
+
+
         if (user.getImageUrl().equals("default")) {
-            holder.profile.setImageResource(R.drawable.user);
+            Glide.with(mContext).load(R.drawable.user).into(holder.profile);
         } else {
             Glide.with(mContext).load(user.getImageUrl()).into(holder.profile);
         }
@@ -152,6 +157,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         if (isChat) {
 
             holder.dt.setVisibility(View.GONE);
+
 
         }
         if (!isChat) {

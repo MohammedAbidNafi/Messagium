@@ -172,6 +172,13 @@
     <string name="Image">Image</string>
     <string name="ChooseWallpaper">Choose Wallpaper</string>
     <string name="Contact_us">Contact Us</string>
+    <string name="Microphone">Microphone</string>
+    <string name="Contacts">Contacts</string>
+    <string name="Storage">Storage</string>
+    <string name="SMS">SMS</string>
+    <string name="continue_">Continue</string>
+    <string name="grant_permission">Grant Permission</string>
+    <string name="new_chat">New chat</string>
 
 
 </resources>

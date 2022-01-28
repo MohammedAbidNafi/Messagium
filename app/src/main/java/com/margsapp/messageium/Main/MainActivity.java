@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.transition.TransitionManager;
 import android.util.Log;
@@ -50,6 +51,7 @@ import com.margsapp.messageium.R;
 import com.margsapp.messageium.Settings.edit_profile;
 import com.margsapp.messageium.ImageView.main_dpActivity;
 import com.margsapp.messageium.groupclass.create_groupActivity;
+import com.margsapp.messageium.utils.ApplicationLifecycleHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,6 +61,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import timber.log.Timber;
 
 import static com.margsapp.messageium.Settings.CustomiseActivity.THEME;
 
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     DatabaseReference reference;
     String imageurl;
-    private InterstitialAd mInterstitialAd;
+
     String versionName = BuildConfig.VERSION_NAME;
 
     FirebaseAuth firebaseAuth;
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressBar network_check;
 
-    Dialog dialog;
+
 
     ViewPager viewPager;
 
@@ -93,20 +96,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ApplicationLifecycleHandler handler = new ApplicationLifecycleHandler();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            registerActivityLifecycleCallbacks(handler);
+        }
+        registerComponentCallbacks(handler);
+
         SharedPreferences sharedPreferences = getSharedPreferences("lang_settings", Activity.MODE_PRIVATE);
         String language = sharedPreferences.getString("lang","");
         setLocale(language);
 
         viewPager = findViewById(R.id.viewPager);
 
-        TransitionManager.beginDelayedTransition(viewPager);
 
-
-      //  dialog = new Dialog(this);
-
-
-
-      //  onOptions();
 
 
         SharedPreferences preferences = getSharedPreferences("theme", 0);
@@ -126,29 +128,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("");
 
-        /*
-        MobileAds.initialize(this, initializationStatus -> {
-        });
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        InterstitialAd.load(this, "ca-app-pub-5615682506938042/9926110222", adRequest, new InterstitialAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                // The mInterstitialAd reference will be null until
-                // an ad is loaded.
-                mInterstitialAd = interstitialAd;
-                Log.i(TAG, "onAdLoaded");
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                // Handle the error
-                Log.i(TAG, loadAdError.getMessage());
-                mInterstitialAd = null;
-            }
-        });
-
-         */
 
         DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
         connectedRef.addValueEventListener(new ValueEventListener() {
@@ -172,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.w(TAG, "Listener was cancelled");
+                Timber.tag(TAG).w("Listener was cancelled");
             }
         });
 
@@ -189,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
 
         DP.setOnClickListener(v -> {
             String data = imageurl;
@@ -203,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -212,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                 imageurl = user.getImageUrl();
                 username.setText(user.getUsername());
                 if (imageurl.equals("default")) {
-                    DP.setImageResource(R.drawable.user);
+                    Glide.with(getApplicationContext()).load(R.drawable.user).into(DP);
                 } else {
 
                     Glide.with(getApplicationContext()).load(imageurl).into(DP);
@@ -283,18 +263,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    /*
-    public void onOptions(){
-
-        dialog.setContentView(R.layout.new_update_release_notes);
-
-        dialog.getWindow().setGravity(Gravity.BOTTOM);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
-    }
-
-     */
 
     private void setLocale(String lang) {
 
@@ -322,40 +290,25 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.logout:
-                googleSignInClient.signOut().addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
 
-                        startActivity(new Intent(MainActivity.this, StartActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                        finish();
-                        FirebaseAuth.getInstance().signOut();
-                        if (mInterstitialAd != null) {
-                            mInterstitialAd.show(MainActivity.this);
-                        } else {
-                            Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                        }
-                    }
-                });
+
+
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity.this, StartActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
 
                 return true;
+
             case R.id.edit:
                 startActivity(new Intent(MainActivity.this, edit_profile.class));
                 overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(MainActivity.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
+
                 return false;
 
             case R.id.create_group:
                 startActivity(new Intent(MainActivity.this, create_groupActivity.class));
                 overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(MainActivity.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
+
 
                 return true;
 
@@ -363,18 +316,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.addchat:
                 startActivity(new Intent(MainActivity.this, FindUsersActivity.class));
                 overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(MainActivity.this);
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
+
                 return true;
         }
 
         return false;
     }
-
-
 
 
 
@@ -421,6 +368,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     private void status(String status){
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
@@ -461,6 +409,8 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         status("offline");
     }
+
+
 
 
 

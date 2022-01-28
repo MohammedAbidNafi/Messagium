@@ -138,5 +138,12 @@
     <string name="credit_7"><a href="https://www.freepik.com/photos/background">Background photo created by fanjianhua - www.freepik.com</a></string>
     <string name="credit_8"><a href="https://www.freepik.com/photos/tree">Tree photo created by wirestock - www.freepik.com</a></string>
     <string name="credit_9"><a href="https://www.freepik.com/photos/background">Background photo created by dashu83 - www.freepik.com</a></string>
+    <string name="Microphone" />
+    <string name="Contacts">Contacts</string>
+    <string name="Storage">Storage</string>
+    <string name="SMS">SMS</string>
+    <string name="continue_">Continue</string>
+    <string name="grant_permission">Grant Permission</string>
+    <string name="new_chat">New chat</string>
 
 </resources>

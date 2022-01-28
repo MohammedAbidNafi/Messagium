@@ -65,6 +65,7 @@ import com.margsapp.messageium.Notifications.Sender;
 import com.margsapp.messageium.Notifications.Token;
 import com.margsapp.messageium.R;
 import com.margsapp.messageium.reply.SwipeController;
+import com.margsapp.messageium.utils.AES;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrInterface;
@@ -93,6 +94,8 @@ public class group_messageActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference,partdatabaseReference;
 
+
+    private AES aes;
 
     ImageButton btnSend, btn_cancel_reply;
     EditText text_send;
@@ -155,6 +158,8 @@ public class group_messageActivity extends AppCompatActivity {
         intent = getIntent();
         groupid = intent.getStringExtra("groupid");
 
+        aes = new AES(this);
+
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("");
@@ -215,40 +220,11 @@ public class group_messageActivity extends AppCompatActivity {
             shortcutManager = getSystemService(ShortcutManager.class);
         }
 
-        /*
-        MobileAds.initialize(this, initializationStatus -> {
-        });
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        InterstitialAd.load(this,"ca-app-pub-5615682506938042/7863422196", adRequest, new InterstitialAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                // The mInterstitialAd reference will be null until
-                // an ad is loaded.
-                mInterstitialAd = interstitialAd;
-                Log.i(TAG, "onAdLoaded");
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                // Handle the error
-                Log.i(TAG, loadAdError.getMessage());
-                mInterstitialAd = null;
-            }
-        });
-
-         */
-
 
         toolbar.setNavigationOnClickListener(v -> {
             finish();
             overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
 
-            if (mInterstitialAd != null) {
-                mInterstitialAd.show(group_messageActivity.this);
-            } else {
-                Log.d("TAG", "The interstitial ad wasn't ready yet.");
-            }
         });
 
 
@@ -521,13 +497,13 @@ public class group_messageActivity extends AppCompatActivity {
     private void ReplyMessage(String sender,String sendername,String message, String timestamp, String ReplyMessage,String ReplyTo, String Replyname){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-
+        String encryptedmessage = aes.Encrypt(message,getApplicationContext());
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
         hashMap.put("sendername", sendername);
         hashMap.put("groupid", groupid);
-        hashMap.put("message", message);
+        hashMap.put("message", encryptedmessage);
         hashMap.put("timestamp", timestamp);
         hashMap.put("reply", "true");
         hashMap.put("replytext", ReplyMessage);
@@ -571,11 +547,13 @@ public class group_messageActivity extends AppCompatActivity {
     {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
+        String encryptedmessage = aes.Encrypt(message,getApplicationContext());
+
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
         hashMap.put("sendername", sendername);
         hashMap.put("group", groupid);
-        hashMap.put("message", message);
+        hashMap.put("message", encryptedmessage);
         hashMap.put("timestamp", timestamp);
         hashMap.put("reply", "false");
 

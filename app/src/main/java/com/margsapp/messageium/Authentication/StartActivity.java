@@ -1,9 +1,11 @@
 package com.margsapp.messageium.Authentication;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,10 +19,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.emredavarci.noty.Noty;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
@@ -75,10 +81,20 @@ public class StartActivity extends AppCompatActivity {
 
     WelcomeHelper welcomeScreen;
 
+    ConstraintLayout mainlayout;
+
+    private static final int CAMERA_PERMISSION_CODE = 100;
+    private static final int RECORD_AUDIO_PERMISSION_CODE = 101;
+    private static final int CONTACTS_PERMISSION_CODE = 102;
+    private static final int STORAGE_PERMISSION_CODE = 103;
+    private static final int SMS_PERMISSION_CODE = 104;
+
     @Override
     protected void onStart() {
         //Check if user is logged
         super.onStart();
+
+        mainlayout = findViewById(R.id.mainlayout);
 
 
 
@@ -125,7 +141,13 @@ public class StartActivity extends AppCompatActivity {
                     @Override
                     public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                         super.onAuthenticationSucceeded(result);
-                        Toast.makeText(getApplicationContext(), "Login Success.", Toast.LENGTH_SHORT).show();
+                        Noty.init(StartActivity.this,"Login Success",mainlayout, Noty.WarningStyle.ACTION)
+                                .setWarningBoxBgColor("#4BB543")
+                                .setWarningBoxRadius(80,80,80,80)
+                                .setWarningBoxMargins(15,15,15,10)
+                                .setAnimation(Noty.RevealAnim.SLIDE_DOWN, Noty.DismissAnim.FADE_OUT, 400,400)
+                                .setWarningBoxPosition(Noty.WarningPos.BOTTOM)
+                                .show();
                         Intent intent = new Intent(StartActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -171,6 +193,11 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE);
+        checkPermission(Manifest.permission.RECORD_AUDIO, RECORD_AUDIO_PERMISSION_CODE);
+        checkPermission(Manifest.permission.READ_CONTACTS, CONTACTS_PERMISSION_CODE);
+        checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
+        checkPermission(Manifest.permission.READ_SMS, SMS_PERMISSION_CODE);
 
         welcomeScreen = new WelcomeHelper(this, MyWelcomeActivity.class);
         welcomeScreen.show(savedInstanceState);
@@ -217,8 +244,8 @@ public class StartActivity extends AppCompatActivity {
         googleSignLoader.setVisibility(View.GONE);
 
         SignInButton signInButton = findViewById(R.id.signin);
-        //login = findViewById(R.id.login);
-      //  register = findViewById(R.id.register);
+        //  login = findViewById(R.id.login);
+        //  register = findViewById(R.id.register);
         phone = findViewById(R.id.phone);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -270,9 +297,9 @@ public class StartActivity extends AppCompatActivity {
                         firebaseAuth.signInWithCredential(authCredential)
                                 .addOnCompleteListener(task -> {
                                     if(task.isSuccessful()){
-                                        String s = "Google Authentication successful";
+
                                         googleSignLoader.setVisibility(View.VISIBLE);
-                                        displayToast(s);
+                                        displayToast();
 
                                         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                                         assert firebaseUser != null;
@@ -327,12 +354,31 @@ public class StartActivity extends AppCompatActivity {
 
     }
 
+    public void checkPermission(String permission, int requestCode)
+    {
+        if (ContextCompat.checkSelfPermission(StartActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
+
+            // Requesting the permission
+            startActivity(new Intent(StartActivity.this, PermissionCheck.class));
+        }
+        else {
 
 
-    private void displayToast(String s) {
+        }
+    }
 
 
-        Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show();
+
+    private void displayToast() {
+
+
+        Noty.init(StartActivity.this,"Login Success",mainlayout, Noty.WarningStyle.ACTION)
+                .setWarningBoxBgColor("#4BB543")
+                .setWarningBoxRadius(80,80,80,80)
+                .setWarningBoxMargins(15,15,15,10)
+                .setAnimation(Noty.RevealAnim.SLIDE_UP, Noty.DismissAnim.BACK_TO_BOTTOM, 400,400)
+                .setWarningBoxPosition(Noty.WarningPos.BOTTOM)
+                .show();
 
     }
 

@@ -7,7 +7,7 @@
         android:id="@+id/addchat"
         android:icon="@drawable/ic_baseline_person_add_24"
         app:showAsAction="always"
-        android:title="New chat" />
+        android:title="@string/new_chat" />
 
     <item
         android:id="@+id/action_more"
@@ -27,18 +27,18 @@
             app:showAsAction="ifRoom"/>
         <item
             android:id="@+id/edit"
-            android:iconTint="@color/greytext"
             android:icon="@drawable/ic_baseline_settings_24"
+            android:iconTint="@color/greytext"
             android:title="@string/settings"
             app:showAsAction="ifRoom" />
 
 
         <item
-        android:id="@+id/logout"
-        android:icon="@drawable/ic_baseline_exit_to_app_24"
-        android:title="@string/logout"
-            android:iconTint="@color/greytext"
-        app:showAsAction="ifRoom" />
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_baseline_exit_to_app_24"
+            android:title="@string/logout"
+
+            app:showAsAction="ifRoom" />
 
 
     </menu>
