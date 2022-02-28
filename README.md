@@ -22,11 +22,10 @@ If your working on this make sure you connect this project to your firebase acco
 4. Custom Shortcuts for user who message some particular person/group.
 5. Unique way to reply messages
 6. Uses Firebase for Authentication, Database and Storage so reliable speed and performence.
-7. Swipe left to go back
-8. Subtle Animations 
-9. Personal Messages are encrypted
-10. Ability to VideoCall
-11. Send Images without losing any quality
+7. Subtle Animations 
+8. Personal Messages are encrypted
+9. Ability to VideoCall
+10. Send Images without losing any quality
 
 
 ## Demo
