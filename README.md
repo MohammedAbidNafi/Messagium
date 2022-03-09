@@ -9,9 +9,6 @@ This project uses Firebase for Database, Storage, Push Notification, Analytics a
 If your working on this make sure you connect this project to your firebase account and enter the API key in API service for notifications.
 
 
-## Credits
-* iOS Style Alert Dialog https://github.com/MohammedAbidNafi/iOS-Style-Alert-Dialog
-
 ## Contributers
 ![GitHub Contributors Image](https://contrib.rocks/image?repo=MohammedAbidNafi/MessengerByMargs)
 
@@ -65,6 +62,10 @@ https://youtu.be/LqVgOFAlg0k
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+
+## Credits
+* iOS Style Alert Dialog https://github.com/MohammedAbidNafi/iOS-Style-Alert-Dialog
 
 
 ## Apache License 2.0
