@@ -475,7 +475,8 @@ public class edit_profile extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
-                            Noty.init(edit_profile.this,"Login Success",mainlayout, Noty.WarningStyle.ACTION)
+
+                            Noty.init(edit_profile.this,"Photo updated Success",mainlayout, Noty.WarningStyle.ACTION)
                                     .setWarningBoxBgColor("#4BB543")
                                     .setWarningBoxRadius(80,80,80,80)
                                     .setWarningBoxMargins(15,15,15,10)
@@ -494,6 +495,8 @@ public class edit_profile extends AppCompatActivity {
                             reference.updateChildren(map);
 
                             loadingBar.dismiss();
+
+                            recreate();
 
                         }
                     }

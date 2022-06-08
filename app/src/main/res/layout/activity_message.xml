@@ -8,6 +8,7 @@
     android:background="@color/background"
     tools:context=".Main.MessageActivity"
     android:orientation="vertical"
+    android:animateLayoutChanges="true"
     android:foregroundGravity="bottom">
 
 
@@ -94,6 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/grey"
+            android:animateLayoutChanges="true"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/warningcard"
             app:layout_constraintEnd_toEndOf="parent"
@@ -134,6 +136,7 @@
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@+id/reply_layout"
         app:layout_constraintTop_toBottomOf="@+id/bar_layout">
@@ -160,7 +163,7 @@
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
-
+        android:animateLayoutChanges="true"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/editor_layout"
         app:layout_constraintEnd_toEndOf="parent"

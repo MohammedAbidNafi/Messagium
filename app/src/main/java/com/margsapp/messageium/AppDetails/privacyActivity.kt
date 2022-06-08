@@ -13,18 +13,25 @@ import com.google.android.gms.ads.initialization.InitializationStatus
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.LoadAdError
 import com.margsapp.messageium.Main.MainActivity
-import kotlinx.android.synthetic.main.activity_privacy.*
+import com.margsapp.messageium.databinding.ActivityPrivacyBinding
+import com.margsapp.messageium.databinding.ActivityTermsConditionsBinding
+
 
 class privacyActivity : AppCompatActivity() {
 
     private var mInterstitialAd: InterstitialAd? = null
 
+    private lateinit var binding: ActivityPrivacyBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_privacy)
+        binding = ActivityPrivacyBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
 
-        privacy_page.loadUrl("https://margsglobal.weebly.com/messenger-privacy-policy.html")
+        binding.privacyPage.loadUrl("https://margsglobal.weebly.com/messenger-privacy-policy.html")
         intent = getIntent()
         var method = intent.getStringExtra("method")
         MobileAds.initialize(this) { initializationStatus: InitializationStatus? -> }
@@ -47,7 +54,7 @@ class privacyActivity : AppCompatActivity() {
                     mInterstitialAd = null
                 }
             })
-        agree.setOnClickListener(View.OnClickListener { v: View? ->
+        binding.agree.setOnClickListener(View.OnClickListener { v: View? ->
             val intent = Intent(this@privacyActivity, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)

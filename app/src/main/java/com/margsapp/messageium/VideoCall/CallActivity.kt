@@ -14,13 +14,20 @@ import com.google.firebase.database.*
 import com.margsapp.messageium.Model.User
 import com.margsapp.messageium.Notifications.*
 import com.margsapp.messageium.R
-import kotlinx.android.synthetic.main.activity_video_call.*
+import com.margsapp.messageium.databinding.ActivityPrivacyBinding
+import com.margsapp.messageium.databinding.ActivityVideoCallBinding
+
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
 class CallActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityVideoCallBinding
+
+
 
     var username = ""
     var friendsUsername = ""
@@ -43,7 +50,9 @@ class CallActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_video_call)
+        binding = ActivityVideoCallBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
 
         username = FirebaseAuth.getInstance().uid.toString();
@@ -64,7 +73,7 @@ class CallActivity : AppCompatActivity() {
 
 
 
-        call.setOnClickListener {
+        binding.call.setOnClickListener {
             sendCallRequest()
         }
 
@@ -72,16 +81,16 @@ class CallActivity : AppCompatActivity() {
 
 
 
-        toggleAudioBtn.setOnClickListener {
+        binding.toggleAudioBtn.setOnClickListener {
             isAudio = !isAudio
             callJavascriptFunction("javascript:toggleAudio(\"${isAudio}\")")
-            toggleAudioBtn.setImageResource(if (isAudio) R.drawable.ic_baseline_mic_24 else R.drawable.ic_baseline_mic_off_24 )
+            binding.toggleAudioBtn.setImageResource(if (isAudio) R.drawable.ic_baseline_mic_24 else R.drawable.ic_baseline_mic_off_24 )
         }
 
-        toggleVideoBtn.setOnClickListener {
+        binding.toggleVideoBtn.setOnClickListener {
             isVideo = !isVideo
             callJavascriptFunction("javascript:toggleVideo(\"${isVideo}\")")
-            toggleVideoBtn.setImageResource(if (isVideo) R.drawable.ic_baseline_videocam_24 else R.drawable.ic_baseline_videocam_off_24 )
+            binding.toggleVideoBtn.setImageResource(if (isVideo) R.drawable.ic_baseline_videocam_24 else R.drawable.ic_baseline_videocam_off_24 )
         }
 
         setupWebView()
@@ -163,24 +172,24 @@ class CallActivity : AppCompatActivity() {
     @SuppressLint("SetJavaScriptEnabled")
     private fun setupWebView() {
 
-        webView.webChromeClient = object: WebChromeClient() {
+        binding.webView.webChromeClient = object: WebChromeClient() {
             override fun onPermissionRequest(request: PermissionRequest?) {
                 request?.grant(request.resources)
             }
         }
 
-        webView.settings.javaScriptEnabled = true
-        webView.settings.mediaPlaybackRequiresUserGesture = false
-        webView.addJavascriptInterface(JavascriptInterface(this), "Android")
+        binding.webView.settings.javaScriptEnabled = true
+        binding.webView.settings.mediaPlaybackRequiresUserGesture = false
+        binding.webView.addJavascriptInterface(JavascriptInterface(this), "Android")
 
         loadVideoCall()
     }
 
     private fun loadVideoCall() {
         val filePath = "file:android_asset/call.html"
-        webView.loadUrl(filePath)
+        binding.webView.loadUrl(filePath)
 
-        webView.webViewClient = object: WebViewClient() {
+        binding.webView.webViewClient = object: WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 initializePeer()
             }
@@ -208,28 +217,28 @@ class CallActivity : AppCompatActivity() {
     private fun onCallRequest(caller: String?) {
         if (caller == null) return
 
-        callLayout.visibility = View.VISIBLE
-        incomingCallTxt.text = "$caller is calling..."
+        binding.callLayout.visibility = View.VISIBLE
+        binding.incomingCallTxt.text = "$caller is calling..."
 
-        acceptBtn.setOnClickListener {
+        binding.acceptBtn.setOnClickListener {
             firebaseRef.child(username).child("videocall").child("connId").setValue(uniqueId)
             firebaseRef.child(username).child("videocall").child("isAvailable").setValue(true)
 
-            callLayout.visibility = View.GONE
+            binding.callLayout.visibility = View.GONE
             switchToControls()
         }
 
-        rejectBtn.setOnClickListener {
+        binding.rejectBtn.setOnClickListener {
             firebaseRef.child(username).child("videocall").child("incall").setValue(null)
-            callLayout.visibility = View.GONE
+            binding.callLayout.visibility = View.GONE
         }
 
     }
 
     private fun switchToControls() {
         //inputLayout.visibility = View.GONE
-        call.visibility = View.INVISIBLE
-        callControlLayout.visibility = View.VISIBLE
+        binding.call.visibility = View.INVISIBLE
+        binding.callControlLayout.visibility = View.VISIBLE
 
     }
 
@@ -239,7 +248,7 @@ class CallActivity : AppCompatActivity() {
     }
 
     private fun callJavascriptFunction(functionString: String) {
-        webView.post { webView.evaluateJavascript(functionString, null) }
+        binding.webView.post { binding.webView.evaluateJavascript(functionString, null) }
     }
 
 
@@ -254,7 +263,7 @@ class CallActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         firebaseRef.child(username).child("videocall").setValue(null)
-        webView.loadUrl("about:blank")
+        binding.webView.loadUrl("about:blank")
         super.onDestroy()
     }
 

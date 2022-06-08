@@ -68,41 +68,12 @@ public class group_infoActivity extends AppCompatActivity {
 
     private ProgressDialog loadingBar;
 
-    private SlidrInterface slidrInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_info);
 
-        SlidrConfig config = new SlidrConfig.Builder()
-                .edge(true)
-                .edgeSize(0.2f)
-                .listener(new SlidrListener() {
-                    @Override
-                    public void onSlideStateChanged(int state) {
-
-                    }
-
-                    @Override
-                    public void onSlideChange(float percent) {
-
-                    }
-
-                    @Override
-                    public void onSlideOpened() {
-
-                    }
-
-                    @Override
-                    public boolean onSlideClosed() {
-                        return false;
-                    }
-                })// The % of the screen that counts as the edge, default 18%
-                .build();
-
-
-        slidrInterface = Slidr.attach(this,config);
 
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
@@ -146,7 +117,7 @@ public class group_infoActivity extends AppCompatActivity {
                 String groupid_ = groupid;
                 Intent intent = new Intent(group_infoActivity.this, group_dpActivity.class);
                 Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair<View, String>(group_img, "image");
+                pairs[0] = new Pair<View, String>(group_img, "imageTransition");
                 intent.putExtra("data",data);
                 intent.putExtra("groupid",groupid_);
                 intent.putExtra("groupname", groupname);
@@ -155,8 +126,16 @@ public class group_infoActivity extends AppCompatActivity {
             }
         });
         toolbar.setNavigationOnClickListener(v -> {
-            overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
+            /*
+            Intent intent = new Intent(group_infoActivity.this,group_messageActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+
+             */
+
             finish();
+            overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
+
         });
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -292,10 +271,16 @@ public class group_infoActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
+        /*
+        Intent intent = new Intent(group_infoActivity.this,group_messageActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
 
+         */
+        finish();
         overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
 
-        finish();
+
     }
 
 }

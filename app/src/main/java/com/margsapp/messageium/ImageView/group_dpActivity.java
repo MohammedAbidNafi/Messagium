@@ -1,8 +1,11 @@
 package com.margsapp.messageium.ImageView;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Pair;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
@@ -13,7 +16,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.margsapp.messageium.Main.MessageActivity;
 import com.margsapp.messageium.R;
+import com.margsapp.messageium.groupclass.group_infoActivity;
+import com.margsapp.messageium.groupclass.group_messageActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -55,6 +61,13 @@ public class group_dpActivity extends AppCompatActivity {
 
         toolbar.setNavigationOnClickListener(v -> {
 
+            Intent intent = new Intent(group_dpActivity.this, group_infoActivity.class);
+            intent.putExtra("groupid",groupid);
+            intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+            Pair[] pairs = new Pair[1];
+            pairs[0] = new Pair<View, String>(dpView, "imageTransition");
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(group_dpActivity.this, pairs);
+            startActivity(intent,options.toBundle());
             finish();
 
         });
@@ -97,6 +110,13 @@ public class group_dpActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
+        Intent intent = new Intent(group_dpActivity.this, group_infoActivity.class);
+        intent.putExtra("groupid",groupid);
+        intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+        Pair[] pairs = new Pair[1];
+        pairs[0] = new Pair<View, String>(dpView, "imageTransition");
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(group_dpActivity.this, pairs);
+        startActivity(intent,options.toBundle());
         finish();
 
     }

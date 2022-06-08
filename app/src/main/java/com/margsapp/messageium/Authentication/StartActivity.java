@@ -299,7 +299,7 @@ public class StartActivity extends AppCompatActivity {
                                     if(task.isSuccessful()){
 
                                         googleSignLoader.setVisibility(View.VISIBLE);
-                                        displayToast();
+
 
                                         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                                         assert firebaseUser != null;
@@ -369,17 +369,6 @@ public class StartActivity extends AppCompatActivity {
 
 
 
-    private void displayToast() {
 
-
-        Noty.init(StartActivity.this,"Login Success",mainlayout, Noty.WarningStyle.ACTION)
-                .setWarningBoxBgColor("#4BB543")
-                .setWarningBoxRadius(80,80,80,80)
-                .setWarningBoxMargins(15,15,15,10)
-                .setAnimation(Noty.RevealAnim.SLIDE_UP, Noty.DismissAnim.BACK_TO_BOTTOM, 400,400)
-                .setWarningBoxPosition(Noty.WarningPos.BOTTOM)
-                .show();
-
-    }
 
 }

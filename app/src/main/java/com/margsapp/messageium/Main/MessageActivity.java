@@ -170,7 +170,6 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
     boolean notify = false;
     ShortcutManager shortcutManager;
 
-    private SlidrInterface slidrInterface;
 
     public static Handler seenMessageHandler = new Handler();
     public static Handler readMessageHandler = new Handler();
@@ -243,7 +242,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         }
 
         TransitionManager.beginDelayedTransition(editor);
-        dialog = new Dialog(MessageActivity.this);
+
     }
 
     @SuppressLint("GetInstance")
@@ -253,34 +252,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
 
-        SlidrConfig config = new SlidrConfig.Builder()
-                .edge(true)
-                .edgeSize(0.2f)
-                .listener(new SlidrListener() {
-                    @Override
-                    public void onSlideStateChanged(int state) {
-
-                    }
-
-                    @Override
-                    public void onSlideChange(float percent) {
-
-                    }
-
-                    @Override
-                    public void onSlideOpened() {
-
-                    }
-
-                    @Override
-                    public boolean onSlideClosed() {
-                        return false;
-                    }
-                })// The % of the screen that counts as the edge, default 18%
-                .build();
-
-
-        slidrInterface = Slidr.attach(this, config);
+        dialog = new Dialog(MessageActivity.this);
 
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
@@ -305,8 +277,11 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         });
         toolbar.setNavigationOnClickListener(v -> {
 
-            finish();
-            overridePendingTransition(R.anim.activity_slider_in_right, R.anim.activity_slider_out_left);
+            Intent intent = new Intent(MessageActivity.this,MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+
+
         });
 
 
@@ -363,7 +338,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MessageActivity.this, pairs);
             startActivity(intent, options.toBundle());
 
-            new Handler().postDelayed(this::finish, 1000);
+
 
         });
 
@@ -1068,6 +1043,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
     public void onMediaSelect(){
 
+        dialog.setContentView(R.layout.add_image_pop_up);
 
         AppCompatButton gallery,camera;
 
@@ -1075,11 +1051,11 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
         CardView cancel;
 
-        dialog.setContentView(R.layout.add_image_pop_up);
+
+
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         Window window = dialog.getWindow();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         lp.copyFrom(window.getAttributes());
         //This makes the dialog take up the full width
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -1193,6 +1169,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
 
         dialog.setCancelable(true);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.getWindow().setGravity(Gravity.BOTTOM);
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.show();
@@ -1443,8 +1420,10 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
     public void onBackPressed() {
 
-        finish();
-        overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
+        Intent intent = new Intent(MessageActivity.this,MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+
 
 
     }
@@ -1469,7 +1448,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         databaseReference.removeEventListener(seenListener);
         status("offline");
         currentUser("none");
-        messageAdapter.removeEventListener();
+        //messageAdapter.removeEventListener();
     }
 
 

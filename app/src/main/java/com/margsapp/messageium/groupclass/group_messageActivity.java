@@ -54,6 +54,7 @@ import com.google.firebase.database.annotations.NotNull;
 import com.margsapp.iosdialog.iOSDialog;
 import com.margsapp.iosdialog.iOSDialogListener;
 import com.margsapp.messageium.Adapter.GroupMessageAdapter;
+import com.margsapp.messageium.Main.MainActivity;
 import com.margsapp.messageium.Notifications.APIService;
 import com.margsapp.messageium.Model.Group;
 import com.margsapp.messageium.Model.GroupChat;
@@ -165,34 +166,7 @@ public class group_messageActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SlidrConfig config = new SlidrConfig.Builder()
-                .edge(true)
-                .edgeSize(0.2f)
-                .listener(new SlidrListener() {
-                    @Override
-                    public void onSlideStateChanged(int state) {
 
-                    }
-
-                    @Override
-                    public void onSlideChange(float percent) {
-
-                    }
-
-                    @Override
-                    public void onSlideOpened() {
-
-                    }
-
-                    @Override
-                    public boolean onSlideClosed() {
-                        return false;
-                    }
-                })// The % of the screen that counts as the edge, default 18%
-                .build();
-
-
-        slidrInterface = Slidr.attach(this,config);
 
         group_info = findViewById(R.id.group_info);
 
@@ -222,8 +196,11 @@ public class group_messageActivity extends AppCompatActivity {
 
 
         toolbar.setNavigationOnClickListener(v -> {
-            finish();
+            Intent intent = new Intent(group_messageActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
+            startActivity(intent);
+
 
         });
 
@@ -458,7 +435,7 @@ public class group_messageActivity extends AppCompatActivity {
             }
         });
 
-        //seenMessage(userid);
+
 
 
 
@@ -819,14 +796,12 @@ public class group_messageActivity extends AppCompatActivity {
     }
 
     public void onBackPressed(){
-        finish();
-        overridePendingTransition(R.anim.activity_slider_in_right,R.anim.activity_slider_out_left);
+        Intent intent = new Intent(group_messageActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-        if (mInterstitialAd != null) {
-            mInterstitialAd.show(group_messageActivity.this);
-        } else {
-            Log.d("TAG", "The interstitial ad wasn't ready yet.");
-        }
+        startActivity(intent);
+
+
     }
 
     @Override
@@ -840,14 +815,12 @@ public class group_messageActivity extends AppCompatActivity {
     protected void onPause()
     {
         super.onPause();
-      //databaseReference.removeEventListener(seenListener);
         status("offline");
 
     }
 
     protected void onDestroy() {
         super.onDestroy();
-        //databaseReference.removeEventListener(seenListener);
         status("offline");
 
 

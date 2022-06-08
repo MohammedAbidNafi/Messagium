@@ -12,19 +12,24 @@ import com.google.android.gms.ads.initialization.InitializationStatus
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.margsapp.messageium.R
-import kotlinx.android.synthetic.main.activity_terms__conditions.*
+import com.margsapp.messageium.databinding.ActivityTermsConditionsBinding
+
 
 class Terms_ConditionsActivity : AppCompatActivity() {
 
     private var mInterstitialAd: InterstitialAd? = null
 
+    private lateinit var binding: ActivityTermsConditionsBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_terms__conditions)
+        binding = ActivityTermsConditionsBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
 
-        t_cpage.loadUrl("https://margsglobal.weebly.com/messenger-tc.html")
+        binding.tCpage.loadUrl("https://margsglobal.weebly.com/messenger-tc.html")
         intent = getIntent()
         var method = intent.getStringExtra("method")
         MobileAds.initialize(this) { initializationStatus: InitializationStatus? -> }
@@ -47,7 +52,7 @@ class Terms_ConditionsActivity : AppCompatActivity() {
                     mInterstitialAd = null
                 }
             })
-         agree.setOnClickListener(View.OnClickListener { v: View? ->
+         binding.agree.setOnClickListener(View.OnClickListener { v: View? ->
             val intent = Intent(this@Terms_ConditionsActivity, privacyActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra("method", method)

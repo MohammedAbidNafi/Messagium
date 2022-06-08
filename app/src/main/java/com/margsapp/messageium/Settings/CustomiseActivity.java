@@ -1,6 +1,10 @@
 package com.margsapp.messageium.Settings;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -15,6 +19,9 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.margsapp.iosdialog.iOSDialog;
+import com.margsapp.iosdialog.iOSDialogListener;
+import com.margsapp.messageium.Authentication.StartActivity;
 import com.margsapp.messageium.R;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrInterface;
@@ -136,21 +143,112 @@ public class CustomiseActivity extends AppCompatActivity {
         dialog.setSingleChoiceItems(langitems, languageid, (dialog1, i) -> {
             if(i == 0){
                 setLocale("en",0);
-                recreate();
+
+                iOSDialog.Builder
+                        .with(CustomiseActivity.this)
+                        .setTitle("App will restart now!")
+                        .setMessage("To update language settings the app will restart now")
+                        .setNegativeText("OK")
+                        .onNegativeClicked(new iOSDialogListener() {
+                            @Override
+                            public void onClick(Dialog dialog) {
+                                Intent mStartActivity = new Intent(getApplicationContext(), StartActivity.class);
+                                int mPendingIntentId = 123456;
+                                PendingIntent mPendingIntent = PendingIntent.getActivity(getApplicationContext(), mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+                                AlarmManager mgr = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                                mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+                                System.exit(0);
+                            }
+                        })
+                        .setNegativeTextColor(getResources().getColor(R.color.red))
+
+                        .isCancellable(false)
+                        .build()
+                        .show();
+
+
+
             }
 
             else if (i == 1){
                 setLocale("ta",1);
-                recreate();
+
+                iOSDialog.Builder
+                        .with(CustomiseActivity.this)
+                        .setTitle("App will restart now!")
+                        .setMessage("To update language settings the app will restart now")
+                        .setNegativeText("OK")
+                        .onNegativeClicked(new iOSDialogListener() {
+                            @Override
+                            public void onClick(Dialog dialog) {
+                                Intent mStartActivity = new Intent(getApplicationContext(), StartActivity.class);
+                                int mPendingIntentId = 123456;
+                                PendingIntent mPendingIntent = PendingIntent.getActivity(getApplicationContext(), mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+                                AlarmManager mgr = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                                mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+                                System.exit(0);
+                            }
+                        })
+                        .setNegativeTextColor(getResources().getColor(R.color.red))
+
+                        .isCancellable(false)
+                        .build()
+                        .show();
+
             }
 
             else if(i==2){
+
                 setLocale("hi",2);
-                recreate();
+
+                iOSDialog.Builder
+                        .with(CustomiseActivity.this)
+                        .setTitle("App will restart now!")
+                        .setMessage("To update language settings the app will restart now")
+                        .setNegativeText("OK")
+                        .onNegativeClicked(new iOSDialogListener() {
+                            @Override
+                            public void onClick(Dialog dialog) {
+                                Intent mStartActivity = new Intent(getApplicationContext(), StartActivity.class);
+                                int mPendingIntentId = 123456;
+                                PendingIntent mPendingIntent = PendingIntent.getActivity(getApplicationContext(), mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+                                AlarmManager mgr = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                                mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+                                System.exit(0);
+                            }
+                        })
+                        .setNegativeTextColor(getResources().getColor(R.color.red))
+
+                        .isCancellable(false)
+                        .build()
+                        .show();
+
             }
             else if(i == 3){
                 setLocale("te",3);
-                recreate();
+
+                iOSDialog.Builder
+                        .with(CustomiseActivity.this)
+                        .setTitle("App will restart now!")
+                        .setMessage("To update language settings the app will restart now")
+                        .setNegativeText("OK")
+                        .onNegativeClicked(new iOSDialogListener() {
+                            @Override
+                            public void onClick(Dialog dialog) {
+                                Intent mStartActivity = new Intent(getApplicationContext(), StartActivity.class);
+                                int mPendingIntentId = 123456;
+                                PendingIntent mPendingIntent = PendingIntent.getActivity(getApplicationContext(), mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+                                AlarmManager mgr = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                                mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+                                System.exit(0);
+                            }
+                        })
+                        .setNegativeTextColor(getResources().getColor(R.color.red))
+
+                        .isCancellable(false)
+                        .build()
+                        .show();
+
             }
 
             dialog1.dismiss();
@@ -174,6 +272,10 @@ public class CustomiseActivity extends AppCompatActivity {
         editor.putString("lang",lang);
         editor.putInt("langid",langid);
         editor.apply();
+
+
+
+
 
 
 

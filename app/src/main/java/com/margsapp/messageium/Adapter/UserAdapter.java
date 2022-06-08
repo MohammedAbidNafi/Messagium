@@ -46,7 +46,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private final boolean isBlock;
 
-    private final boolean isAdd;
 
 
     String theLastMessage;
@@ -59,14 +58,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
 
-    public UserAdapter(Context mContext, List<User> mUsers, boolean isChat, boolean isAdd, boolean isBlock,Activity activity) {
+    public UserAdapter(Context mContext, List<User> mUsers, boolean isChat, boolean isBlock,Activity activity) {
         this.mUsers = mUsers;
         this.mContext = mContext;
         this.isChat = isChat;
-        this.isAdd = isAdd;
         this.isBlock = isBlock;
         this.activity = activity;
-
 
     }
 
@@ -75,7 +72,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private void UnreadMessage(String userid, ImageView unreadview) {
 
         UnreadMessage = "true";
-
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
 
@@ -126,6 +122,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         holder.UsernameText.setText(user.getUsername());
 
+
+
         if (user.getStatus().equals("online")) {
             holder.img_on.setVisibility(View.VISIBLE);
             holder.img_off.setVisibility(View.GONE);
@@ -135,7 +133,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
 
 
-        UnreadMessage(user.getId(), holder.unread);
+
 
 
 
@@ -157,6 +155,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         if (isChat) {
 
             holder.dt.setVisibility(View.GONE);
+            UnreadMessage(user.getId(), holder.unread);
+
 
 
         }
@@ -167,6 +167,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             holder.img_off.setVisibility(View.VISIBLE);
             holder.date_lastmsg.setVisibility(View.GONE);
             holder.dt.setVisibility(View.VISIBLE);
+
 
         }
 
@@ -333,7 +334,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
                 }
 
-                if("defalt".equals(date_time)){
+                if("default".equals(date_time)){
                     date_lastmsg.setText("");
                 }
                 if ("default".equals(theLastMessage)) {
@@ -378,7 +379,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                             Intent intent = new Intent(mContext, MessageActivity.class);
                             intent.putExtra("userid", userid);
                             mContext.startActivity(intent);
-                            activity.overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
+                            activity.overridePendingTransition(R.anim.activity_slide_down,R.anim.activity_slide_up);
 
 
                         }
@@ -386,7 +387,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                         Intent intent = new Intent(mContext, MessageActivity.class);
                         intent.putExtra("userid", userid);
                         mContext.startActivity(intent);
-                        activity.overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
+                        activity.overridePendingTransition(R.anim.activity_slide_down,R.anim.activity_slide_up);
                     }
 
 

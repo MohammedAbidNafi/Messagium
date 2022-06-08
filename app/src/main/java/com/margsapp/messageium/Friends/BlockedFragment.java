@@ -97,7 +97,7 @@ public class BlockedFragment extends Fragment {
 
                 }
 
-                userAdapter = new UserAdapter(getContext(), mUsers, false, false,true,getActivity());
+                userAdapter = new UserAdapter(getContext(), mUsers, false,true,getActivity());
                 recyclerView.setAdapter(userAdapter);
             }
 

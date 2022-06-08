@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/diffrentBack"
-    tools:context=".groupclass.GroupInfoFragment"
-    android:animateLayoutChanges="true">
+    tools:context=".groupclass.GroupInfoFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

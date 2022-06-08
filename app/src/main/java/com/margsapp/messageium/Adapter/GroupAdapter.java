@@ -24,6 +24,7 @@ import com.margsapp.messageium.Model.Group;
 import com.margsapp.messageium.Model.GroupChat;
 import com.margsapp.messageium.R;
 import com.margsapp.messageium.groupclass.group_messageActivity;
+import com.margsapp.messageium.utils.AES;
 
 import java.util.List;
 
@@ -35,6 +36,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
     String theLastMessage;
     Activity activity;
+
+    AES aes;
 
 
 
@@ -105,7 +108,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         Intent intent = new Intent(mContext, group_messageActivity.class);
         intent.putExtra("groupid", groupid);
         mContext.startActivity(intent);
-        activity.overridePendingTransition(R.anim.activity_slide_in_left,R.anim.activity_slider_out_right);
+        activity.overridePendingTransition(R.anim.activity_slide_down,R.anim.activity_slide_up);
 
 
     }
@@ -113,7 +116,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     private void lastmessage(String groupid, TextView last_msg) {
         theLastMessage = "default";
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("GroupChat").child(groupid);
-
+        aes = new AES(mContext);
         reference.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -133,7 +136,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                 if ("default".equals(theLastMessage)) {
                     last_msg.setText("No Message");
                 } else {
-                    last_msg.setText(theLastMessage);
+                    String decryptedmessage = aes.Decrypt(theLastMessage, mContext);
+                    last_msg.setText(decryptedmessage);
+                    //date_lastmsg.setText(date_time);
+
                 }
 
                 theLastMessage = "default";

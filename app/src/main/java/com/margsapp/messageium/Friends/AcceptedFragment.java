@@ -97,7 +97,7 @@ public class AcceptedFragment extends Fragment {
                     }
 
                 }
-                userAdapter = new UserAdapter(getContext(), mUsers, true, false,false,getActivity());
+                userAdapter = new UserAdapter(getContext(), mUsers, true,false,getActivity());
                 recyclerView.setAdapter(userAdapter);
             }
 
