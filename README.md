@@ -9,9 +9,6 @@ This project uses Firebase for Database, Storage, Push Notification, Analytics a
 If your working on this make sure you connect this project to your firebase account and enter the API key in API service for notifications.
 
 
-## Credits
-* iOS Style Alert Dialog https://github.com/MohammedAbidNafi/iOS-Style-Alert-Dialog
-
 ## Contributers
 ![GitHub Contributors Image](https://contrib.rocks/image?repo=MohammedAbidNafi/MessengerByMargs)
 
@@ -22,11 +19,10 @@ If your working on this make sure you connect this project to your firebase acco
 4. Custom Shortcuts for user who message some particular person/group.
 5. Unique way to reply messages
 6. Uses Firebase for Authentication, Database and Storage so reliable speed and performence.
-7. Swipe left to go back
-8. Subtle Animations 
-9. Personal Messages are encrypted
-10. Ability to VideoCall
-11. Send Images without losing any quality
+7. Subtle Animations 
+8. Personal Messages are encrypted
+9. Ability to VideoCall
+10. Send Images without losing any quality
 
 
 ## Demo
@@ -66,6 +62,10 @@ https://youtu.be/LqVgOFAlg0k
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+
+## Credits
+* iOS Style Alert Dialog https://github.com/MohammedAbidNafi/iOS-Style-Alert-Dialog
 
 
 ## Apache License 2.0
