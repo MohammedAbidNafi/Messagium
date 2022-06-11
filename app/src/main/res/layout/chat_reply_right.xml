@@ -33,6 +33,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/replytextthem"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:text="Hello how are you"
                 android:textColor="@color/greytext"
                 android:padding="6sp"
@@ -45,6 +47,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/replytextus"
                 android:text="Hello how are you"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:textColor="@color/greytext"
                 android:padding="6sp"
                 android:visibility="gone"
@@ -102,6 +106,8 @@
             android:id="@+id/txt_seen"
             android:visibility="visible"
             android:layout_below="@+id/show_message"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:layout_alignParentEnd="true"/>
         <TextView
             android:layout_width="wrap_content"
@@ -109,8 +115,10 @@
             android:id="@+id/username"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
-            android:text="Khyyati Vegiraju"
+            android:text="Username"
             android:visibility="gone"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:layout_below="@+id/show_message"/>
 
     </RelativeLayout>

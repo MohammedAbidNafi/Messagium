@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ShortcutInfo;
@@ -25,9 +26,12 @@ import android.util.Pair;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -40,8 +44,13 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.os.BuildCompat;
+import androidx.core.view.inputmethod.EditorInfoCompat;
+import androidx.core.view.inputmethod.InputConnectionCompat;
+import androidx.core.view.inputmethod.InputContentInfoCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.transition.TransitionManager;
@@ -58,7 +67,9 @@ import com.giphy.sdk.ui.Giphy;
 import com.giphy.sdk.ui.drawables.ImageFormat;
 import com.giphy.sdk.ui.views.GiphyDialogFragment;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -129,7 +140,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
     ImageView addImage;
 
     ImageButton btnSend, btn_cancel_reply;
-    EditText text_send;
+    AppCompatEditText text_send;
 
     AppCompatButton btn_accept, btn_reject, btn_block;
 
@@ -169,6 +180,8 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
     boolean notify = false;
     ShortcutManager shortcutManager;
+
+    private ProgressDialog loadingBar;
 
 
     public static Handler seenMessageHandler = new Handler();
@@ -245,7 +258,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
     }
 
-    @SuppressLint("GetInstance")
+    @SuppressLint({"GetInstance", "ClickableViewAccessibility"})
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -277,10 +290,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         });
         toolbar.setNavigationOnClickListener(v -> {
 
-            Intent intent = new Intent(MessageActivity.this,MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivity(intent);
-
+            finish();
 
         });
 
@@ -325,6 +335,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         aes = new AES(this);
+        loadingBar = new ProgressDialog(this);
 
         btn_cancel_reply.setOnClickListener(v -> hideReplyLayout());
 
@@ -382,6 +393,136 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
             }
         });
+
+
+        text_send = new AppCompatEditText(this){
+            @Override
+            public InputConnection onCreateInputConnection(@NonNull EditorInfo editorInfo) {
+                final InputConnection ic = super.onCreateInputConnection(editorInfo);
+                EditorInfoCompat.setContentMimeTypes(editorInfo,
+                        new String [] {"image/png","image/gif"});
+
+
+                final InputConnectionCompat.OnCommitContentListener callback =
+                        new InputConnectionCompat.OnCommitContentListener() {
+                            @Override
+                            public boolean onCommitContent(@NonNull InputContentInfoCompat inputContentInfo,
+                                                           int flags, Bundle opts) {
+                                // read and display inputContentInfo asynchronously
+                                if (BuildCompat.isAtLeastNMR1() && (flags &
+                                        InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION) != 0) {
+                                    try {
+                                        inputContentInfo.requestPermission();
+                                    }
+                                    catch (Exception e) {
+                                        return false; // return false if failed
+                                    }
+                                }
+
+
+                                // read and display inputContentInfo asynchronously.
+                                // call inputContentInfo.releasePermission() as needed.
+
+                                return true;  // return true if succeeded
+                            }
+                        };
+                return InputConnectionCompat.createWrapper(ic, editorInfo, callback);
+            }
+
+        };
+
+
+        text_send.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, @SuppressLint("ClickableViewAccessibility") MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getRawX() >= (text_send.getRight() - text_send.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        Giphy.INSTANCE.configure(MessageActivity.this, "oRWoXZrudMifFWvkqcnDVymhHKYiyh34", false);
+
+                        final GPHSettings settings = new GPHSettings();
+
+                        settings.setImageFormat(ImageFormat.WEBP);
+                        final GiphyDialogFragment dialog_ = GiphyDialogFragment.Companion.newInstance(settings);
+                        GiphyDialogFragment.GifSelectionListener listener = null;
+                        dialog_.setGifSelectionListener(listener);
+                        dialog_.show(getSupportFragmentManager(), "giphy_dialog");
+
+                        dialog_.setGifSelectionListener(new GiphyDialogFragment.GifSelectionListener() {
+                            @Override
+                            public void onGifSelected(@NonNull Media media, @androidx.annotation.Nullable String s, @NonNull GPHContentType gphContentType) {
+                                //Your user tapped a GIF
+
+                        /*
+                        Intent intent = new Intent(MessageActivity.this, SendMediaActivity.class);
+                        intent.putExtra("userid", userid);
+
+                         */
+
+                                String uri = Objects.requireNonNull(media.getImages().getOriginal()).getGifUrl();
+
+
+
+
+                                loadingBar.setTitle("GIF");
+                                loadingBar.setMessage("Please wait, while we send GIF...");
+                                loadingBar.show();
+                                loadingBar.setCanceledOnTouchOutside(false);
+
+                                Calendar calendar = Calendar.getInstance();
+                                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
+                                String timestamp = simpleDateFormat.format(calendar.getTime());
+
+
+
+                                String sender = firebaseUser.getUid();
+                                String receiver = userid;
+
+                                String imageUrl = uri.toString();
+
+
+                                databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
+                                HashMap<String, Object> hashMap = new HashMap<>();
+                                hashMap.put("sender", sender);
+                                hashMap.put("receiver", receiver);
+                                hashMap.put("message","GIF");
+                                hashMap.put("reply","gif");
+                                hashMap.put("type","gif");
+                                hashMap.put("imageurl", imageUrl);
+                                hashMap.put("isseen", "false");
+                                hashMap.put("timestamp", timestamp);
+                                databaseReference.push().updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull @NotNull Task<Void> task) {
+                                        loadingBar.dismiss();
+                                    }
+
+                                });
+
+                            }
+
+                            @Override
+                            public void onDismissed(@NonNull GPHContentType gphContentType) {
+                                //Your user dismissed the dialog without selecting a GIF
+                            }
+
+                            @Override
+                            public void didSearchTerm(@NonNull String s) {
+                                //Callback for search terms
+                            }
+                        });
+
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
         new Thread(() -> {
@@ -1119,12 +1260,52 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
                     @Override
                     public void onGifSelected(@NonNull Media media, @androidx.annotation.Nullable String s, @NonNull GPHContentType gphContentType) {
                         //Your user tapped a GIF
+
+                        /*
                         Intent intent = new Intent(MessageActivity.this, SendMediaActivity.class);
                         intent.putExtra("userid", userid);
 
+                         */
+
                         String uri = Objects.requireNonNull(media.getImages().getOriginal()).getGifUrl();
-                        intent.putExtra("imageUri", uri);
-                        startActivity(intent);
+
+
+
+
+                        loadingBar.setTitle("GIF");
+                        loadingBar.setMessage("Please wait, while we send GIF...");
+                        loadingBar.show();
+                        loadingBar.setCanceledOnTouchOutside(false);
+
+                        Calendar calendar = Calendar.getInstance();
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
+                        String timestamp = simpleDateFormat.format(calendar.getTime());
+
+
+
+                        String sender = firebaseUser.getUid();
+                        String receiver = userid;
+
+                        String imageUrl = uri.toString();
+
+
+                        databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("sender", sender);
+                        hashMap.put("receiver", receiver);
+                        hashMap.put("message","GIF");
+                        hashMap.put("reply","gif");
+                        hashMap.put("type","gif");
+                        hashMap.put("imageurl", imageUrl);
+                        hashMap.put("isseen", "false");
+                        hashMap.put("timestamp", timestamp);
+                        databaseReference.push().updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull @NotNull Task<Void> task) {
+                                    loadingBar.dismiss();
+                            }
+
+                        });
 
                     }
 
@@ -1401,7 +1582,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
                         shortcutManager.createShortcutResultIntent(pinShortcutInfo);
 
                 PendingIntent successCallback = PendingIntent.getBroadcast(this, /* request code */ 1,
-                        pinnedShortcutCallbackIntent, /* flags */ 0);
+                        pinnedShortcutCallbackIntent, /* flags */ PendingIntent.FLAG_IMMUTABLE);
 
                 shortcutManager.requestPinShortcut(pinShortcutInfo,
                         successCallback.getIntentSender());
@@ -1420,9 +1601,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
     public void onBackPressed() {
 
-        Intent intent = new Intent(MessageActivity.this,MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
+       finish();
 
 
 

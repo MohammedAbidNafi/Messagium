@@ -7,8 +7,10 @@
         android:id="@+id/addchat"
         android:icon="@drawable/ic_baseline_person_add_24"
         app:showAsAction="always"
+
         android:title="@string/new_chat" />
 
+    <!--
     <item
         android:id="@+id/action_more"
         android:icon="@drawable/ic_baseline_more_vert_24"
@@ -44,6 +46,7 @@
     </menu>
 
     </item>
+    -->
 
 
 

@@ -1,15 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="300dp"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="8dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="40sp"
         android:layout_height="40sp"
         android:src="@drawable/user"
+        android:visibility="gone"
         android:id="@+id/profile_image"/>
 
+    <com.webtoonscorp.android.readmore.ReadMoreTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/profile_image"
+        android:layout_marginStart="5dp"
+        android:text="Hello"
+        android:textColor="@color/blacktext"
+        android:padding="10dp"
+        android:id="@+id/show_message"
+        android:textSize="18dp"
+
+        app:readMoreMaxLines="30"
+        app:readMoreOverflow="ellipsis"
+        app:readMoreTextStyle="bold"
+        app:readMoreText="Read More"
+        app:readMoreTextAppearance="@style/TextAppearance.AppCompat.Small"
+
+        android:fontFamily="@font/helvetica"
+        android:autoLink="web|email|phone|map"
+        android:textColorLink="@color/WebLink"
+        android:background="@drawable/background_left"/>
+
+    <!--
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,6 +49,7 @@
         android:autoLink="web|email|phone|map"
         android:textColorLink="@color/WebLink"
         android:background="@drawable/background_left"/>
+        -->
 
     <TextView
         android:layout_width="wrap_content"

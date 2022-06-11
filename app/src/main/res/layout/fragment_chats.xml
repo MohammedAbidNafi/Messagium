@@ -8,6 +8,15 @@
     android:animateLayoutChanges="true"
     android:background="@color/background">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/recycler_seperator"
+
+        />
+
+
+
     <com.factor.bouncy.BouncyRecyclerView
         android:layout_width="match_parent"
         android:id="@+id/recycler_view"

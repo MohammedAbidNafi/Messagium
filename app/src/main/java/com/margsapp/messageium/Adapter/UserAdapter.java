@@ -69,7 +69,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
 
-    private void UnreadMessage(String userid, ImageView unreadview) {
+    private void UnreadMessage(String userid, ImageView unreadview, FirebaseUser firebaseuser) {
+
+
 
         UnreadMessage = "true";
 
@@ -83,7 +85,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     Chat chat = snapshot1.getValue(Chat.class);
 
                     assert chat != null;
-                    if (chat.getSender().equals(userid)) {
+                    if (chat.getSender().equals(userid) && chat.getReceiver().equals(firebaseuser.getUid())) {
                         UnreadMessage = chat.getIsseen();
                     }
 
@@ -155,7 +157,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         if (isChat) {
 
             holder.dt.setVisibility(View.GONE);
-            UnreadMessage(user.getId(), holder.unread);
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            UnreadMessage(user.getId(), holder.unread,firebaseUser);
 
 
 

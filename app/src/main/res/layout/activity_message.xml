@@ -252,7 +252,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/text_send"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -276,9 +276,15 @@
             android:layout_toEndOf="@+id/addimage"
             android:layout_toStartOf="@+id/btn_send"
 
+            android:drawableEnd="@drawable/ic_baseline_emoji_emotions_24"
+
             tools:text="Enter Message" >
 
-        </EditText>
+
+
+        </androidx.appcompat.widget.AppCompatEditText>
+
+
 
         <ImageButton
             android:id="@+id/btn_send"
@@ -286,7 +292,7 @@
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
             android:background="@drawable/send"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"/>
 

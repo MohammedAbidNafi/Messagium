@@ -8,6 +8,7 @@
         android:layout_width="40sp"
         android:layout_height="40sp"
         android:src="@drawable/user"
+        android:visibility="gone"
         android:id="@+id/profile_image"
         android:layout_below="@+id/layout_reply"
         android:layout_marginTop="30dp"/>
@@ -27,7 +28,7 @@
             android:id="@+id/reply_username"
             android:padding="6sp"
             android:textStyle="bold"
-            android:text="Khyyati Vegiraju"
+            android:text="Username"
             android:visibility="visible"/>
         <TextView
             android:layout_width="wrap_content"
@@ -35,7 +36,8 @@
             android:id="@+id/replytextus"
             android:text="Hello how are you"
             android:padding="6sp"
-
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textColor="@color/greytext"
             android:visibility="gone"
             />
@@ -47,7 +49,8 @@
             android:layout_alignParentEnd="true"
             android:padding="6sp"
             android:textColor="@color/greytext"
-
+            android:maxLines="2"
+            android:ellipsize="end"
 
             android:visibility="gone"
             />

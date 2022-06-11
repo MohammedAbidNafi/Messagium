@@ -35,13 +35,15 @@
     <color name="diffrentBack">#000000</color>
     <color name="othertext">#3C3C3E</color>
 
+    <color name="main_element">#40FF6766</color>
+
     <color name="company_blue">#0064CF</color>
     <color name="chat_">#0A80FE</color>
     <color name="background_white">#FEFEFE</color>
     <color name="grey">#E5E4E9</color>
     <color name="green">#00D323</color>
 
-    <color name="coral">#FB5150</color>
+    <color name="coral">#FF6766</color>
 
     <color name="colorE">#c4c4c4</color>
 

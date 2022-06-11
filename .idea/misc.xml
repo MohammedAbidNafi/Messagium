@@ -34,11 +34,15 @@
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_mic_off_24.xml" value="0.19010416666666666" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.24947916666666667" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_people_alt_24.xml" value="0.19010416666666666" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_people_outline_24.xml" value="0.1825" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_perm_media_24.xml" value="0.1825" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_person_add_24.xml" value="0.1825" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_photo_camera_24.xml" value="0.19010416666666666" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_reply_24.xml" value="0.19010416666666666" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/ic_baseline_rotate_left_24.xml" value="0.19010416666666666" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/phone_back.xml" value="0.1442982456140351" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/rounded.xml" value="0.22121212121212122" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/search_box.xml" value="0.1825" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/sync.xml" value="0.22121212121212122" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/top_round_btn.xml" value="0.24947916666666667" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/drawable/top_round_btn_onclick.xml" value="0.24947916666666667" />
@@ -60,7 +64,7 @@
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_google_setup.xml" value="0.15520833333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_group_info.xml" value="0.15520833333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_group_message.xml" value="0.15520833333333334" />
-        <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_main.xml" value="0.11141304347826086" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_main.xml" value="0.21" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_main_dp.xml" value="0.15520833333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_manage_part.xml" value="0.11798245614035088" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_message.xml" value="0.22" />
@@ -79,6 +83,7 @@
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_verify_o_t_p.xml" value="0.1307017543859649" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_video_call.xml" value="0.15520833333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_wallpaper.xml" value="0.25" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/add_chat_menu.xml" value="0.21822916666666667" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/add_image_pop_up.xml" value="0.23333333333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/add_part_item.xml" value="0.23333333333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/bar_layout.xml" value="0.15520833333333334" />
@@ -86,6 +91,10 @@
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/chat_gif_right.xml" value="0.1109375" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/chat_image_left.xml" value="0.15520833333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/chat_image_right.xml" value="0.23333333333333334" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/chat_item_left.xml" value="0.215625" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/chat_item_right.xml" value="0.21822916666666667" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/chat_reply_left.xml" value="0.21822916666666667" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/chat_reply_right.xml" value="0.21822916666666667" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_1.xml" value="0.15520833333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_2.xml" value="0.15520833333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_3.xml" value="0.15520833333333334" />

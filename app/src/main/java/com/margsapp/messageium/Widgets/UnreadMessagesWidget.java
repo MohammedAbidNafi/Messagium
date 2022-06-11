@@ -27,7 +27,7 @@ public class UnreadMessagesWidget extends AppWidgetProvider {
         setRemoteAdapter(context,views);
 
         Intent intent = new Intent(context, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         views.setPendingIntentTemplate(R.id.widget_title,pendingIntent);
 

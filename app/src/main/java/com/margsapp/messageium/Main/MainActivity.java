@@ -61,6 +61,8 @@ import java.util.Locale;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import me.majiajie.pagerbottomtabstrip.NavigationController;
+import me.majiajie.pagerbottomtabstrip.PageNavigationView;
 import timber.log.Timber;
 
 import static com.margsapp.messageium.Settings.CustomiseActivity.THEME;
@@ -89,12 +91,17 @@ public class MainActivity extends AppCompatActivity {
 
     ViewPager viewPager;
 
+    PageNavigationView tab;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         ApplicationLifecycleHandler handler = new ApplicationLifecycleHandler();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -107,6 +114,11 @@ public class MainActivity extends AppCompatActivity {
         setLocale(language);
 
         viewPager = findViewById(R.id.viewPager);
+        tab = findViewById(R.id.tab);
+
+        tab.setBackgroundColor(getResources().getColor(R.color.main_element));
+
+
 
 
 
@@ -126,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("");
+        //Objects.requireNonNull(getSupportActionBar()).setTitle("");
 
 
         DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
@@ -168,6 +180,16 @@ public class MainActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        status("online");
+
+
+        NavigationController navigationController = tab.material()
+                .addItem(R.drawable.ic_baseline_person_outline_24,"Chats" )
+                .addItem(R.drawable.ic_baseline_people_outline_24, "Groups")
+                .addItem(R.drawable.ic_baseline_settings_24, "Settings")
+                .setDefaultColor(getResources().getColor(R.color.black_text))
+                .build();
 
 
         DP.setOnClickListener(v -> {
@@ -211,7 +233,14 @@ public class MainActivity extends AppCompatActivity {
 
         final TabLayout tabLayout = findViewById(R.id.tablayout);
         final ViewPager viewPager = findViewById(R.id.viewPager);
+        ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
+        viewPageAdapter.addFragment(new ChatsFragment(), getResources().getString(R.string.chat));
+        viewPageAdapter.addFragment(new GroupFragment(), getResources().getString(R.string.group));
+        viewPager.setAdapter(viewPageAdapter);
+        navigationController.setupWithViewPager(viewPager);
 
+
+        /*
         reference = FirebaseDatabase.getInstance().getReference("Chats");
         reference.addValueEventListener(new ValueEventListener() {
 
@@ -255,6 +284,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
+
+         */
         
 
 
@@ -289,6 +320,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
+
+            /*
             case R.id.logout:
 
 
@@ -311,6 +344,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                 return true;
+
+             */
 
 
             case R.id.addchat:
@@ -397,6 +432,11 @@ public class MainActivity extends AppCompatActivity {
         status("online");
     }
 
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        status("online");
+    }
 
     @Override
     protected void onPause() {
