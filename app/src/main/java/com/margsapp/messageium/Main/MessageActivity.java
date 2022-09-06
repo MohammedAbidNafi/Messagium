@@ -395,41 +395,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         });
 
 
-        text_send = new AppCompatEditText(this){
-            @Override
-            public InputConnection onCreateInputConnection(@NonNull EditorInfo editorInfo) {
-                final InputConnection ic = super.onCreateInputConnection(editorInfo);
-                EditorInfoCompat.setContentMimeTypes(editorInfo,
-                        new String [] {"image/png","image/gif"});
 
-
-                final InputConnectionCompat.OnCommitContentListener callback =
-                        new InputConnectionCompat.OnCommitContentListener() {
-                            @Override
-                            public boolean onCommitContent(@NonNull InputContentInfoCompat inputContentInfo,
-                                                           int flags, Bundle opts) {
-                                // read and display inputContentInfo asynchronously
-                                if (BuildCompat.isAtLeastNMR1() && (flags &
-                                        InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION) != 0) {
-                                    try {
-                                        inputContentInfo.requestPermission();
-                                    }
-                                    catch (Exception e) {
-                                        return false; // return false if failed
-                                    }
-                                }
-
-
-                                // read and display inputContentInfo asynchronously.
-                                // call inputContentInfo.releasePermission() as needed.
-
-                                return true;  // return true if succeeded
-                            }
-                        };
-                return InputConnectionCompat.createWrapper(ic, editorInfo, callback);
-            }
-
-        };
 
 
         text_send.setOnTouchListener(new View.OnTouchListener() {

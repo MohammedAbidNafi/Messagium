@@ -17,7 +17,7 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="62dp"
 
             android:background="@color/background"
             android:id="@+id/bar"
@@ -28,64 +28,73 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/background"
-                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+                app:layout_scrollFlags="scroll"
+
                 app:contentScrim="@color/background"
                 >
 
-
-                <ProgressBar
-                    android:id="@+id/network_check"
-                    android:layout_width="25sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_height="25sp"
-                    android:visibility="visible"
-                    android:layout_marginStart="15dp"
-                    android:rotation="@integer/google_play_services_version" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/network_txt"
-                    android:layout_marginTop="20dp"
-                    android:visibility="visible"
-                    android:text="@string/waiting_for_network"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black_text"
-                    android:layout_marginStart="50dp"/>
-
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:transitionName="main_image"
-                    android:id="@+id/DP"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="20dp"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/username"
-                    android:visibility="gone"
-                    android:textColor="@color/black_text"
-                    android:textStyle="bold"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginStart="60dp"/>
-
-
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/search_users"
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    app:layout_collapseMode="none"
                     android:layout_width="match_parent"
-                    android:layout_height="40sp"
-                    android:layout_marginTop="70dp"
-                    android:padding="10dp"
-                    android:background="@drawable/search_box"
-                    android:drawableStart="@drawable/ic_baseline_search_24"
-                    android:drawablePadding="8dp"
-                    android:hint="@string/search_users"
-                   />
+
+                    android:layout_height="?attr/actionBarSize"
+
+                    >
+
+                    <ProgressBar
+                        android:id="@+id/network_check"
+                        android:layout_width="25sp"
+                        android:layout_height="25sp"
+                        android:layout_marginStart="10dp"
+
+                        android:rotation="@integer/google_play_services_version" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/network_txt"
+                        android:text="@string/waiting_for_network"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black_text"
+                        android:layout_marginStart="10dp"/>
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:transitionName="main_image"
+                        android:id="@+id/DP"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/username"
+                        android:visibility="gone"
+                        android:textColor="@color/black_text"
+                        android:textStyle="bold"
+                        android:layout_marginStart="25dp"/>
+
+
+
+
+
+                </androidx.appcompat.widget.Toolbar>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -124,7 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:elevation="20dp"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
                 android:id="@+id/viewPager"
                 />
 

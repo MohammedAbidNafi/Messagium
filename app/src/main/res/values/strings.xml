@@ -179,6 +179,8 @@
     <string name="continue_">Continue</string>
     <string name="grant_permission">Grant Permission</string>
     <string name="new_chat">New chat</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

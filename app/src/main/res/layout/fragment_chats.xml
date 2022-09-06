@@ -8,17 +8,26 @@
     android:animateLayoutChanges="true"
     android:background="@color/background">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/recycler_seperator"
 
-        />
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/search_users"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:singleLine="true"
+        android:focusedByDefault="false"
+        android:padding="10dp"
+        android:background="@drawable/search_box"
+        android:drawableStart="@drawable/ic_baseline_search_24"
+        android:drawablePadding="8dp"
+        android:hint="@string/search_users"
+        tools:targetApi="o" />
+
 
 
 
     <com.factor.bouncy.BouncyRecyclerView
         android:layout_width="match_parent"
+        android:layout_marginTop="45dp"
         android:id="@+id/recycler_view"
         android:layout_height="match_parent"
         app:recyclerview_damping_ratio="DAMPING_RATIO_LOW_BOUNCY"

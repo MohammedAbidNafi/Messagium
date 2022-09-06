@@ -116,7 +116,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:21.1.0'
     implementation 'com.google.firebase:firebase-ads:21.0.0'
 
-    implementation 'com.google.firebase:firebase-analytics:21.0.0'
+    implementation 'com.google.firebase:firebase-analytics:21.1.0'
 
     implementation 'com.google.firebase:firebase-inappmessaging-display:20.1.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -152,8 +152,8 @@ dependencies {
     implementation 'com.github.stfalcon:stfalcon-imageviewer:1.0.1'
     implementation 'com.github.dhaval2404:imagepicker:2.1'
 
-    implementation "androidx.activity:activity-ktx:1.4.0"
-    implementation "androidx.fragment:fragment-ktx:1.4.1"
+    implementation "androidx.activity:activity-ktx:1.5.1"
+    implementation "androidx.fragment:fragment-ktx:1.5.1"
 
     implementation 'com.giphy.sdk:ui:2.1.7'
     implementation 'gun0912.ted:tedbottompicker:2.0.1'

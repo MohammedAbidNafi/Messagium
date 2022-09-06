@@ -163,7 +163,7 @@ public class Phone_setupActivity extends AppCompatActivity {
                         + "." + getFileExtension(resultUri));
 
 
-                StorageTask uploadTask = filepath.putFile(resultUri);
+                StorageTask<UploadTask.TaskSnapshot> uploadTask = filepath.putFile(resultUri);
                 uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
                     public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
@@ -172,7 +172,7 @@ public class Phone_setupActivity extends AppCompatActivity {
                         }
                         return filepath.getDownloadUrl();
                     }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                }).addOnCompleteListener(new OnCompleteListener<>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {

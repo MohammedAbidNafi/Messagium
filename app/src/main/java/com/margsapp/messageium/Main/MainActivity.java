@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -44,6 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.margsapp.messageium.Authentication.StartActivity;
 import com.margsapp.messageium.BuildConfig;
 import com.margsapp.messageium.Fragments.ChatsFragment;
+import com.margsapp.messageium.Fragments.SettingsFragment;
 import com.margsapp.messageium.groupclass.GroupFragment;
 import com.margsapp.messageium.Model.Chat;
 import com.margsapp.messageium.Model.User;
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MAIN ACTIVITY";
     CircleImageView DP;
     TextView username;
+    AppCompatEditText search_chat;
 
 
     FirebaseUser firebaseUser;
@@ -138,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //Objects.requireNonNull(getSupportActionBar()).setTitle("");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("");
 
 
         DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
@@ -236,6 +239,7 @@ public class MainActivity extends AppCompatActivity {
         ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
         viewPageAdapter.addFragment(new ChatsFragment(), getResources().getString(R.string.chat));
         viewPageAdapter.addFragment(new GroupFragment(), getResources().getString(R.string.group));
+        viewPageAdapter.addFragment(new SettingsFragment(),getResources().getString(R.string.settings));
         viewPager.setAdapter(viewPageAdapter);
         navigationController.setupWithViewPager(viewPager);
 

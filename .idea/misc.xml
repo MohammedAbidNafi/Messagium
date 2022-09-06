@@ -70,7 +70,7 @@
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_message.xml" value="0.22" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_permission_check.xml" value="0.32447916666666665" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_personal_dp.xml" value="0.15520833333333334" />
-        <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_phone_auth.xml" value="0.1307017543859649" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_phone_auth.xml" value="0.33" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_phone_setup.xml" value="0.1307017543859649" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_privacy.xml" value="0.15520833333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/activity_profile_edit.xml" value="0.11798245614035088" />
@@ -110,6 +110,7 @@
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_group.xml" value="0.10364583333333334" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_group_info.xml" value="0.234375" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_manage_part.xml" value="0.15520833333333334" />
+        <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_settings.xml" value="0.2635416666666667" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/fragment_users.xml" value="0.3351851851851852" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/group_info_pop_up.xml" value="0.234375" />
         <entry key="..\:/Android Studio/Messenger/app/src/main/res/layout/group_item.xml" value="0.15520833333333334" />
